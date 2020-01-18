@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Neumont_Ticketing_System.Models;
+using Neumont_Ticketing_System.Services;
 
 namespace Neumont_Ticketing_System.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+
+        private readonly HelloWorldService _helloWorldService;
 
         public HomeController(ILogger<HomeController> logger)
         {

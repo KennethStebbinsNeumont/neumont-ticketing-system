@@ -12,6 +12,9 @@ using Neumont_Ticketing_System.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Neumont_Ticketing_System.Models;
+using Microsoft.Extensions.Options;
+using Neumont_Ticketing_System.Services;
 
 namespace Neumont_Ticketing_System
 {
@@ -27,6 +30,13 @@ namespace Neumont_Ticketing_System
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Adding MongoDB
+            services.Configure<HelloWorldDatabaseSettings>(
+                Configuration.GetSection(nameof(HelloWorldDatabaseSettings)));
+            services.AddSingleton<IHelloWorldDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<HelloWorldDatabaseSettings>>().Value);
+            services.AddSingleton<HelloWorldService>();
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
