@@ -16,14 +16,15 @@ namespace Neumont_Ticketing_System.Controllers
 
         private readonly HelloWorldService _helloWorldService;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, HelloWorldService helloWorldService)
         {
             _logger = logger;
+            _helloWorldService = helloWorldService;
         }
 
         public IActionResult Index()
         {
-            return View();
+            return View(_helloWorldService.Get()[0]);
         }
 
         public IActionResult Privacy()
