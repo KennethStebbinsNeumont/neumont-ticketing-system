@@ -1,8 +1,11 @@
-﻿@{
+﻿@model Neumont_Ticketing_System.Models.HelloWorld
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
+    <h2>Does this work? If so, I'm saying @Html.Display(Model.ThingValue)</h2>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
