@@ -13,9 +13,10 @@ namespace Neumont_Ticketing_System.Models
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
-        [BsonElement("Name")]
+        [BsonElement("name")]
         public string ThingName { get; set; }
 
+        [BsonElement("value")]
         public string ThingValue { get; set; }
     }
 }

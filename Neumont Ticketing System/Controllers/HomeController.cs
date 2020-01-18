@@ -24,7 +24,8 @@ namespace Neumont_Ticketing_System.Controllers
 
         public IActionResult Index()
         {
-            return View(_helloWorldService.Get()[0]);
+            var listOfStuff = _helloWorldService.Get();
+            return View(listOfStuff[0]);
         }
 
         public IActionResult Privacy()
