@@ -4,14 +4,25 @@
 # https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
 
 trigger:
-- master
+- development
 
 pool:
   vmImage: 'ubuntu-latest'
 
 variables:
   buildConfiguration: 'Release'
+  artifactStagingDir: '$(Build.ArtifactStagingDirectory)'
 
 steps:
-- script: dotnet build --configuration $(buildConfiguration)
+- task: UseDotNet@2 
+  displayName: ".NET Core 3.1.x"
+  inputs:
+    version: '3.1.x'
+    packageType: sdk
+- script: dotnet build --configuration $(buildConfiguration) --output $(artifactStagingDir)
   displayName: 'dotnet build $(buildConfiguration)'
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(artifactStagingDir)'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
