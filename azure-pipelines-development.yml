@@ -12,9 +12,17 @@ pool:
 variables:
   buildConfiguration: 'Debug'
   artifactStagingDir: '$(Build.ArtifactStagingDirectory)'
-  deploymentDir: 
+  deploymentDir: /var/www/kestrel_webserver/
 
 steps:
+- task: DeleteFiles@1
+  inputs:
+    SourceFolder: $(Agent.BuildDirectory)
+    Contents: '*.*'
+- task: DeleteFiles@1
+  inputs:
+    SourceFolder: $deploymentDir
+    Contents: '*.*'
 - task: UseDotNet@2 
   displayName: ".NET Core 3.1.x"
   inputs:
@@ -27,4 +35,4 @@ steps:
     PathtoPublish: '$(artifactStagingDir)'
     ArtifactName: 'drop'
     publishLocation: 'filePath'
-    TargetPath: '/var/www/kestrel_webapp/'
+    TargetPath: $(deploymentDir)
