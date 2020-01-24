@@ -21,7 +21,7 @@ steps:
     Contents: '*'
 - task: CmdLine@2
   inputs:
-    script: "echo DeploymentDir: $(deploymentDir)"
+    script: "echo DeploymentDir"
 - task: DeleteFiles@1
   inputs:
     SourceFolder: $(deploymentDir)
