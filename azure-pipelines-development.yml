@@ -23,7 +23,7 @@ steps:
   displayName: 'dotnet build $(buildConfiguration)'
 - task: CmdLine@2
   inputs:
-    script: 'rm -rf $(deploymentDir)'
+    script: 'rm -rf $(deploymentDir)*'
 - task: CopyFiles@2
   inputs:
     SourceFolder: '$(artifactStagingDir)'
