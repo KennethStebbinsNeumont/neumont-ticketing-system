@@ -21,10 +21,9 @@ steps:
     Contents: '**'
 - script: dotnet build --configuration $(buildConfiguration) --output $(artifactStagingDir)
   displayName: 'dotnet build $(buildConfiguration)'
-- task: DeleteFiles@1
+- task: CmdLine@2
   inputs:
-    SourceFolder: '$(deploymentDir)'
-    Contents: '**'
+    script: 'rm -rf $(deploymentDir)'
 - task: CopyFiles@2
   inputs:
     SourceFolder: '$(artifactStagingDir)'
