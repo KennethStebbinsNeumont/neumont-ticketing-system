@@ -19,12 +19,11 @@ steps:
   inputs:
     SourceFolder: $(Agent.BuildDirectory)
     Contents: '*'
-- task: Bash@3
+- task: CmdLine@2
   inputs:
-    targetType: 'inline'
     script: |
-      DeploymentDir: $(deploymentDir)
-      Agent.BuildDirectory: $(Agent.BuildDirectory)
+      echo DeploymentDir: $(deploymentDir)
+      echo Agent.BuildDirectory: $(Agent.BuildDirectory)
 - task: DeleteFiles@1
   inputs:
     SourceFolder: $(deploymentDir)
