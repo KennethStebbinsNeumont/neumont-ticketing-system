@@ -12,7 +12,7 @@ pool:
 variables:
   buildConfiguration: 'Debug'
   artifactStagingDir: '$(Build.ArtifactStagingDirectory)'
-  deploymentDir: /var/www/kestrel_webapp/
+  deploymentDir: '/var/www/kestrel_webapp/'
 
 steps:
 - task: DeleteFiles@1
