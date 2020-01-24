@@ -15,11 +15,18 @@ variables:
   deploymentDir: '/var/www/kestrel_webapp/'
 
 steps:
+- task: DeleteFiles@1
+  inputs:
+    SourceFolder: '$(artifactStagingDir)'
+    Contents: '**'
 - script: dotnet build --configuration $(buildConfiguration) --output $(artifactStagingDir)
   displayName: 'dotnet build $(buildConfiguration)'
-- task: PublishBuildArtifacts@1
+- task: DeleteFiles@1
   inputs:
-    PathtoPublish: '$(artifactStagingDir)'
-    ArtifactName: 'drop'
-    publishLocation: 'filePath'
-    TargetPath: $(deploymentDir)
+    SourceFolder: '$(deploymentDir)'
+    Contents: '**'
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: '$(artifactStagingDir)'
+    Contents: '**'
+    TargetFolder: '$(deploymentDir)'
