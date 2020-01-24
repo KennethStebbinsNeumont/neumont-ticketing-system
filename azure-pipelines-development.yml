@@ -29,3 +29,6 @@ steps:
     SourceFolder: '$(artifactStagingDir)'
     Contents: '**'
     TargetFolder: '$(deploymentDir)'
+- task: CmdLine@2
+  inputs:
+    script: 'sudo systemctl restart kestrel-webapp.service'
