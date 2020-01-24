@@ -7,11 +7,12 @@ trigger:
 - development
 
 pool:
-  vmImage: 'ubuntu-latest'
+  name: 'Dev Pool'
 
 variables:
-  buildConfiguration: 'Release'
+  buildConfiguration: 'Debug'
   artifactStagingDir: '$(Build.ArtifactStagingDirectory)'
+  deploymentDir: 
 
 steps:
 - task: UseDotNet@2 
@@ -25,4 +26,5 @@ steps:
   inputs:
     PathtoPublish: '$(artifactStagingDir)'
     ArtifactName: 'drop'
-    publishLocation: 'Container'
+    publishLocation: 'filePath'
+    TargetPath: '/var/www/kestrel_webapp/'
