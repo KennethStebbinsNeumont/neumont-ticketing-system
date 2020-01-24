@@ -19,9 +19,13 @@ steps:
   inputs:
     SourceFolder: $(Agent.BuildDirectory)
     Contents: '*'
-- task: CmdLine@2
+- task: Bash@3
   inputs:
-    script: "echo DeploymentDir"
+    targetType: 'inline'
+    script: |
+      # Write your commands here
+      
+      echo 'Hello world'
 - task: DeleteFiles@1
   inputs:
     SourceFolder: $(deploymentDir)
