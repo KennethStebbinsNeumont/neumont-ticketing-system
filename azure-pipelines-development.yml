@@ -12,7 +12,7 @@ pool:
 variables:
   buildConfiguration: 'Debug'
   deploymentDir: '/var/www/kestrel_webapp/'
-  sharedArtifactStagingDir: $(Build.ArtifactStagingDirectory)
+  sharedArtifactStagingDir: '$(Pipeline.Workspace)/artifactStage'
 
 
 
@@ -22,13 +22,22 @@ stages:
   jobs:
   - job: 'build__build'
     displayName: 'Build application'
+    workspace:
+      clean: outputs
     steps:
+    - script: dotnet build --configuration $(buildConfiguration) --output $(Build.BinariesDirectory)
+      displayName: '.NET build'
     - task: DeleteFiles@1
+      displayName: 'Clear artifact staging directory'
       inputs:
         SourceFolder: '$(sharedArtifactStagingDir)'
         Contents: '**'
-    - script: dotnet build --configuration $(buildConfiguration) --output $(sharedArtifactStagingDir)
-      displayName: '.NET build'
+    - task: CopyFiles@2
+      displayName: 'Stage build artifacts'
+      inputs:
+        SourceFolder: '$(Build.BinariesDirectory)'
+        Contents: '**'
+        TargetFolder: '$(sharedArtifactStagingDir)'
 - stage: 'deploy'
   displayName: 'Deploy'
   jobs:
