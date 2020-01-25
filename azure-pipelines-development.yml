@@ -14,18 +14,42 @@ variables:
   artifactStagingDir: '$(Build.ArtifactStagingDirectory)'
   deploymentDir: '/var/www/kestrel_webapp/'
 
-steps:
-- task: DeleteFiles@1
-  inputs:
-    SourceFolder: '$(artifactStagingDir)'
-    Contents: '**'
-- script: dotnet build --configuration $(buildConfiguration) --output $(artifactStagingDir)
-  displayName: 'dotnet build $(buildConfiguration)'
-- task: CmdLine@2
-  inputs:
-    script: 'rm -rf $(deploymentDir)*'
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: '$(artifactStagingDir)'
-    Contents: '**'
-    TargetFolder: '$(deploymentDir)'
+stages:
+- stage: 'build'
+  displayName: 'Build'
+  jobs:
+  - job: 'build__build'
+    displayName: 'Build application'
+    workspace:
+      clean: outputs
+    steps:
+    - script: dotnet build --configuration $(buildConfiguration) --output $(artifactStagingDir)
+      displayName: '.NET build'
+- stage: 'deploy'
+  displayName: 'Deploy'
+  jobs:
+  - deployment: 'deploy__deploy'
+    displayName: 'Deploy application'
+    environment: 'nts_dev'
+    strategy:
+      runOnce:
+        preDeploy:
+          steps:
+            - task: CmdLine@2
+              displayName: 'Clear deployment directory'
+              inputs:
+                script: 'rm -rf $(deploymentDir)*'
+        deploy:
+          steps:
+            - task: CopyFiles@2
+              displayName: 'Deploy application'
+              inputs:
+                SourceFolder: '$(artifactStagingDir)'
+                Contents: '**'
+                TargetFolder: '$(deploymentDir)'
+        routeTraffic:
+          steps:
+            - task: CmdLine@2
+              displayName: 'Restart webserver'
+              inputs:
+                script: 'sudo systemctl restart kestrel-webapp.service'
