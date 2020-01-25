@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "prep_scripts", "prep_script
 	ProjectSection(SolutionItems) = preProject
 		dev_prepmongo.js = dev_prepmongo.js
 		dev_prepmongo.sh = dev_prepmongo.sh
+		README.txt = README.txt
 		run.sh = run.sh
 	EndProjectSection
 EndProject
