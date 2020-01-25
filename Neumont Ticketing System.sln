@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neumont Ticketing System", "Neumont Ticketing System\Neumont Ticketing System.csproj", "{8FAE6208-C14F-40F9-B2D9-1D317821C959}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "devscripts", "devscripts", "{097FD702-D679-4105-B111-A9C0CC826FA1}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "prep_scripts", "prep_scripts", "{097FD702-D679-4105-B111-A9C0CC826FA1}"
 	ProjectSection(SolutionItems) = preProject
 		dev_prepmongo.js = dev_prepmongo.js
 	EndProjectSection
