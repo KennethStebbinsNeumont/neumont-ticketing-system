@@ -10,4 +10,4 @@ for (let i = 0; i < oldDbs.length; i++) {
 
 // Insert test records
 db = mongo.getDB("test");
-db.tset.insert({ "name": "Hemlo World!", "value": "Doller bills." });
+db.tset.insert({ "name": "Hemlo World!", "value": "This is pretty neat-o!" });
