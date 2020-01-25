@@ -12,6 +12,7 @@ pool:
 variables:
   buildConfiguration: 'Debug'
   deploymentDir: '/var/www/kestrel_webapp/'
+  sharedArtifactStagingDir: $(Build.ArtifactStagingDirectory)
 
 
 
@@ -21,22 +22,13 @@ stages:
   jobs:
   - job: 'build__build'
     displayName: 'Build application'
-    workspace:
-      clean: outputs
     steps:
-    - script: dotnet build --configuration $(buildConfiguration) --output $(Build.BinariesDirectory)
-      displayName: '.NET build'
     - task: DeleteFiles@1
-      displayName: 'Clear artifact staging directory'
       inputs:
-        SourceFolder: '$(Build.ArtifactStagingDirectory)'
+        SourceFolder: '$(sharedArtifactStagingDir)'
         Contents: '**'
-    - task: CopyFiles@2
-      displayName: 'Stage build artifacts'
-      inputs:
-        SourceFolder: '$(Build.BinariesDirectory)'
-        Contents: '**'
-        TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    - script: dotnet build --configuration $(buildConfiguration) --output $(sharedArtifactStagingDir)
+      displayName: '.NET build'
 - stage: 'deploy'
   displayName: 'Deploy'
   jobs:
@@ -60,7 +52,7 @@ stages:
             - task: CopyFiles@2
               displayName: 'Deploy application'
               inputs:
-                SourceFolder: $(Build.ArtifactStagingDirectory)
+                SourceFolder: $(sharedArtifactStagingDir)
                 Contents: '**'
                 TargetFolder: $(deploymentDir)
         routeTraffic:
