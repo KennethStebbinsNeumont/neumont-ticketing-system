@@ -49,9 +49,9 @@ stages:
             - task: CopyFiles@2
               displayName: 'Deploy application'
               inputs:
-                SourceFolder: '$(Build.ArtifactStagingDirectory)'
+                SourceFolder: $(Build.ArtifactStagingDirectory)
                 Contents: '**'
-                TargetFolder: '$(deploymentDir)'
+                TargetFolder: $(deploymentDir)
         routeTraffic:
           steps:
             - task: CmdLine@2
