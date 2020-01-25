@@ -11,8 +11,9 @@ pool:
 
 variables:
   buildConfiguration: 'Debug'
-  artifactStagingDir: '$(Build.ArtifactStagingDirectory)'
   deploymentDir: '/var/www/kestrel_webapp/'
+
+
 
 stages:
 - stage: 'build'
@@ -23,7 +24,7 @@ stages:
     workspace:
       clean: outputs
     steps:
-    - script: dotnet build --configuration $(buildConfiguration) --output $(artifactStagingDir)
+    - script: dotnet build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)
       displayName: '.NET build'
 - stage: 'deploy'
   displayName: 'Deploy'
@@ -39,6 +40,10 @@ stages:
               displayName: 'Clear deployment directory'
               inputs:
                 script: 'rm -rf $(deploymentDir)*'
+            - task: CmdLine@2
+              displayName: 'Run prep scripts (dev mode)'
+              inputs:
+                script: '/bin/bash $(Build.SourcesDirectory)/prep_scripts/run.sh dev $(Build.SourcesDirectory)/prep_scripts'
         deploy:
           steps:
             - task: CopyFiles@2
