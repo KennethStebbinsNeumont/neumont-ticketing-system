@@ -7,13 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Neumont Ticketing System", 
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "prep_scripts", "prep_scripts", "{097FD702-D679-4105-B111-A9C0CC826FA1}"
 	ProjectSection(SolutionItems) = preProject
-		dev_prepmongo.js = dev_prepmongo.js
 		prep_scripts\dev_prepmongo.js = prep_scripts\dev_prepmongo.js
-		dev_prepmongo.sh = dev_prepmongo.sh
 		prep_scripts\dev_prepmongo.sh = prep_scripts\dev_prepmongo.sh
-		README.txt = README.txt
 		prep_scripts\README.txt = prep_scripts\README.txt
-		run.sh = run.sh
 		prep_scripts\run.sh = prep_scripts\run.sh
 	EndProjectSection
 EndProject
