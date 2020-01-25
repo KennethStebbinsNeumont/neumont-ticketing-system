@@ -24,8 +24,19 @@ stages:
     workspace:
       clean: outputs
     steps:
-    - script: dotnet build --configuration $(buildConfiguration) --output $(Build.ArtifactStagingDirectory)
+    - script: dotnet build --configuration $(buildConfiguration) --output $(Build.BinariesDirectory)
       displayName: '.NET build'
+    - task: DeleteFiles@1
+      displayName: 'Clear artifact staging directory'
+      inputs:
+        SourceFolder: '$(Build.ArtifactStagingDirectory)'
+        Contents: '**'
+    - task: CopyFiles@2
+      displayName: 'Stage build artifacts'
+      inputs:
+        SourceFolder: '$(Build.BinariesDirectory)'
+        Contents: '**'
+        TargetFolder: '$(Build.ArtifactStagingDirectory)'
 - stage: 'deploy'
   displayName: 'Deploy'
   jobs:
