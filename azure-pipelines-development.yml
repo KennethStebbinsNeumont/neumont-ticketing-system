@@ -30,6 +30,7 @@ stages:
   jobs:
   - deployment: 'deploy__deploy'
     displayName: 'Deploy application'
+    environment: 'nts_dev'
     strategy:
       runOnce:
         preDeploy:
