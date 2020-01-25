@@ -8,8 +8,9 @@ let db = mongo.getDB("test");
 let oldDbs = db.adminCommand('listDatabases').databases;
 for (let i = 0; i < oldDbs.length; i++) {
     // Make sure we don't delete default databases
-    if(!defaultDatabases.includes(oldDbs[i].name))
-        oldDbs[i].dropDatabase();
+    if (!defaultDatabases.includes(oldDbs[i].name)) {
+        mongo.getDB(oldDbs[i].name).dropDatabase();
+    }
 }
 
 // Insert test records
