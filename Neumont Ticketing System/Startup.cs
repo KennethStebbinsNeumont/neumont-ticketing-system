@@ -37,7 +37,12 @@ namespace Neumont_Ticketing_System
                 sp.GetRequiredService<IOptions<HelloWorldDatabaseSettings>>().Value);
             services.AddSingleton<HelloWorldService>();
 
-
+            // Adding Identity database
+            services.Configure<IdentityDatabaseSettings>(
+                Configuration.GetSection(nameof(IdentityDatabaseSettings)));
+            services.AddSingleton<IIdentityDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<IdentityDatabaseSettings>>().Value);
+            services.AddSingleton<AppIdentityStorageService>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
