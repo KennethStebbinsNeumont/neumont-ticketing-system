@@ -10,9 +10,8 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 {
     public class AppUserStore : IUserStore<AppUser>, IUserPasswordStore<AppUser>, 
         IUserSecurityStampStore<AppUser>, IUserEmailStore<AppUser>, IQueryableUserStore<AppUser>, 
-        IUserLockoutStore<AppUser>
+        IUserLockoutStore<AppUser>, IUserRoleStore<AppUser>
     {
-
         private readonly AppIdentityStorageService _storageService;
 
         IQueryable<AppUser> IQueryableUserStore<AppUser>.Users => _storageService.GetUsers().AsQueryable();
@@ -258,6 +257,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (user == null) throw new ArgumentNullException(nameof(user));
+            if (email == null) throw new ArgumentNullException(nameof(email));
 
 
             return new Task(() => {
@@ -294,6 +294,8 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (user == null) throw new ArgumentNullException(nameof(user));
+            if (lockoutEnd == null) throw new ArgumentNullException(nameof(lockoutEnd));
+
 
 
             return new Task(() => {
@@ -309,6 +311,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (user == null) throw new ArgumentNullException(nameof(user));
+            if (normalizedEmail == null) throw new ArgumentNullException(nameof(normalizedEmail));
 
 
             return new Task(() => {
@@ -321,6 +324,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (user == null) throw new ArgumentNullException(nameof(user));
+            if (normalizedName == null) throw new ArgumentNullException(nameof(normalizedName));
 
 
             return new Task(() => {
@@ -333,6 +337,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (user == null) throw new ArgumentNullException(nameof(user));
+            if (passwordHash == null) throw new ArgumentNullException(nameof(passwordHash));
 
 
             return new Task(() => {
@@ -345,6 +350,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (user == null) throw new ArgumentNullException(nameof(user));
+            if (stamp == null) throw new ArgumentNullException(nameof(stamp));
 
 
             return new Task(() => {
@@ -357,6 +363,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (user == null) throw new ArgumentNullException(nameof(user));
+            if (userName == null) throw new ArgumentNullException(nameof(userName));
 
 
             return new Task(() => {
@@ -375,6 +382,70 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
                 var result = new IdentityResult();
                 _storageService.UpdateUser(user);
                 return result;
+            });
+        }
+        public Task AddToRoleAsync(AppUser user, string roleName, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            if (roleName == null) throw new ArgumentNullException(nameof(user));
+
+
+            return new Task(() => {
+                var role = _storageService.GetRoleByName(roleName);
+                role.Users.Add(user);
+            });
+        }
+
+        public Task<IList<string>> GetRolesAsync(AppUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+
+            return new Task<IList<string>>(() => {
+                var result = new List<string>();
+                _storageService.GetRoles(role => role.Users.Contains(user)).ForEach(role => result.Add(role.Name));
+                return result;
+            });
+        }
+
+        public Task<IList<AppUser>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (roleName == null) throw new ArgumentNullException(nameof(roleName));
+
+
+            return new Task<IList<AppUser>>(() => {
+                var role = _storageService.GetRoleByName(roleName);
+                return role.Users;
+            });
+        }
+
+        public Task<bool> IsInRoleAsync(AppUser user, string roleName, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            if (roleName == null) throw new ArgumentNullException(nameof(roleName));
+
+
+            return new Task<bool>(() => {
+                var role = _storageService.GetRoleByName(roleName);
+                return role.Users.Contains(user);
+            });
+        }
+
+        public Task RemoveFromRoleAsync(AppUser user, string roleName, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (user == null) throw new ArgumentNullException(nameof(user));
+            if (roleName == null) throw new ArgumentNullException(nameof(roleName));
+
+
+            return new Task(() => {
+                var role = _storageService.GetRoleByName(roleName);
+                role.Users.Remove(user);
+                _storageService.UpdateRole(role);
             });
         }
     }
