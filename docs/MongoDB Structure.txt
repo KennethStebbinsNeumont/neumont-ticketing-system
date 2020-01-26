@@ -20,8 +20,12 @@ users : {
 		user : {
 			_id : <int - determined by MongoDB>,
 			username : <string - username>,
+			email : <string - email address>,
 			full_name : <string - User's full name>,
-			password : <string - hashed + salted>
+			password : <string - hashed + salted>,
+			securityStamp : <string - used to notify when user security settings change>,
+			failedLoginAttempts : <int - resets on successful login>,
+			lockedOut : <bool>
 		}
 	],
 	roles : [

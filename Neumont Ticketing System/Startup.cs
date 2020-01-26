@@ -30,12 +30,14 @@ namespace Neumont_Ticketing_System
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            // Adding MongoDB
+            // Adding MongoDB HelloWorld test
             services.Configure<HelloWorldDatabaseSettings>(
                 Configuration.GetSection(nameof(HelloWorldDatabaseSettings)));
             services.AddSingleton<IHelloWorldDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<HelloWorldDatabaseSettings>>().Value);
             services.AddSingleton<HelloWorldService>();
+
+
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
