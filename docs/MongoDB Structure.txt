@@ -1,0 +1,40 @@
+******************************
+Database structure for MongoDB
+
+Follows pattern:
+
+database : {
+	collection : [
+		thing1 : {
+			prop1 : <type - description>,
+			prop2 : <type - description>
+		},
+		thing2 : {}
+	]
+}
+
+******************************
+
+users : {
+	users : [
+		user : {
+			_id : <int - determined by MongoDB>,
+			username : <string - username>,
+			full_name : <string - User's full name>,
+			password : <string - hashed + salted>
+		}
+	],
+	roles : [
+		role : {
+			_id : <int - determined by MongoDB>,
+			name : <string - unique per-role>
+		}
+	],
+	roleMembers : [
+		roleMemberDefinition : {
+			_id : <int - determined by MongoDB>,
+			user : <int - unique _id from user collection>,
+			role : <int - unique _id from role collection>
+		}
+	]
+}
