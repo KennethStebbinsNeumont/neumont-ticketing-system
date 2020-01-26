@@ -10,7 +10,13 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; private set; }
+        
+        // This value must be unique
         public string Name { get; set; }
+
+        // This doens't need to be unique
+        public string DisplayName { get; set; }
+
         public List<AppUser> Users { get; private set; }
     }
 }

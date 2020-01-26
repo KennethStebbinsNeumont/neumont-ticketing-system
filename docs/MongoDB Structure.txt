@@ -31,8 +31,9 @@ users : {
 	roles : [
 		role : {
 			_id : <int - determined by MongoDB>,
-			name : <string - unique per-role>,
-			users : [<int - unique User ID>, <int - unique User ID>, ...]
+			Name : <string - unique per-role>,
+			DisplayName : <string - doesn't need to be unique>,
+			Users : [<int - unique User ID>, <int - unique User ID>, ...]
 		}
 	]
 }
