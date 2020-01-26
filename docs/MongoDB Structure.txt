@@ -19,26 +19,20 @@ users : {
 	users : [
 		user : {
 			_id : <int - determined by MongoDB>,
-			username : <string - username>,
-			email : <string - email address>,
-			full_name : <string - User's full name>,
-			password : <string - hashed + salted>,
-			securityStamp : <string - used to notify when user security settings change>,
-			failedLoginAttempts : <int - resets on successful login>,
-			lockedOut : <bool>
+			Username : <string - username>,
+			Email : <string - email address>,
+			FullName : <string - User's full name>,
+			Password : <string - hashed + salted>,
+			SecurityStamp : <string - used to notify when user security settings change>,
+			FailedLoginAttempts : <int - resets on successful login>,
+			LockedOut : <bool>
 		}
 	],
 	roles : [
 		role : {
 			_id : <int - determined by MongoDB>,
-			name : <string - unique per-role>
-		}
-	],
-	roleMembers : [
-		roleMemberDefinition : {
-			_id : <int - determined by MongoDB>,
-			user : <int - unique _id from user collection>,
-			role : <int - unique _id from role collection>
+			name : <string - unique per-role>,
+			users : [<int - unique User ID>, <int - unique User ID>, ...]
 		}
 	]
 }
