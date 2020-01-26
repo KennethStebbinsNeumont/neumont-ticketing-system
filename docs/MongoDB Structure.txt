@@ -19,13 +19,15 @@ users : {
 	users : [
 		user : {
 			_id : <int - determined by MongoDB>,
-			Username : <string - username>,
-			Email : <string - email address>,
+			Username : <string - username, must be unique>,
+			Email : <string - email address, must be unique>,
+			EmailConfirmed : <bool - deafult false, set true after confirm>,
 			FullName : <string - User's full name>,
 			Password : <string - hashed + salted>,
 			SecurityStamp : <string - used to notify when user security settings change>,
 			FailedLoginAttempts : <int - resets on successful login>,
-			LockedOut : <bool>
+			LockedOut : <bool>,
+			LockedOutUntil : <date - UTC>
 		}
 	],
 	roles : [

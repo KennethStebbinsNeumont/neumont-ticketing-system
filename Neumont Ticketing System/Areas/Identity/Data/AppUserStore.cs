@@ -15,6 +15,8 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
         private readonly AppIdentityStorageService _storageService;
 
+        IQueryable<AppUser> IQueryableUserStore<AppUser>.Users => _storageService.GetUsers().AsQueryable();
+
         public AppUserStore(AppIdentityStorageService storageService)
         {
             _storageService = storageService;
@@ -50,6 +52,21 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
         {
         }
 
+        public Task<AppUser> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (normalizedEmail == null) throw new ArgumentNullException(nameof(normalizedEmail));
+
+
+            return new Task<AppUser>(() => {
+                var list = _storageService.GetUsers(user => user.Email == normalizedEmail);
+                if (list.Count > 0)
+                    return list[0];
+                else
+                    return null;
+            });
+        }
+
         public Task<AppUser> FindByIdAsync(string userId, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -80,6 +97,72 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
             });
         }
 
+        public Task<int> GetAccessFailedCountAsync(AppUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+
+            return new Task<int>(() => {
+                return user.FailedLoginAttempts;
+            });
+        }
+
+        public Task<string> GetEmailAsync(AppUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+
+            return new Task<string>(() => {
+                return user.Email;
+            });
+        }
+
+        public Task<bool> GetEmailConfirmedAsync(AppUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+
+            return new Task<bool>(() => {
+                return user.EmailConfirmed;
+            });
+        }
+
+        public Task<bool> GetLockoutEnabledAsync(AppUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+
+            return new Task<bool>(() => {
+                return user.LockedOut;
+            });
+        }
+
+        public Task<DateTimeOffset?> GetLockoutEndDateAsync(AppUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+
+            return new Task<DateTimeOffset?>(() => {
+                return user.LockedOutUntil;
+            });
+        }
+
+        public Task<string> GetNormalizedEmailAsync(AppUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+
+            return new Task<string>(() => {
+                return user.Email;
+            });
+        }
+
         public Task<string> GetNormalizedUserNameAsync(AppUser user, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -99,6 +182,17 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
             return new Task<string>(() => {
                 return user.Password;
+            });
+        }
+
+        public Task<string> GetSecurityStampAsync(AppUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+
+            return new Task<string>(() => {
+                return user.SecurityStamp;
             });
         }
 
@@ -135,6 +229,94 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
             });
         }
 
+        public Task<int> IncrementAccessFailedCountAsync(AppUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+
+            return new Task<int>(() => {
+                user.FailedLoginAttempts++;
+                _storageService.UpdateUser(user);
+                return user.FailedLoginAttempts;
+            });
+        }
+
+        public Task ResetAccessFailedCountAsync(AppUser user, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+
+            return new Task(() => {
+                user.FailedLoginAttempts = 0;
+                _storageService.UpdateUser(user);
+            });
+        }
+
+        public Task SetEmailAsync(AppUser user, string email, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+
+            return new Task(() => {
+                user.Email = email;
+                _storageService.UpdateUser(user);
+            });
+        }
+
+        public Task SetEmailConfirmedAsync(AppUser user, bool confirmed, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+
+            return new Task(() => {
+                user.EmailConfirmed = true;
+                _storageService.UpdateUser(user);
+            });
+        }
+
+        public Task SetLockoutEnabledAsync(AppUser user, bool enabled, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+
+            return new Task(() => {
+                user.LockedOut = true;
+                _storageService.UpdateUser(user);
+            });
+        }
+
+        public Task SetLockoutEndDateAsync(AppUser user, DateTimeOffset? lockoutEnd, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+
+            return new Task(() => {
+                if (lockoutEnd.HasValue)
+                    user.LockedOutUntil = lockoutEnd.Value.UtcDateTime;
+                else
+                    user.LockedOutUntil = null;
+                _storageService.UpdateUser(user);
+            });
+        }
+
+        public Task SetNormalizedEmailAsync(AppUser user, string normalizedEmail, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+
+            return new Task(() => {
+                user.Email = normalizedEmail;
+                _storageService.UpdateUser(user);
+            });
+        }
+
         public Task SetNormalizedUserNameAsync(AppUser user, string normalizedName, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -155,6 +337,18 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
             return new Task(() => {
                 user.Password = passwordHash;
+                _storageService.UpdateUser(user);
+            });
+        }
+
+        public Task SetSecurityStampAsync(AppUser user, string stamp, CancellationToken cancellationToken)
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+            if (user == null) throw new ArgumentNullException(nameof(user));
+
+
+            return new Task(() => {
+                user.SecurityStamp = stamp;
                 _storageService.UpdateUser(user);
             });
         }

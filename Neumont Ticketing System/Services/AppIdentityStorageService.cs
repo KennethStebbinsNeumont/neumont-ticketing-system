@@ -49,6 +49,11 @@ namespace Neumont_Ticketing_System.Services
                 throw new UserNotFoundException($"User with email address {email} not found.");
         }
 
+        public IFindFluent<AppUser, AppUser> GetUsersQueryable()
+        {
+            return _users.Find(user => true);
+        }
+
         public List<AppUser> GetUsers()
         {
             return GetUsers(user => true);
