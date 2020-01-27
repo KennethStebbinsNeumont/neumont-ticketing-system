@@ -73,7 +73,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return new Task<AppUser>(() => {
-                var list = _storageService.GetUsers(user => user.Id == userId);
+                var list = _storageService.GetUsers(user => user.MongoId == userId);
                 if (list.Count > 0)
                     return list[0];
                 else
@@ -202,7 +202,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return new Task<string>(() => {
-                return user.Id;
+                return user.MongoId;
             });
         }
 
