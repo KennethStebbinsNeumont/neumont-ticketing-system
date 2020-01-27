@@ -38,6 +38,12 @@ stages:
         SourceFolder: '$(Build.BinariesDirectory)'
         Contents: '**'
         TargetFolder: '$(sharedArtifactStagingDir)'
+    - task: CopyFiles@2
+      displayName: 'Stage wwwroot folder with artifacts'
+      inputs:
+        SourceFolder: '$(Build.SourcesDirectory)/Neumont Ticketing System/wwwroot/'
+        Contents: '**'
+        TargetFolder: '$(sharedArtifactStagingDir)/wwwroot/'
 - stage: 'deploy'
   displayName: 'Deploy'
   jobs:
