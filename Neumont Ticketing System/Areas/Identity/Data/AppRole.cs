@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Identity;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Neumont_Ticketing_System.Areas.Identity.Data
 {
-    public class AppRole : IEquatable<AppRole>
+    public class AppRole : IdentityRole<string>, IEquatable<AppRole>
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
