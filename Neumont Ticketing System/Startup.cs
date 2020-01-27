@@ -16,6 +16,7 @@ using Neumont_Ticketing_System.Models;
 using Microsoft.Extensions.Options;
 using Neumont_Ticketing_System.Services;
 using Neumont_Ticketing_System.Areas.Identity.Data;
+using Microsoft.AspNetCore.Identity.UI.Services;
 
 namespace Neumont_Ticketing_System
 {
@@ -57,11 +58,9 @@ namespace Neumont_Ticketing_System
                 .AddSignInManager<AppSignInManager>()
                 .AddDefaultTokenProviders();
 
-            //services.AddDbContext<ApplicationDbContext>(options =>
-            //    options.UseSqlServer(
-            //        Configuration.GetConnectionString("DefaultConnection")));
-            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.Configure<EmailSettings>(Configuration.GetSection(nameof(EmailSettings)));
+            services.AddSingleton<IEmailSender, EmailSender>();
+
             services.AddControllersWithViews();
             services.AddRazorPages();
 
