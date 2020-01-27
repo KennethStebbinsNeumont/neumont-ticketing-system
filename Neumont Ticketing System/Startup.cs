@@ -15,6 +15,7 @@ using Microsoft.Extensions.Hosting;
 using Neumont_Ticketing_System.Models;
 using Microsoft.Extensions.Options;
 using Neumont_Ticketing_System.Services;
+using Neumont_Ticketing_System.Areas.Identity.Data;
 
 namespace Neumont_Ticketing_System
 {
@@ -43,12 +44,19 @@ namespace Neumont_Ticketing_System
             services.AddSingleton<IIdentityDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<IdentityDatabaseSettings>>().Value);
             services.AddSingleton<AppIdentityStorageService>();
+            services.AddTransient<IUserStore<AppUser>, AppUserStore>();
+            services.AddTransient<IRoleStore<AppRole>, AppRoleStore>();
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            // Adding custom identity service
+            services.AddIdentity<AppUser, AppRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
+
+            //services.AddDbContext<ApplicationDbContext>(options =>
+            //    options.UseSqlServer(
+            //        Configuration.GetConnectionString("DefaultConnection")));
+            //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
+            //    .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
             services.AddRazorPages();
 
