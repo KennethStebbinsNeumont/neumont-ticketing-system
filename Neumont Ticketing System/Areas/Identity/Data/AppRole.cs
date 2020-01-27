@@ -7,14 +7,14 @@ using MongoDB.Bson.Serialization.Attributes;
 
 namespace Neumont_Ticketing_System.Areas.Identity.Data
 {
-    public class AppRole : IdentityRole<string>, IEquatable<AppRole>
+    public class AppRole : IEquatable<AppRole>
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string MongoId { get; set; }
         
         // This value must be unique
-        public override string Name { get; set; }
+        public string Name { get; set; }
 
         // This doens't need to be unique
         public string DisplayName { get; set; }

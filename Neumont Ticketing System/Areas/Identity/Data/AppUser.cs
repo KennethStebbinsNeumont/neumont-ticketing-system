@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Neumont_Ticketing_System.Areas.Identity.Data
 {
-    public class AppUser  : IdentityUser<string>, IEquatable<AppUser>
+    public class AppUser : IEquatable<AppUser>
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -15,19 +15,19 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
         public string Username { get; set; }
 
-        public override string Email { get; set; }
+        public string Email { get; set; }
 
-        public override bool EmailConfirmed { get; set; }
+        public bool EmailConfirmed { get; set; }
 
         public string FullName { get; set; }
 
-        public override string PasswordHash { get; set; }
+        public string PasswordHash { get; set; }
 
-        public override string SecurityStamp { get; set; }
+        public string SecurityStamp { get; set; }
 
-        public override int AccessFailedCount { get; set; }
+        public int AccessFailedCount { get; set; }
 
-        public override bool LockoutEnabled { get; set; }
+        public bool LockoutEnabled { get; set; }
 
         public DateTime? LockoutEndDate { get; set; }
 
