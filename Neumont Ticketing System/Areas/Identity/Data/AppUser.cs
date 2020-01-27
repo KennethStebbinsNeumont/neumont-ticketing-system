@@ -11,25 +11,25 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        public override string Id { get; set; }
 
         public string Username { get; set; }
 
-        public string Email { get; set; }
+        public override string Email { get; set; }
 
-        public bool EmailConfirmed { get; set; }
+        public override bool EmailConfirmed { get; set; }
 
         public string FullName { get; set; }
 
-        public string Password { get; set; }
+        public override string PasswordHash { get; set; }
 
-        public string SecurityStamp { get; set; }
+        public override string SecurityStamp { get; set; }
 
-        public int FailedLoginAttempts { get; set; }
+        public override int AccessFailedCount { get; set; }
 
-        public bool LockedOut { get; set; }
+        public override bool LockoutEnabled { get; set; }
 
-        public DateTime? LockedOutUntil { get; set; }
+        public DateTime? LockoutEndDate { get; set; }
 
         public bool Equals([AllowNull] AppUser other)
         {

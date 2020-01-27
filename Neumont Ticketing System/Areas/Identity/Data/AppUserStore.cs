@@ -103,7 +103,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return new Task<int>(() => {
-                return user.FailedLoginAttempts;
+                return user.AccessFailedCount;
             });
         }
 
@@ -136,7 +136,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return new Task<bool>(() => {
-                return user.LockedOut;
+                return user.LockoutEnabled;
             });
         }
 
@@ -147,7 +147,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return new Task<DateTimeOffset?>(() => {
-                return user.LockedOutUntil;
+                return user.LockoutEndDate;
             });
         }
 
@@ -180,7 +180,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return new Task<string>(() => {
-                return user.Password;
+                return user.PasswordHash;
             });
         }
 
@@ -224,7 +224,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return new Task<bool>(() => {
-                return user.Password != null && user.Password != "";
+                return user.PasswordHash != null && user.PasswordHash != "";
             });
         }
 
@@ -235,9 +235,9 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return new Task<int>(() => {
-                user.FailedLoginAttempts++;
+                user.AccessFailedCount++;
                 _storageService.UpdateUser(user);
-                return user.FailedLoginAttempts;
+                return user.AccessFailedCount;
             });
         }
 
@@ -248,7 +248,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return new Task(() => {
-                user.FailedLoginAttempts = 0;
+                user.AccessFailedCount = 0;
                 _storageService.UpdateUser(user);
             });
         }
@@ -285,7 +285,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return new Task(() => {
-                user.LockedOut = true;
+                user.LockoutEnabled = true;
                 _storageService.UpdateUser(user);
             });
         }
@@ -300,9 +300,9 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
             return new Task(() => {
                 if (lockoutEnd.HasValue)
-                    user.LockedOutUntil = lockoutEnd.Value.UtcDateTime;
+                    user.LockoutEndDate = lockoutEnd.Value.UtcDateTime;
                 else
-                    user.LockedOutUntil = null;
+                    user.LockoutEndDate = null;
                 _storageService.UpdateUser(user);
             });
         }
@@ -341,7 +341,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return new Task(() => {
-                user.Password = passwordHash;
+                user.PasswordHash = passwordHash;
                 _storageService.UpdateUser(user);
             });
         }
