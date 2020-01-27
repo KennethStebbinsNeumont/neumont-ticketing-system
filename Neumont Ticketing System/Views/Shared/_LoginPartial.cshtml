@@ -1,6 +1,6 @@
-﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+﻿@using Neumont_Ticketing_System.Areas.Identity.Data
+@inject AppSignInManager SignInManager
+@inject AppUserManager UserManager
 
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))

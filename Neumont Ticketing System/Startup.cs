@@ -54,6 +54,7 @@ namespace Neumont_Ticketing_System
                 .AddUserStore<AppUserStore>()
                 .AddRoleManager<AppRoleManager>()
                 .AddUserManager<AppUserManager>()
+                .AddSignInManager<AppSignInManager>()
                 .AddDefaultTokenProviders();
 
             //services.AddDbContext<ApplicationDbContext>(options =>
