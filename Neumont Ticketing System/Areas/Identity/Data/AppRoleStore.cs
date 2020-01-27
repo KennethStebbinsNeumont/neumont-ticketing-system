@@ -57,7 +57,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return new Task<AppRole>(() => {
-                var list = _storageService.GetRoles(role => role.MongoId == roleId);
+                var list = _storageService.GetRoles(role => role.Id == roleId);
                 if (list.Count > 0)
                     return list[0];
                 else
@@ -98,7 +98,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return new Task<string>(() => {
-                return role.MongoId;
+                return role.Id;
             });
         }
 

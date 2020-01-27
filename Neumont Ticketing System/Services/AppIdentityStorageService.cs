@@ -124,24 +124,24 @@ namespace Neumont_Ticketing_System.Services
         #region User operations
         public void UpdateUser(AppUser user)
         {
-            _users.ReplaceOne(u => u.MongoId == user.MongoId, user);
+            _users.ReplaceOne(u => u.Id == user.Id, user);
         }
 
         public void ReplaceUser(string id, AppUser user)
         {
-            _users.ReplaceOne(u => u.MongoId == id, user);
+            _users.ReplaceOne(u => u.Id == id, user);
         }
         #endregion User operations
 
         #region Role operations
         public void UpdateRole(AppRole role)
         {
-            _roles.ReplaceOne(r => r.MongoId == role.MongoId, role);
+            _roles.ReplaceOne(r => r.Id == role.Id, role);
         }
 
         public void ReplaceRole(string id, AppRole role)
         {
-            _roles.ReplaceOne(r => r.MongoId == id, role);
+            _roles.ReplaceOne(r => r.Id == id, role);
         }
         #endregion Role operations
         #endregion Update
@@ -150,24 +150,24 @@ namespace Neumont_Ticketing_System.Services
         #region User operations
         public void RemoveUser(AppUser user)
         {
-            _users.DeleteOne(u => u.MongoId == user.MongoId);
+            _users.DeleteOne(u => u.Id == user.Id);
         }
 
         public void RemoveUser(string id)
         {
-            _users.DeleteOne(u => u.MongoId == id);
+            _users.DeleteOne(u => u.Id == id);
         }
         #endregion User operations
 
         #region Role operations
         public void RemoveRole(AppRole role)
         {
-            _roles.DeleteOne(r => r.MongoId == role.MongoId);
+            _roles.DeleteOne(r => r.Id == role.Id);
         }
 
         public void RemoveRole(string id)
         {
-            _roles.DeleteOne(r => r.MongoId == id);
+            _roles.DeleteOne(r => r.Id == id);
         }
         #endregion Role operations
         #endregion Delete

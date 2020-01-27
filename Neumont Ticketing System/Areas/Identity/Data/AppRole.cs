@@ -11,7 +11,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string MongoId { get; set; }
+        public string Id { get; set; }
         
         // This value must be unique
         public string Name { get; set; }
@@ -23,7 +23,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
         public bool Equals([AllowNull] AppRole other)
         {
-            return other != null && other.MongoId == MongoId;
+            return other != null && other.Id == Id;
         }
     }
 }
