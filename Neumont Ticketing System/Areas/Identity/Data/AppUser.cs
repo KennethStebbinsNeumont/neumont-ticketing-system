@@ -7,7 +7,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Neumont_Ticketing_System.Areas.Identity.Data
 {
-    public class AppUser  : IEquatable<AppUser>
+    public class AppUser  : IdentityUser<string>, IEquatable<AppUser>
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
