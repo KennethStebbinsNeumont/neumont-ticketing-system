@@ -48,8 +48,12 @@ namespace Neumont_Ticketing_System
             services.AddTransient<IRoleStore<AppRole>, AppRoleStore>();
 
             // Adding custom identity service
+            // https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.identitybuilder?view=aspnetcore-3.1
             services.AddIdentity<AppUser, AppRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddRoleStore<AppRoleStore>()
+                .AddUserStore<AppUserStore>()
+                .AddRoleManager<AppRoleManager>()
+                .AddUserManager<AppUserManager>()
                 .AddDefaultTokenProviders();
 
             //services.AddDbContext<ApplicationDbContext>(options =>
