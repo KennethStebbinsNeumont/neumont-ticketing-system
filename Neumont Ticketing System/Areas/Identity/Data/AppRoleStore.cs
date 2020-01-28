@@ -26,7 +26,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
             if (role == null) throw new ArgumentNullException(nameof(role));
 
 
-            return new Task<IdentityResult>(() => {
+            return Task.Run<IdentityResult>(() => {
                 var result = new IdentityResult();
                 _storageService.CreateRole(role);
                 return result;
@@ -39,7 +39,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
             if (role == null) throw new ArgumentNullException(nameof(role));
 
 
-            return new Task<IdentityResult>(() => {
+            return Task.Run<IdentityResult>(() => {
                 var result = new IdentityResult();
                 _storageService.RemoveRole(role);
                 return result;
@@ -56,7 +56,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
             if (roleId == null) throw new ArgumentNullException(nameof(roleId));
 
 
-            return new Task<AppRole>(() => {
+            return Task.Run<AppRole>(() => {
                 var list = _storageService.GetRoles(role => role.Id == roleId);
                 if (list.Count > 0)
                     return list[0];
@@ -71,7 +71,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
             if (normalizedRoleName == null) throw new ArgumentNullException(nameof(normalizedRoleName));
 
 
-            return new Task<AppRole>(() => {
+            return Task.Run<AppRole>(() => {
                 var list = _storageService.GetRoles(role => role.Name == normalizedRoleName);
                 if (list.Count > 0)
                     return list[0];
@@ -86,7 +86,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
             if (role == null) throw new ArgumentNullException(nameof(role));
 
 
-            return new Task<string>(() => {
+            return Task.Run<string>(() => {
                 return role.Name;
             });
         }
@@ -97,7 +97,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
             if (role == null) throw new ArgumentNullException(nameof(role));
 
 
-            return new Task<string>(() => {
+            return Task.Run<string>(() => {
                 return role.Id;
             });
         }
@@ -108,7 +108,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
             if (role == null) throw new ArgumentNullException(nameof(role));
 
 
-            return new Task<string>(() => {
+            return Task.Run<string>(() => {
                 return role.Name;
             });
         }
@@ -120,7 +120,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
             if (normalizedName == null) throw new ArgumentNullException(nameof(normalizedName));
 
 
-            return new Task(() => {
+            return Task.Run(() => {
                 role.Name = normalizedName;
                 _storageService.UpdateRole(role);
             });
@@ -133,7 +133,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
             if (roleName == null) throw new ArgumentNullException(nameof(roleName));
 
 
-            return new Task(() => {
+            return Task.Run(() => {
                 role.Name = roleName;
                 _storageService.UpdateRole(role);
             });
@@ -145,7 +145,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
             if (role == null) throw new ArgumentNullException(nameof(role));
 
 
-            return new Task<IdentityResult>(() => {
+            return Task.Run<IdentityResult>(() => {
                 var result = new IdentityResult();
                 _storageService.UpdateRole(role);
                 return result;
