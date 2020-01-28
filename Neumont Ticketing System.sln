@@ -13,7 +13,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "prep_scripts", "prep_script
 		prep_scripts\run.sh = prep_scripts\run.sh
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{223FE6AF-1C9D-48CB-B6EB-422D21C24750}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Pipeline Scripts", "Pipeline Scripts", "{1C616683-0A6B-49D0-AAF0-4C19E7EFBAF4}"
+	ProjectSection(SolutionItems) = preProject
+		Pipeline Scripts\configure_dotnet_dev_webserver.sh = Pipeline Scripts\configure_dotnet_dev_webserver.sh
+		Pipeline Scripts\configure_dotnet_webserver.sh = Pipeline Scripts\configure_dotnet_webserver.sh
+		Pipeline Scripts\reconfigure_kestrel_webapp.sh = Pipeline Scripts\reconfigure_kestrel_webapp.sh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{B376D0DD-D0CA-45F8-B432-CE602A141811}"
 	ProjectSection(SolutionItems) = preProject
 		docs\MongoDB Structure.txt = docs\MongoDB Structure.txt
 	EndProjectSection
