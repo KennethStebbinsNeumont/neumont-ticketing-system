@@ -16,6 +16,7 @@ using Microsoft.Extensions.Options;
 using Neumont_Ticketing_System.Services;
 using Neumont_Ticketing_System.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.HttpOverrides;
 
 namespace Neumont_Ticketing_System
 {
@@ -81,6 +82,11 @@ namespace Neumont_Ticketing_System
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+            });
 
             app.UseStaticFiles();
 
