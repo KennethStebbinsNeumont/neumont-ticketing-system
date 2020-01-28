@@ -11,7 +11,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        public string Id { get; set; } = "0";
 
         public string Username { get; set; }
 
