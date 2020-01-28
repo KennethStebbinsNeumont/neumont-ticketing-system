@@ -136,7 +136,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return Task.Run<bool>(() => {
-                return user.LockedOut;
+                return user.LockoutEnabled;
             });
         }
 
@@ -279,7 +279,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return Task.Run(() => {
-                user.LockedOut = true;
+                user.LockoutEnabled = true;
                 _storageService.UpdateUser(user);
             });
         }

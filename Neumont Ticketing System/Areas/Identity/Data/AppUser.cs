@@ -27,7 +27,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
         public int FailedLoginAttempts { get; set; }
 
-        public bool LockedOut { get; set; }
+        public bool LockoutEnabled { get; set; }
 
         public DateTime? LockedOutUntil { get; set; }
 
