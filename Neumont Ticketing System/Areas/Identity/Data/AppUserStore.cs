@@ -323,7 +323,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return Task.Run(() => {
-                user.Username = normalizedName;
+                user.NormalizedUsername = normalizedName;
                 _storageService.UpdateUser(user);
             });
         }

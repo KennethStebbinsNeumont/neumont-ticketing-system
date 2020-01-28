@@ -15,6 +15,8 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
         public string Username { get; set; }
 
+        public string NormalizedUsername { get; set; }
+
         public string Email { get; set; }
 
         public bool EmailConfirmed { get; set; }

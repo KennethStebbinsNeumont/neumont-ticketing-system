@@ -20,6 +20,7 @@ users : {
 		user : {
 			_id : <int - determined by MongoDB>,
 			Username : <string - username, must be unique>,
+			NormalizedUsername: ,
 			Email : <string - email address, must be unique>,
 			EmailConfirmed : <bool - deafult false, set true after confirm>,
 			FullName : <string - User's full name>,
