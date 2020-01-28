@@ -46,6 +46,8 @@ namespace Neumont_Ticketing_System
                 sp.GetRequiredService<IOptions<IdentityDatabaseSettings>>().Value);
             services.AddSingleton<AppIdentityStorageService>();
 
+            services.AddDbContext<AppIdentityDbContext>();
+
             // Adding custom identity service
             // https://docs.microsoft.com/en-us/dotnet/api/microsoft.aspnetcore.identity.identitybuilder?view=aspnetcore-3.1
             services.AddIdentity<AppUser, AppRole>()
