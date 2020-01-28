@@ -26,7 +26,7 @@ db.users.insert({
     "PasswordHash": null,
     "SecurityStamp": "",
     "FailedLoginAttempts": 0,
-    "LockedOut": false,
+    "LockoutEnabled": true,
     "LockedOutUntil" : null
 })
 
