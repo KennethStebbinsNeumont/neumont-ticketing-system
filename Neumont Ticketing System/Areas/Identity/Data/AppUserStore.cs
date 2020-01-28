@@ -103,7 +103,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return new Task<int>(() => {
-                return user.AccessFailedCount;
+                return user.FailedLoginAttempts;
             });
         }
 
@@ -136,7 +136,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return new Task<bool>(() => {
-                return user.LockoutEnabled;
+                return user.LockedOut;
             });
         }
 
@@ -147,7 +147,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return new Task<DateTimeOffset?>(() => {
-                return user.LockoutEndDate;
+                return user.LockedOutUntil;
             });
         }
 
@@ -235,9 +235,9 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return new Task<int>(() => {
-                user.AccessFailedCount++;
+                user.FailedLoginAttempts++;
                 _storageService.UpdateUser(user);
-                return user.AccessFailedCount;
+                return user.FailedLoginAttempts;
             });
         }
 
@@ -248,7 +248,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return new Task(() => {
-                user.AccessFailedCount = 0;
+                user.FailedLoginAttempts = 0;
                 _storageService.UpdateUser(user);
             });
         }
@@ -285,7 +285,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return new Task(() => {
-                user.LockoutEnabled = true;
+                user.LockedOut = true;
                 _storageService.UpdateUser(user);
             });
         }
@@ -300,9 +300,9 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
             return new Task(() => {
                 if (lockoutEnd.HasValue)
-                    user.LockoutEndDate = lockoutEnd.Value.UtcDateTime;
+                    user.LockedOutUntil = lockoutEnd.Value.UtcDateTime;
                 else
-                    user.LockoutEndDate = null;
+                    user.LockedOutUntil = null;
                 _storageService.UpdateUser(user);
             });
         }

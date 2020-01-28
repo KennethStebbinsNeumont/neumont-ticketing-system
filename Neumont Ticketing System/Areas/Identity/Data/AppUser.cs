@@ -11,7 +11,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; } = "0";
+        public string Id { get; set; };
 
         public string Username { get; set; }
 
@@ -25,11 +25,11 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
         public string SecurityStamp { get; set; }
 
-        public int AccessFailedCount { get; set; }
+        public int FailedLoginAttempts { get; set; }
 
-        public bool LockoutEnabled { get; set; }
+        public bool LockedOut { get; set; }
 
-        public DateTime? LockoutEndDate { get; set; }
+        public DateTime? LockedOutUntil { get; set; }
 
         public bool Equals([AllowNull] AppUser other)
         {

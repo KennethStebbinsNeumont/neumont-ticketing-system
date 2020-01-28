@@ -23,7 +23,7 @@ users : {
 			Email : <string - email address, must be unique>,
 			EmailConfirmed : <bool - deafult false, set true after confirm>,
 			FullName : <string - User's full name>,
-			Password : <string - hashed + salted>,
+			PasswordHash : <string - hashed + salted>,
 			SecurityStamp : <string - used to notify when user security settings change>,
 			FailedLoginAttempts : <int - resets on successful login>,
 			LockedOut : <bool>,
