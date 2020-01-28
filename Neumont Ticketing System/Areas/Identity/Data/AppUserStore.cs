@@ -201,7 +201,10 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
             if (user == null) throw new ArgumentNullException(nameof(user));
 
 
-            return Task.Run(() => user.Id);
+            return Task.Run(() =>
+            {
+                return user.Id;
+            });
         }
 
         public Task<string> GetUserNameAsync(AppUser user, CancellationToken cancellationToken)
