@@ -32,7 +32,7 @@ db.users.insert({
     "LockedOutUntil": null
 })
 
-var johnnyBoiId = db.users.find({ "Username": "JOHNNYBOI@NET.NET" })._id;
+var johnnyBoiId = db.users.find({ "Username": "JOHNNYBOI@NET.NET" })[0]._id;
 
 db.roles.insert({
     "Name": "treePlanters",
