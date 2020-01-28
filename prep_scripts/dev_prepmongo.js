@@ -20,10 +20,11 @@ db.tset.insert({ "name": "Hemlo World!", "value": "This is pretty neat-o!" });
 // Create user and role databases
 db = mongo.getDB("users");
 db.users.insert({
-    "Username": "JOHNNYBOI@NET.NET",
+    "Username": "JohnnyBoi@net.net",
+    "NormalizedUsername": "JOHNNYBOI@NET.NET",
     "Email": "JOHNNYBOI@NET.NET",
     "EmailConfirmed": false,
-    "FullName": null,
+    "FullName": "Johnny Boi",
 //  "Password": "aBc123$%^",
     "PasswordHash": "AQAAAAEAACcQAAAAECf1ja3G75KH70FUM4K+Y4YlQjK21hkvG/p2dGQMjUy1lPWeR8/o2QTY9bPoD3ZAow==",
     "SecurityStamp": "A3HM2WLAG7ORJWWX6ELVL5CVXEIGWNY6",
