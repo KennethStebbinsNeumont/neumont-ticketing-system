@@ -16,3 +16,22 @@ for (let i = 0; i < oldDbs.length; i++) {
 // Insert test records
 db = mongo.getDB("test");
 db.tset.insert({ "name": "Hemlo World!", "value": "This is pretty neat-o!" });
+
+// Create user and role databases
+db = mongo.getDB("users");
+db.users.insert({
+    "Username": "JohnnyBoi",
+    "Email": "jboy@appleseed.net",
+    "EmailConfirmed": false,
+    "PasswordHash": null,
+    "SecurityStamp": "",
+    "FailedLoginAttempts": 0,
+    "LockedOut": false,
+    "LockedOutUntil" : null
+})
+
+db.roles.insert({
+    "Name": "treePlanters",
+    "DisplayName": "Tree Planters",
+    "Users": []
+})
