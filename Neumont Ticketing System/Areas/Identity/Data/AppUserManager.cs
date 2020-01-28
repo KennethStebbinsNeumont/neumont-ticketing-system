@@ -17,6 +17,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
             : base(store, optionsAccessor, passwordHasher, userValidators, passwordValidators, keyNormalizer, 
                   errors, services, logger)
         {
+            var createBreakpoint = "test";
         }
     }
 }
