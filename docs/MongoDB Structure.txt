@@ -1,30 +1,55 @@
 ******************************
-Database structure for MongoDB
+Common object structure
+
+Follows pattern:
+obj_type : {
+	prop1 : <type - description>,
+	prop2 : <type - description>
+}
+
+******************************
+******************************
+Common objects
+
+
+
+******************************
+******************************
+Database schema structure
 
 Follows pattern:
 
 database : {
 	collection : [
 		thing1 : {
+		    // thing1 definition
 			prop1 : <type - description>,
-			prop2 : <type - description>
+			prop2 : <type - description>,
+			object_prop : {
+				sub_prop1 : <type - description>
+			}
 		},
 		thing2 : {}
 	]
 }
 
 ******************************
+******************************
+Database schemas
 
 users : {
 	users : [
 		user : {
-			_id : <int - determined by MongoDB>,
+			// Describes an application user
+			_id : <ObjectId - determined by MongoDB>,
 			Username : <string - username, must be unique>,
-			NormalizedUsername: ,
+			NormalizedUsername: <string - normalized username; managed by application>,
 			Email : <string - email address, must be unique>,
+			NormalizedEmail : <string - normalized email; managed by application>,
 			EmailConfirmed : <bool - deafult false, set true after confirm>,
 			FullName : <string - User's full name>,
 			PasswordHash : <string - hashed + salted>,
+			PasswordSalt : <string - the salt used for this specific user's pw>,
 			SecurityStamp : <string - used to notify when user security settings change>,
 			FailedLoginAttempts : <int - resets on successful login>,
 			LockoutEnabled : <bool>,
@@ -33,10 +58,158 @@ users : {
 	],
 	roles : [
 		role : {
-			_id : <int - determined by MongoDB>,
-			Name : <string - unique per-role>,
+			// Describes the roles an application use might have. Used for authorization.
+			_id : <ObjectId - determined by MongoDB>,
 			DisplayName : <string - doesn't need to be unique>,
-			Users : [<int - unique User ID>, <int - unique User ID>, ...]
+			NormalizedName : <string - unique per-role; normalization managed by application>,
+			Users : [<ObjectId - unique User ID>, ...]
 		}
 	]
 }
+
+owners : {
+	owners : [
+		owner : {
+			// Describes an owner of an asset (i.e. a student)
+			_id : <ObjectId - determined by MongoDB>,
+			Name : <string - owner's name as shown in school records>,
+			NormalizedName : <string - normalized name; handled by application>,
+			PreferredName : {
+				First : <string - owner's preferred first name>,
+				Middle : <string - owner's preferred middle name>,
+				Last : <string - owner's preferred last name>
+			},
+			EmailAddresses : [<string - email address to use for support; in order of user preference>, ...],
+			PhoneNumbers : [<string - phone numbers to use for support; in order of user preferences; just digits, no symbols>, ..]
+		}
+	]
+}
+
+assets : {
+	manufacturers : [
+		manufacturer : {
+			// Describes an asset manufacturer along with their contact information (i.e. Lenovo)
+			_id : <ObjectId - determined by MongoDB>,
+			Name : <string - Human-readable name of model>,
+			EmailAddresses : [<string - email address to use for support; in order of usefulness>, ...],
+			PhoneNumbers : [<string - phone numbers to use for support; in order of usefulness; just digits, no symbols>, ..]
+		}
+	],
+	types : [
+		type : {
+			// Describes an asset type (i.e. Laptop)
+			_id : <ObjectId - determined by MongoDB>,
+			Name : <string - name of asset type>,
+			NormalizedName : <string - normalized version of name; managed by application>,
+			Description : <long string - description of this type of asset>
+		}
+	],
+	models : [
+		model : {
+			// Describes an asset model (i.e. P1 gen 2)
+			_id : <ObjectId - determined by MongoDB>,
+			Name : <string - Human-readable name of model>,
+			NormalizedName : <string - normalized verison of name; handeled by application>,
+			Type : <ObjectId - the type definition's unique _id value that this model best fits>,
+			ModelNumber : <string - manufaturer's standardized identifier of this model>,
+			Manufacturer : <ObjectId - a manufacturer definition's unique _id value>
+		}
+	],
+	assets : [
+		asset : {
+			// Describes a specific asset
+			_id : <ObjectId - determined by MongoDB>,
+			SerialNumber : <string - serial number of this asset>,
+			Model : <ObjectId - a model definition's unique _id value>,
+			Owner : <ObjectID - an owner definition's unique _id value>
+		}
+	]
+}
+
+******************************
+******************************
+Default entry structure
+
+database : {
+	collection : [
+		{   
+		    // thing1 definition
+			prop1 : <type - description>,
+			prop2 : <type - description>,
+			object_prop : {
+				sub_prop1 : <type - description>
+			}
+		}
+	]
+}
+
+******************************
+******************************
+Default entries
+
+users : {
+	users : [
+		{
+			// The root user
+			_id : <ObjectId - determined by MongoDB>,
+			Username : 'root',
+			NormalizedUsername: 'root',
+			Email : null,
+			NormalizedEmail : null,
+			EmailConfirmed : false,
+			FullName : 'root',
+			PasswordHash : <TBD>,
+			PasswordSalt : <TBD>,
+			SecurityStamp : <TBD>,
+			FailedLoginAttempts : 0,
+			LockoutEnabled : false,
+			LockedOutUntil : null
+		}
+	],
+	roles : [
+		role : {
+			// Describes the roles an application use might have. Used for authorization.
+			_id : <ObjectId - determined by MongoDB>,
+			Name : 'Administrators',
+			DisplayName : 'Administrators',
+			Users : [<root user's _id>]
+		}
+	]
+}
+
+owners : {
+	owners : [
+		owner : {
+			// The IT owner
+			_id : <ObjectId - determined by MongoDB>,
+			FullName : 'StudentSupport',
+			Name : 'Student Support',
+			NormalizedName : 'STUDENT SUPPORT',
+			PreferredName : {
+				First : 'Student',
+				Middle : null,
+				Last : 'Support'
+			},
+			EmailAddresses : ['ssupport@student.neumont.edu'],
+			PhoneNumbers : ['18013022860']
+		}
+	]
+}
+
+assets : {
+	types : [
+		{
+			// Laptop type
+			_id : <ObjectId - determined by MongoDB>,
+			Name : 'Laptop',
+			NormalizedName : 'LAPTOP',
+			Description : 'Laptop computer'
+		},
+		{
+			// Laptop charger type
+			_id : <ObjectId - determined by MongoDB>,
+			Name : 'Laptop Charger',
+			NormalizedName : 'LAPTOP CHARGER',
+			Description : 'Laptop charger'
+		}
+	],
