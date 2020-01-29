@@ -11,7 +11,11 @@ obj_type : {
 ******************************
 Common objects
 
-
+PreferredName : {
+	First : <string - owner's preferred first name>,
+	Middle : <string - owner's preferred middle name>,
+	Last : <string - owner's preferred last name>
+}
 
 ******************************
 ******************************
@@ -74,11 +78,7 @@ owners : {
 			_id : <ObjectId - determined by MongoDB>,
 			Name : <string - owner's name as shown in school records>,
 			NormalizedName : <string - normalized name; handled by application>,
-			PreferredName : {
-				First : <string - owner's preferred first name>,
-				Middle : <string - owner's preferred middle name>,
-				Last : <string - owner's preferred last name>
-			},
+			PreferredName : <PreferredName, see Common objects>,
 			EmailAddresses : [<string - email address to use for support; in order of user preference>, ...],
 			PhoneNumbers : [<string - phone numbers to use for support; in order of user preferences; just digits, no symbols>, ..]
 		}
@@ -182,7 +182,7 @@ owners : {
 		owner : {
 			// The IT owner
 			_id : <ObjectId - determined by MongoDB>,
-			FullName : 'StudentSupport',
+			FullName : 'Student Support',
 			Name : 'Student Support',
 			NormalizedName : 'STUDENT SUPPORT',
 			PreferredName : {
