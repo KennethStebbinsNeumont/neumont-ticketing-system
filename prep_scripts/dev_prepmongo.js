@@ -23,6 +23,7 @@ db.users.insert({
     "Username": "JohnnyBoi@net.net",
     "NormalizedUsername": "JOHNNYBOI@NET.NET",
     "Email": "JOHNNYBOI@NET.NET",
+    "NormalizedEmail": "JOHNNYBOI@NET.NET",
     "EmailConfirmed": false,
     "FullName": "Johnny Boi",
 //  "Password": "aBc123$%^",

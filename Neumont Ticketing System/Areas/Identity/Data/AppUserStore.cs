@@ -58,7 +58,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return Task.Run<AppUser>(() => {
-                var list = _storageService.GetUsers(user => user.Email == normalizedEmail);
+                var list = _storageService.GetUsers(user => user.NormalizedEmail == normalizedEmail);
                 if (list.Count > 0)
                     return list[0];
                 else
@@ -159,7 +159,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return Task.Run<string>(() => {
-                return user.Email;
+                return user.NormalizedEmail;
             });
         }
 
@@ -310,7 +310,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return Task.Run(() => {
-                user.Email = normalizedEmail;
+                user.NormalizedEmail = normalizedEmail;
                 _storageService.UpdateUser(user);
             });
         }
