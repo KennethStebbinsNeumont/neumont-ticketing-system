@@ -25,7 +25,7 @@ db.users.insert({
     "Email": "JOHNNYBOI@NET.NET",
     "NormalizedEmail": "JOHNNYBOI@NET.NET",
     "EmailConfirmed": false,
-    "FullName": "Johnny Two Dicks",
+    "FullName": "Johnny Boi",
 //  "Password": "aBc123$%^",
     "PasswordHash": "AQAAAAEAACcQAAAAECf1ja3G75KH70FUM4K+Y4YlQjK21hkvG/p2dGQMjUy1lPWeR8/o2QTY9bPoD3ZAow==",
     "SecurityStamp": "A3HM2WLAG7ORJWWX6ELVL5CVXEIGWNY6",
