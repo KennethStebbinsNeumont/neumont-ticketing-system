@@ -3,7 +3,11 @@
 @inject AppSignInManager SignInManager
 @inject AppUserManager UserManager
 @{ 
-    AppUser LoggedInUser = await UserManager.FindByNameAsync(User.Identity.Name);
+    AppUser LoggedInUser = null;
+    if (SignInManager.IsSignedIn(User))
+    {
+        LoggedInUser = await UserManager.FindByNameAsync(User.Identity.Name);
+    }
 
 }
 
