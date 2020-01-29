@@ -52,6 +52,11 @@ namespace Neumont_Ticketing_System.Areas.Identity.Pages.Account
             public string Email { get; set; }
 
             [Required]
+            [DataType(DataType.Text)]
+            [Display(Name = "Full Name")]
+            public string FullName { get; set; }
+
+            [Required]
             [StringLength(100, ErrorMessage = "The {0} must be at least {2} and at max {1} characters long.", MinimumLength = 6)]
             [DataType(DataType.Password)]
             [Display(Name = "Password")]
@@ -75,7 +80,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Pages.Account
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)
             {
-                var user = new AppUser { Username = Input.Email, Email = Input.Email };
+                var user = new AppUser { Username = Input.Email, Email = Input.Email, FullName = Input.FullName };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
