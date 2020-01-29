@@ -89,7 +89,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return Task.Run<AppUser>(() => {
-                var list = _storageService.GetUsers(user => user.Username == normalizedUserName);
+                var list = _storageService.GetUsers(user => user.NormalizedUsername == normalizedUserName);
                 if (list.Count > 0)
                     return list[0];
                 else
