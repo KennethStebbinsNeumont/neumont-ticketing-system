@@ -37,7 +37,7 @@ db.users.insert({
 var johnnyBoiId = db.users.find({ "Username": "JOHNNYBOI@NET.NET" })[0]._id;
 
 db.roles.insert({
-    "Name": "treePlanters",
-    "DisplayName": "Tree Planters",
+    "Name": "Tree Planters",
+    "NormalizedName": "TREE PLANTERS",
     "Users": [johnnyBoiId]
 })

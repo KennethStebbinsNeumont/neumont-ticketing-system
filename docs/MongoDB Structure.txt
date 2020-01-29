@@ -60,7 +60,7 @@ users : {
 		role : {
 			// Describes the roles an application use might have. Used for authorization.
 			_id : <ObjectId - determined by MongoDB>,
-			DisplayName : <string - doesn't need to be unique>,
+			Name : <string - doesn't need to be unique>,
 			NormalizedName : <string - unique per-role; normalization managed by application>,
 			Users : [<ObjectId - unique User ID>, ...]
 		}
@@ -171,7 +171,7 @@ users : {
 			// Describes the roles an application use might have. Used for authorization.
 			_id : <ObjectId - determined by MongoDB>,
 			Name : 'Administrators',
-			DisplayName : 'Administrators',
+			NormalizedName : 'Administrators',
 			Users : [<root user's _id>]
 		}
 	]
