@@ -14,7 +14,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
         public string Id { get; set; }
         
         // This value must be unique
-        public string Name { get; set; }
+        public string NormalizedName { get; set; }
 
         // This doens't need to be unique
         public string DisplayName { get; set; }
@@ -23,7 +23,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
         public bool Equals([AllowNull] AppRole other)
         {
-            return other != null && other.Id == Id;
+            return other != null && other.Id.Equals(Id);
         }
     }
 }

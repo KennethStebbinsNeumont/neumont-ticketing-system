@@ -37,7 +37,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
         public bool Equals([AllowNull] AppUser other)
         {
-            return other != null && other.Id == Id;
+            return other != null && other.Id.Equals(Id);
         }
     }
 }
