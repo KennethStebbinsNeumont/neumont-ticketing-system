@@ -123,6 +123,17 @@ assets : {
 			Model : <ObjectId - a model definition's unique _id value>,
 			Owner : <ObjectID - an owner definition's unique _id value>
 		}
+	],
+	loaners : [
+		loaner : {
+			// Describes a specific asset used as a loaner by IT
+			_id : <ObjectId - determined by MongoDB>,
+			Name : <string - represent's the loaner's common name, i.e. Loaner 12261>,
+			NormalizedName : <string - normalized version of name; managed by application>,
+			Asset : <ObjectId - links to an asset definition for this loaner>,
+			InInventory : <bool - whether or not this iten is currently in inventory>,
+			Available : <bool - whether this item, if in inventory, is allowed to be handed out>
+		}
 	]
 }
 

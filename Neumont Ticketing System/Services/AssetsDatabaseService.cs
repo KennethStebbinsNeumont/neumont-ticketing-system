@@ -14,6 +14,7 @@ namespace Neumont_Ticketing_System.Services
         private readonly IMongoCollection<AssetType> _types;
         private readonly IMongoCollection<AssetModel> _models;
         private readonly IMongoCollection<Asset> _assets;
+        private readonly IMongoCollection<LoanerAsset> _loaners;
 
         public AssetsDatabaseService(IAssetsDatabaseSettings settings)
         {
@@ -24,6 +25,7 @@ namespace Neumont_Ticketing_System.Services
             _types = database.GetCollection<AssetType>(settings.TypesCollectionName);
             _models = database.GetCollection<AssetModel>(settings.ModelsCollectionName);
             _assets = database.GetCollection<Asset>(settings.AssetsCollectionName);
+            _loaners = database.GetCollection<LoanerAsset>(settings.LoanersCollectionName);
         }
 
         #region Read
@@ -82,6 +84,20 @@ namespace Neumont_Ticketing_System.Services
             return _assets.Find(expression, options).ToList();
         }
         #endregion Assets
+
+        #region Loaners
+        public List<LoanerAsset> GetLoaners()
+        {
+            return GetLoaners(loaner => true);
+        }
+
+        public List<LoanerAsset> GetLoaners(System.Linq.Expressions.Expression<Func<LoanerAsset,
+            bool>> expression,
+            FindOptions options = null)
+        {
+            return _loaners.Find(expression, options).ToList();
+        }
+        #endregion Loaners
         #endregion Read
 
         #region Create
@@ -119,6 +135,15 @@ namespace Neumont_Ticketing_System.Services
             return asset;
         }
         #endregion Assets
+
+
+        #region Loaners
+        public LoanerAsset Create(LoanerAsset loaner)
+        {
+            _loaners.InsertOne(loaner);
+            return loaner;
+        }
+        #endregion Loaners
         #endregion Create
 
         #region Update
@@ -172,6 +197,19 @@ namespace Neumont_Ticketing_System.Services
             _assets.ReplaceOne(u => u.Id == id, asset);
         }
         #endregion Assets
+
+
+        #region Loaners
+        public void UpdateLoaner(LoanerAsset loaner)
+        {
+            _loaners.ReplaceOne(u => u.Id == loaner.Id, loaner);
+        }
+
+        public void ReplaceLoaner(string id, LoanerAsset loaner)
+        {
+            _loaners.ReplaceOne(u => u.Id == id, loaner);
+        }
+        #endregion Loaners
         #endregion Update
 
         #region Delete
@@ -214,14 +252,26 @@ namespace Neumont_Ticketing_System.Services
         #region Assets
         public void RemoveAsset(Asset asset)
         {
-            _models.DeleteOne(u => u.Id == asset.Id);
+            _assets.DeleteOne(u => u.Id == asset.Id);
         }
 
         public void RemoveAsset(string id)
         {
-            _models.DeleteOne(u => u.Id == id);
+            _assets.DeleteOne(u => u.Id == id);
         }
         #endregion Assets
+
+        #region Loaners
+        public void RemoveLoaner(LoanerAsset loaner)
+        {
+            _loaners.DeleteOne(u => u.Id == loaner.Id);
+        }
+
+        public void RemoveLoaner(string id)
+        {
+            _loaners.DeleteOne(u => u.Id == id);
+        }
+        #endregion Loaners
         #endregion Delete
     }
 }
