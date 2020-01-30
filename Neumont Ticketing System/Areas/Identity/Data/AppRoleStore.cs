@@ -72,7 +72,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return Task.Run<AppRole>(() => {
-                var list = _storageService.GetRoles(role => role.Name == normalizedRoleName);
+                var list = _storageService.GetRoles(role => role.NormalizedName == normalizedRoleName);
                 if (list.Count > 0)
                     return list[0];
                 else
@@ -87,7 +87,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return Task.Run<string>(() => {
-                return role.Name;
+                return role.NormalizedName;
             });
         }
 
@@ -113,17 +113,6 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
             });
         }
 
-        public Task<string> GetRoleDisplayNameAsync(AppRole role, CancellationToken cancellationToken)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            if (role == null) throw new ArgumentNullException(nameof(role));
-
-
-            return Task.Run<string>(() => {
-                return role.DisplayName;
-            });
-        }
-
         public Task SetNormalizedRoleNameAsync(AppRole role, string normalizedName, CancellationToken cancellationToken)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -132,7 +121,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
 
             return Task.Run(() => {
-                role.Name = normalizedName;
+                role.NormalizedName = normalizedName;
                 _storageService.UpdateRole(role);
             });
         }
@@ -146,19 +135,6 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
             return Task.Run(() => {
                 role.Name = roleName;
-                _storageService.UpdateRole(role);
-            });
-        }
-
-        public Task SetRoleDisplayNameAsync(AppRole role, string displayName, CancellationToken cancellationToken)
-        {
-            cancellationToken.ThrowIfCancellationRequested();
-            if (role == null) throw new ArgumentNullException(nameof(role));
-            if (displayName == null) throw new ArgumentNullException(nameof(displayName));
-
-
-            return Task.Run(() => {
-                role.DisplayName = displayName;
                 _storageService.UpdateRole(role);
             });
         }
