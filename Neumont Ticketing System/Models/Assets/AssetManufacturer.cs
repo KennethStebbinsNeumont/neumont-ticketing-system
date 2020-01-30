@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Neumont_Ticketing_System.Models.Assets
 {
-    public class Type
+    public class AssetManufacturer
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -15,8 +15,8 @@ namespace Neumont_Ticketing_System.Models.Assets
 
         public string Name { get; set; }
 
-        public string NormalizedName { get; set; }
+        public List<string> EmailAddresses { get; set; }
 
-        public string Description { get; set; }
+        public List<string> PhoneNumbers { get; set; }
     }
 }
