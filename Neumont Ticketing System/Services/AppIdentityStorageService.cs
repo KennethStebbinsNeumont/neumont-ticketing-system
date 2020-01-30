@@ -1,11 +1,11 @@
 ﻿using MongoDB.Driver;
 using Neumont_Ticketing_System.Areas.Identity.Data;
-using Neumont_Ticketing_System.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Neumont_Ticketing_System.Services.Exceptions;
+using Neumont_Ticketing_System.Models.DatabaseSettings;
 
 namespace Neumont_Ticketing_System.Services
 {

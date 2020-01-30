@@ -1,5 +1,6 @@
 ﻿using MongoDB.Driver;
 using Neumont_Ticketing_System.Models;
+using Neumont_Ticketing_System.Models.DatabaseSettings;
 using System;
 using System.Collections.Generic;
 using System.Linq;

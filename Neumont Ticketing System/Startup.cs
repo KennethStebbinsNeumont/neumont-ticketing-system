@@ -17,6 +17,7 @@ using Neumont_Ticketing_System.Services;
 using Neumont_Ticketing_System.Areas.Identity.Data;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.HttpOverrides;
+using Neumont_Ticketing_System.Models.DatabaseSettings;
 
 namespace Neumont_Ticketing_System
 {
