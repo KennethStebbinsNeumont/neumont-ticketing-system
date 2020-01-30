@@ -40,13 +40,19 @@ namespace Neumont_Ticketing_System
                 sp.GetRequiredService<IOptions<HelloWorldDatabaseSettings>>().Value);
             services.AddSingleton<HelloWorldService>();
 
-
             // Adding Assets database
             services.Configure<AssetsDatabaseSettings>(
                 Configuration.GetSection(nameof(AssetsDatabaseSettings)));
             services.AddSingleton<IAssetsDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<AssetsDatabaseSettings>>().Value);
             services.AddSingleton<AssetsDatabaseService>();
+
+            // Adding Owners database
+            services.Configure<OwnersDatabaseSettings>(
+                Configuration.GetSection(nameof(OwnersDatabaseSettings)));
+            services.AddSingleton<IOwnersDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<OwnersDatabaseSettings>>().Value);
+            services.AddSingleton<OwnersDatabaseService>();
 
             // Adding Identity database
             services.Configure<IdentityDatabaseSettings>(
