@@ -30,7 +30,7 @@ namespace Neumont_Ticketing_System.Services
         #region Manufacturers
         public List<AssetManufacturer> GetManufacturers()
         {
-            return GetManufacturers(user => true);
+            return GetManufacturers(manufacturer => true);
         }
 
         public List<AssetManufacturer> GetManufacturers(System.Linq.Expressions.Expression<Func<AssetManufacturer, 
@@ -44,7 +44,7 @@ namespace Neumont_Ticketing_System.Services
         #region Types
         public List<AssetType> GetTypes()
         {
-            return GetTypes(user => true);
+            return GetTypes(type => true);
         }
 
         public List<AssetType> GetTypes(System.Linq.Expressions.Expression<Func<AssetType,
@@ -58,7 +58,7 @@ namespace Neumont_Ticketing_System.Services
         #region Models
         public List<AssetModel> GetModels()
         {
-            return GetModels(user => true);
+            return GetModels(model => true);
         }
 
         public List<AssetModel> GetModels(System.Linq.Expressions.Expression<Func<AssetModel,
@@ -72,7 +72,7 @@ namespace Neumont_Ticketing_System.Services
         #region Assets
         public List<Asset> GetAssets()
         {
-            return GetAssets(user => true);
+            return GetAssets(asset => true);
         }
 
         public List<Asset> GetAssets(System.Linq.Expressions.Expression<Func<Asset,
@@ -123,62 +123,62 @@ namespace Neumont_Ticketing_System.Services
 
         #region Update
         #region Manufacturers
-        public void UpdateManufacturer(AssetManufacturer user)
+        public void UpdateManufacturer(AssetManufacturer manufacturer)
         {
-            _manufacturers.ReplaceOne(u => u.Id == user.Id, user);
+            _manufacturers.ReplaceOne(u => u.Id == manufacturer.Id, manufacturer);
         }
 
-        public void ReplaceManufacturer(string id, AssetManufacturer user)
+        public void ReplaceManufacturer(string id, AssetManufacturer manufacturer)
         {
-            _manufacturers.ReplaceOne(u => u.Id == id, user);
+            _manufacturers.ReplaceOne(u => u.Id == id, manufacturer);
         }
         #endregion Manufacturers
 
 
         #region Types
-        public void UpdateType(AssetType user)
+        public void UpdateType(AssetType type)
         {
-            _types.ReplaceOne(u => u.Id == user.Id, user);
+            _types.ReplaceOne(u => u.Id == type.Id, type);
         }
 
-        public void ReplaceType(string id, AssetType user)
+        public void ReplaceType(string id, AssetType type)
         {
-            _types.ReplaceOne(u => u.Id == id, user);
+            _types.ReplaceOne(u => u.Id == id, type);
         }
         #endregion Types
 
 
         #region Models
-        public void UpdateModel(AssetModel user)
+        public void UpdateModel(AssetModel model)
         {
-            _models.ReplaceOne(u => u.Id == user.Id, user);
+            _models.ReplaceOne(u => u.Id == model.Id, model);
         }
 
-        public void ReplaceModel(string id, AssetModel user)
+        public void ReplaceModel(string id, AssetModel model)
         {
-            _models.ReplaceOne(u => u.Id == id, user);
+            _models.ReplaceOne(u => u.Id == id, model);
         }
         #endregion Models
 
 
         #region Assets
-        public void UpdateAsset(Asset user)
+        public void UpdateAsset(Asset asset)
         {
-            _assets.ReplaceOne(u => u.Id == user.Id, user);
+            _assets.ReplaceOne(u => u.Id == asset.Id, asset);
         }
 
-        public void ReplaceAsset(string id, Asset user)
+        public void ReplaceAsset(string id, Asset asset)
         {
-            _assets.ReplaceOne(u => u.Id == id, user);
+            _assets.ReplaceOne(u => u.Id == id, asset);
         }
         #endregion Assets
         #endregion Update
 
         #region Delete
         #region Manufacturers
-        public void RemoveManufacturer(AssetManufacturer user)
+        public void RemoveManufacturer(AssetManufacturer manufacturer)
         {
-            _manufacturers.DeleteOne(u => u.Id == user.Id);
+            _manufacturers.DeleteOne(u => u.Id == manufacturer.Id);
         }
 
         public void RemoveManufacturer(string id)
@@ -188,9 +188,9 @@ namespace Neumont_Ticketing_System.Services
         #endregion Manufacturers
 
         #region Types
-        public void RemoveType(AssetType user)
+        public void RemoveType(AssetType type)
         {
-            _types.DeleteOne(u => u.Id == user.Id);
+            _types.DeleteOne(u => u.Id == type.Id);
         }
 
         public void RemoveType(string id)
@@ -200,9 +200,9 @@ namespace Neumont_Ticketing_System.Services
         #endregion Types
 
         #region Models
-        public void RemoveModel(AssetModel user)
+        public void RemoveModel(AssetModel model)
         {
-            _models.DeleteOne(u => u.Id == user.Id);
+            _models.DeleteOne(u => u.Id == model.Id);
         }
 
         public void RemoveModel(string id)
@@ -212,9 +212,9 @@ namespace Neumont_Ticketing_System.Services
         #endregion Models
 
         #region Assets
-        public void RemoveAsset(Asset user)
+        public void RemoveAsset(Asset asset)
         {
-            _models.DeleteOne(u => u.Id == user.Id);
+            _models.DeleteOne(u => u.Id == asset.Id);
         }
 
         public void RemoveAsset(string id)
