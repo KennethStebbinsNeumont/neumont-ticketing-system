@@ -1,7 +1,6 @@
 ******************************
 Common object structure
 
-Follows pattern:
 obj_type : {
 	prop1 : <type - description>,
 	prop2 : <type - description>
@@ -17,17 +16,30 @@ PreferredName : {
 	Last : <string - owner's preferred last name>
 }
 
+TrackedString : {
+	Value : <string - some string>,
+	Timestamp : <datetime - the date and time of this string being created>,
+	Author : <ObjectId - _id of the app user who created the string>
+}
+
+Step : {
+	Name : <string - name of the step>,
+	StartedDate : <datetime - when the step was started; optional>,
+	CompletedDate : <datetime - when the step was completed; null means incomplete>,
+	Comments : [<TrackedString - a comment about this specific step>, ...],
+	SubSteps : [<Step - 1st child step that makes up this step>, ...]
+}
+
 ******************************
 ******************************
 Database schema structure
 
-Follows pattern:
-
 database : {
 	collection : [
+		// thing1 definition
 		thing1 : {
-		    // thing1 definition
 			prop1 : <type - description>,
+			// prop2 extended description
 			prop2 : <type - description>,
 			object_prop : {
 				sub_prop1 : <type - description>
@@ -43,8 +55,8 @@ Database schemas
 
 users : {
 	users : [
+		// Describes an application user
 		user : {
-			// Describes an application user
 			_id : <ObjectId - determined by MongoDB>,
 			Username : <string - username, must be unique>,
 			NormalizedUsername: <string - normalized username; managed by application>,
@@ -61,8 +73,8 @@ users : {
 		}
 	],
 	roles : [
+		// Describes the roles an application use might have. Used for authorization.
 		role : {
-			// Describes the roles an application use might have. Used for authorization.
 			_id : <ObjectId - determined by MongoDB>,
 			Name : <string - doesn't need to be unique>,
 			NormalizedName : <string - unique per-role; normalization managed by application>,
@@ -73,8 +85,8 @@ users : {
 
 owners : {
 	owners : [
+		// Describes an owner of an asset (i.e. a student)
 		owner : {
-			// Describes an owner of an asset (i.e. a student)
 			_id : <ObjectId - determined by MongoDB>,
 			Name : <string - owner's name as shown in school records>,
 			NormalizedName : <string - normalized name; handled by application>,
@@ -87,8 +99,8 @@ owners : {
 
 assets : {
 	manufacturers : [
+		// Describes an asset manufacturer along with their contact information (i.e. Lenovo)
 		manufacturer : {
-			// Describes an asset manufacturer along with their contact information (i.e. Lenovo)
 			_id : <ObjectId - determined by MongoDB>,
 			Name : <string - Human-readable name of model>,
 			EmailAddresses : [<string - email address to use for support; in order of usefulness>, ...],
@@ -96,8 +108,8 @@ assets : {
 		}
 	],
 	types : [
+		// Describes an asset type (i.e. Laptop)
 		type : {
-			// Describes an asset type (i.e. Laptop)
 			_id : <ObjectId - determined by MongoDB>,
 			Name : <string - name of asset type>,
 			NormalizedName : <string - normalized version of name; managed by application>,
@@ -105,8 +117,8 @@ assets : {
 		}
 	],
 	models : [
+		// Describes an asset model (i.e. P1 gen 2)
 		model : {
-			// Describes an asset model (i.e. P1 gen 2)
 			_id : <ObjectId - determined by MongoDB>,
 			Name : <string - Human-readable name of model>,
 			NormalizedName : <string - normalized verison of name; handeled by application>,
@@ -116,8 +128,8 @@ assets : {
 		}
 	],
 	assets : [
+		// Describes a specific asset
 		asset : {
-			// Describes a specific asset
 			_id : <ObjectId - determined by MongoDB>,
 			SerialNumber : <string - serial number of this asset>,
 			Model : <ObjectId - a model definition's unique _id value>,
@@ -125,14 +137,52 @@ assets : {
 		}
 	],
 	loaners : [
+		// Describes a specific asset used as a loaner by IT
 		loaner : {
-			// Describes a specific asset used as a loaner by IT
 			_id : <ObjectId - determined by MongoDB>,
-			Name : <string - represent's the loaner's common name, i.e. Loaner 12261>,
+			Name : <string - represent's the loaner's common name, i.e. [12261>,
 			NormalizedName : <string - normalized version of name; managed by application>,
 			Asset : <ObjectId - links to an asset definition for this loaner>,
 			InInventory : <bool - whether or not this iten is currently in inventory>,
 			Available : <bool - whether this item, if in inventory, is allowed to be handed out>
+		}
+	]
+}
+
+tickets : {
+	repairs : [
+		// Definition of a kind of repair
+		repair : {
+			_id : <ObjectId - determined by MongoDB>,
+			Name : <string - name of this kind of repair>,
+			// Defines what kinds of assets this repair applies to.
+			//   i.e. Depot repair applies to Lenovo and Dell, but only Dell does on-site repair
+			// If an array is empty, the repair will apply to any of that property
+			//	 i.e. a Depot repair would have all arrays empty except for Types, which would
+			//   only contain a Laptop type.
+			AppliesTo : {
+				Types : [<ObjectId - _id of an AssetType that this repair applies to>, ...],
+				Manufacturers : [<ObjectId - _id of an AssetManufacturer that this repair applies to>, ...],
+				Models : [<ObjectId - _id of an AssetModel that this repair applies to>, ...]
+			},
+			Steps : [<Step - 1st step of repair>, <Step - 2nd step of repair>, ...]
+		}
+	],
+	tickets : [
+		// Definition of a ticket
+		ticket : {
+			_id : <ObjectId - determined by MongoDB>,
+			TicketId : <int - human readable ticket identifier; sequential>,
+			Repair : <ObjectId - _id of the kind of repair being performed for this ticket>,
+			Asset : <ObjectId - _id of the asset being repaired>,
+			Technicians : [<ObjectId - _id of the app use who made the ticket>, <ObjectId - _id of another app user whoe helped on the ticket>, ...],
+			Loaners : [<ObjectId - _id of an asset loaned to the client>, ...],
+			Title : <string - title of the ticket for easy reference later; immutable>,
+			// Description can be changed by technicians. New version will create a new
+			// TrackedString entry containing the complete new description in the Description 
+			// array. This allows changes to be tracked and history to be recovered.
+			Description : [<TrackedString - 1st version of description>, ...],
+			Comments : [<TrackedString - a comment about the ticket>, ...]
 		}
 	]
 }

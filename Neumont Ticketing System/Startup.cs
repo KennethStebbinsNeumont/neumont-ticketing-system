@@ -61,6 +61,13 @@ namespace Neumont_Ticketing_System
                 sp.GetRequiredService<IOptions<IdentityDatabaseSettings>>().Value);
             services.AddSingleton<AppIdentityStorageService>();
 
+            // Adding Tickets database
+            services.Configure<TicketsDatabaseSettings>(
+                Configuration.GetSection(nameof(TicketsDatabaseSettings)));
+            services.AddSingleton<ITicketsDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<TicketsDatabaseSettings>>().Value);
+            services.AddSingleton<TicketsDatabaseService>();
+
             services.AddDbContext<AppIdentityDbContext>();
 
             // Adding custom identity service
