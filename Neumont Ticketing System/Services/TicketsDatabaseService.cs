@@ -40,7 +40,7 @@ namespace Neumont_Ticketing_System.Services
         #region Repairs
         public List<Repair> GetRepairs()
         {
-            return GetRepairs(ticket => true);
+            return GetRepairs(repair => true);
         }
 
         public List<Repair> GetRepairs(System.Linq.Expressions.Expression<Func<Repair,
@@ -54,53 +54,53 @@ namespace Neumont_Ticketing_System.Services
 
         #region Create
         #region Tickets
-        public Ticket CreateTicket(Ticket manufacturer)
+        public Ticket CreateTicket(Ticket ticket)
         {
-            _tickets.InsertOne(manufacturer);
-            return manufacturer;
+            _tickets.InsertOne(ticket);
+            return ticket;
         }
         #endregion Tickets
 
         #region Repairs
-        public Repair CreateRepair(Repair manufacturer)
+        public Repair CreateRepair(Repair repair)
         {
-            _repairs.InsertOne(manufacturer);
-            return manufacturer;
+            _repairs.InsertOne(repair);
+            return repair;
         }
         #endregion Repairs
         #endregion Create
 
         #region Update
         #region Tickets
-        public void UpdateTicket(Ticket manufacturer)
+        public void UpdateTicket(Ticket ticket)
         {
-            _tickets.ReplaceOne(u => u.Id == manufacturer.Id, manufacturer);
+            _tickets.ReplaceOne(u => u.Id == ticket.Id, ticket);
         }
 
-        public void ReplaceTicket(string id, Ticket manufacturer)
+        public void ReplaceTicket(string id, Ticket ticket)
         {
-            _tickets.ReplaceOne(u => u.Id == id, manufacturer);
+            _tickets.ReplaceOne(u => u.Id == id, ticket);
         }
         #endregion Tickets
 
         #region Repairs
-        public void UpdateRepair(Repair manufacturer)
+        public void UpdateRepair(Repair repair)
         {
-            _repairs.ReplaceOne(u => u.Id == manufacturer.Id, manufacturer);
+            _repairs.ReplaceOne(u => u.Id == repair.Id, repair);
         }
 
-        public void ReplaceRepair(string id, Repair manufacturer)
+        public void ReplaceRepair(string id, Repair repair)
         {
-            _repairs.ReplaceOne(u => u.Id == id, manufacturer);
+            _repairs.ReplaceOne(u => u.Id == id, repair);
         }
         #endregion Repairs
         #endregion Update
 
         #region Delete
         #region Tickets
-        public void RemoveTicket(Ticket manufacturer)
+        public void RemoveTicket(Ticket ticket)
         {
-            _tickets.DeleteOne(u => u.Id == manufacturer.Id);
+            _tickets.DeleteOne(u => u.Id == ticket.Id);
         }
 
         public void RemoveTicket(string id)
@@ -110,9 +110,9 @@ namespace Neumont_Ticketing_System.Services
         #endregion Tickets
 
         #region Repairs
-        public void RemoveRepair(Repair manufacturer)
+        public void RemoveRepair(Repair repair)
         {
-            _repairs.DeleteOne(u => u.Id == manufacturer.Id);
+            _repairs.DeleteOne(u => u.Id == repair.Id);
         }
 
         public void RemoveRepair(string id)

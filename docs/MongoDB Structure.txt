@@ -30,6 +30,12 @@ Step : {
 	SubSteps : [<Step - 1st child step that makes up this step>, ...]
 }
 
+Setting : {
+	Name : <string - name of settings>,
+	NormalizedName : <string - normalized name; managed by application>,
+	Value : <string - may also store other types converted to string; setting value>
+}
+
 ******************************
 ******************************
 Database schema structure
@@ -185,6 +191,12 @@ tickets : {
 			Comments : [<TrackedString - a comment about the ticket>, ...]
 		}
 	]
+}
+
+settings : {
+	application : {
+		setting : <Setting - some setting>
+	}
 }
 
 ******************************
