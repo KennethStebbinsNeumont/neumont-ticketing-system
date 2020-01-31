@@ -2,12 +2,13 @@
 using MongoDB.Bson.Serialization.Attributes;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Neumont_Ticketing_System.Models.Assets
 {
-    public class AssetModel
+    public class AssetModel : IEquatable<AssetModel>
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -24,5 +25,10 @@ namespace Neumont_Ticketing_System.Models.Assets
 
         [BsonRepresentation(BsonType.ObjectId)]
         public string Manufacturer { get; set; }
+
+        public bool Equals([AllowNull] AssetModel other)
+        {
+            return other != null && other.Id == Id;
+        }
     }
 }
