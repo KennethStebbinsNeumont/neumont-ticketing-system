@@ -13,11 +13,15 @@
     @foreach (var type in Model.AssetTypes)
     {
     <div class="listItem">
-        @Html.DisplayNameFor(model => type.Name)
-        @Html.EditorFor(model => type.Name)
+        <div class="inputContainer">
+            <p class="inputLabel">Name: </p>
+            @Html.EditorFor(model => type.Name)
+        </div>
         <br />
-        @Html.DisplayNameFor(model => type.Description)
-        @Html.EditorFor(model => type.Description)
+        <div class="inputContainer">
+            <p class="inputLabel">Description: </p>
+            @Html.EditorFor(model => type.Description)
+        </div>
     </div>
     }
 </div>
