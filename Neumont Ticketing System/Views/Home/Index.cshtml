@@ -2,10 +2,12 @@
 
 @{
     ViewData["Title"] = "Home Page";
+    ViewData["Cow"] = "MOOOOOOO";
 }
 
 <div class="text-center">
     <h1 class="display-4">Pastrami on Rye</h1>
     <h2>Does this work? If so, I'm saying @Model.ThingValue</h2>
+    <partial view-data="ViewData" name="InteractiveList" />
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
