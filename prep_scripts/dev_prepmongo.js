@@ -34,10 +34,50 @@ db.users.insert({
     "LockedOutUntil": null
 })
 
-var johnnyBoiId = db.users.find({ "Username": "JOHNNYBOI@NET.NET" })[0]._id;
+let johnnyBoiId = db.users.find({ "NormalizedUsername": "JOHNNYBOI@NET.NET" })[0]._id;
 
 db.roles.insert({
     "Name": "Tree Planters",
     "NormalizedName": "TREE PLANTERS",
     "Users": [johnnyBoiId]
 })
+
+db = mongo.getDB("assets");
+db.types.insertMany([{
+        "Name": "Laptop",
+        "NormalizedName": "LAPTOP",
+        "Description": "Laptop computer"
+    },
+    {
+        "Name": "Laptop A/C Adapter",
+        "NormalizedName": "LAPTOP A/C ADAPTER",
+        "Description": "Laptop charger"
+    }]);
+
+db.manufacturers.insertMany([{
+        "Name": "Lenovo",
+        "EmailAddresses": ["support@lenovo.com"],
+        "PhoneNumbers": undefined
+    },
+    {
+        "Name": "Dell"
+    }]);
+
+let laptop = db.types.find({ "NormalizedName": "LAPTOP" })[0]._id;
+let lenovo = db.manufacturers.find({ "Name": "Lenovo" })[0]._id;
+let dell = db.manufacturers.find({ "Name": "Dell" })[0]._id;
+
+db.models.insertMany([{
+    "Name": "Lenovo P1 gen 2",
+    "NormalizedName": "LENOVO P1 GEN 2",
+    "Type": laptop,
+    "ModelNumber": "20QU",
+    "Manufacturer": lenovo
+},
+{
+    "Name": "Dell Precision 5520",
+    "NormalizedName": "DELL PRECISION 5520",
+    "Type": laptop,
+    "ModelNumber": "M5520",
+    "Manufacturer": dell
+}]);
