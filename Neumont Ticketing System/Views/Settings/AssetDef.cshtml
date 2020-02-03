@@ -26,7 +26,7 @@
     }
 </div>
 
-<div class="interactiveList" id="typesList">
+<div class="interactiveList" id="manufacturersList">
     <h2 class="interactiveListTitle">Asset Manufacturers</h2>
     @for (int i = 0; i < Model.AssetManufacturers.Count; i++)
     {
@@ -36,7 +36,7 @@
                 <p class="inputLabel">Name: </p>
                 @Html.EditorFor(model => mfr.Name, null, $"mfr{i}_Name")
             </div>
-            <div class="inputContainer">
+            <div class="inputContainer" id=@($"mfr{i}_PhoneNumbers")>
                 <p class="inputLabel">Phone Numbers: </p>
                 @for (int j = 0; j <= mfr.PhoneNumbers.Count; j++)
                 {
