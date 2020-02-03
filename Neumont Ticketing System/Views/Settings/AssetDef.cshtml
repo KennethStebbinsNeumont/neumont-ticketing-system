@@ -1,4 +1,4 @@
-﻿
+﻿@model Neumont_Ticketing_System.Views.Settings.AssetDefModel
 @{
     ViewData["Title"] = "AssetDef";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,9 +8,16 @@
 
 <h1>Asset Definitions</h1>
 
-
+<h2>Asset Types</h2>
 <div class="list">
+    @foreach (var type in Model.AssetTypes)
+    {
     <div class="listItem">
-        <p>Some text in the list</p>
+        @Html.DisplayNameFor(model => type.Name)
+        @Html.EditorFor(model => type.Name)
+        <br />
+        @Html.DisplayNameFor(model => type.Description)
+        @Html.EditorFor(model => type.Description)
     </div>
+    }
 </div>
