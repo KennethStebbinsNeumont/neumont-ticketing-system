@@ -13,8 +13,26 @@ p {
 }
 
 .listItem {
-    margin: 5px;
+    margin: 5px 5px 15px 5px;
     padding: 5px;
     background: #E3E4E6;
     box-shadow: 2px 2px 4px lightgray;
+}
+
+.inputContainer > * {
+    display: inline-block;
+}
+
+.text-box {
+    padding: 0px 5px;
+    float: right;
+}
+
+.inputContainer {
+    justify-content: left;
+    vertical-align: bottom;
+}
+
+.inputLabel {
+    margin-right: 10px;
 }
