@@ -104,15 +104,6 @@ owners : {
 }
 
 assets : {
-	manufacturers : [
-		// Describes an asset manufacturer along with their contact information (i.e. Lenovo)
-		manufacturer : {
-			_id : <ObjectId - determined by MongoDB>,
-			Name : <string - Human-readable name of model>,
-			EmailAddresses : [<string - email address to use for support; in order of usefulness>, ...],
-			PhoneNumbers : [<string - phone numbers to use for support; in order of usefulness; just digits, no symbols>, ..]
-		}
-	],
 	types : [
 		// Describes an asset type (i.e. Laptop)
 		type : {
@@ -120,6 +111,16 @@ assets : {
 			Name : <string - name of asset type>,
 			NormalizedName : <string - normalized version of name; managed by application>,
 			Description : <long string - description of this type of asset>
+		}
+	],
+	manufacturers : [
+		// Describes an asset manufacturer along with their contact information (i.e. Lenovo)
+		manufacturer : {
+			_id : <ObjectId - determined by MongoDB>,
+			Name : <string - Human-readable name of model>,
+			EmailAddresses : [<string - email address to use for support; in order of usefulness>, ...],
+			PhoneNumbers : [<string - phone numbers to use for support; in order of usefulness; 
+			just digits, no symbols, includes country code>, ..]
 		}
 	],
 	models : [
