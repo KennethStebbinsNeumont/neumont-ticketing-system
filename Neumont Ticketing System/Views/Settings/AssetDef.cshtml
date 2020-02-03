@@ -8,19 +8,64 @@
 
 <h1>Asset Definitions</h1>
 
-<h2>Asset Types</h2>
-<div class="list">
+<div class="interactiveList" id="typesList">
+    <h2>Asset Types</h2>
     @foreach (var type in Model.AssetTypes)
     {
-    <div class="listItem">
-        <div class="inputContainer">
-            <p class="inputLabel">Name: </p>
-            @Html.EditorFor(model => type.Name)
+        <div class="interactiveListItem">
+            <div class="inputContainer">
+                <p class="inputLabel">Name: </p>
+                @Html.EditorFor(model => type.Name)
+            </div>
+            <div class="inputContainer">
+                <p class="inputLabel">Description: </p>
+                @Html.EditorFor(model => type.Description)
+            </div>
         </div>
-        <div class="inputContainer">
-            <p class="inputLabel">Description: </p>
-            @Html.EditorFor(model => type.Description)
+    }
+</div>
+
+<div class="interactiveList" id="typesList">
+    <h2>Asset Manufacturers</h2>
+    @foreach (var mfr in Model.AssetManufacturers)
+    {
+        <div class="interactiveListItem">
+            <div class="inputContainer">
+                <p class="inputLabel">Name: </p>
+                @Html.EditorFor(model => mfr.Name)
+            </div>
+            <div class="inputContainer">
+                <p class="inputLabel">Phone Numbers: </p>
+                @for (int i = 0; i <= mfr.PhoneNumbers.Count; i++)
+                {
+                    if (i >= mfr.PhoneNumbers.Count)
+                    {
+                        <input class="text-box single-line" id=@($"mfr_PhoneNumbers_{i}")
+                               name=@($"mfr.PhoneNumbers[{i}]") type="tel" value="" />
+                    }
+                    else
+                    {
+                        <input class="text-box single-line" id=@($"mfr_PhoneNumbers_{i}")
+                               name=@($"mfr.PhoneNumbers[{i}]") type="tel" value=@(mfr.PhoneNumbers[i]) />
+                    }
+                }
+            </div>
+            <div class="inputContainer">
+                <p class="inputLabel">Email addresses: </p>
+                @for (int i = 0; i <= mfr.EmailAddresses.Count; i++)
+                {
+                    if (i >= mfr.EmailAddresses.Count)
+                    {
+                        <input class="text-box single-line" id=@($"mfr_EmailAddresses_{i}")
+                               name=@($"mfr.EmailAddresses[{i}]") type="email" value="" />
+                    }
+                    else
+                    {
+                        <input class="text-box single-line" id=@($"mfr_EmailAddresses_{i}")
+                               name=@($"mfr.EmailAddresses[{i}]") type="email" value=@(mfr.PhoneNumbers[i]) />
+                    }
+                }
+            </div>
         </div>
-    </div>
     }
 </div>
