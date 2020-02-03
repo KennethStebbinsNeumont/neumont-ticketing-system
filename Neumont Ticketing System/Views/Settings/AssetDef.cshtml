@@ -34,7 +34,7 @@
         <div class="interactiveListItem">
             <div class="inputContainer">
                 <p class="inputLabel">Name: </p>
-                @Html.EditorFor(model => mfr.Name)
+                @Html.EditorFor(model => mfr.Name, null, $"mfr{i}_Name")
             </div>
             <div class="inputContainer">
                 <p class="inputLabel">Phone Numbers: </p>
