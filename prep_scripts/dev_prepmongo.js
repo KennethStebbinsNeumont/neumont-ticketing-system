@@ -57,10 +57,12 @@ db.types.insertMany([{
 db.manufacturers.insertMany([{
         "Name": "Lenovo",
         "EmailAddresses": ["support@lenovo.com"],
-        "PhoneNumbers": undefined
+        "PhoneNumbers": []
     },
     {
-        "Name": "Dell"
+        "Name": "Dell",
+        "EmailAddresses": [],
+        "PhoneNumbers": []
     }]);
 
 let laptop = db.types.find({ "NormalizedName": "LAPTOP" })[0]._id;
