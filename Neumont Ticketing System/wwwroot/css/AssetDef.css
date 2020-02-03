@@ -25,6 +25,9 @@ p {
 
 .text-box {
     padding: 0px 5px;
+    margin: 2px 0px;
+    height: 31px;
+    grid-column-start: 2;
 }
 
 .inputContainer {
@@ -37,4 +40,12 @@ p {
 
 .inputLabel {
     margin-right: 10px;
+}
+
+input.textBox {
+    grid-column: 2;
+}
+
+input {
+    grid-column-start: 2;
 }
