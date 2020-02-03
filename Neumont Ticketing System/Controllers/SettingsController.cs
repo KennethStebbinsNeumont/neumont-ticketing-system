@@ -11,7 +11,7 @@ namespace Neumont_Ticketing_System.Controllers
 {
     public class SettingsController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<SettingsController> _logger;
 
         private readonly AssetsDatabaseService _assetDatabaseService;
 
