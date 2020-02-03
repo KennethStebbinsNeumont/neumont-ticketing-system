@@ -120,7 +120,7 @@ assets : {
 			Name : <string - Human-readable name of model>,
 			EmailAddresses : [<string - email address to use for support; in order of usefulness>, ...],
 			PhoneNumbers : [<string - phone numbers to use for support; in order of usefulness; 
-			just digits, no symbols, includes country code>, ..]
+							just digits, no symbols, includes country code>, ..]
 		}
 	],
 	models : [
