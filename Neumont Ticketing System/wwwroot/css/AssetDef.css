@@ -1,14 +1,9 @@
-﻿.listContainer {
+﻿.list {
     width: fit-content;
-    background: black;
     height: fit-content;
     padding: 5px;
-}
-
-.list {
-    margin: 5px;
-    background: gray;
-    padding: 5px;
+    box-shadow: 5px 5px 5px lightgray;
+    background: #F0F1F2;
 }
 
 p {
@@ -18,7 +13,8 @@ p {
 }
 
 .listItem {
-    background: lightblue;
     margin: 5px;
     padding: 5px;
+    background: #E3E4E6;
+    box-shadow: 2px 2px 4px lightgray;
 }
