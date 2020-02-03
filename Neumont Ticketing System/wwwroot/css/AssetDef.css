@@ -1,0 +1,24 @@
+﻿.listContainer {
+    width: fit-content;
+    background: black;
+    height: fit-content;
+    padding: 5px;
+}
+
+.list {
+    margin: 5px;
+    background: gray;
+    padding: 5px;
+}
+
+p {
+    height: fit-content;
+    padding: 5px;
+    margin: 0;
+}
+
+.listItem {
+    background: lightblue;
+    margin: 5px;
+    padding: 5px;
+}
