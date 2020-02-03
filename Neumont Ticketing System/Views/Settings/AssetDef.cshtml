@@ -27,8 +27,9 @@
 
 <div class="interactiveList" id="typesList">
     <h2 class="interactiveListTitle">Asset Manufacturers</h2>
-    @foreach (var mfr in Model.AssetManufacturers)
+    @for (int i = 0; i < Model.AssetManufacturers.Count; i++)
     {
+        var mfr = Model.AssetManufacturers[i];
         <div class="interactiveListItem">
             <div class="inputContainer">
                 <p class="inputLabel">Name: </p>
@@ -36,33 +37,33 @@
             </div>
             <div class="inputContainer">
                 <p class="inputLabel">Phone Numbers: </p>
-                @for (int i = 0; i <= mfr.PhoneNumbers.Count; i++)
+                @for (int j = 0; j <= mfr.PhoneNumbers.Count; j++)
                 {
-                    if (i >= mfr.PhoneNumbers.Count)
+                    if (j >= mfr.PhoneNumbers.Count)
                     {
-                        <input class="text-box single-line" id=@($"mfr_PhoneNumbers_{i}")
-                               name=@($"mfr.PhoneNumbers[{i}]") type="tel" value="" />
+                        <input class="text-box single-line" id=@($"mfr{i}_PhoneNumbers_{j}")
+                               name=@($"mfr{i}.PhoneNumbers[{j}]") type="tel" value="" />
                     }
                     else
                     {
-                        <input class="text-box single-line" id=@($"mfr_PhoneNumbers_{i}")
-                               name=@($"mfr.PhoneNumbers[{i}]") type="tel" value=@(mfr.PhoneNumbers[i]) />
+                        <input class="text-box single-line" id=@($"mfr{i}_PhoneNumbers_{j}")
+                               name=@($"mfr{i}.PhoneNumbers[{j}]") type="tel" value=@(mfr.PhoneNumbers[j]) />
                     }
                 }
             </div>
             <div class="inputContainer">
                 <p class="inputLabel">Email addresses: </p>
-                @for (int i = 0; i <= mfr.EmailAddresses.Count; i++)
+                @for (int j = 0; j <= mfr.EmailAddresses.Count; j++)
                 {
-                    if (i >= mfr.EmailAddresses.Count)
+                    if (j >= mfr.EmailAddresses.Count)
                     {
-                        <input class="text-box single-line" id=@($"mfr_EmailAddresses_{i}")
-                               name=@($"mfr.EmailAddresses[{i}]") type="email" value="" />
+                        <input class="text-box single-line" id=@($"mfr{i}_EmailAddresses_{j}")
+                               name=@($"mfr{i}.EmailAddresses[{j}]") type="email" value="" />
                     }
                     else
                     {
-                        <input class="text-box single-line" id=@($"mfr_EmailAddresses_{i}")
-                               name=@($"mfr.EmailAddresses[{i}]") type="email" value=@(mfr.EmailAddresses[i]) />
+                        <input class="text-box single-line" id=@($"mfr{i}_EmailAddresses_{j}")
+                               name=@($"mfr{i}.EmailAddresses[{j}]") type="email" value=@(mfr.EmailAddresses[j]) />
                     }
                 }
             </div>
