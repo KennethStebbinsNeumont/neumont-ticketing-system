@@ -56,11 +56,13 @@ db.types.insertMany([{
 
 db.manufacturers.insertMany([{
         "Name": "Lenovo",
+        "NormalizedName": "LENOVO",
         "EmailAddresses": ["support@lenovo.com"],
         "PhoneNumbers": []
     },
     {
         "Name": "Dell",
+        "NormalizedName":"DELL",
         "EmailAddresses": [],
         "PhoneNumbers": []
     }]);

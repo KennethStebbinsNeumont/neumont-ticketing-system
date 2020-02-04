@@ -118,6 +118,7 @@ assets : {
 		manufacturer : {
 			_id : <ObjectId - determined by MongoDB>,
 			Name : <string - Human-readable name of model>,
+			NormalizedName: <string - normalized version of name; managed by application>,
 			EmailAddresses : [<string - email address to use for support; in order of usefulness>, ...],
 			PhoneNumbers : [<string - phone numbers to use for support; in order of usefulness; 
 							just digits, no symbols, includes country code>, ..]

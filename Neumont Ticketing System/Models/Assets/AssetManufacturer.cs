@@ -16,6 +16,8 @@ namespace Neumont_Ticketing_System.Models.Assets
 
         public string Name { get; set; }
 
+        public string NormalizedName { get; set; }
+
         public List<string> EmailAddresses { get; set; }
 
         public List<string> PhoneNumbers { get; set; }
