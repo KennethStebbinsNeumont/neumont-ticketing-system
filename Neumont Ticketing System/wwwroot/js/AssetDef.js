@@ -45,13 +45,15 @@ let btnAddListItemHandler = function () {
     // Insert a clone of the template into the list, right before the button's container
     let clone = $(template.clone());
     // Clear the values of all input fields
-    clone.find('input').each(function (i, e) { $(e).val(''); })
+    clone.find('input').each(function (i, e) {
+        $(e).val('');
+    });
     // https://stackoverflow.com/questions/1414276/how-to-make-the-first-option-of-select-selected-with-jquery
     clone.find('select').each(function (i, e) {
         let firstOption = $(e).children().find('option').first();
         $(e).val(firstOption.val());
     });
-    $(template.clone()).insertBefore(btnContainer);
+    $(clone).insertBefore(btnContainer);
 }
 
 $(document).ready(() => {
