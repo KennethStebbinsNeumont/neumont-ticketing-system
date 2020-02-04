@@ -36,6 +36,16 @@ let expandableListOnChange = function () {
     }
 };
 
+let btnAddListItemHandler = function () {
+    let btnContainer = $(this).parent();
+    let list = btnContainer.parent();
+    // Gets the first list item in the button's containing list to use as a template
+    let template = list.children('.listItem').first();
+
+    // Insert a clone of the template into the list, right before the button's container
+    $(template.clone()).insertBefore(this);
+}
+
 $(document).ready(() => {
     const typesList = $('#typesList');
 
@@ -59,5 +69,11 @@ $(document).ready(() => {
             $(input).blur(expandableListOnChange);
             $(input).keypress(expandableListOnKeypress);
         });
+    });
+
+    const addListItemButtons = $('.btnAddListItem');
+
+    addListItemButtons.each(function (index, btn) {
+        btn.click(btnAddListItemHandler);
     });
 });
