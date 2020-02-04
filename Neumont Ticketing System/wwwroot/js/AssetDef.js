@@ -37,6 +37,7 @@ let expandableListOnChange = function () {
 };
 
 let btnAddListItemHandler = function () {
+    console.log(`Handler called!!`)
     let btnContainer = $(this).parent();
     let list = btnContainer.parent();
     // Gets the first list item in the button's containing list to use as a template
@@ -74,6 +75,7 @@ $(document).ready(() => {
     const addListItemButtons = $('.btnAddListItem');
 
     addListItemButtons.each(function (index, btn) {
+        console.log(`Adding handler to btn #${index}`);
         btn.click(btnAddListItemHandler);
     });
 });
