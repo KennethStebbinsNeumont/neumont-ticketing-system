@@ -51,4 +51,13 @@ $(document).ready(() => {
     });
 
     const emailAddressContainers = ('.emailAddressContainer');
+
+    emailAddressContainers.each(function (index, container) {
+        let inputs = $(container).find('.emailAddressInput');
+        inputs.each(function (index, input) {
+            $(input).change(expandableListOnChange);
+            $(input).blur(expandableListOnChange);
+            $(input).keypress(expandableListOnKeypress);
+        });
+    });
 });
