@@ -190,21 +190,21 @@
             </div>
             <div class="inputContainer">
                 <p class="inputLabel">Type: </p>
-                <select name=@($"mdl0_Type") id=@($"mdl0_Type")>
+                <select class="typeSelector" name=@($"mdl0_Type") id=@($"mdl0_Type")>
                     @for (int j = 0; j < Model.AssetTypes.Count; j++)
                     {
                         var type = Model.AssetTypes[j];
-                        <option value=@(type.NormalizedName)>@(type.Name)</option>
+                        <option value=@(type.Name)>@(type.Name)</option>
                     }
                 </select>
             </div>
             <div class="inputContainer">
                 <p class="inputLabel">Manufacturer: </p>
-                <select name=@($"mdl0_Manufacturer") id=@($"mdl0_Manufacturer")>
+                <select class="manufacturerSelector" name=@($"mdl0_Manufacturer") id=@($"mdl0_Manufacturer")>
                     @for (int j = 0; j < Model.AssetManufacturers.Count; j++)
                     {
                         var mfr = Model.AssetManufacturers[j];
-                        <option value=@(mfr.NormalizedName)>@(mfr.Name)</option>
+                        <option value=@(mfr.Name)>@(mfr.Name)</option>
                     }
                 </select>
             </div>
