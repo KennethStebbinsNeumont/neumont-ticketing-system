@@ -23,11 +23,13 @@
             <div class="listItem">
                 <div class="inputContainer">
                     <p class="inputLabel">Name: </p>
-                    @Html.EditorFor(model => type.Name, null, $"type{i}_Name")
+                    <input class="text-box single-line nameInput" id=@($"type{i}_Name")
+                           name=@($"type{i}_Name") type="text" value=@(type.Name)>
                 </div>
                 <div class="inputContainer">
                     <p class="inputLabel">Description: </p>
-                    @Html.EditorFor(model => type.Description, null, $"type{i}_Description")
+                    <input class="text-box single-line nameInput" id=@($"type{i}_Description")
+                           name=@($"type{i}_Description") type="text" value=@(type.Description)>
                 </div>
             </div>
         }
@@ -62,7 +64,8 @@
             <div class="listItem">
                 <div class="inputContainer">
                     <p class="inputLabel">Name: </p>
-                    @Html.EditorFor(model => mfr.Name, null, $"mfr{i}_Name")
+                    <input class="text-box single-line nameInput" id=@($"mfr{i}_Name") 
+                           name=@($"mfr{i}_Name") type="text" value=@(mfr.Name)>
                 </div>
                 <div class="inputContainer phoneNumberContainer" id=@($"mfr{i}_PhoneNumbers")>
                     <p class="inputLabel">Phone Numbers: </p>
@@ -70,13 +73,13 @@
                     {
                         if (j >= mfr.PhoneNumbers.Count)
                         {
-                            <input class="text-box single-line phoneNumberInput"
+                            <input class="text-box single-line expandableListInput phoneNumberInput"
                                    id=@($"mfr{i}_PhoneNumbers_{j}")
                                    name=@($"mfr{i}.PhoneNumbers[{j}]") type="tel" />
                         }
                         else
                         {
-                            <input class="text-box single-line phoneNumberInput"
+                            <input class="text-box single-line expandableListInput phoneNumberInput"
                                    id=@($"mfr{i}_PhoneNumbers_{j}")
                                    name=@($"mfr{i}_PhoneNumbers_{j}") type="tel"
                                    value=@(mfr.PhoneNumbers[j]) />
@@ -89,13 +92,13 @@
                     {
                         if (j >= mfr.EmailAddresses.Count)
                         {
-                            <input class="text-box single-line emailAddressInput"
+                            <input class="text-box single-line expandableListInput emailAddressInput"
                                    id=@($"mfr{i}_EmailAddresses_{j}")
                                    name=@($"mfr{i}_EmailAddresses_{j}") type="email" />
                         }
                         else
                         {
-                            <input class="text-box single-line emailAddressInput"
+                            <input class="text-box single-line expandableListInput emailAddressInput"
                                    id=@($"mfr{i}_EmailAddresses_{j}")
                                    name=@($"mfr{i}_EmailAddresses_{j}") type="email"
                                    value=@(mfr.EmailAddresses[j]) />
@@ -115,20 +118,20 @@
             </div>
             <div class="inputContainer phoneNumberContainer" id=@($"mfr0_PhoneNumbers")>
                 <p class="inputLabel">Phone Numbers: </p>
-                <input class="text-box single-line phoneNumberInput"
+                <input class="text-box single-line expandableListInput phoneNumberInput"
                        id=@($"mfr0_PhoneNumbers_0")
                        name=@($"mfr0_PhoneNumbers_0") type="tel" />
             </div>
             <div class="inputContainer emailAddressContainer" id=@($"mfr0_EmailAddresses")>
                 <p class="inputLabel">Email addresses: </p>
-                <input class="text-box single-line emailAddressInput"
+                <input class="text-box single-line expandableListInput emailAddressInput"
                        id=@($"mfr0_EmailAddresses_0")
                        name=@($"mfr0_EmailAddresses_0") type="email" />
             </div>
         </div>
     }
     <div class="listItem btnAddListItemContainer">
-        <button class="btnAddListItem" id="btnNewManufacturer">Add Type</button>
+        <button class="btnAddListItem" id="btnNewManufacturer">Add Manufacturer</button>
     </div>
 </div>
 
@@ -208,6 +211,6 @@
         </div>
     }
     <div class="listItem btnAddListItemContainer">
-        <button class="btnAddListItem" id="btnNewModel">Add Type</button>
+        <button class="btnAddListItem" id="btnNewModel">Add Model</button>
     </div>
 </div>
