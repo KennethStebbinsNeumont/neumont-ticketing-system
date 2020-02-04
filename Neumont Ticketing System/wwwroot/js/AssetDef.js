@@ -4,7 +4,7 @@
     // the last event call
     console.log("Pretzel");
     if (!$(input).val() &&
-        $(container).children().last().attr('id') !== $(input).attr('id')) {
+        $(this).parent().children().last().attr('id') !== $(input).attr('id')) {
         // If this field is now empty, remove it UNLESS it is the last
         // input box, which is supposed to be blank by default
         console.log("Doughnut");
@@ -36,7 +36,7 @@ let phoneKeypress = function () {
         $(newInput).keypress(phoneKeypress);
         $(newInput).change(phoneChange);
 
-        $(container).append(newInput);
+        $(this).parent().append(newInput);
     }
 }
 
