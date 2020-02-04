@@ -3,16 +3,14 @@
 
     const phoneNumberContainers = $('.phoneNumberContainer');
 
-    const emailAddressContainers = ('.emailAddressContainer');
-
-    for (let i = 0; i < phoneNumberContainers.length; i++) {
-        let ctr = phoneNumberContainers[i];
-        let inputs = ctr.find('.phoneNumberInput');
-        for (let j = 0; j < inputs.length; j++) {
-            let input = inputs[j];
-            input.change(function () {
+    phoneNumberContainers.each(function (index, element) {
+        let inputs = $(element).find('.phoneNumberInput');
+        inputs.each(function (index, element) {
+            $(input).change(function () {
                 console.log("Heyyo!");
             });
-        }
-    }
+        });
+    });
+
+    const emailAddressContainers = ('.emailAddressContainer');
 });
