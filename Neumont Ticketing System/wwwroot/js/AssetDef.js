@@ -29,9 +29,9 @@ let phoneKeypress = function () {
         newInput.attr('id', `mfr${mfrIndex}_PhoneNumbers_${newIndex}`);
         newInput.attr('name', `mfr${mfrIndex}.PhoneNumbers[${newIndex}]`);
 
-        //$(newInput).change(phoneChange);
-        //$(newInput).blur(phoneChange);
-        //$(newInput).keypress(phoneKeypress);
+        $(newInput).change(phoneChange);
+        $(newInput).blur(phoneChange);
+        $(newInput).keypress(phoneKeypress);
 
         $(this).parent().append(newInput);
     }
