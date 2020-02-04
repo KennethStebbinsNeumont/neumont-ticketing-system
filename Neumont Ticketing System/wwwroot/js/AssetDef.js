@@ -16,9 +16,9 @@
         newInput.attr('id', `mfr${mfrIndex}_${attributeName}_${newIndex}`);
         newInput.attr('name', `mfr${mfrIndex}.${attributeName}[${newIndex}]`);
 
-        $(newInput).change(phoneChange);
-        $(newInput).blur(phoneChange);
-        $(newInput).keypress(phoneKeypress);
+        $(newInput).change(expandableListOnChange);
+        $(newInput).blur(expandableListOnChange);
+        $(newInput).keypress(expandableListOnKeypress);
 
         $(this).parent().append(newInput);
     }
