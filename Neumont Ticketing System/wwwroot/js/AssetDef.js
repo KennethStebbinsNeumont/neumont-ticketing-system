@@ -16,13 +16,13 @@ let phoneKeypress = function () {
     // This event is triggered every time a key is pressed while this field
     // is in focus. This handler is only active for the last input in the list
     console.log("Banana");
-    if ($(container).children().last().attr('id') === $(input).attr('id') &&
-        $(input).val()) {
+    if ($(this).parent().children().last().attr('id') === $(this).attr('id') &&
+        $(this).val()) {
         // If this element is the last element in the list and
         // it now has a value, create a new field
         console.log("Pineapple")
 
-        let regexResults = $(input).attr('id').match(/mfr?(\d+)_PhoneNumbers_(\d+)/);
+        let regexResults = $(this).attr('id').match(/mfr?(\d+)_PhoneNumbers_(\d+)/);
         let mfrIndex = parseInt(regexResults[1]);
         let thisIndex = parseInt(regexResults[2]);
         let newIndex = thisIndex + 1;
