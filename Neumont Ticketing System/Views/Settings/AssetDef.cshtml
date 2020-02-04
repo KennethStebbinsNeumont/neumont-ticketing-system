@@ -104,7 +104,7 @@
                     {
                         var type = Model.AssetTypes[j];
                         <option value=@(type.NormalizedName) selected=@((mdl.TypeId.Equals(type.Id) ? 
-                            "selected" : "false"))>@(type.Name)</option>
+                            "selected" : ""))>@(type.Name)</option>
                     }
                 </select>
             </div>
@@ -115,7 +115,7 @@
                     {
                         var mfr = Model.AssetManufacturers[j];
                         <option value=@(mfr.NormalizedName) selected=@((mdl.ManufacturerId.Equals(mfr.Id) ? 
-                            "selected" : "false")) >@(mfr.Name)</option>
+                            "selected" : "")) >@(mfr.Name)</option>
                     }
                 </select>
             </div>
