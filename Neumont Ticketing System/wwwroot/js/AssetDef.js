@@ -58,15 +58,42 @@ let btnAddListItemHandler = function () {
 
 $(document).ready(() => {
     const expandableListInputs = $('.expandableListInput');
-
     expandableListInputs.each(function (index, input) {
         $(input).change(expandableListOnChange);
         $(input).blur(expandableListOnChange);
         $(input).keypress(expandableListOnKeypress);
     });
 
-    const phoneNumberContainers = $('.phoneNumberContainer');
-    const emailAddressContainers = $('.emailAddressContainer');
+    const typesList = $('#typesList');
+    const typeNameInputs = typesList.find('.nameInput');
+    let onTypeNameChange = function () {
+        let newOptions = [];
+        typesList.children().find('.nameInput').each(function (i, e) {
+            let option = document.createElement('option');
+            let typeName = $(e).val();
+            let o = $(option);
+            o.val(typeName);
+            o.html(typeName);
+            newOptions.push(o);
+        });
+
+        const typeSelectors = $('.typeSelector');
+        typeSelectors.each(function (i, e) {
+            const element = $(e);
+            let oldValue = element.children('option:selected').val();
+            // Clean out old options
+            element.children.each(function (ind, ele) {
+                $(ele).remove();
+            });
+            element.children().append(newOptions);
+        });
+    };
+    typeNameInputs.each(function (i, e) {
+        $(e).change(onTypeNameChange);
+        $(e).blur(onTypeNameChange);
+    });
+
+    const mfrNameInputs = $('#manufacturersList').find('.nameInput');
 
     const addListItemButtons = $('.btnAddListItem');
 
