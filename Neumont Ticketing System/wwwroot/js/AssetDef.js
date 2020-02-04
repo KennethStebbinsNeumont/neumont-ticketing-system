@@ -5,9 +5,11 @@
 
     const emailAddressContainers = ('.emailAddressContainer');
 
-    for (ctr in phoneNumberContainers) {
+    for (let i = 0; i < phoneNumberContainers.length; i++) {
+        let ctr = phoneNumberContainers[i];
         let inputs = ctr.find('.phoneNumberInput');
-        for (input in inputs) {
+        for (let j = 0; j < inputs.length; j++) {
+            let input = inputs[j];
             input.change(function () {
                 console.log("Heyyo!");
             });
