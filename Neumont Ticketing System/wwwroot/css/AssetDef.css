@@ -46,3 +46,26 @@ p {
 .listTitle {
     margin: 0px 6px;
 }
+
+.btnAddListItemContainer {
+    text-align: center;
+}
+
+.btnAddListItem {
+    width: 100%;
+    border-color: #9D9D9E;
+    border-style: dashed;
+    height: 100%;
+    background: #DCDCDE;
+    color: #5D5E5E;
+    border-radius: 3px;
+}
+
+.btnAddListItem:focus {
+    outline: none;
+    border-color: #5D5E5E;
+    border-width: 2px;
+    border-style: dashed;
+    color: #424242;
+    box-shadow: 1px 1px 5px #D2D2D4;
+}
