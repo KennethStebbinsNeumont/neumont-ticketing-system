@@ -3,12 +3,12 @@
     // presses enter AND the value of this element has changed since
     // the last event call
     console.log("Pretzel");
-    if (!$(input).val() &&
-        $(this).parent().children().last().attr('id') !== $(input).attr('id')) {
+    if (!$(this).val() &&
+        $(this).parent().children().last().attr('id') !== $(this).attr('id')) {
         // If this field is now empty, remove it UNLESS it is the last
         // input box, which is supposed to be blank by default
         console.log("Doughnut");
-        $(input).remove();
+        $(this).remove();
     }
 };
 
