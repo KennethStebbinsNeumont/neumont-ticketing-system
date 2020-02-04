@@ -37,7 +37,6 @@ let expandableListOnChange = function () {
 };
 
 let btnAddListItemHandler = function () {
-    console.log(`Handler called!!`)
     let btnContainer = $(this).parent();
     let list = btnContainer.parent();
     // Gets the first list item in the button's containing list to use as a template
@@ -46,7 +45,12 @@ let btnAddListItemHandler = function () {
     // Insert a clone of the template into the list, right before the button's container
     let clone = $(template.clone());
     // Clear the values of all input fields
-    clone.find('input').each(function (i, e) { $(this).val('');})
+    clone.find('input').each(function (i, e) { $(e).val(''); })
+    // https://stackoverflow.com/questions/1414276/how-to-make-the-first-option-of-select-selected-with-jquery
+    clone.find('select').each(function (i, e) {
+        let firstOption = $(e).children().find('option').first();
+        $(e).val(firstOption.val());
+    });
     $(template.clone()).insertBefore(btnContainer);
 }
 
@@ -78,7 +82,6 @@ $(document).ready(() => {
     const addListItemButtons = $('.btnAddListItem');
 
     addListItemButtons.each(function (index, btn) {
-        console.log(`Adding handler to btn #${index}`);
         $(btn).click(btnAddListItemHandler);
     });
 });
