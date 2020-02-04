@@ -1,4 +1,6 @@
-﻿let phoneChange = function () {
+﻿
+
+let phoneChange = function () {
     // This event is triggered when the user exits this field or
     // presses enter AND the value of this element has changed since
     // the last event call
@@ -22,15 +24,14 @@ let phoneKeypress = function () {
         let thisIndex = parseInt(regexResults[2]);
         let newIndex = thisIndex + 1;
 
-        let newInput = document.createElement('input');
-        newInput.setAttribute('class', 'text-box single-line phoneNumberInput');
-        newInput.setAttribute('id', `mfr${mfrIndex}_PhoneNumbers_${newIndex}`);
-        newInput.setAttribute('name', `mfr${mfrIndex}.PhoneNumbers[${newIndex}]`);
-        newInput.setAttribute('type', 'tel');
+        let newInput = $(this).clone();
+        newInput.val('');
+        newInput.attr('id', `mfr${mfrIndex}_PhoneNumbers_${newIndex}`);
+        newInput.attr('name', `mfr${mfrIndex}.PhoneNumbers[${newIndex}]`);
 
-        $(newInput).change(phoneChange);
-        $(newInput).blur(phoneChange);
-        $(newInput).keypress(phoneKeypress);
+        //$(newInput).change(phoneChange);
+        //$(newInput).blur(phoneChange);
+        //$(newInput).keypress(phoneKeypress);
 
         $(this).parent().append(newInput);
     }
