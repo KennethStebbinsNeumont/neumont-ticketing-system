@@ -57,29 +57,16 @@ let btnAddListItemHandler = function () {
 }
 
 $(document).ready(() => {
-    const typesList = $('#typesList');
+    const expandableListInputs = $('.expandableListInput');
+
+    expandableListInputs.each(function (index, input) {
+        $(input).change(expandableListOnChange);
+        $(input).blur(expandableListOnChange);
+        $(input).keypress(expandableListOnKeypress);
+    });
 
     const phoneNumberContainers = $('.phoneNumberContainer');
-
-    phoneNumberContainers.each(function (index, container) {
-        let inputs = $(container).find('.phoneNumberInput');
-        inputs.each(function (index, input) {
-            $(input).change(expandableListOnChange);
-            $(input).blur(expandableListOnChange);
-            $(input).keypress(expandableListOnKeypress);
-        });
-    });
-
     const emailAddressContainers = $('.emailAddressContainer');
-
-    emailAddressContainers.each(function (index, container) {
-        let inputs = $(container).find('.emailAddressInput');
-        inputs.each(function (index, input) {
-            $(input).change(expandableListOnChange);
-            $(input).blur(expandableListOnChange);
-            $(input).keypress(expandableListOnKeypress);
-        });
-    });
 
     const addListItemButtons = $('.btnAddListItem');
 
