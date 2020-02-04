@@ -93,11 +93,31 @@
                 <p class="inputLabel">Name: </p>
                 @Html.EditorFor(model => mdl.Name, null, $"mdl{i}_Name")
             </div>
-        </div>
-        <div class="listItem">
             <div class="inputContainer">
-                <p class="inputLabel">Name: </p>
+                <p class="inputLabel">Model Number: </p>
                 @Html.EditorFor(model => mdl.ModelNumber, null, $"mdl{i}_ModelNumber")
+            </div>
+            <div class="inputContainer">
+                <p class="inputLabel">Type: </p>
+                <select name=@($"mdl{i}_Type") id=@($"mdl{i}_Type")>
+                    @for (int j = 0; j < Model.AssetTypes.Count; j++)
+                    {
+                        var type = Model.AssetTypes[j];
+                        <option value=@(type.NormalizedName) selected=@((mdl.Type.Equals(type) ? 
+                            "true" : "false"))>@(type.Name)</option>
+                    }
+                </select>
+            </div>
+            <div class="inputContainer">
+                <p class="inputLabel">Type: </p>
+                <select name=@($"mdl{i}.Manufacturer") id=@($"mdl{i}_Manufacturer")>
+                    @for (int j = 0; j < Model.AssetManufacturers.Count; j++)
+                    {
+                        var mfr = Model.AssetManufacturers[j];
+                        <option value=@(mfr.NormalizedName) selected=@((mdl.Manufacturer.Equals(mfr) ? 
+                            "true" : "false")) >@(mfr.Name)</option>
+                    }
+                </select>
             </div>
         </div>
     }
