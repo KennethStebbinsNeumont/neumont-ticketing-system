@@ -18,13 +18,11 @@ namespace Neumont_Ticketing_System.Models.Assets
 
         public string NormalizedName { get; set; }
 
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Type { get; set; }
+        public AssetType Type { get; set; }
 
         public string ModelNumber { get; set; }
 
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Manufacturer { get; set; }
+        public AssetManufacturer Manufacturer { get; set; }
 
         public bool Equals([AllowNull] AssetModel other)
         {
