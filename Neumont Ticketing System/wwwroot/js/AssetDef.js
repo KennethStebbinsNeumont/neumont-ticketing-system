@@ -10,6 +10,7 @@
                 // This event is triggered when the user exits this field or
                 // presses enter AND the value of this element has changed since
                 // the last event call
+                console.log("Pretzel");
                 if (!$(input).val() && $(container).children().last() !== $(input)) {
                     // If this field is now empty, remove it UNLESS it is the last
                     // input box, which is supposed to be blank by default
@@ -20,6 +21,7 @@
             $(input).keypress(function () {
                 // This event is triggered every time a key is pressed while this field
                 // is in focus. This handler is only active for the last input in the list
+                console.log("Banana");
                 if ($(container).children().last() === $(input) &&
                     $(input).val()) {
                     // If this element is the last element in the list and
