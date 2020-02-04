@@ -76,6 +76,6 @@ $(document).ready(() => {
 
     addListItemButtons.each(function (index, btn) {
         console.log(`Adding handler to btn #${index}`);
-        btn.click(btnAddListItemHandler);
+        $(btn).click(btnAddListItemHandler);
     });
 });
