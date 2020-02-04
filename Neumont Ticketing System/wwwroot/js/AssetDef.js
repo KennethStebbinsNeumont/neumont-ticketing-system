@@ -7,7 +7,10 @@
         let inputs = $(element).find('.phoneNumberInput');
         inputs.each(function (index, element) {
             $(element).change(function () {
-                console.log("Heyyo!");
+                console.log("Change detected!");
+            });
+            $(element).keypress(function () {
+                console.log("Keypress!");
             });
         });
     });
