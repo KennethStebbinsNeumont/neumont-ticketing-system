@@ -50,7 +50,7 @@ $(document).ready(() => {
         });
     });
 
-    const emailAddressContainers = ('.emailAddressContainer');
+    const emailAddressContainers = $('.emailAddressContainer');
 
     emailAddressContainers.each(function (index, container) {
         let inputs = $(container).find('.emailAddressInput');
