@@ -6,7 +6,7 @@
     phoneNumberContainers.each(function (index, element) {
         let inputs = $(element).find('.phoneNumberInput');
         inputs.each(function (index, element) {
-            $(input).change(function () {
+            $(element).change(function () {
                 console.log("Heyyo!");
             });
         });
