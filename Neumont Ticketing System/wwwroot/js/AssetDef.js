@@ -33,8 +33,9 @@ let phoneKeypress = function () {
         newInput.setAttribute('name', `mfr${mfrIndex}.PhoneNumbers[${newIndex}]`);
         newInput.setAttribute('type', 'tel');
 
-        $(newInput).keypress(phoneKeypress);
         $(newInput).change(phoneChange);
+        $(newInput).blur(phoneChange);
+        $(newInput).keypress(phoneKeypress);
 
         $(this).parent().append(newInput);
     }
@@ -49,6 +50,7 @@ $(document).ready(() => {
         let inputs = $(container).find('.phoneNumberInput');
         inputs.each(function (index, input) {
             $(input).change(phoneChange);
+            $(input).blur(phoneChange);
             $(input).keypress(phoneKeypress);
         });
     });
