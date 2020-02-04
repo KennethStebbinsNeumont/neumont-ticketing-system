@@ -15,17 +15,35 @@
 
 <div class="list" id="typesList">
     <h2 class="listTitle">Asset Types</h2>
-    @for (int i = 0; i < Model.AssetTypes.Count; i++)
+    @if (Model.AssetTypes.Count > 0)
     {
-        var type = Model.AssetTypes[i];
+        @for (int i = 0; i < Model.AssetTypes.Count; i++)
+        {
+            var type = Model.AssetTypes[i];
+            <div class="listItem">
+                <div class="inputContainer">
+                    <p class="inputLabel">Name: </p>
+                    @Html.EditorFor(model => type.Name, null, $"type{i}_Name")
+                </div>
+                <div class="inputContainer">
+                    <p class="inputLabel">Description: </p>
+                    @Html.EditorFor(model => type.Description, null, $"type{i}_Description")
+                </div>
+            </div>
+        }
+    }
+    else
+    {
         <div class="listItem">
             <div class="inputContainer">
                 <p class="inputLabel">Name: </p>
-                @Html.EditorFor(model => type.Name, null, $"type{i}_Name")
+                <input class="text-box single-line" id="type0_Name" name="type0_Name"
+                       type="text" />
             </div>
             <div class="inputContainer">
                 <p class="inputLabel">Description: </p>
-                @Html.EditorFor(model => type.Description, null, $"type{i}_Description")
+                <input class="text-box single-line" id="type0_Description" name="type0_Description"
+                       type="text" />
             </div>
         </div>
     }
@@ -33,87 +51,151 @@
 
 <div class="list" id="manufacturersList">
     <h2 class="listTitle">Asset Manufacturers</h2>
-    @for (int i = 0; i < Model.AssetManufacturers.Count; i++)
+    @if (Model.AssetManufacturers.Count > 0)
     {
-        var mfr = Model.AssetManufacturers[i];
+        @for (int i = 0; i < Model.AssetManufacturers.Count; i++)
+        {
+            var mfr = Model.AssetManufacturers[i];
+            <div class="listItem">
+                <div class="inputContainer">
+                    <p class="inputLabel">Name: </p>
+                    @Html.EditorFor(model => mfr.Name, null, $"mfr{i}_Name")
+                </div>
+                <div class="inputContainer phoneNumberContainer" id=@($"mfr{i}_PhoneNumbers")>
+                    <p class="inputLabel">Phone Numbers: </p>
+                    @for (int j = 0; j <= mfr.PhoneNumbers.Count; j++)
+                    {
+                        if (j >= mfr.PhoneNumbers.Count)
+                        {
+                            <input class="text-box single-line phoneNumberInput"
+                                   id=@($"mfr{i}_PhoneNumbers_{j}")
+                                   name=@($"mfr{i}.PhoneNumbers[{j}]") type="tel" />
+                        }
+                        else
+                        {
+                            <input class="text-box single-line phoneNumberInput"
+                                   id=@($"mfr{i}_PhoneNumbers_{j}")
+                                   name=@($"mfr{i}_PhoneNumbers_{j}") type="tel"
+                                   value=@(mfr.PhoneNumbers[j]) />
+                        }
+                    }
+                </div>
+                <div class="inputContainer emailAddressContainer" id=@($"mfr{i}_EmailAddresses")>
+                    <p class="inputLabel">Email addresses: </p>
+                    @for (int j = 0; j <= mfr.EmailAddresses.Count; j++)
+                    {
+                        if (j >= mfr.EmailAddresses.Count)
+                        {
+                            <input class="text-box single-line emailAddressInput"
+                                   id=@($"mfr{i}_EmailAddresses_{j}")
+                                   name=@($"mfr{i}_EmailAddresses_{j}") type="email" />
+                        }
+                        else
+                        {
+                            <input class="text-box single-line emailAddressInput"
+                                   id=@($"mfr{i}_EmailAddresses_{j}")
+                                   name=@($"mfr{i}_EmailAddresses_{j}") type="email"
+                                   value=@(mfr.EmailAddresses[j]) />
+                        }
+                    }
+                </div>
+            </div>
+        }
+    }
+    else
+    { @* Blank model inserted when no manufacturers are defined *@
         <div class="listItem">
             <div class="inputContainer">
                 <p class="inputLabel">Name: </p>
-                @Html.EditorFor(model => mfr.Name, null, $"mfr{i}_Name")
+                <input class="text-box single-line" id="mfr0_Name" name="mfr0_Name"
+                       type="text" />
             </div>
-            <div class="inputContainer phoneNumberContainer" id=@($"mfr{i}_PhoneNumbers")>
+            <div class="inputContainer phoneNumberContainer" id=@($"mfr0_PhoneNumbers")>
                 <p class="inputLabel">Phone Numbers: </p>
-                @for (int j = 0; j <= mfr.PhoneNumbers.Count; j++)
-                {
-                    if (j >= mfr.PhoneNumbers.Count)
-                    {
-                        <input class="text-box single-line phoneNumberInput"
-                               id=@($"mfr{i}_PhoneNumbers_{j}")
-                               name=@($"mfr{i}.PhoneNumbers[{j}]") type="tel" />
-                    }
-                    else
-                    {
-                        <input class="text-box single-line phoneNumberInput"
-                               id=@($"mfr{i}_PhoneNumbers_{j}")
-                               name=@($"mfr{i}.PhoneNumbers[{j}]") type="tel"
-                               value=@(mfr.PhoneNumbers[j]) />
-                    }
-                }
+                <input class="text-box single-line phoneNumberInput"
+                       id=@($"mfr0_PhoneNumbers_0")
+                       name=@($"mfr0_PhoneNumbers_0") type="tel" />
             </div>
-            <div class="inputContainer emailAddressContainer" id=@($"mfr{i}_EmailAddresses")>
+            <div class="inputContainer emailAddressContainer" id=@($"mfr0_EmailAddresses")>
                 <p class="inputLabel">Email addresses: </p>
-                @for (int j = 0; j <= mfr.EmailAddresses.Count; j++)
-                {
-                    if (j >= mfr.EmailAddresses.Count)
-                    {
-                        <input class="text-box single-line emailAddressInput"
-                               id=@($"mfr{i}_EmailAddresses_{j}")
-                               name=@($"mfr{i}.EmailAddresses[{j}]") type="email" />
-                    }
-                    else
-                    {
-                        <input class="text-box single-line emailAddressInput"
-                               id=@($"mfr{i}_EmailAddresses_{j}")
-                               name=@($"mfr{i}.EmailAddresses[{j}]") type="email"
-                               value=@(mfr.EmailAddresses[j]) />
-                    }
-                }
+                <input class="text-box single-line emailAddressInput"
+                       id=@($"mfr0_EmailAddresses_0")
+                       name=@($"mfr0_EmailAddresses_0") type="email" />
             </div>
         </div>
-    }
+}
 </div>
 
 <div class="list" id="modelsList">
     <h2 class="listTitle">Asset Models</h2>
-    @for (int i = 0; i < Model.AssetModels.Count; i++)
+    @if (Model.AssetModels.Count > 0)
     {
-        var mdl = Model.AssetModels[i];
+
+        @for (int i = 0; i < Model.AssetModels.Count; i++)
+        {
+            var mdl = Model.AssetModels[i];
+            <div class="listItem">
+                <div class="inputContainer">
+                    <p class="inputLabel">Name: </p>
+                    @Html.EditorFor(model => mdl.Name, null, $"mdl{i}_Name")
+                </div>
+                <div class="inputContainer">
+                    <p class="inputLabel">Model Number: </p>
+                    @Html.EditorFor(model => mdl.ModelNumber, null, $"mdl{i}_ModelNumber")
+                </div>
+                <div class="inputContainer">
+                    <p class="inputLabel">Type: </p>
+                    <select name=@($"mdl{i}_Type") id=@($"mdl{i}_Type")>
+                        @for (int j = 0; j < Model.AssetTypes.Count; j++)
+                        {
+                            var type = Model.AssetTypes[j];
+                            <option value=@(type.NormalizedName) selected=@(mdl.TypeId.Equals(type.Id))>@(type.Name)</option>
+                        }
+                    </select>
+                </div>
+                <div class="inputContainer">
+                    <p class="inputLabel">Manufacturer: </p>
+                    <select name=@($"mdl{i}_Manufacturer") id=@($"mdl{i}_Manufacturer")>
+                        @for (int j = 0; j < Model.AssetManufacturers.Count; j++)
+                        {
+                            var mfr = Model.AssetManufacturers[j];
+                            <option value=@(mfr.NormalizedName) selected="@(mfr.Id.Equals(mdl.ManufacturerId))">@(mfr.Name)</option>
+                        }
+                    </select>
+                </div>
+            </div>
+        }
+    }
+    else
+    { @* Blank model inserted when no models are defined *@
         <div class="listItem">
             <div class="inputContainer">
                 <p class="inputLabel">Name: </p>
-                @Html.EditorFor(model => mdl.Name, null, $"mdl{i}_Name")
+                <input class="text-box single-line" id="mdl0_Name" name="mdl0_Name"
+                       type="text"/>
             </div>
             <div class="inputContainer">
                 <p class="inputLabel">Model Number: </p>
-                @Html.EditorFor(model => mdl.ModelNumber, null, $"mdl{i}_ModelNumber")
+                <input class="text-box single-line" id="mdl0_ModelNumber" name="mdl0_ModelNumber"
+                       type="text" />
             </div>
             <div class="inputContainer">
                 <p class="inputLabel">Type: </p>
-                <select name=@($"mdl{i}_Type") id=@($"mdl{i}_Type")>
+                <select name=@($"mdl0_Type") id=@($"mdl0_Type")>
                     @for (int j = 0; j < Model.AssetTypes.Count; j++)
                     {
                         var type = Model.AssetTypes[j];
-                        <option value=@(type.NormalizedName) selected=@(mdl.TypeId.Equals(type.Id))>@(type.Name)</option>
+                        <option value=@(type.NormalizedName)>@(type.Name)</option>
                     }
                 </select>
             </div>
             <div class="inputContainer">
-                <p class="inputLabel">Type: </p>
-                <select name=@($"mdl{i}.Manufacturer") id=@($"mdl{i}_Manufacturer")>
+                <p class="inputLabel">Manufacturer: </p>
+                <select name=@($"mdl0_Manufacturer") id=@($"mdl0_Manufacturer")>
                     @for (int j = 0; j < Model.AssetManufacturers.Count; j++)
                     {
                         var mfr = Model.AssetManufacturers[j];
-                        <option value=@(mfr.NormalizedName) selected="@(mfr.Id.Equals(mdl.ManufacturerId))">@(mfr.Name)</option>
+                        <option value=@(mfr.NormalizedName)>@(mfr.Name)</option>
                     }
                 </select>
             </div>
