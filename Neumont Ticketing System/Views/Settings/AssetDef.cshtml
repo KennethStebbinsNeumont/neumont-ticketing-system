@@ -52,7 +52,7 @@
                     }
                 }
             </div>
-            <div class="inputContainer">
+            <div class="inputContainer" id=@($"mfr{i}_EmailAddresses")>
                 <p class="inputLabel">Email addresses: </p>
                 @for (int j = 0; j <= mfr.EmailAddresses.Count; j++)
                 {
