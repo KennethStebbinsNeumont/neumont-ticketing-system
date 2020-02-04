@@ -44,7 +44,10 @@ let btnAddListItemHandler = function () {
     let template = list.children('.listItem').first();
 
     // Insert a clone of the template into the list, right before the button's container
-    $(template.clone()).insertBefore(this);
+    let clone = $(template.clone());
+    // Clear the values of all input fields
+    clone.find('input').each(function (i, e) { $(this).val('');})
+    $(template.clone()).insertBefore(btnContainer);
 }
 
 $(document).ready(() => {
