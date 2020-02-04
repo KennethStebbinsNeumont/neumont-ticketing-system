@@ -1,13 +1,16 @@
 ﻿$(document).ready(() => {
-    var typesList = $('#typesList');
+    const typesList = $('#typesList');
 
-    var phoneNumberContainers = $('#manufacturersList').find('div').filter(function() {
-        return this.id.match(/mfr\d+_PhoneNumbers/);
-    });
+    const phoneNumberContainers = $('.phoneNumberContainer');
 
-    var emailAddressContainers = $('#manufacturersList').find('div').filter(function() {
-        return this.id.match(/mfr\d+_EmailAddresses/);
-    });
+    const emailAddressContainers = ('.emailAddressContainer');
 
-    console.log(`Email address containers length: ${emailAddressContainers.length}`);
+    for (ctr in phoneNumberContainers) {
+        let inputs = ctr.find('.phoneNumberInput');
+        for (input in inputs) {
+            input.change(function () {
+                console.log("Heyyo!");
+            });
+        }
+    }
 });

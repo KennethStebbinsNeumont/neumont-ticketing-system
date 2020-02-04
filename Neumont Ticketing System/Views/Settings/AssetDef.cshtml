@@ -36,35 +36,41 @@
                 <p class="inputLabel">Name: </p>
                 @Html.EditorFor(model => mfr.Name, null, $"mfr{i}_Name")
             </div>
-            <div class="inputContainer" id=@($"mfr{i}_PhoneNumbers")>
+            <div class="inputContainer phoneNumberContainer" id=@($"mfr{i}_PhoneNumbers")>
                 <p class="inputLabel">Phone Numbers: </p>
                 @for (int j = 0; j <= mfr.PhoneNumbers.Count; j++)
                 {
                     if (j >= mfr.PhoneNumbers.Count)
                     {
-                        <input class="text-box single-line" id=@($"mfr{i}_PhoneNumbers_{j}")
+                        <input class="text-box single-line phoneNumberInput" 
+                               id=@($"mfr{i}_PhoneNumbers_{j}")
                                name=@($"mfr{i}.PhoneNumbers[{j}]") type="tel" value="" />
                     }
                     else
                     {
-                        <input class="text-box single-line" id=@($"mfr{i}_PhoneNumbers_{j}")
-                               name=@($"mfr{i}.PhoneNumbers[{j}]") type="tel" value=@(mfr.PhoneNumbers[j]) />
+                        <input class="text-box single-line phoneNumberInput" 
+                               id=@($"mfr{i}_PhoneNumbers_{j}")
+                               name=@($"mfr{i}.PhoneNumbers[{j}]") type="tel" 
+                               value=@(mfr.PhoneNumbers[j]) />
                     }
                 }
             </div>
-            <div class="inputContainer" id=@($"mfr{i}_EmailAddresses")>
+            <div class="inputContainer emailAddressContainer" id=@($"mfr{i}_EmailAddresses")>
                 <p class="inputLabel">Email addresses: </p>
                 @for (int j = 0; j <= mfr.EmailAddresses.Count; j++)
                 {
                     if (j >= mfr.EmailAddresses.Count)
                     {
-                        <input class="text-box single-line" id=@($"mfr{i}_EmailAddresses_{j}")
+                        <input class="text-box single-line emailAddressInput" 
+                               id=@($"mfr{i}_EmailAddresses_{j}")
                                name=@($"mfr{i}.EmailAddresses[{j}]") type="email" value="" />
                     }
                     else
                     {
-                        <input class="text-box single-line" id=@($"mfr{i}_EmailAddresses_{j}")
-                               name=@($"mfr{i}.EmailAddresses[{j}]") type="email" value=@(mfr.EmailAddresses[j]) />
+                        <input class="text-box single-line emailAddressInput" 
+                               id=@($"mfr{i}_EmailAddresses_{j}")
+                               name=@($"mfr{i}.EmailAddresses[{j}]") type="email" 
+                               value=@(mfr.EmailAddresses[j]) />
                     }
                 }
             </div>
