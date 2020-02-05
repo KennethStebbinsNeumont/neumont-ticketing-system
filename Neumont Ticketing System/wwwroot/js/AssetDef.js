@@ -50,7 +50,7 @@ let btnAddListItemHandler = function () {
     });
     // https://stackoverflow.com/questions/1414276/how-to-make-the-first-option-of-select-selected-with-jquery
     clone.find('select').each(function (i, e) {
-        let firstOption = $(e).children().find('option').first();
+        let firstOption = $(e).find('option').first();
         $(e).val(firstOption.val());
     });
     $(clone).insertBefore(btnContainer);
