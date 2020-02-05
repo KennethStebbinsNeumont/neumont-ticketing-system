@@ -132,7 +132,7 @@ $(document).ready(() => {
         nameInput.change(getOnNameChange(typesList, () => $('.typeSelector')));
         nameInput.blur(getOnNameChange(typesList, () => $('.typeSelector')));
     }));
-    mfrsNameInputs.find('.btnAddListItem').click(getBtnAddListItemHandler(function (clone) {
+    mfrsList.find('.btnAddListItem').click(getBtnAddListItemHandler(function (clone) {
         let nameInput = $(clone).find('.nameInput');
         nameInput.change(getOnNameChange(mfrsList, () => $('.manufacturerSelector')));
         nameInput.blur(getOnNameChange(mfrsList, () => $('.manufacturerSelector')));
