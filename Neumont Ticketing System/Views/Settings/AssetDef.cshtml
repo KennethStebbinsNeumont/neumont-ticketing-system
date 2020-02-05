@@ -158,7 +158,7 @@
                         @for (int j = 0; j < Model.AssetTypes.Count; j++)
                         {
                             var type = Model.AssetTypes[j];
-                            <option value=@(type.NormalizedName) selected=@(mdl.TypeId.Equals(type.Id))>@(type.Name)</option>
+                            <option value=@(type.Name) selected=@(mdl.TypeId.Equals(type.Id))>@(type.Name)</option>
                         }
                     </select>
                 </div>
@@ -168,7 +168,7 @@
                         @for (int j = 0; j < Model.AssetManufacturers.Count; j++)
                         {
                             var mfr = Model.AssetManufacturers[j];
-                            <option value=@(mfr.NormalizedName) selected="@(mfr.Id.Equals(mdl.ManufacturerId))">@(mfr.Name)</option>
+                            <option value=@(mfr.Name) selected="@(mfr.Id.Equals(mdl.ManufacturerId))">@(mfr.Name)</option>
                         }
                     </select>
                 </div>
