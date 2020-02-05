@@ -51,6 +51,7 @@ let getBtnAddListItemHandler = function (afterCloneAction) {
         // Clear the values of all input fields
         clone.find('input').each(function (i, e) {
             $(e).val('');
+            $(e).attr('old-value', '');
         });
         // https://stackoverflow.com/questions/1414276/how-to-make-the-first-option-of-select-selected-with-jquery
         clone.find('select').each(function (i, e) {
