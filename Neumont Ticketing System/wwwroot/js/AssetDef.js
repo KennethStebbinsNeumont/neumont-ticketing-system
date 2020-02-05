@@ -64,21 +64,18 @@ let getBtnAddListItemHandler = function (afterCloneAction) {
     }
 }
 
-$(document).ready(() => {
-    const expandableListInputs = $('.expandableListInput');
-    expandableListInputs.each(function (index, input) {
-        $(input).change(expandableListOnChange);
-        $(input).blur(expandableListOnChange);
-        $(input).keypress(expandableListOnKeypress);
-    });
-
-    const typesList = $('#typesList');
-    const typeNameInputs = typesList.find('.nameInput');
-    let onTypeNameChange = function () {
+// inputsList is the list that contains (somewhere in its descendants) 
+// one or more inputs of class nameInput that this method should
+// search for
+// getSelectorsToUpdate is a function that must resturn a
+// jquery-ified selection of select elements that should have
+// their values updated.
+let getOnNameChange = function (inputsList, getSelectorsToUpdate) {
+    return function () {
         const oldValue = $(this).attr('old-value');
         const newValue = $(this).val();
         let newOptions = [];
-        typesList.children().find('.nameInput').each(function (i, e) {
+        inputsList.children().find('.nameInput').each(function (i, e) {
             let option = document.createElement('option');
             let typeName = $(e).val();
             let o = $(option);
@@ -87,12 +84,12 @@ $(document).ready(() => {
             newOptions.push(o);
         });
 
-        const typeSelectors = $('.typeSelector');
-        typeSelectors.each(function (i, e) {
+        const selectors = getSelectorsToUpdate();
+        selectors.each(function (i, e) {
             const element = $(e);
             let selection = element.children('option:selected').val();
-            // If the type name that was just updated is the one selected,
-            // update the selection to the type's new name
+            // If the thing's name that was just updated is the one selected,
+            // update the selection to the thing's new name
             if (selection === oldValue)
                 selection = newValue;
             // Clean out old options
@@ -104,20 +101,36 @@ $(document).ready(() => {
         });
         $(this).attr('old-value', newValue);
     };
+}
+
+$(document).ready(() => {
+    const expandableListInputs = $('.expandableListInput');
+    expandableListInputs.each(function (index, input) {
+        $(input).change(expandableListOnChange);
+        $(input).blur(expandableListOnChange);
+        $(input).keypress(expandableListOnKeypress);
+    });
+
+    const typesList = $('#typesList');
+    const typeNameInputs = typesList.find('.nameInput');
+    const mfrsList = $('#manufacturersList');
+    const mfrsNameInputs = mfrsList.find('.nameInput');
+    
     typeNameInputs.each(function (i, e) {
-        $(e).change(onTypeNameChange);
-        $(e).blur(onTypeNameChange);
+        $(e).change(getOnNameChange(typesList, () => $('.typeSelector')));
+        $(e).blur(getOnNameChange(typesList, () => $('.typeSelector')));
+    });
+    mfrsNameInputs.each(function (i, e) {
+        $(e).change(getOnNameChange(mfrsList, () => $('.manufacturerSelector')));
+        $(e).blur(getOnNameChange(mfrsList, () => $('.manufacturerSelector')));
     });
 
     const mfrNameInputs = $('#manufacturersList').find('.nameInput');
 
     typesList.find('.btnAddListItem').click(getBtnAddListItemHandler(function (clone) {
         let c = $(clone);
-        c.change(expandableListOnChange);
         c.change(onTypeNameChange);
-        c.blur(expandableListOnChange);
         c.blur(onTypeNameChange);
-        c.keypress(expandableListOnKeypress);
     }));
     //const addListItemButtons = $('.btnAddListItem');
 
