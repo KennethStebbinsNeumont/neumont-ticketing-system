@@ -154,7 +154,7 @@
                 </div>
                 <div class="inputContainer">
                     <p class="inputLabel">Type: </p>
-                    <select name=@($"mdl{i}_Type") id=@($"mdl{i}_Type")>
+                    <select class="typeSelector" name=@($"mdl{i}_Type") id=@($"mdl{i}_Type")>
                         @for (int j = 0; j < Model.AssetTypes.Count; j++)
                         {
                             var type = Model.AssetTypes[j];
@@ -164,7 +164,7 @@
                 </div>
                 <div class="inputContainer">
                     <p class="inputLabel">Manufacturer: </p>
-                    <select name=@($"mdl{i}_Manufacturer") id=@($"mdl{i}_Manufacturer")>
+                    <select class="manufacturerSelector" name=@($"mdl{i}_Manufacturer") id=@($"mdl{i}_Manufacturer")>
                         @for (int j = 0; j < Model.AssetManufacturers.Count; j++)
                         {
                             var mfr = Model.AssetManufacturers[j];
