@@ -115,6 +115,7 @@ $(document).ready(() => {
     const typeNameInputs = typesList.find('.nameInput');
     const mfrsList = $('#manufacturersList');
     const mfrsNameInputs = mfrsList.find('.nameInput');
+    const modelsList = $('#modelsList');
     
     typeNameInputs.each(function (i, e) {
         $(e).change(getOnNameChange(typesList, () => $('.typeSelector')));
@@ -126,13 +127,14 @@ $(document).ready(() => {
     });
 
     typesList.find('.btnAddListItem').click(getBtnAddListItemHandler(function (clone) {
-        let c = $(clone);
-        c.change(onTypeNameChange);
-        c.blur(onTypeNameChange);
+        let nameInput = $(clone).find('.nameInput');
+        nameInput.change(getOnNameChange(typesList, () => $('.typeSelector')));
+        nameInput.blur(getOnNameChange(typesList, () => $('.typeSelector')));
     }));
-    //const addListItemButtons = $('.btnAddListItem');
-
-    //addListItemButtons.each(function (index, btn) {
-    //    $(btn).click(btnAddListItemHandler);
-    //});
+    mfrsNameInputs.find('.btnAddListItem').click(getBtnAddListItemHandler(function (clone) {
+        let nameInput = $(clone).find('.nameInput');
+        nameInput.change(getOnNameChange(mfrsList, () => $('.manufacturerSelector')));
+        nameInput.blur(getOnNameChange(mfrsList, () => $('.manufacturerSelector')));
+    }));
+    modelsList.find('.btnAddListItem').click(getBtnAddListItemHandler(function (clone) { }));
 });
