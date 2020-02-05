@@ -67,6 +67,8 @@ $(document).ready(() => {
     const typesList = $('#typesList');
     const typeNameInputs = typesList.find('.nameInput');
     let onTypeNameChange = function () {
+        const oldValue = $(this).attr('old-value');
+        const newValue = $(this).val();
         let newOptions = [];
         typesList.children().find('.nameInput').each(function (i, e) {
             let option = document.createElement('option');
@@ -80,14 +82,19 @@ $(document).ready(() => {
         const typeSelectors = $('.typeSelector');
         typeSelectors.each(function (i, e) {
             const element = $(e);
-            let oldValue = element.children('option:selected').val();
+            let selection = element.children('option:selected').val();
+            // If the type name that was just updated is the one selected,
+            // update the selection to the type's new name
+            if (selection === oldValue)
+                selection = newValue;
             // Clean out old options
             element.empty();
             newOptions.forEach((option) => {
                 element.append($(option).clone());
             });
-            element.val(oldValue);
+            element.val(selection);
         });
+        $(this).attr('old-value', newValue);
     };
     typeNameInputs.each(function (i, e) {
         $(e).change(onTypeNameChange);
