@@ -28,7 +28,7 @@
                 </div>
                 <div class="inputContainer">
                     <p class="inputLabel">Description: </p>
-                    <input class="text-box single-line" id=@($"type{i}_Description")
+                    <input class="text-box single-line descriptionInput" id=@($"type{i}_Description")
                            name=@($"type{i}_Description") type="text" value="@(type.Description)" 
                            old-value="@(type.Description)">
                 </div>
@@ -40,12 +40,12 @@
         <div class="listItem">
             <div class="inputContainer">
                 <p class="inputLabel">Name: </p>
-                <input class="text-box single-line" id="type0_Name" name="type0_Name"
+                <input class="text-box single-line nameInput" id="type0_Name" name="type0_Name"
                        type="text" />
             </div>
             <div class="inputContainer">
                 <p class="inputLabel">Description: </p>
-                <input class="text-box single-line" id="type0_Description" name="type0_Description"
+                <input class="text-box single-line descriptionInput" id="type0_Description" name="type0_Description"
                        type="text" />
             </div>
         </div>
