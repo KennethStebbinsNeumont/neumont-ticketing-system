@@ -85,7 +85,7 @@ $(document).ready(() => {
             element.children().each(function (ind, ele) {
                 $(ele).remove();
             });
-            element.children().append(newOptions);
+            element.append(newOptions);
         });
     };
     typeNameInputs.each(function (i, e) {
