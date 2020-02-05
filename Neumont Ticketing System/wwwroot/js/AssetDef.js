@@ -82,7 +82,7 @@ $(document).ready(() => {
             const element = $(e);
             let oldValue = element.children('option:selected').val();
             // Clean out old options
-            element.children.each(function (ind, ele) {
+            element.children().each(function (ind, ele) {
                 $(ele).remove();
             });
             element.children().append(newOptions);
