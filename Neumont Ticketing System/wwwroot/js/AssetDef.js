@@ -83,8 +83,9 @@ $(document).ready(() => {
             let oldValue = element.children('option:selected').val();
             // Clean out old options
             element.empty();
-            newOptions.forEach((option) =>
+            newOptions.forEach((option) => {
                 element.append($(option).clone());
+            });
             element.val(oldValue);
         });
     };
