@@ -125,8 +125,6 @@ $(document).ready(() => {
         $(e).blur(getOnNameChange(mfrsList, () => $('.manufacturerSelector')));
     });
 
-    const mfrNameInputs = $('#manufacturersList').find('.nameInput');
-
     typesList.find('.btnAddListItem').click(getBtnAddListItemHandler(function (clone) {
         let c = $(clone);
         c.change(onTypeNameChange);
