@@ -24,12 +24,13 @@
                 <div class="inputContainer">
                     <p class="inputLabel">Name: </p>
                     <input class="text-box single-line nameInput" id=@($"type{i}_Name")
-                           name=@($"type{i}_Name") type="text" value="@(type.Name)" />
+                           name=@($"type{i}_Name") type="text" value="@(type.Name)" old-value="@(type.Name)" />
                 </div>
                 <div class="inputContainer">
                     <p class="inputLabel">Description: </p>
                     <input class="text-box single-line" id=@($"type{i}_Description")
-                           name=@($"type{i}_Description") type="text" value="@(type.Description)">
+                           name=@($"type{i}_Description") type="text" value="@(type.Description)" 
+                           old-value="@(type.Description)">
                 </div>
             </div>
         }
@@ -158,7 +159,7 @@
                         @for (int j = 0; j < Model.AssetTypes.Count; j++)
                         {
                             var type = Model.AssetTypes[j];
-                            <option value="@(type.Name)" old-value="@(type.Name)" 
+                            <option value="@(type.Name)"
                                     selected=@(mdl.TypeId.Equals(type.Id))>@(type.Name)</option>
                         }
                     </select>
@@ -169,7 +170,7 @@
                         @for (int j = 0; j < Model.AssetManufacturers.Count; j++)
                         {
                             var mfr = Model.AssetManufacturers[j];
-                            <option value="@(mfr.Name)" old-value="@(mfr.Name)" 
+                            <option value="@(mfr.Name)" 
                                     selected="@(mfr.Id.Equals(mdl.ManufacturerId))">@(mfr.Name)</option>
                         }
                     </select>
@@ -196,7 +197,7 @@
                     @for (int j = 0; j < Model.AssetTypes.Count; j++)
                     {
                         var type = Model.AssetTypes[j];
-                        <option value="@(type.Name)" old-value="@(type.Name)">@(type.Name)</option>
+                        <option value="@(type.Name)">@(type.Name)</option>
                     }
                 </select>
             </div>
@@ -206,7 +207,7 @@
                     @for (int j = 0; j < Model.AssetManufacturers.Count; j++)
                     {
                         var mfr = Model.AssetManufacturers[j];
-                        <option value="@(mfr.Name)" old-value="@(mfr.Name)">@(mfr.Name)</option>
+                        <option value="@(mfr.Name)">@(mfr.Name)</option>
                     }
                 </select>
             </div>
