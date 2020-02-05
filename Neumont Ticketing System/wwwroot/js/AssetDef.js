@@ -58,10 +58,11 @@ let getBtnAddListItemHandler = function (afterCloneAction) {
             let firstOption = $(e).find('option').first();
             $(e).val(firstOption.val());
         });
-        $(clone).insertBefore(btnContainer);
 
-        if(afterCloneAction)
+        if (afterCloneAction)
             afterCloneAction(clone);
+
+        $(clone).insertBefore(btnContainer);
     }
 }
 
@@ -136,6 +137,32 @@ $(document).ready(() => {
         let nameInput = $(clone).find('.nameInput');
         nameInput.change(getOnNameChange(mfrsList, () => $('.manufacturerSelector')));
         nameInput.blur(getOnNameChange(mfrsList, () => $('.manufacturerSelector')));
+
+        let phoneInput = $(clone).find('.phoneNumberInput');
+        // Remove excessive input fields
+        if (phoneInput.length > 1) {
+            phoneInput.each(function (i, e) {
+                if (i > 0)
+                    $(e).remove();
+            });
+            phoneInput = $(clone).find('.phoneNumberInput');
+        }
+        phoneInput.change(expandableListOnChange);
+        phoneInput.blur(expandableListOnChange);
+        phoneInput.keypress(expandableListOnKeypress);
+
+        let emailInput = $(clone).find('.emailAddressInput');
+        // Remove excessive input fields
+        if (emailInput.length > 1) {
+            emailInput.each(function (i, e) {
+                if (i > 0)
+                    $(e).remove();
+            });
+            emailInput = $(clone).find('.emailAddressInput');
+        }
+        emailInput.change(expandableListOnChange);
+        emailInput.blur(expandableListOnChange);
+        emailInput.keypress(expandableListOnKeypress);
     }));
     modelsList.find('.btnAddListItem').click(getBtnAddListItemHandler(function (clone) { }));
 });
