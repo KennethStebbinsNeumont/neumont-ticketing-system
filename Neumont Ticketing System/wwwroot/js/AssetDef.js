@@ -84,7 +84,7 @@ $(document).ready(() => {
             // Clean out old options
             element.empty();
             for(option in newOptions)
-                element.append(option.clone());
+                element.append($(option).clone());
             element.val(oldValue);
         });
     };
