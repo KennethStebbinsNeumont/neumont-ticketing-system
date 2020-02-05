@@ -82,10 +82,10 @@ $(document).ready(() => {
             const element = $(e);
             let oldValue = element.children('option:selected').val();
             // Clean out old options
-            element.children().each(function (ind, ele) {
-                $(ele).remove();
-            });
-            element.append(newOptions);
+            element.empty();
+            for(option in newOptions)
+                element.append(option.clone());
+            element.val(oldValue);
         });
     };
     typeNameInputs.each(function (i, e) {
