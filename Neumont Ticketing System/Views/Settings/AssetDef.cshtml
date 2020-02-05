@@ -24,12 +24,12 @@
                 <div class="inputContainer">
                     <p class="inputLabel">Name: </p>
                     <input class="text-box single-line nameInput" id=@($"type{i}_Name")
-                           name=@($"type{i}_Name") type="text" value=@(type.Name)>
+                           name=@($"type{i}_Name") type="text" value="@(type.Name)" />
                 </div>
                 <div class="inputContainer">
                     <p class="inputLabel">Description: </p>
                     <input class="text-box single-line" id=@($"type{i}_Description")
-                           name=@($"type{i}_Description") type="text" value=@(type.Description)>
+                           name=@($"type{i}_Description") type="text" value="@(type.Description)">
                 </div>
             </div>
         }
