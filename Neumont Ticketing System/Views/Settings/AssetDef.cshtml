@@ -148,11 +148,15 @@
             <div class="listItem">
                 <div class="inputContainer">
                     <p class="inputLabel">Name: </p>
-                    @Html.EditorFor(model => mdl.Name, null, $"mdl{i}_Name")
+                    <input class="text-box single-line nameInput" id=@($"mdl{i}_Name")
+                           name=@($"mdl{i}_Name") type="text" value="@(mdl.Name)"
+                           old-value="@(mdl.Name)">
                 </div>
                 <div class="inputContainer">
                     <p class="inputLabel">Model Number: </p>
-                    @Html.EditorFor(model => mdl.ModelNumber, null, $"mdl{i}_ModelNumber")
+                    <input class="text-box single-line modelNumberInput" id=@($"mdl{i}_ModelNumber")
+                           name=@($"mdl{i}_ModelNumber") type="text" value="@(mdl.ModelNumber)"
+                           old-value="@(mdl.Name)">
                 </div>
                 <div class="inputContainer">
                     <p class="inputLabel">Type: </p>
@@ -184,7 +188,7 @@
         <div class="listItem">
             <div class="inputContainer">
                 <p class="inputLabel">Name: </p>
-                <input class="text-box single-line" id="mdl0_Name" name="mdl0_Name"
+                <input class="text-box single-line nameInput" id="mdl0_Name" name="mdl0_Name"
                        type="text" />
             </div>
             <div class="inputContainer">
@@ -218,3 +222,5 @@
         <button class="btnAddListItem" id="btnNewModel">Add Model</button>
     </div>
 </div>
+
+<button id="submit">Submit</button>

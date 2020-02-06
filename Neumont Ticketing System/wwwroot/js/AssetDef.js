@@ -105,6 +105,78 @@ let getOnNameChange = function (inputsList, getSelectorsToUpdate) {
     };
 }
 
+const jsonifyInputs = function () {
+    let result = {
+        types: [],
+        manufacturers: [],
+        models: []
+    };
+
+    const typesList = $('#typesList');
+    const mfrsList = $('#manufacturersList');
+    const modelsList = $('#modelsList');
+
+    typesList.each(function (i, e) {
+        let ele = $(e);
+        let nameInput = ele.find('.nameInput');
+        let descriptionInput = ele.find('.descriptionInput');
+        if (nameInput.val()) {
+            // Skip inputs with empty name fields
+            result.types.push({
+                "Name": nameInput.val(),
+                "Description": descriptionInput.val();
+            });
+        }
+    });
+
+    mfrsList.each(function (i, e) {
+        let ele = $(e);
+        let nameInput = ele.find('.nameInput');
+
+        if (nameInput.val()) {
+            let phoneInputs = ele.find('.phoneNumberContainer');
+            let emailInputs = ele.find('.emailAddressContainer');
+
+            let phoneNumbers = [];
+            phoneInputs.each(function (j, input) {
+                if ($(input).val())
+                    phoneNumbers.push($(input).val());
+            });
+            let emailAddresses = [];
+            emailInputs.each(function (j, input) {
+                if ($(input).val())
+                    emailAddresses.push($(input).val());
+            });
+
+            result.manufacturers.push({
+                "Name": nameInput.val(),
+                "EmailAddresses": emailAddresses,
+                "PhoneNumbers": phoneNumbers
+            });
+        }
+    });
+
+    modelsList.each(function (i, e) {
+        let ele = $(e);
+        let nameInput = ele.find('.nameInput');
+        let typeSelector = ele.find('.typeSelector');
+        let mfrSelector = ele.find('.manufacturerSelector');
+
+        if (nameInput.val() && typeSelector.val() &&  mfrSelector.val()) {
+            let modelNumberInput = ele.find('.modelNumberInput');
+
+            result.models.push({
+                "Name": nameInput.val(),
+                "ModelNumber": modelNumberInput.val(),
+                "TypeName": typeSelector.val(),
+                "ManufacturerName": mfrSelector.val()
+            });
+        }
+    });
+
+    return result;
+};
+
 $(document).ready(() => {
     const expandableListInputs = $('.expandableListInput');
     expandableListInputs.each(function (index, input) {
@@ -165,4 +237,24 @@ $(document).ready(() => {
         emailInput.keypress(expandableListOnKeypress);
     }));
     modelsList.find('.btnAddListItem').click(getBtnAddListItemHandler(function (clone) { }));
+
+    // https://www.c-sharpcorner.com/blogs/post-the-data-to-asp-net-mvc-controller-using-jquery-ajax
+    $('#submit').click(function () {
+        $.ajax({
+            type: "POST",
+            url: "/Settings/AssetDef",
+            data: JSON.stringify(jsonifyInputs()),
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                console.log("Success!");
+            },
+            failure: function (response) {
+                console.log("Failure :(");
+            },
+            error: function (response) {
+                console.log("ERROR!!!!");
+            }
+        });
+    });
 });
