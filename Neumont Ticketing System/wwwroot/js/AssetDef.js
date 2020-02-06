@@ -112,11 +112,7 @@ const jsonifyInputs = function () {
         models: []
     };
 
-    const typesList = $('#typesList');
-    const mfrsList = $('#manufacturersList');
-    const modelsList = $('#modelsList');
-
-    typesList.each(function (i, e) {
+    $('.typeContainer').each(function (i, e) {
         let ele = $(e);
         let nameInput = ele.find('.nameInput');
         let descriptionInput = ele.find('.descriptionInput');
@@ -129,7 +125,7 @@ const jsonifyInputs = function () {
         }
     });
 
-    mfrsList.each(function (i, e) {
+    $('.manufacturerContainer').each(function (i, e) {
         let ele = $(e);
         let nameInput = ele.find('.nameInput');
 
@@ -156,7 +152,7 @@ const jsonifyInputs = function () {
         }
     });
 
-    modelsList.each(function (i, e) {
+    $('.modelContainer').each(function (i, e) {
         let ele = $(e);
         let nameInput = ele.find('.nameInput');
         let typeSelector = ele.find('.typeSelector');
