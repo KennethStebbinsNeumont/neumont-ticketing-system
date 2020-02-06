@@ -124,7 +124,7 @@ const jsonifyInputs = function () {
             // Skip inputs with empty name fields
             result.types.push({
                 "Name": nameInput.val(),
-                "Description": descriptionInput.val();
+                "Description": descriptionInput.val()
             });
         }
     });
