@@ -78,29 +78,31 @@
                     @{List<Asset> ownedAssets = owner.GetOwnedAssets(Model.Assets);}
                     @for (int j = 0; j <= ownedAssets.Count; j++)
                     {
-                        <div class="inputContainer">
-                            <p class="inputLabel">Serial Number: </p>
-                            <input class="text-box single-line serialNumberInput"
-                                   type="text"
-                                   value="@(ownedAssets[j].SerialNumber)"
-                                   old-value="@(ownedAssets[j].SerialNumber)"
-                                   original-value="@(ownedAssets[j].SerialNumber)">
-                        </div>
-                        <div class="inputContainer">
-                            <p class="inputLabel">Model: </p>
-                            <select class="modelSelector">
-                                @for (int k = 0; k < Model.AssetModels.Count; k++)
-                                {
-                                    var model = Model.AssetModels[k];
-                                    <option value="@(model.Name)"
-                                            selected=@(ownedAssets[j].ModelId.Equals(model.Id))>
-                                        @(model.Name)
-                                    </option>
-                                }
-                            </select>
+                        <div class="listSubItem cloneableListItem">
+                            <div class="inputContainer">
+                                <p class="inputLabel">Serial Number: </p>
+                                <input class="text-box single-line serialNumberInput"
+                                       type="text"
+                                       value="@(ownedAssets[j].SerialNumber)"
+                                       old-value="@(ownedAssets[j].SerialNumber)"
+                                       original-value="@(ownedAssets[j].SerialNumber)">
+                            </div>
+                            <div class="inputContainer">
+                                <p class="inputLabel">Model: </p>
+                                <select class="modelSelector">
+                                    @for (int k = 0; k < Model.AssetModels.Count; k++)
+                                    {
+                                        var model = Model.AssetModels[k];
+                                        <option value="@(model.Name)"
+                                                selected=@(ownedAssets[j].ModelId.Equals(model.Id))>
+                                            @(model.Name)
+                                        </option>
+                                    }
+                                </select>
+                            </div>
                         </div>
                     }
-                    <div class="listItem btnAddListItemContainer">
+                    <div class="listSubItem btnAddListItemContainer btnAddAssetContainer">
                         <button class="btnAddListItem btnAddAsset">Add Asset</button>
                     </div>
                 </div>
@@ -133,26 +135,30 @@
             </div>
             <div class="assetList">
                 <h3 class="assetListTitle">Owned Assets</h3>
-                <div class="inputContainer">
-                    <p class="inputLabel">Serial Number: </p>
-                    <input class="text-box single-line serialNumberInput"
-                           type="text"
-                           value="" />
+                <div class="listSubItem cloneableListItem">
+                    <div class="inputContainer">
+                        <p class="inputLabel">Serial Number: </p>
+                        <input class="text-box single-line serialNumberInput"
+                               type="text"
+                               value="" />
+                    </div>
+                    <div class="inputContainer">
+                        <p class="inputLabel">Model: </p>
+                        <select class="modelSelector">
+                            @for (int k = 0; k < Model.AssetModels.Count; k++)
+                            {
+                                var model = Model.AssetModels[k];
+                                <option value="@(model.Name)"
+                                        selected=@(k <= 0)>
+                                    @(model.Name)
+                                </option>
+                            }
+                        </select>
+                    </div>
                 </div>
-                <div class="inputContainer">
-                    <p class="inputLabel">Model: </p>
-                    <select class="modelSelector">
-                        @for (int k = 0; k < Model.AssetModels.Count; k++)
-                        {
-                            var model = Model.AssetModels[k];
-                            <option value="@(model.Name)"
-                                    selected=@(k <= 0)>
-                                @(model.Name)
-                            </option>
-                        }
-                    </select>
+                <div class="listSubItem btnAddListItemContainer btnAddAssetContainer">
+                    <button class="btnAddListItem btnAddAsset">Add Asset</button>
                 </div>
-
             </div>
         </div>
     }
