@@ -1,5 +1,17 @@
-﻿export default ExpandableInputList = {
-    onInputKeypress: function () {
+﻿{
+    let onInputChange = function onInputChange() {
+        // This event is triggered when the user exits this field or
+        // presses enter AND the value of this element has changed since
+        // the last event call
+        if (!$(this).val() &&
+            $(this).parent().children().last().attr('id') !== $(this).attr('id')) {
+            // If this field is now empty, remove it UNLESS it is the last
+            // input box, which is supposed to be blank by default
+            $(this).remove();
+        }
+    };
+
+    let onInputKeypress = function onInputKeypress() {
         // This event is triggered every time a key is pressed while this field
         // is in focus. This handler is only active for the last input in the list
         if ($(this).parent().children().last().attr('id') === $(this).attr('id')) {
@@ -24,17 +36,11 @@
 
             $(this).parent().append(newInput);
         }
-    },
-    onInputChange: function () {
-        // This event is triggered when the user exits this field or
-        // presses enter AND the value of this element has changed since
-        // the last event call
-        if (!$(this).val() &&
-            $(this).parent().children().last().attr('id') !== $(this).attr('id')) {
-            // If this field is now empty, remove it UNLESS it is the last
-            // input box, which is supposed to be blank by default
-            $(this).remove();
-        }
-    },
-    onInputBlur: ExpandableInputList.onChange
-};
+    };
+
+    export default ExpandableInputList = {
+        onInputKeypress: onInputKeypress,
+        onInputChange: onInputChange,
+        onInputBlur: onInputChange
+    };
+}
