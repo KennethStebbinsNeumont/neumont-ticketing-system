@@ -38,17 +38,40 @@ namespace Neumont_Ticketing_System.Controllers
             return View(assetDefModel);
         }
 
+        // https://stackoverflow.com/questions/21578814/how-to-receive-json-as-an-mvc-5-action-method-parameter
         [HttpPost]
         public IActionResult AssetDef([FromBody] AssetDefReturn returned)
         {
             Console.WriteLine("We're in, boys!");
             return AssetDef();
         }
+
+        private void SaveReturnAssetDefinitions(AssetDefReturn returned)
+        {
+            // Prepare types
+            var currentTypes = _assetDatabaseService.GetTypes();
+        }
+    }
+
+    public class AssetDefReturnType
+    {
+        public string Name { get; set; }
+        public string OriginalName { get; set; }
+        public string Description { get; set; }
+    }
+
+    public class AssetDefReturnManufacturer
+    {
+        public string Name { get; set; }
+        public string OriginalName { get; set; }
+        public List<string> EmailAddresses { get; set; }
+        public List<string> PhoneNumbers { get; set; }
     }
 
     public class AssetDefReturnModel
     {
         public string Name { get; set; }
+        public string OriginalName { get; set; }
         public string ModelNumber { get; set; }
         public string TypeName { get; set; }
         public string ManufacturerName { get; set; }
@@ -56,8 +79,8 @@ namespace Neumont_Ticketing_System.Controllers
 
     public class AssetDefReturn
     {
-        public List<AssetType> types { get; set; }
-        public List<AssetManufacturer> manufacturers { get; set; }
+        public List<AssetDefReturnType> types { get; set; }
+        public List<AssetDefReturnManufacturer> manufacturers { get; set; }
         public List<AssetDefReturnModel> models { get; set; }
     }
 }

@@ -24,13 +24,14 @@
                 <div class="inputContainer">
                     <p class="inputLabel">Name: </p>
                     <input class="text-box single-line nameInput" id=@($"type{i}_Name")
-                           name=@($"type{i}_Name") type="text" value="@(type.Name)" old-value="@(type.Name)" />
+                           name=@($"type{i}_Name") type="text" value="@(type.Name)" old-value="@(type.Name)" 
+                           original-value="@(type.Name)"/>
                 </div>
                 <div class="inputContainer">
                     <p class="inputLabel">Description: </p>
                     <input class="text-box single-line descriptionInput" id=@($"type{i}_Description")
                            name=@($"type{i}_Description") type="text" value="@(type.Description)" 
-                           old-value="@(type.Description)">
+                           old-value="@(type.Description)"/>
                 </div>
             </div>
         }
@@ -67,7 +68,7 @@
                     <p class="inputLabel">Name: </p>
                     <input class="text-box single-line nameInput" id=@($"mfr{i}_Name") 
                            name=@($"mfr{i}_Name") type="text" value="@(mfr.Name)"
-                           old-value="@(mfr.Name)">
+                           old-value="@(mfr.Name)" original-value="@(mfr.Name)">
                 </div>
                 <div class="inputContainer phoneNumberContainer" id=@($"mfr{i}_PhoneNumbers")>
                     <p class="inputLabel">Phone Numbers: </p>
@@ -150,7 +151,7 @@
                     <p class="inputLabel">Name: </p>
                     <input class="text-box single-line nameInput" id=@($"mdl{i}_Name")
                            name=@($"mdl{i}_Name") type="text" value="@(mdl.Name)"
-                           old-value="@(mdl.Name)">
+                           old-value="@(mdl.Name)" original-value="@(mdl.Name)">
                 </div>
                 <div class="inputContainer">
                     <p class="inputLabel">Model Number: </p>

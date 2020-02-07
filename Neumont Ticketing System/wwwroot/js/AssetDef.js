@@ -120,6 +120,7 @@ const jsonifyInputs = function () {
             // Skip inputs with empty name fields
             result.types.push({
                 "Name": nameInput.val(),
+                "OriginalName": nameInput.attr('original-value'),
                 "Description": descriptionInput.val()
             });
         }
@@ -146,6 +147,7 @@ const jsonifyInputs = function () {
 
             result.manufacturers.push({
                 "Name": nameInput.val(),
+                "OriginalName": nameInput.attr('original-value'),
                 "EmailAddresses": emailAddresses,
                 "PhoneNumbers": phoneNumbers
             });
@@ -163,6 +165,7 @@ const jsonifyInputs = function () {
 
             result.models.push({
                 "Name": nameInput.val(),
+                "OriginalName":nameInput.attr('original-value'),
                 "ModelNumber": modelNumberInput.val(),
                 "TypeName": typeSelector.val(),
                 "ManufacturerName": mfrSelector.val()
