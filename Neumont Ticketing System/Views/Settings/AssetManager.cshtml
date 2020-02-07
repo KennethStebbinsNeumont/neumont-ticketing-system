@@ -1,0 +1,157 @@
+﻿@model Neumont_Ticketing_System.Views.Settings.AssetManagerModel
+@using Neumont_Ticketing_System.Models.Assets
+@{
+    ViewData["Title"] = "AssetManager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>AssetManager</h1>
+
+<div class="list" id="ownerList">
+    <h2 class="listTitle">Owners</h2>
+    <div class="listItem btnAddListItemContainer">
+        <button class="btnAddListItem" id="btnNewModel">Add Owner</button>
+    </div>
+    @if (Model.Owners.Count > 0)
+    {
+
+        @for (int i = 0; i < Model.Owners.Count; i++)
+        {
+            var owner = Model.Owners[i];
+            <div class="listItem ownerContainer">
+                <div class="inputContainer">
+                    <p class="inputLabel">Owner's Name: </p>
+                    <input class="text-box single-line nameInput" id=@($"owner{i}_Name")
+                           name=@($"owner{i}_Name") type="text" value="@(owner.Name)"
+                           old-value="@(owner.Name)" original-value="@(owner.Name)">
+                </div>
+                <div class="inputContainer">
+                    <p class="inputLabel">Owner's preferred name: </p>
+                    <input class="text-box single-line preferredNameInput" id=@($"owner{i}_PreferredName")
+                           name=@($"owner{i}_PreferredName") type="text" value="@(owner.PreferredName)"
+                           old-value="@(owner.PreferredName)">
+                </div>
+                <div class="inputContainer phoneNumberContainer" id=@($"owner{i}_PhoneNumbers")>
+                    <p class="inputLabel">Phone Numbers: </p>
+                    @for (int j = 0; j <= owner.PhoneNumbers.Count; j++)
+                    {
+                        if (j >= owner.PhoneNumbers.Count)
+                        {
+                            <input class="text-box single-line expandableListInput phoneNumberInput"
+                                   id=@($"owner{i}_PhoneNumbers_{j}")
+                                   name="@($"owner{i}.PhoneNumbers[{j}]")" type="tel" />
+                        }
+                        else
+                        {
+                            <input class="text-box single-line expandableListInput phoneNumberInput"
+                                   id=@($"owner{i}_PhoneNumbers_{j}")
+                                   name="@($"owner{i}_PhoneNumbers_{j}")" type="tel"
+                                   value="@(owner.PhoneNumbers[j])" />
+                        }
+                    }
+                </div>
+                <div class="inputContainer emailAddressContainer" id=@($"owner{i}_EmailAddresses")>
+                    <p class="inputLabel">Email addresses: </p>
+                    @for (int j = 0; j <= owner.EmailAddresses.Count; j++)
+                    {
+                        if (j >= owner.EmailAddresses.Count)
+                        {
+                            <input class="text-box single-line expandableListInput emailAddressInput"
+                                   id=@($"owner{i}_EmailAddresses_{j}")
+                                   name=@($"owner{i}_EmailAddresses_{j}") type="email" />
+                        }
+                        else
+                        {
+                            <input class="text-box single-line expandableListInput emailAddressInput"
+                                   id=@($"owner{i}_EmailAddresses_{j}")
+                                   name=@($"owner{i}_EmailAddresses_{j}") type="email"
+                                   value="@(owner.EmailAddresses[j])" />
+                        }
+                    }
+                </div>
+                <div class="assetList">
+                    <h3 class="assetListTitle">Owned Assets</h3>
+                    @{List<Asset> ownedAssets = owner.GetOwnedAssets(Model.Assets);}
+                    @for (int j = 0; j <= ownedAssets.Count; j++)
+                    {
+                        <div class="inputContainer">
+                            <p class="inputLabel">Serial Number: </p>
+                            <input class="text-box single-line serialNumberInput"
+                                   id=@($"owner{i}_Asset_{j}_SerialNumber")
+                                   name=@($"owner{i}_Asset_{j}_SerialNumber") type="text"
+                                   value="@(ownedAssets[j].SerialNumber)"
+                                   old-value="@(ownedAssets[j].SerialNumber)"
+                                   original-value="@(ownedAssets[j].SerialNumber)">
+                        </div>
+                        <div class="inputContainer">
+                            <p class="inputLabel">Model: </p>
+                            <select class="modelSelector" name=@($"owner{i}_Asset_{j}_Model")
+                                    id=@($"owner{i}_Asset_{j}_Model")>
+                                @for (int k = 0; k < Model.AssetModels.Count; k++)
+                                {
+                                    var model = Model.AssetModels[k];
+                                    <option value="@(model.Name)"
+                                            selected=@(ownedAssets[j].ModelId.Equals(model.Id))>
+                                        @(model.Name)
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    }
+                </div>
+
+            </div>
+        }
+    }
+    else
+    { @* Blank model inserted when no owners are defined *@
+        <div class="listItem ownerContainer">
+            <div class="inputContainer">
+                <p class="inputLabel">Owner's Name: </p>
+                <input class="text-box single-line nameInput" id=@($"owner0_Name")
+                       name=@($"owner0_Name") type="text" value="">
+            </div>
+            <div class="inputContainer">
+                <p class="inputLabel">Owner's preferred name: </p>
+                <input class="text-box single-line preferredNameInput" id=@($"owner0_PreferredName")
+                       name=@($"owner0_PreferredName") type="text" value="">
+            </div>
+            <div class="inputContainer phoneNumberContainer" id=@($"owner0_PhoneNumbers")>
+                <p class="inputLabel">Phone Numbers: </p>
+                <input class="text-box single-line expandableListInput phoneNumberInput"
+                    id=@($"owner0_PhoneNumbers_0")
+                    name="@($"owner0_PhoneNumbers_0")" type="tel" />
+            </div>
+            <div class="inputContainer emailAddressContainer" id=@($"owner0_EmailAddresses")>
+                <p class="inputLabel">Email addresses: </p>
+                <input class="text-box single-line expandableListInput emailAddressInput"
+                       id=@($"owner0_EmailAddresses_0")
+                       name=@($"owner0_EmailAddresses_0") type="email" />
+            </div>
+            <div class="assetList">
+                <h3 class="assetListTitle">Owned Assets</h3>
+                <div class="inputContainer">
+                    <p class="inputLabel">Serial Number: </p>
+                    <input class="text-box single-line serialNumberInput"
+                           id=@($"owner0_Asset_0_SerialNumber")
+                           name=@($"owner0_Asset_0_SerialNumber") type="text"
+                           value="" />
+                </div>
+                <div class="inputContainer">
+                    <p class="inputLabel">Model: </p>
+                    <select class="modelSelector" name=@($"owner0_Asset_0_Model")
+                            id=@($"owner0_Asset_0_Model")>
+                        @for (int k = 0; k < Model.AssetModels.Count; k++)
+                        {
+                            var model = Model.AssetModels[k];
+                            <option value="@(model.Name)"
+                                    selected=@(k <= 0)>
+                                @(model.Name)
+                            </option>
+                        }
+                    </select>
+                </div>
+
+            </div>
+    }
+</div>
