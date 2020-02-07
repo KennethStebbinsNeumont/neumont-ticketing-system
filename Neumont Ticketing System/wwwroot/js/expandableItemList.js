@@ -34,7 +34,7 @@
             if (insertAction) {
                 insertAction($(clone));
             } else {
-                if (list.children().last() === btnContainer)
+                if (list.children().last().index() === btnContainer.index())
                     $(clone).insertBefore(btnContainer);
                 else
                     list.append($(clone));
