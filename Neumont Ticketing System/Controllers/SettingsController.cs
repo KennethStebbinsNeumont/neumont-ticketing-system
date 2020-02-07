@@ -39,7 +39,7 @@ namespace Neumont_Ticketing_System.Controllers
         }
 
         [HttpPost]
-        public IActionResult AssetDef(AssetDefReturn returned)
+        public IActionResult AssetDef([FromBody] AssetDefReturn returned)
         {
             Console.WriteLine("We're in, boys!");
             return AssetDef();
