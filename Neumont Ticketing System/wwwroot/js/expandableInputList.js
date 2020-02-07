@@ -10,6 +10,8 @@
     }
 };
 
+let onInputBlur = onInputChange;
+
 let onInputKeypress = function onInputKeypress() {
     // This event is triggered every time a key is pressed while this field
     // is in focus. This handler is only active for the last input in the list
@@ -29,9 +31,9 @@ let onInputKeypress = function onInputKeypress() {
         newInput.attr('id', `${inputParent}${parentIndex}_${attributeName}_${newIndex}`);
         newInput.attr('name', `${inputParent}${parentIndex}.${attributeName}[${newIndex}]`);
 
-        $(newInput).change(expandableListOnChange);
-        $(newInput).blur(expandableListOnChange);
-        $(newInput).keypress(expandableListOnKeypress);
+        $(newInput).change(onInputChange);
+        $(newInput).blur(onInputBlur);
+        $(newInput).keypress(onInputKeypress);
 
         $(this).parent().append(newInput);
     }
@@ -40,5 +42,5 @@ let onInputKeypress = function onInputKeypress() {
 const ExpandableInputList = {
     onInputKeypress: onInputKeypress,
     onInputChange: onInputChange,
-    onInputBlur: onInputChange
+    onInputBlur: onInputBlur
 };
