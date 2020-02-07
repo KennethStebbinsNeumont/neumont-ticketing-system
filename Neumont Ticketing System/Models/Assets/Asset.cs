@@ -16,11 +16,13 @@ namespace Neumont_Ticketing_System.Models.Assets
 
         public string SerialNumber { get; set; }
 
+        [BsonElement("Model")]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Model { get; set; }
+        public string ModelId { get; set; }
 
+        [BsonElement("Owner")]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Owner { get; set; }
+        public string OwnerId { get; set; }
 
         public bool Equals([AllowNull] Asset other)
         {
