@@ -7,7 +7,7 @@
             let btnContainer = $(this).parent();
             let list = btnContainer.parent();
             // Gets the first list item in the button's containing list to use as a template
-            let template = list.children('.listItem').first();
+            let template = list.children('.cloneableListItem').first();
 
             // Insert a clone of the template into the list, right before the button's container
             let clone = $(template.clone());
