@@ -15,18 +15,30 @@ namespace Neumont_Ticketing_System.Controllers
         private readonly ILogger<SettingsController> _logger;
 
         private readonly AssetsDatabaseService _assetDatabaseService;
+        private readonly OwnersDatabaseService _ownersDatabaseService;
 
         public SettingsController(ILogger<SettingsController> logger,
-            AssetsDatabaseService assetsDatabaseService)
+            AssetsDatabaseService assetsDatabaseService,
+            OwnersDatabaseService ownersDatabaseService)
         {
             _logger = logger;
 
             _assetDatabaseService = assetsDatabaseService;
+            _ownersDatabaseService = ownersDatabaseService;
         }
 
         public IActionResult Index()
         {
             return View();
+        }
+
+        public IActionResult AssetManager()
+        {
+            var model = new AssetManagerModel(_assetDatabaseService.GetModels().ToList(),
+                _assetDatabaseService.GetAssets().ToList(),
+                _ownersDatabaseService.GetOwners().ToList());
+
+            return View(model);
         }
 
         public IActionResult AssetDefinitions()
