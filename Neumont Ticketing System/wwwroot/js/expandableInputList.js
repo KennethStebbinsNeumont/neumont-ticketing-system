@@ -1,8 +1,4 @@
-﻿const ExpandableInputList = {
-    onInputKeypress: undefined,
-    onInputChange: undefined,
-    onInputBlur: undefined
-};
+﻿const ExpandableInputList = {};
 
 {
     let onInputChange = function onInputChange() {
@@ -46,9 +42,7 @@
         }
     };
 
-    ExpandableInputList = {
-        onInputKeypress: onInputKeypress,
-        onInputChange: onInputChange,
-        onInputBlur: onInputBlur
-    };
+    ExpandableInputList.onInputKeypress = onInputKeypress;
+    ExpandableInputList.onInputChange = onInputChange;
+    ExpandableInputList.onInputBlur = onInputBlur;
 }
