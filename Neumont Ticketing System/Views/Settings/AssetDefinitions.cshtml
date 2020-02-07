@@ -7,6 +7,9 @@
 @section Scripts
 {
     <script src="~/js/AssetDefinitions.js" type="module"></script>
+    <script src="~/js/commonUtilities.js" type="module"></script>
+    <script src="~/js/expandableInputList.js" type="module"></script>
+    <script src="~/js/expandableItemList.js" type="module"></script>
 }
 
 <link href="~/css/AssetDefinitions.css" rel="stylesheet" type="text/css" />
@@ -24,14 +27,14 @@
                 <div class="inputContainer">
                     <p class="inputLabel">Name: </p>
                     <input class="text-box single-line nameInput" id=@($"type{i}_Name")
-                           name=@($"type{i}_Name") type="text" value="@(type.Name)" old-value="@(type.Name)" 
-                           original-value="@(type.Name)"/>
+                           name=@($"type{i}_Name") type="text" value="@(type.Name)" old-value="@(type.Name)"
+                           original-value="@(type.Name)" />
                 </div>
                 <div class="inputContainer">
                     <p class="inputLabel">Description: </p>
                     <input class="text-box single-line descriptionInput" id=@($"type{i}_Description")
-                           name=@($"type{i}_Description") type="text" value="@(type.Description)" 
-                           old-value="@(type.Description)"/>
+                           name=@($"type{i}_Description") type="text" value="@(type.Description)"
+                           old-value="@(type.Description)" />
                 </div>
             </div>
         }
@@ -66,7 +69,7 @@
             <div class="listItem manufacturerContainer">
                 <div class="inputContainer">
                     <p class="inputLabel">Name: </p>
-                    <input class="text-box single-line nameInput" id=@($"mfr{i}_Name") 
+                    <input class="text-box single-line nameInput" id=@($"mfr{i}_Name")
                            name=@($"mfr{i}_Name") type="text" value="@(mfr.Name)"
                            old-value="@(mfr.Name)" original-value="@(mfr.Name)">
                 </div>
@@ -113,26 +116,26 @@
     }
     else
     { @* Blank model inserted when no manufacturers are defined *@
-        <div class="listItem manufacturerContainer">
-            <div class="inputContainer">
-                <p class="inputLabel">Name: </p>
-                <input class="text-box single-line" id="mfr0_Name" name="mfr0_Name"
-                       type="text" />
-            </div>
-            <div class="inputContainer phoneNumberContainer" id=@($"mfr0_PhoneNumbers")>
-                <p class="inputLabel">Phone Numbers: </p>
-                <input class="text-box single-line expandableListInput phoneNumberInput"
-                       id=@($"mfr0_PhoneNumbers_0")
-                       name=@($"mfr0_PhoneNumbers_0") type="tel" />
-            </div>
-            <div class="inputContainer emailAddressContainer" id=@($"mfr0_EmailAddresses")>
-                <p class="inputLabel">Email addresses: </p>
-                <input class="text-box single-line expandableListInput emailAddressInput"
-                       id=@($"mfr0_EmailAddresses_0")
-                       name=@($"mfr0_EmailAddresses_0") type="email" />
-            </div>
+    <div class="listItem manufacturerContainer">
+        <div class="inputContainer">
+            <p class="inputLabel">Name: </p>
+            <input class="text-box single-line" id="mfr0_Name" name="mfr0_Name"
+                   type="text" />
         </div>
-    }
+        <div class="inputContainer phoneNumberContainer" id=@($"mfr0_PhoneNumbers")>
+            <p class="inputLabel">Phone Numbers: </p>
+            <input class="text-box single-line expandableListInput phoneNumberInput"
+                   id=@($"mfr0_PhoneNumbers_0")
+                   name=@($"mfr0_PhoneNumbers_0") type="tel" />
+        </div>
+        <div class="inputContainer emailAddressContainer" id=@($"mfr0_EmailAddresses")>
+            <p class="inputLabel">Email addresses: </p>
+            <input class="text-box single-line expandableListInput emailAddressInput"
+                   id=@($"mfr0_EmailAddresses_0")
+                   name=@($"mfr0_EmailAddresses_0") type="email" />
+        </div>
+    </div>
+}
     <div class="listItem btnAddListItemContainer">
         <button class="btnAddListItem" id="btnNewManufacturer">Add Manufacturer</button>
     </div>
@@ -166,7 +169,9 @@
                         {
                             var type = Model.AssetTypes[j];
                             <option value="@(type.Name)"
-                                    selected=@(mdl.TypeId.Equals(type.Id))>@(type.Name)</option>
+                                    selected=@(mdl.TypeId.Equals(type.Id))>
+                                @(type.Name)
+                            </option>
                         }
                     </select>
                 </div>
@@ -176,8 +181,10 @@
                         @for (int j = 0; j < Model.AssetManufacturers.Count; j++)
                         {
                             var mfr = Model.AssetManufacturers[j];
-                            <option value="@(mfr.Name)" 
-                                    selected="@(mfr.Id.Equals(mdl.ManufacturerId))">@(mfr.Name)</option>
+                            <option value="@(mfr.Name)"
+                                    selected="@(mfr.Id.Equals(mdl.ManufacturerId))">
+                                @(mfr.Name)
+                            </option>
                         }
                     </select>
                 </div>
@@ -186,39 +193,39 @@
     }
     else
     { @* Blank model inserted when no models are defined *@
-        <div class="listItem modelContainer">
-            <div class="inputContainer">
-                <p class="inputLabel">Name: </p>
-                <input class="text-box single-line nameInput" id="mdl0_Name" name="mdl0_Name"
-                       type="text" />
-            </div>
-            <div class="inputContainer">
-                <p class="inputLabel">Model Number: </p>
-                <input class="text-box single-line" id="mdl0_ModelNumber" name="mdl0_ModelNumber"
-                       type="text" />
-            </div>
-            <div class="inputContainer">
-                <p class="inputLabel">Type: </p>
-                <select class="typeSelector" name=@($"mdl0_Type") id=@($"mdl0_Type")>
-                    @for (int j = 0; j < Model.AssetTypes.Count; j++)
-                    {
-                        var type = Model.AssetTypes[j];
-                        <option value="@(type.Name)">@(type.Name)</option>
-                    }
-                </select>
-            </div>
-            <div class="inputContainer">
-                <p class="inputLabel">Manufacturer: </p>
-                <select class="manufacturerSelector" name=@($"mdl0_Manufacturer") id=@($"mdl0_Manufacturer")>
-                    @for (int j = 0; j < Model.AssetManufacturers.Count; j++)
-                    {
-                        var mfr = Model.AssetManufacturers[j];
-                        <option value="@(mfr.Name)">@(mfr.Name)</option>
-                    }
-                </select>
-            </div>
+    <div class="listItem modelContainer">
+        <div class="inputContainer">
+            <p class="inputLabel">Name: </p>
+            <input class="text-box single-line nameInput" id="mdl0_Name" name="mdl0_Name"
+                   type="text" />
         </div>
-    }
+        <div class="inputContainer">
+            <p class="inputLabel">Model Number: </p>
+            <input class="text-box single-line" id="mdl0_ModelNumber" name="mdl0_ModelNumber"
+                   type="text" />
+        </div>
+        <div class="inputContainer">
+            <p class="inputLabel">Type: </p>
+            <select class="typeSelector" name=@($"mdl0_Type") id=@($"mdl0_Type")>
+                @for (int j = 0; j < Model.AssetTypes.Count; j++)
+                {
+                    var type = Model.AssetTypes[j];
+                    <option value="@(type.Name)">@(type.Name)</option>
+                }
+            </select>
+        </div>
+        <div class="inputContainer">
+            <p class="inputLabel">Manufacturer: </p>
+            <select class="manufacturerSelector" name=@($"mdl0_Manufacturer") id=@($"mdl0_Manufacturer")>
+                @for (int j = 0; j < Model.AssetManufacturers.Count; j++)
+                {
+                    var mfr = Model.AssetManufacturers[j];
+                    <option value="@(mfr.Name)">@(mfr.Name)</option>
+                }
+            </select>
+        </div>
+    </div>
+}
     <div class="listItem btnAddListItemContainer">
         <button class="btnAddListItem" id="btnNewModel">Add Model</button>
     </div>
