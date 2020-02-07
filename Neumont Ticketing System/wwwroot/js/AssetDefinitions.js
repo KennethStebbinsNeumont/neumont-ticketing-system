@@ -93,36 +93,36 @@
     });
 
     typesList.find('.btnAddListItem').click(ExpandableItemList.getBtnAddListItemHandler(function (clone) {
-        let nameInput = $(clone).find('.nameInput');
+        let nameInput = clone.find('.nameInput');
         nameInput.change(getUpdateSelectorsOnNameInputChangeHandler(typesList, () => $('.typeSelector')));
         nameInput.blur(getUpdateSelectorsOnNameInputChangeHandler(typesList, () => $('.typeSelector')));
     }));
     mfrsList.find('.btnAddListItem').click(ExpandableItemList.getBtnAddListItemHandler(function (clone) {
-        let nameInput = $(clone).find('.nameInput');
+        let nameInput = clone.find('.nameInput');
         nameInput.change(getUpdateSelectorsOnNameInputChangeHandler(mfrsList, () => $('.manufacturerSelector')));
         nameInput.blur(getUpdateSelectorsOnNameInputChangeHandler(mfrsList, () => $('.manufacturerSelector')));
 
-        let phoneInput = $(clone).find('.phoneNumberInput');
+        let phoneInput = clone.find('.phoneNumberInput');
         // Remove excessive input fields
         if (phoneInput.length > 1) {
             phoneInput.each(function (i, e) {
                 if (i > 0)
                     $(e).remove();
             });
-            phoneInput = $(clone).find('.phoneNumberInput');
+            phoneInput = clone.find('.phoneNumberInput');
         }
         phoneInput.change(ExpandableInputList.onInputChange);
         phoneInput.blur(ExpandableInputList.onInputBlur);
         phoneInput.keypress(ExpandableInputList.onInputKeypress);
 
-        let emailInput = $(clone).find('.emailAddressInput');
+        let emailInput = clone.find('.emailAddressInput');
         // Remove excessive input fields
         if (emailInput.length > 1) {
             emailInput.each(function (i, e) {
                 if (i > 0)
                     $(e).remove();
             });
-            emailInput = $(clone).find('.emailAddressInput');
+            emailInput = clone.find('.emailAddressInput');
         }
         emailInput.change(ExpandableInputList.onInputChange);
         emailInput.blur(ExpandableInputList.onInputBlur);

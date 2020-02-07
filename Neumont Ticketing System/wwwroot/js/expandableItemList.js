@@ -1,8 +1,13 @@
 ﻿const ExpandableItemList = {
     // Does some cloning work to clone the first item in the list and add it to the
     // end, before the button. Afterwards, it calls the function in afterCloneAction, if it
-    // exists, with the new list item as the only parameter
-    getBtnAddListItemHandler: function (afterCloneAction) {
+    // exists, with the jquery-wrapped new list item as the only parameter.
+    // If an insertAction is provided, it is called after everything with the jquery-wrapped
+    // new list item. If no insertAction is provided, this method will insert the
+    // new list item at the end of the list (or, if the button that triggered this action
+    // is the last item in the list, the new list item will be inserted immediately
+    // before it).
+    getBtnAddListItemHandler: function (afterCloneAction, insertAction) {
         return function () {
             let btnContainer = $(this).parent();
             let list = btnContainer.parent();
@@ -24,12 +29,16 @@
             });
 
             if (afterCloneAction)
-                afterCloneAction(clone);
+                afterCloneAction($(clone));
 
-            if (list.children().last() === btnContainer)
-                $(clone).insertBefore(btnContainer);
-            else
-                list.append(clone);
+            if (insertAction) {
+                insertAction($(clone));
+            } else {
+                if (list.children().last() === btnContainer)
+                    $(clone).insertBefore(btnContainer);
+                else
+                    list.append($(clone));
+            }
         }
     }
 };
