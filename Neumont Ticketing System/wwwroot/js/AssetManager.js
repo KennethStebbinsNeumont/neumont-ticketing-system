@@ -19,7 +19,7 @@
     });
 
     let ownerList = $('#ownerList');
-    ownerList.find('#btnNewOwner').click(ExpandableItemList.getBtnAddListItemHandler(
+    ownerList.find('.btnNewOwner').click(ExpandableItemList.getBtnAddListItemHandler(
         function (clone) {
             let phoneInput = clone.find('.phoneNumberInput');
             // Remove excessive input fields
