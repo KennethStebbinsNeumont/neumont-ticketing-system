@@ -1,6 +1,6 @@
-﻿import ExpandableInputList from './expandableInputList';
-import { getOnNameChange } from './commonUtilities';
-import ExpandableItemList from './expandableItemList';
+﻿import ExpandableInputList from '~/js/expandableInputList';
+import { getOnNameChange } from '~/js/commonUtilities';
+import ExpandableItemList from '~/js/expandableItemList';
 
 $(document).ready(() => {
     const jsonifyInputs = function () {
