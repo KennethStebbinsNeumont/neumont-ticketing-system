@@ -242,7 +242,7 @@ $(document).ready(() => {
     $('#submit').click(function () {
         $.ajax({
             type: "POST",
-            url: "/Settings/AssetDef",
+            url: "/Settings/AssetDefinitions",
             data: JSON.stringify(jsonifyInputs()),
             contentType: "application/json",
             dataType: "json",

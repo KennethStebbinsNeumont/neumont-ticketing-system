@@ -29,9 +29,9 @@ namespace Neumont_Ticketing_System.Controllers
             return View();
         }
 
-        public IActionResult AssetDef()
+        public IActionResult AssetDefinitions()
         {
-            var assetDefModel = new AssetDefModel(_assetDatabaseService.GetTypes().ToList(),
+            var assetDefModel = new AssetDefinitionsModel(_assetDatabaseService.GetTypes().ToList(),
                 _assetDatabaseService.GetManufacturers().ToList(),
                 _assetDatabaseService.GetModels().ToList());
 
@@ -40,7 +40,7 @@ namespace Neumont_Ticketing_System.Controllers
 
         // https://stackoverflow.com/questions/21578814/how-to-receive-json-as-an-mvc-5-action-method-parameter
         [HttpPost]
-        public JsonResult AssetDef([FromBody] AssetDefReturn returned)
+        public JsonResult AssetDefinitions([FromBody] AssetDefReturn returned)
         {
             Console.WriteLine("We're in, boys!");
             try

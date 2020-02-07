@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace Neumont_Ticketing_System.Views.Settings
 {
-    public class AssetDefModel : PageModel
+    public class AssetDefinitionsModel : PageModel
     {
         public List<AssetType> AssetTypes { get; private set; }
         public List<AssetManufacturer> AssetManufacturers { get; private set; }
         public List<AssetModel> AssetModels { get; private set; }
 
-        public AssetDefModel(List<AssetType> assetTypes,
+        public AssetDefinitionsModel(List<AssetType> assetTypes,
             List<AssetManufacturer> assetManufacturers,
             List<AssetModel> assetModels)
         {
