@@ -146,8 +146,8 @@ namespace Neumont_Ticketing_System.Controllers
             {
                 _assetDatabaseService.CreateType(type);
             }
-            // Remove all types that don't exist in the updatedTypes list, based on Name
-            _assetDatabaseService.RemoveTypes(type => updatedTypes.Find(t => t.Name.Equals(type.Name)) == null);
+            // Remove all types that should no longer exist (weren't referenced in return data)
+            _assetDatabaseService.RemoveTypes(type => !typeNames.Contains(type.Name));
             // Update currentTypes with the most recent records
             currentTypes = _assetDatabaseService.GetTypes();
 
@@ -160,15 +160,15 @@ namespace Neumont_Ticketing_System.Controllers
             {
                 _assetDatabaseService.CreateManufacturer(mfr);
             }
-            // Remove all mfrs that don't exist in the updatedMfrs list, based on Name
-            _assetDatabaseService.RemoveManufacturers(mfr => 
-                updatedMfrs.Find(m => m.Name.Equals(mfr.Name)) == null);
+            // Remove all manufacturers that should no longer exist (weren't referenced in return data)
+            _assetDatabaseService.RemoveManufacturers(mfr => !mfrNames.Contains(mfr.Name));
             // Update currentMfrs with the most recent records
             currentMfrs = _assetDatabaseService.GetManufacturers();
 
             // Prepare models
             List<AssetModel> currentModels = _assetDatabaseService.GetModels();
             List<AssetModel> updatedModels = new List<AssetModel>();
+            List<string> modelNames = new List<string>();
             List<AssetModel> newModels = new List<AssetModel>();
             AssetModel matchedModel = null;
             foreach (var model in returned.models)
@@ -193,6 +193,7 @@ namespace Neumont_Ticketing_System.Controllers
                     matchedModel.TypeId = matchedType.Id;
                     matchedModel.ManufacturerId = matchedMfr.Id;
                     updatedModels.Add(matchedModel);
+                    modelNames.Add(model.Name);
                 }
                 else
                 {
@@ -203,6 +204,7 @@ namespace Neumont_Ticketing_System.Controllers
                         TypeId = matchedType.Id,
                         ManufacturerId = matchedMfr.Id
                     });
+                    modelNames.Add(model.Name);
                 }
             }
 
@@ -215,6 +217,7 @@ namespace Neumont_Ticketing_System.Controllers
             {
                 _assetDatabaseService.CreateModel(model);
             }
+            _assetDatabaseService.RemoveModels(model => !modelNames.Contains(model.Name));
         }
     }
 
