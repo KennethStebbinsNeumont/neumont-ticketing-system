@@ -130,8 +130,8 @@ const jsonifyInputs = function () {
         let nameInput = ele.find('.nameInput');
 
         if (nameInput.val()) {
-            let phoneInputs = ele.find('.phoneNumberContainer');
-            let emailInputs = ele.find('.emailAddressContainer');
+            let phoneInputs = ele.find('.phoneNumberInput');
+            let emailInputs = ele.find('.emailAddressInput');
 
             let phoneNumbers = [];
             phoneInputs.each(function (j, input) {
