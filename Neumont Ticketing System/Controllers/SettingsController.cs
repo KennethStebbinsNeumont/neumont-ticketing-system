@@ -40,16 +40,181 @@ namespace Neumont_Ticketing_System.Controllers
 
         // https://stackoverflow.com/questions/21578814/how-to-receive-json-as-an-mvc-5-action-method-parameter
         [HttpPost]
-        public IActionResult AssetDef([FromBody] AssetDefReturn returned)
+        public JsonResult AssetDef([FromBody] AssetDefReturn returned)
         {
             Console.WriteLine("We're in, boys!");
-            return AssetDef();
+            try
+            {
+                SaveReturnAssetDefinitions(returned);
+                return new JsonResult(new
+                {
+                    Successful = true,
+                    Message = "Database successfully updated"
+                });
+            } catch(ArgumentException e)
+            {
+                _logger.LogError(e, "Argument exception when attempting to save asset definitions to database.");
+                return new JsonResult(new
+                {
+                    Successful = true,
+                    Message = $"Input error: {e.Message}"
+                });
+            } catch(Exception e)
+            {
+                _logger.LogError(e, "Unexpected error while attemping to save asset definitions to database.");
+                return new JsonResult(new
+                {
+                    Successful = true,
+                    Message = $"Unexpected error: {e.ToString()}"
+                });
+            }
         }
 
         private void SaveReturnAssetDefinitions(AssetDefReturn returned)
         {
+            // Verify that the models defined in the returned data only use types and
+            // manufacturers that will exist after the database is updated
+            List<string> typeNames = new List<string>();
+            returned.types.ForEach(type => typeNames.Add(type.Name));
+            List<string> mfrNames = new List<string>();
+            returned.manufacturers.ForEach(mfr => mfrNames.Add(mfr.Name));
+            foreach (var model in returned.models)
+            {
+                if (!typeNames.Contains(model.TypeName))
+                    throw new ArgumentException($"Model definition with name \"{model.Name}\" references an " +
+                        $"unknown asset type: \"{model.TypeName}\"");
+
+                if (!mfrNames.Contains(model.ManufacturerName))
+                    throw new ArgumentException($"Model definition with name \"{model.Name}\" references an " +
+                        $"unknown asset manufacturer: \"{model.ManufacturerName}\"");
+            }
+
             // Prepare types
-            var currentTypes = _assetDatabaseService.GetTypes();
+            List<AssetType> currentTypes = _assetDatabaseService.GetTypes();
+            List<AssetType> updatedTypes = new List<AssetType>();
+            List<AssetType> newTypes = new List<AssetType>();
+            AssetType matchedType = null;
+            foreach(var type in returned.types)
+            {
+                if(type.OriginalName != null && !type.OriginalName.Equals(""))
+                {
+                    matchedType = currentTypes.Find(t => t.Name.Equals(type.OriginalName));
+                    matchedType.Name = type.Name;
+                    matchedType.Description = type.Description;
+                    updatedTypes.Add(matchedType);
+                } else
+                {
+                    newTypes.Add(new AssetType
+                    {
+                        Name = type.Name,
+                        Description = type.Description
+                    });
+                }
+            }
+
+            // Prepare manufacturers
+            List<AssetManufacturer> currentMfrs = _assetDatabaseService.GetManufacturers();
+            List<AssetManufacturer> updatedMfrs = new List<AssetManufacturer>();
+            List<AssetManufacturer> newMfrs = new List<AssetManufacturer>();
+            AssetManufacturer matchedMfr = null;
+            foreach (var mfr in returned.manufacturers)
+            {
+                if (mfr.OriginalName != null && !mfr.OriginalName.Equals(""))
+                {
+                    matchedMfr = currentMfrs.Find(m => m.Name.Equals(mfr.OriginalName));
+                    matchedMfr.Name = mfr.Name;
+                    matchedMfr.EmailAddresses = mfr.EmailAddresses;
+                    matchedMfr.PhoneNumbers = mfr.PhoneNumbers;
+                    updatedMfrs.Add(matchedMfr);
+                } else
+                {
+                    newMfrs.Add(new AssetManufacturer
+                    {
+                        Name = mfr.Name,
+                        EmailAddresses = mfr.EmailAddresses,
+                        PhoneNumbers = mfr.PhoneNumbers
+                    });
+                }
+            }
+
+            // Save types
+            foreach (var type in updatedTypes)
+            {
+                _assetDatabaseService.UpdateType(type);
+            }
+            foreach (var type in newTypes)
+            {
+                _assetDatabaseService.CreateType(type);
+            }
+            // Remove all types that don't exist in the updatedTypes list, based on Name
+            _assetDatabaseService.RemoveTypes(type => updatedTypes.Find(t => t.Name.Equals(type.Name)) == null);
+            // Update currentTypes with the most recent records
+            currentTypes = _assetDatabaseService.GetTypes();
+
+            // Save manufacturers
+            foreach (var mfr in updatedMfrs)
+            {
+                _assetDatabaseService.UpdateManufacturer(mfr);
+            }
+            foreach (var mfr in newMfrs)
+            {
+                _assetDatabaseService.CreateManufacturer(mfr);
+            }
+            // Remove all mfrs that don't exist in the updatedMfrs list, based on Name
+            _assetDatabaseService.RemoveManufacturers(mfr => 
+                updatedMfrs.Find(m => m.Name.Equals(mfr.Name)) == null);
+            // Update currentMfrs with the most recent records
+            currentMfrs = _assetDatabaseService.GetManufacturers();
+
+            // Prepare models
+            List<AssetModel> currentModels = _assetDatabaseService.GetModels();
+            List<AssetModel> updatedModels = new List<AssetModel>();
+            List<AssetModel> newModels = new List<AssetModel>();
+            AssetModel matchedModel = null;
+            foreach (var model in returned.models)
+            {
+                matchedType = currentTypes.Find(type => type.Name.Equals(model.TypeName));
+                if(matchedType == null)
+                {
+                    throw new KeyNotFoundException($"Asset type with name \"{model.TypeName}\" was " +
+                        $"unexpectedly missing.");
+                }
+                matchedMfr = currentMfrs.Find(mfr => mfr.Name.Equals(model.ManufacturerName));
+                if(matchedMfr == null)
+                {
+                    throw new KeyNotFoundException($"Asset manufacturer with name \"{model.ManufacturerName}\" " +
+                        $"was unexpectedly missing.");
+                }
+                if (model.OriginalName != null && !model.OriginalName.Equals(""))
+                {
+                    matchedModel = currentModels.Find(m => m.Name.Equals(model.OriginalName));
+                    matchedModel.Name = model.Name;
+                    matchedModel.ModelNumber = model.ModelNumber;
+                    matchedModel.TypeId = matchedType.Id;
+                    matchedModel.ManufacturerId = matchedMfr.Id;
+                    updatedModels.Add(matchedModel);
+                }
+                else
+                {
+                    newModels.Add(new AssetModel
+                    {
+                        Name = model.Name,
+                        ModelNumber = model.ModelNumber,
+                        TypeId = matchedType.Id,
+                        ManufacturerId = matchedMfr.Id
+                    });
+                }
+            }
+
+            // Save models
+            foreach (var model in updatedModels)
+            {
+                _assetDatabaseService.UpdateModel(model);
+            }
+            foreach (var model in newModels)
+            {
+                _assetDatabaseService.CreateModel(model);
+            }
         }
     }
 
