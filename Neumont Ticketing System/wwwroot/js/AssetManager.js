@@ -52,6 +52,6 @@
                 c.find('.modelSelector').val(c.find('option').first().val());
             }));
     }, function (clone) {
-            clone.insertBefore(ownerList.find('#btnNewOwner'));
+            clone.insertAfter(ownerList.find('.btnNewOwnerContainer'));
     }));
 });
