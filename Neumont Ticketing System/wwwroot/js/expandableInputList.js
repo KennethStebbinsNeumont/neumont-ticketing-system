@@ -37,7 +37,7 @@ let onInputKeypress = function onInputKeypress() {
     }
 };
 
-export default ExpandableInputList = {
+const ExpandableInputList = {
     onInputKeypress: onInputKeypress,
     onInputChange: onInputChange,
     onInputBlur: onInputChange

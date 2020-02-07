@@ -1,8 +1,4 @@
-﻿import ExpandableInputList from 'expandableInputList.js';
-import { getOnNameChange } from 'commonUtilities.js';
-import ExpandableItemList from 'expandableItemList.js';
-
-$(document).ready(() => {
+﻿$(document).ready(() => {
     const jsonifyInputs = function () {
         let result = {
             types: [],
@@ -88,23 +84,23 @@ $(document).ready(() => {
     const modelsList = $('#modelsList');
     
     typeNameInputs.each(function (i, e) {
-        $(e).change(getOnNameChange(typesList, () => $('.typeSelector')));
-        $(e).blur(getOnNameChange(typesList, () => $('.typeSelector')));
+        $(e).change(getUpdateSelectorsOnNameInputChange(typesList, () => $('.typeSelector')));
+        $(e).blur(getUpdateSelectorsOnNameInputChange(typesList, () => $('.typeSelector')));
     });
     mfrsNameInputs.each(function (i, e) {
-        $(e).change(getOnNameChange(mfrsList, () => $('.manufacturerSelector')));
-        $(e).blur(getOnNameChange(mfrsList, () => $('.manufacturerSelector')));
+        $(e).change(getUpdateSelectorsOnNameInputChange(mfrsList, () => $('.manufacturerSelector')));
+        $(e).blur(getUpdateSelectorsOnNameInputChange(mfrsList, () => $('.manufacturerSelector')));
     });
 
     typesList.find('.btnAddListItem').click(ExpandableItemList.getBtnAddListItemHandler(function (clone) {
         let nameInput = $(clone).find('.nameInput');
-        nameInput.change(getOnNameChange(typesList, () => $('.typeSelector')));
-        nameInput.blur(getOnNameChange(typesList, () => $('.typeSelector')));
+        nameInput.change(getUpdateSelectorsOnNameInputChange(typesList, () => $('.typeSelector')));
+        nameInput.blur(getUpdateSelectorsOnNameInputChange(typesList, () => $('.typeSelector')));
     }));
     mfrsList.find('.btnAddListItem').click(ExpandableItemList.getBtnAddListItemHandler(function (clone) {
         let nameInput = $(clone).find('.nameInput');
-        nameInput.change(getOnNameChange(mfrsList, () => $('.manufacturerSelector')));
-        nameInput.blur(getOnNameChange(mfrsList, () => $('.manufacturerSelector')));
+        nameInput.change(getUpdateSelectorsOnNameInputChange(mfrsList, () => $('.manufacturerSelector')));
+        nameInput.blur(getUpdateSelectorsOnNameInputChange(mfrsList, () => $('.manufacturerSelector')));
 
         let phoneInput = $(clone).find('.phoneNumberInput');
         // Remove excessive input fields

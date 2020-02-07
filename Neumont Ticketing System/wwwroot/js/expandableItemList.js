@@ -1,4 +1,4 @@
-﻿export default ExpandableItemList = {
+﻿const ExpandableItemList = {
     // Does some cloning work to clone the first item in the list and add it to the
     // end, before the button. Afterwards, it calls the function in afterCloneAction, if it
     // exists, with the new list item as the only parameter

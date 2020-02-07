@@ -4,7 +4,8 @@
 // getSelectorsToUpdate is a function that must resturn a
 // jquery-ified selection of select elements that should have
 // their values updated.
-export function getOnNameChange(inputsList, getSelectorsToUpdate) {
+const getUpdateSelectorsOnNameInputChange =
+    function getUpdateSelectorsOnNameInputChange(inputsList, getSelectorsToUpdate) {
     return function () {
         const oldValue = $(this).attr('old-value');
         const newValue = $(this).val();
