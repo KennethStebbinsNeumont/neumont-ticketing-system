@@ -26,7 +26,10 @@
             if (afterCloneAction)
                 afterCloneAction(clone);
 
-            $(clone).insertBefore(btnContainer);
+            if (list.children().last() === btnContainer)
+                $(clone).insertBefore(btnContainer);
+            else
+                list.append(clone);
         }
     }
 };
