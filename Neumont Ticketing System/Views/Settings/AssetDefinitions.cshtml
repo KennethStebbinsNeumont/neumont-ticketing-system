@@ -23,7 +23,7 @@
         @for (int i = 0; i < Model.AssetTypes.Count; i++)
         {
             var type = Model.AssetTypes[i];
-            <div class="listItem typeContainer">
+            <div class="listItem cloneableListItem typeContainer">
                 <div class="inputContainer">
                     <p class="inputLabel">Name: </p>
                     <input class="text-box single-line nameInput" id=@($"type{i}_Name")
@@ -41,7 +41,7 @@
     }
     else
     {
-        <div class="listItem typeContainer">
+        <div class="listItem cloneableListItem typeContainer">
             <div class="inputContainer">
                 <p class="inputLabel">Name: </p>
                 <input class="text-box single-line nameInput" id="type0_Name" name="type0_Name"
@@ -66,7 +66,7 @@
         @for (int i = 0; i < Model.AssetManufacturers.Count; i++)
         {
             var mfr = Model.AssetManufacturers[i];
-            <div class="listItem manufacturerContainer">
+            <div class="listItem cloneableListItem manufacturerContainer">
                 <div class="inputContainer">
                     <p class="inputLabel">Name: </p>
                     <input class="text-box single-line nameInput" id=@($"mfr{i}_Name")
@@ -116,7 +116,7 @@
     }
     else
     { @* Blank model inserted when no manufacturers are defined *@
-    <div class="listItem manufacturerContainer">
+    <div class="listItem cloneableListItem manufacturerContainer">
         <div class="inputContainer">
             <p class="inputLabel">Name: </p>
             <input class="text-box single-line" id="mfr0_Name" name="mfr0_Name"
@@ -149,7 +149,7 @@
         @for (int i = 0; i < Model.AssetModels.Count; i++)
         {
             var mdl = Model.AssetModels[i];
-            <div class="listItem modelContainer">
+            <div class="listItem cloneableListItem modelContainer">
                 <div class="inputContainer">
                     <p class="inputLabel">Name: </p>
                     <input class="text-box single-line nameInput" id=@($"mdl{i}_Name")
@@ -193,7 +193,7 @@
     }
     else
     { @* Blank model inserted when no models are defined *@
-    <div class="listItem modelContainer">
+    <div class="listItem cloneableListItem modelContainer">
         <div class="inputContainer">
             <p class="inputLabel">Name: </p>
             <input class="text-box single-line nameInput" id="mdl0_Name" name="mdl0_Name"

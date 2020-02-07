@@ -18,7 +18,7 @@
 <div class="list" id="ownerList">
     <h2 class="listTitle">Owners</h2>
     <div class="listItem btnAddListItemContainer">
-        <button class="btnAddListItem" id="btnNewModel">Add Owner</button>
+        <button class="btnAddListItem" id="btnNewOwner">Add Owner</button>
     </div>
     @if (Model.Owners.Count > 0)
     {
@@ -26,7 +26,7 @@
         @for (int i = 0; i < Model.Owners.Count; i++)
         {
             var owner = Model.Owners[i];
-            <div class="listItem ownerContainer">
+            <div class="listItem cloneableListItem ownerContainer">
                 <div class="inputContainer">
                     <p class="inputLabel">Owner's Name: </p>
                     <input class="text-box single-line nameInput" id=@($"owner{i}_Name")
@@ -106,6 +106,9 @@
                             </select>
                         </div>
                     }
+                    <div class="listItem btnAddListItemContainer">
+                        <button class="btnAddListItem btnAddAsset">Add Owner</button>
+                    </div>
                 </div>
 
             </div>
@@ -113,7 +116,7 @@
     }
     else
     { @* Blank model inserted when no owners are defined *@
-    <div class="listItem ownerContainer">
+    <div class="listItem cloneableListItem ownerContainer">
         <div class="inputContainer">
             <p class="inputLabel">Owner's Name: </p>
             <input class="text-box single-line nameInput" id=@($"owner0_Name")
