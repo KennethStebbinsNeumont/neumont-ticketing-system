@@ -157,6 +157,12 @@ namespace Neumont_Ticketing_System.Services
         {
             _manufacturers.ReplaceOne(u => u.Id == id, manufacturer);
         }
+
+        public void ReplaceManufacturer(System.Linq.Expressions.Expression<Func<AssetManufacturer, bool>> 
+            expression, AssetManufacturer manufacturer)
+        {
+            _manufacturers.ReplaceOne(expression, manufacturer);
+        }
         #endregion Manufacturers
 
 
@@ -169,6 +175,12 @@ namespace Neumont_Ticketing_System.Services
         public void ReplaceType(string id, AssetType type)
         {
             _types.ReplaceOne(u => u.Id == id, type);
+        }
+
+        public void ReplaceType(System.Linq.Expressions.Expression<Func<AssetType, bool>>
+            expression, AssetType manufacturer)
+        {
+            _types.ReplaceOne(expression, manufacturer);
         }
         #endregion Types
 
@@ -183,6 +195,12 @@ namespace Neumont_Ticketing_System.Services
         {
             _models.ReplaceOne(u => u.Id == id, model);
         }
+
+        public void ReplaceModel(System.Linq.Expressions.Expression<Func<AssetModel, bool>>
+            expression, AssetModel manufacturer)
+        {
+            _models.ReplaceOne(expression, manufacturer);
+        }
         #endregion Models
 
 
@@ -196,6 +214,12 @@ namespace Neumont_Ticketing_System.Services
         {
             _assets.ReplaceOne(u => u.Id == id, asset);
         }
+
+        public void ReplaceAsset(System.Linq.Expressions.Expression<Func<Asset, bool>>
+            expression, Asset manufacturer)
+        {
+            _assets.ReplaceOne(expression, manufacturer);
+        }
         #endregion Assets
 
 
@@ -208,6 +232,12 @@ namespace Neumont_Ticketing_System.Services
         public void ReplaceLoaner(string id, LoanerAsset loaner)
         {
             _loaners.ReplaceOne(u => u.Id == id, loaner);
+        }
+
+        public void ReplaceLoanerAsset(System.Linq.Expressions.Expression<Func<LoanerAsset, bool>>
+            expression, LoanerAsset manufacturer)
+        {
+            _loaners.ReplaceOne(expression, manufacturer);
         }
         #endregion Loaners
         #endregion Update
@@ -223,6 +253,11 @@ namespace Neumont_Ticketing_System.Services
         {
             _manufacturers.DeleteOne(u => u.Id == id);
         }
+
+        public void RemoveManufacturers(System.Linq.Expressions.Expression<Func<AssetManufacturer, bool>> expression)
+        {
+            _manufacturers.DeleteMany(expression);
+        }
         #endregion Manufacturers
 
         #region Types
@@ -234,6 +269,11 @@ namespace Neumont_Ticketing_System.Services
         public void RemoveType(string id)
         {
             _types.DeleteOne(u => u.Id == id);
+        }
+
+        public void RemoveTypes(System.Linq.Expressions.Expression<Func<AssetType, bool>> expression)
+        {
+            _types.DeleteMany(expression);
         }
         #endregion Types
 
@@ -247,6 +287,11 @@ namespace Neumont_Ticketing_System.Services
         {
             _models.DeleteOne(u => u.Id == id);
         }
+
+        public void RemoveModels(System.Linq.Expressions.Expression<Func<AssetModel, bool>> expression)
+        {
+            _models.DeleteMany(expression);
+        }
         #endregion Models
 
         #region Assets
@@ -259,6 +304,11 @@ namespace Neumont_Ticketing_System.Services
         {
             _assets.DeleteOne(u => u.Id == id);
         }
+
+        public void RemoveAssets(System.Linq.Expressions.Expression<Func<Asset, bool>> expression)
+        {
+            _assets.DeleteMany(expression);
+        }
         #endregion Assets
 
         #region Loaners
@@ -270,6 +320,11 @@ namespace Neumont_Ticketing_System.Services
         public void RemoveLoaner(string id)
         {
             _loaners.DeleteOne(u => u.Id == id);
+        }
+
+        public void RemoveLoaners(System.Linq.Expressions.Expression<Func<LoanerAsset, bool>> expression)
+        {
+            _loaners.DeleteMany(expression);
         }
         #endregion Loaners
         #endregion Delete
