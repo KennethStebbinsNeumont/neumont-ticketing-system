@@ -74,7 +74,7 @@
                     }
                 </div>
                 <div class="assetList">
-                    <h3 class="assetListTitle">Owned Assets</h3>
+                    <h3 class="listTitle">Owned Assets</h3>
                     @{List<Asset> ownedAssets = owner.GetOwnedAssets(Model.Assets);}
                     @for (int j = 0; j <= ownedAssets.Count; j++)
                     {
