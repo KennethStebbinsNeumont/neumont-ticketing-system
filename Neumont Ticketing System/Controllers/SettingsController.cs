@@ -152,8 +152,8 @@ namespace Neumont_Ticketing_System.Controllers
                     foreach(var asset in owner.Assets)
                     {
                         matchedAssets = _assetDatabaseService.GetAssets(a => 
-                        a.SerialNumber.Equals(asset.SerialNumber) && 
-                        a.GetModel(assetModels).Name.Equals(asset.ModelName));
+                        (a.SerialNumber.Equals(asset.SerialNumber)) && 
+                        (a.GetModel(assetModels).Name.Equals(asset.ModelName)));
                         if(matchedAssets.Count > 0)
                         {
                             // If we've found an already existing asset with the exact same serial number
