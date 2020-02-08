@@ -113,7 +113,7 @@
     $('#submit').click(function () {
         $.ajax({
             type: "POST",
-            url: "/Settings/AssetManager",
+            url: "/Settings/AssetCreator",
             data: JSON.stringify(jsonfiyInputs()),
             contentType: "application/json",
             dataType: "json",
