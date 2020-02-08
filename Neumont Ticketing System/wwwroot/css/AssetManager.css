@@ -50,3 +50,22 @@ div#ownerList {
 h1 {
     text-align: left;
 }
+
+p.tableHeaderText {
+    display: inline-block;
+    font-weight: bold;
+}
+
+p.resultValueText {
+    display: inline-block;
+}
+
+/* https://stackoverflow.com/questions/6865194/fluid-width-with-equally-spaced-divs/6880421 */
+.tableHeader {
+    text-align: justify;
+}
+
+/* https://stackoverflow.com/questions/26023319/distribute-divs-evenly-in-a-horizontal-line */
+.tableText {
+    width: calc(98% / 4);
+}
