@@ -22,17 +22,8 @@
             // If this element is the last element in the list and
             // it now has a value, create a new field
 
-            let regexResults = $(this).attr('id').match(/(.*?)(\d+)_(.*?)_(\d+)/);
-            let inputParent = regexResults[1];
-            let parentIndex = parseInt(regexResults[2]);
-            let attributeName = regexResults[3];
-            let thisIndex = parseInt(regexResults[4]);
-            let newIndex = thisIndex + 1;
-
             let newInput = $(this).clone();
             newInput.val('');
-            newInput.attr('id', `${inputParent}${parentIndex}_${attributeName}_${newIndex}`);
-            newInput.attr('name', `${inputParent}${parentIndex}.${attributeName}[${newIndex}]`);
 
             $(newInput).change(onInputChange);
             $(newInput).blur(onInputBlur);
