@@ -1,1 +1,52 @@
-﻿
+﻿.listTitle {
+    text-align: left;
+}
+
+.searchInputContainer {
+    margin: 5px;
+    margin-bottom: 20px;
+}
+
+.largeInput {
+    width: 100%;
+    font-size: 36px;
+}
+
+div#ownerList {
+    min-width: 500px;
+    width: 90%;
+}
+
+.resultsContainer {
+    background: #E3E4E6;
+    box-shadow: 2px 2px 4px lightgrey;
+    margin: 5px;
+    padding: 5px 10px 10px 10px;
+}
+
+.singleResult {
+    background: #D7D7D9;
+    box-shadow: 2px 2px 4px #C9C9C9;
+}
+
+td {
+    padding: 0px 10px;
+    font-size: 20px;
+}
+
+th {
+    padding: 0px 10px;
+    font-size: 18px;
+}
+
+.container {
+    text-align: center;
+}
+
+div#ownerList {
+    display: inline-block;
+}
+
+h1 {
+    text-align: left;
+}
