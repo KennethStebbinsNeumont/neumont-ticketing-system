@@ -16,9 +16,5 @@ namespace Neumont_Ticketing_System.Views.Settings
         {
             AssetModels = assetModels;
         }
-
-        public void OnGet()
-        {
-        }
     }
 }
