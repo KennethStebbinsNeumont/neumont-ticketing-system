@@ -6,7 +6,7 @@
         // presses enter AND the value of this element has changed since
         // the last event call
         if (!$(this).val() &&
-            $(this).parent().children().last().attr('id') !== $(this).attr('id')) {
+            $(this).parent().children().last().index() !== $(this).index()) {
             // If this field is now empty, remove it UNLESS it is the last
             // input box, which is supposed to be blank by default
             $(this).remove();
