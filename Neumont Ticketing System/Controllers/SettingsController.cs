@@ -177,7 +177,7 @@ namespace Neumont_Ticketing_System.Controllers
         #region AssetManager
         public IActionResult AssetManager()
         {
-            return View();
+            return View(new AssetManagerModel(_assetDatabaseService.GetModels()));
         }
         #endregion AssetManager
 
