@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Neumont_Ticketing_System.Models.Assets;
+using Neumont_Ticketing_System.Models.Owners;
 using Neumont_Ticketing_System.Services;
 using Neumont_Ticketing_System.Views.Settings;
 
@@ -32,13 +33,20 @@ namespace Neumont_Ticketing_System.Controllers
             return View();
         }
 
-        public IActionResult AssetManager()
+        public IActionResult AssetCreator()
         {
-            var model = new AssetManagerModel(_assetDatabaseService.GetModels().ToList(),
+            var model = new AssetCreatorModel(_assetDatabaseService.GetModels().ToList(),
                 _assetDatabaseService.GetAssets().ToList(),
                 _ownersDatabaseService.GetOwners().ToList());
 
             return View(model);
+        }
+
+        // https://stackoverflow.com/questions/21578814/how-to-receive-json-as-an-mvc-5-action-method-parameter
+        [HttpPost]
+        public JsonResult AssetCreator([FromBody] AssetManagerReturn returned)
+        {
+
         }
 
         public IActionResult AssetDefinitions()
@@ -54,7 +62,6 @@ namespace Neumont_Ticketing_System.Controllers
         [HttpPost]
         public JsonResult AssetDefinitions([FromBody] AssetDefReturn returned)
         {
-            Console.WriteLine("We're in, boys!");
             try
             {
                 SaveReturnAssetDefinitions(returned);
@@ -79,6 +86,20 @@ namespace Neumont_Ticketing_System.Controllers
                     Successful = true,
                     Message = $"Unexpected error: {e.ToString()}"
                 });
+            }
+        }
+
+        private void SaveReturnAssetManager(AssetManagerReturn returned)
+        {
+            List<Owner> currentOwners = _ownersDatabaseService.GetOwners();
+            List<Owner> newOwners = new List<Owner>();
+            Owner matchedOwner = null;
+            List<Asset> currentAssets = _assetDatabaseService.GetAssets();
+            List<Asset> newAssets = new List<Asset>();
+            Asset matchedAsset = null;
+            foreach(var owner in returned.owners)
+            {
+
             }
         }
 
@@ -231,6 +252,26 @@ namespace Neumont_Ticketing_System.Controllers
             }
             _assetDatabaseService.RemoveModels(model => !modelNames.Contains(model.Name));
         }
+    }
+
+    public class AssetManagerReturnAsset
+    {
+        public string SerialNumber { get; set; }
+        public string ModelName { get; set; }
+    }
+
+    public class AssetManagerReturnOwner
+    {
+        public string Name { get; set; }
+        public string PreferredName { get; set; }
+        public List<string> EmailAddresses { get; set; }
+        public List<string> PhoneNumbers { get; set; }
+        public List<AssetManagerReturnAsset> Assets { get; set; }
+    }
+
+    public class AssetManagerReturn
+    {
+        public List<AssetManagerReturnOwner> owners { get; set; }
     }
 
     public class AssetDefReturnType
