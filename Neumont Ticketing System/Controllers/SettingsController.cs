@@ -152,16 +152,29 @@ namespace Neumont_Ticketing_System.Controllers
                     foreach(var asset in owner.Assets)
                     {
                         matchedAssets = _assetDatabaseService.GetAssets(a => 
-                        (a.SerialNumber.Equals(asset.SerialNumber)) && 
-                        (a.GetModel(assetModels).Name.Equals(asset.ModelName)));
+                            a.SerialNumber.Equals(asset.SerialNumber));
+
                         if(matchedAssets.Count > 0)
                         {
-                            // If we've found an already existing asset with the exact same serial number
-                            // and model, throw an exception (cannot create duplicate assets)
-                            throw new DuplicateAssetException(matchedAssets.First(), $"A duplicate asset with serial " +
-                                $"number \"{matchedAssets.First().SerialNumber}\" and model name \"" +
-                                $"{matchedAssets.First().GetModel(assetModels).Name}\" was found in the given assets " +
-                                $"to create.");
+                            bool matchFound = false;
+                            foreach(var a in matchedAssets)
+                            {
+                                if(a.GetModel(assetModels).Name.Equals(asset))
+                                {
+                                    matchFound = true;
+                                    break;
+                                }
+                            }
+
+                            if(matchFound)
+                            {
+                                // If we've found an already existing asset with the exact same serial number
+                                // and model, throw an exception (cannot create duplicate assets)
+                                throw new DuplicateAssetException(matchedAssets.First(), $"A duplicate asset with serial " +
+                                    $"number \"{matchedAssets.First().SerialNumber}\" and model name \"" +
+                                    $"{matchedAssets.First().GetModel(assetModels).Name}\" was found in the given assets " +
+                                    $"to create.");
+                            }
                         } else
                         {
                             matchedModel = null;
