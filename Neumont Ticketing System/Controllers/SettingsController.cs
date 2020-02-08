@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Neumont_Ticketing_System.Controllers.Exceptions;
+using Neumont_Ticketing_System.Models;
 using Neumont_Ticketing_System.Models.Assets;
 using Neumont_Ticketing_System.Models.Owners;
 using Neumont_Ticketing_System.Services;
@@ -44,9 +46,45 @@ namespace Neumont_Ticketing_System.Controllers
 
         // https://stackoverflow.com/questions/21578814/how-to-receive-json-as-an-mvc-5-action-method-parameter
         [HttpPost]
-        public JsonResult AssetCreator([FromBody] AssetManagerReturn returned)
+        public JsonResult AssetCreator([FromBody] AssetCreatorReturn returned)
         {
+            try
+            {
+                SaveReturnAssetCreator(returned);
 
+                _logger.LogInformation("Saved new owners/assets to database.");
+                return new JsonResult(new
+                {
+                    Successful = true,
+                    Message = "Owners and assets successfully saved."
+                });
+            } catch(DuplicateAssetException e)
+            {
+                _logger.LogError(e, "Error while attempting to save new owners/assets.");
+                return new JsonResult(new
+                {
+                    Successful = false,
+                    Message = $"A duplicate asset was found: Serial number: \"{e.Asset.SerialNumber}\", " +
+                    $"Model name: \"{e.Asset.GetModel(_assetDatabaseService.GetModels()).Name}\"."
+                });
+            } catch(ModelNotFoundException e)
+            {
+                _logger.LogError(e, "Error while attempting to save new owners/assets.");
+                return new JsonResult(new
+                {
+                    Successful = false,
+                    Message = e.Message
+                });
+            } catch(Exception e)
+            {
+                _logger.LogError(e, "Unexpected error while attempting to save new owners/assets.");
+                return new JsonResult(new
+                {
+                    Successful = false,
+                    Message = "An unexpected internal error ocurred while trying to save owners " +
+                    "and assets."
+                });
+            }
         }
 
         public IActionResult AssetDefinitions()
@@ -89,17 +127,75 @@ namespace Neumont_Ticketing_System.Controllers
             }
         }
 
-        private void SaveReturnAssetManager(AssetManagerReturn returned)
+        private void SaveReturnAssetCreator(AssetCreatorReturn returned)
         {
-            List<Owner> currentOwners = _ownersDatabaseService.GetOwners();
+            List<AssetModel> assetModels = _assetDatabaseService.GetModels();
+            AssetModel matchedModel = null;
             List<Owner> newOwners = new List<Owner>();
-            Owner matchedOwner = null;
-            List<Asset> currentAssets = _assetDatabaseService.GetAssets();
+            Owner newOwner = null;
             List<Asset> newAssets = new List<Asset>();
-            Asset matchedAsset = null;
+            List<Asset> matchedAssets = null;
             foreach(var owner in returned.owners)
             {
+                if(owner.Name != null && owner.Name != "")
+                {
+                    newOwner = new Owner
+                    {
+                        Name = owner.Name,
+                        PreferredName = owner.PreferredName,
+                        EmailAddresses = owner.EmailAddresses,
+                        PhoneNumbers = owner.PhoneNumbers
+                    };
 
+                    newOwner = _ownersDatabaseService.CreateOwner(newOwner);
+
+                    foreach(var asset in owner.Assets)
+                    {
+                        matchedAssets = _assetDatabaseService.GetAssets(a => 
+                        a.SerialNumber.Equals(asset.SerialNumber) && 
+                        a.GetModel(assetModels).Name.Equals(asset.ModelName));
+                        if(matchedAssets.Count > 0)
+                        {
+                            // If we've found an already existing asset with the exact same serial number
+                            // and model, throw an exception (cannot create duplicate assets)
+                            throw new DuplicateAssetException(matchedAssets.First(), $"A duplicate asset with serial " +
+                                $"number \"{matchedAssets.First().SerialNumber}\" and model name \"" +
+                                $"{matchedAssets.First().GetModel(assetModels).Name}\" was found in the given assets " +
+                                $"to create.");
+                        } else
+                        {
+                            matchedModel = null;
+                            foreach(var model in assetModels)
+                            {
+                                if(model.Name.Equals(asset.ModelName))
+                                {
+                                    matchedModel = model;
+                                    break;
+                                }
+                            }
+
+                            // If a matching model wasn't found
+                            if(matchedModel == null)
+                            {
+                                throw new ModelNotFoundException($"A model with name \"{asset.ModelName}\" was not " +
+                                    $"found.");
+                            } else
+                            {
+                                newAssets.Add(new Asset
+                                {
+                                    SerialNumber = asset.SerialNumber,
+                                    ModelId = matchedModel.Id,
+                                    OwnerId = newOwner.Id
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+
+            foreach(var asset in newAssets)
+            {
+                _assetDatabaseService.Create(asset);
             }
         }
 
@@ -254,24 +350,24 @@ namespace Neumont_Ticketing_System.Controllers
         }
     }
 
-    public class AssetManagerReturnAsset
+    public class AssetCreatorReturnAsset
     {
         public string SerialNumber { get; set; }
         public string ModelName { get; set; }
     }
 
-    public class AssetManagerReturnOwner
+    public class AssetCreatorReturnOwner
     {
         public string Name { get; set; }
-        public string PreferredName { get; set; }
+        public PreferredName PreferredName { get; set; }
         public List<string> EmailAddresses { get; set; }
         public List<string> PhoneNumbers { get; set; }
-        public List<AssetManagerReturnAsset> Assets { get; set; }
+        public List<AssetCreatorReturnAsset> Assets { get; set; }
     }
 
-    public class AssetManagerReturn
+    public class AssetCreatorReturn
     {
-        public List<AssetManagerReturnOwner> owners { get; set; }
+        public List<AssetCreatorReturnOwner> owners { get; set; }
     }
 
     public class AssetDefReturnType

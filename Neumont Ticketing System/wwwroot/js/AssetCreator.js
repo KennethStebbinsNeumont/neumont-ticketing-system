@@ -9,7 +9,6 @@
             let nameInput = ele.find('.nameInput');
             // Ignore owners without names
             if (nameInput.val()) {
-                let preferredNameInput = ele.find('.preferredNameInput');
                 let emailInputs = ele.find('.emailAddressInput');
                 let phoneInputs = ele.find('.phoneNumberInput');
 
@@ -43,7 +42,11 @@
 
                 result.owners.push({
                     "Name": nameInput.val(),
-                    "PreferredName": preferredNameInput.val(),
+                    "PreferredName": {
+                        "First": ele.find('.preferredFNameInput').val(),
+                        "Middle": ele.find('.preferredMNameInput').val(),
+                        "Last": ele.find('.preferredLNameInput').val()
+                    },
                     "EmailAddresses": emailAddresses,
                     "PhoneNumbers": phoneNumbers,
                     "Assets": assets

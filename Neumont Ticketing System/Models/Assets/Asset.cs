@@ -28,5 +28,21 @@ namespace Neumont_Ticketing_System.Models.Assets
         {
             return other != null && other.Id == Id;
         }
+
+        public AssetModel GetModel(List<AssetModel> allModels)
+        {
+            return GetModel(this, allModels);
+        }
+
+        public static AssetModel GetModel(Asset asset, List<AssetModel> allModels)
+        {
+            foreach(var model in allModels)
+            {
+                if (model.Id.Equals(asset.ModelId))
+                    return model;
+            }
+            throw new KeyNotFoundException($"A model with an ID matching the asset with serial number " +
+                $"\"{asset.SerialNumber}\" was not found.");
+        }
     }
 }
