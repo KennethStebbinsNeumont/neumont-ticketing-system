@@ -35,6 +35,7 @@ namespace Neumont_Ticketing_System.Controllers
             return View();
         }
 
+        #region AssetCreator
         public IActionResult AssetCreator()
         {
             var model = new AssetCreatorModel(_assetDatabaseService.GetModels().ToList(),
@@ -83,46 +84,6 @@ namespace Neumont_Ticketing_System.Controllers
                     Successful = false,
                     Message = "An unexpected internal error ocurred while trying to save owners " +
                     "and assets."
-                });
-            }
-        }
-
-        public IActionResult AssetDefinitions()
-        {
-            var assetDefModel = new AssetDefinitionsModel(_assetDatabaseService.GetTypes().ToList(),
-                _assetDatabaseService.GetManufacturers().ToList(),
-                _assetDatabaseService.GetModels().ToList());
-
-            return View(assetDefModel);
-        }
-
-        // https://stackoverflow.com/questions/21578814/how-to-receive-json-as-an-mvc-5-action-method-parameter
-        [HttpPost]
-        public JsonResult AssetDefinitions([FromBody] AssetDefReturn returned)
-        {
-            try
-            {
-                SaveReturnAssetDefinitions(returned);
-                return new JsonResult(new
-                {
-                    Successful = true,
-                    Message = "Database successfully updated"
-                });
-            } catch(ArgumentException e)
-            {
-                _logger.LogError(e, "Argument exception when attempting to save asset definitions to database.");
-                return new JsonResult(new
-                {
-                    Successful = true,
-                    Message = $"Input error: {e.Message}"
-                });
-            } catch(Exception e)
-            {
-                _logger.LogError(e, "Unexpected error while attemping to save asset definitions to database.");
-                return new JsonResult(new
-                {
-                    Successful = true,
-                    Message = $"Unexpected error: {e.ToString()}"
                 });
             }
         }
@@ -209,6 +170,55 @@ namespace Neumont_Ticketing_System.Controllers
             foreach(var asset in newAssets)
             {
                 _assetDatabaseService.Create(asset);
+            }
+        }
+        #endregion AssetCreator
+
+        #region AssetManager
+        public IActionResult AssetManager()
+        {
+            return View();
+        }
+        #endregion AssetManager
+
+        #region AssetDefinitions
+        public IActionResult AssetDefinitions()
+        {
+            var assetDefModel = new AssetDefinitionsModel(_assetDatabaseService.GetTypes().ToList(),
+                _assetDatabaseService.GetManufacturers().ToList(),
+                _assetDatabaseService.GetModels().ToList());
+
+            return View(assetDefModel);
+        }
+
+        // https://stackoverflow.com/questions/21578814/how-to-receive-json-as-an-mvc-5-action-method-parameter
+        [HttpPost]
+        public JsonResult AssetDefinitions([FromBody] AssetDefReturn returned)
+        {
+            try
+            {
+                SaveReturnAssetDefinitions(returned);
+                return new JsonResult(new
+                {
+                    Successful = true,
+                    Message = "Database successfully updated"
+                });
+            } catch(ArgumentException e)
+            {
+                _logger.LogError(e, "Argument exception when attempting to save asset definitions to database.");
+                return new JsonResult(new
+                {
+                    Successful = true,
+                    Message = $"Input error: {e.Message}"
+                });
+            } catch(Exception e)
+            {
+                _logger.LogError(e, "Unexpected error while attemping to save asset definitions to database.");
+                return new JsonResult(new
+                {
+                    Successful = true,
+                    Message = $"Unexpected error: {e.ToString()}"
+                });
             }
         }
 
@@ -361,6 +371,9 @@ namespace Neumont_Ticketing_System.Controllers
             }
             _assetDatabaseService.RemoveModels(model => !modelNames.Contains(model.Name));
         }
+        #endregion AssetDefinitions
+
+
     }
 
     public class AssetCreatorReturnAsset
