@@ -32,6 +32,11 @@ namespace Neumont_Ticketing_System.Services
         {
             return _owners.Find(expression, options).ToList();
         }
+
+        public Owner GetOwnerById(string id)
+        {
+            return _owners.Find(o => o.Id.Equals(id)).First();
+        }
         #endregion Read
 
         #region Create
