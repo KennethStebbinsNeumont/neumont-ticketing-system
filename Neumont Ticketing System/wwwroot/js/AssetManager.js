@@ -64,7 +64,7 @@
             }
            
         } catch(err) {
-            console.log(`Unable to parse response: \"${response}\"`);
+            console.log(`Unexpected error occurred. Response: \"${response}\"`);
         }
 
         
