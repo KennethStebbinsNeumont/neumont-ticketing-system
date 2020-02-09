@@ -66,7 +66,7 @@
     searchInput.change(function () {
         $.ajax({
             type: "POST",
-            url: "/Settings/AssetDefinitions",
+            url: "/Settings/AssetManager",
             data: JSON.stringify({Query: searchInput.val()}),
             contentType: "application/json",
             dataType: "json",
