@@ -1,6 +1,6 @@
 ﻿let subStepTemplate = $('#templateContainer').children().first();
 
-let eilOnSelectorChange = function eilOnSelectorChange() {
+let eslOnSelectorChange = function eslOnSelectorChange() {
     let selector = $(this);
     let newVal = selector.val();
     let parent = selector.parent();
@@ -57,3 +57,4 @@ let eilOnSelectorChange = function eilOnSelectorChange() {
         });
     }
 }
+
