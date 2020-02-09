@@ -80,7 +80,10 @@
         $.ajax({
             type: "POST",
             url: "/Settings/AssetManager",
-            data: JSON.stringify({Query: searchInput.val()}),
+            data: JSON.stringify({
+                Query: searchInput.val(),
+                MaxNumOfResults: 50
+            }),
             contentType: "application/json",
             dataType: "json",
             success: responseReceied,
