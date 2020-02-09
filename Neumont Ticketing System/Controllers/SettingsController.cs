@@ -213,17 +213,6 @@ namespace Neumont_Ticketing_System.Controllers
                             matchedOwners.AddRange(_ownersDatabaseService.GetOwners(o => o.PreferredName.Last.Contains(word)));
                         }
 
-                        List<Asset> tempMatchedAssets = new List<Asset>();
-                        foreach (Owner owner in matchedOwners)
-                        {
-                            tempMatchedAssets = _assetDatabaseService.GetAssets(a => a.OwnerId.Equals(owner.Id));
-                            foreach (Asset asset in tempMatchedAssets)
-                            {
-                                if (!matchedAssets.Contains(asset))
-                                    matchedAssets.Add(asset);
-                            }
-                        }
-
                         List<AssetManagerQueryResponseAsset> responseAssets = new List<AssetManagerQueryResponseAsset>();
                         Owner matchedOwner = null;
                         AssetModel matchedModel = null;
