@@ -1,0 +1,90 @@
+﻿@model Neumont_Ticketing_System.Views.Settings.NewRepairDefinitionModel
+@{
+    ViewData["Title"] = "New Repair Definition";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>New Repair Definition</h1>
+
+<div class="list" id="repairList">
+    <h2 class="listTitle">Create a new repair definition</h2>
+    <button id="submit">Submit</button>
+    <div class="inputContainer">
+        <p class="inputLabel">Repair name: </p>
+        <input class="text-box single-line nameInput"
+               type="text" value="">
+    </div>
+    <div class="inputContainer typeSelectorContainer">
+        <p class="inputLabel">Applicable asset types: </p>
+        <select class="typeSelector expandableListSelector">
+            <option value="_none" class="noneOption">Clear selection</option>
+            <option value="_all" class="noneOption" selected>All Types</option>
+            @for (int i = 0; i < Model.AssetTypes.Count; i++)
+            {
+                var type = Model.AssetTypes[i];
+                <option value="@(type.Name)">
+                    @(type.Name)
+                </option>
+            }
+        </select>
+    </div>
+    <div class="inputContainer mfrSelectorContainer">
+        <p class="inputLabel">Applicable asset manufacturers: </p>
+        <select class="mfrSelector expandableListSelector">
+            <option value="_none" class="noneOption">Clear selection</option>
+            <option value="_all" class="noneOption" selected>All Manufacturers</option>
+            @for (int i = 0; i < Model.AssetManufacturers.Count; i++)
+            {
+                var mfr = Model.AssetManufacturers[i];
+                <option value="@(mfr.Name)">
+                    @(mfr.Name)
+                </option>
+            }
+        </select>
+    </div>
+    <div class="inputContainer modelSelectorContainer">
+        <p class="inputLabel">Applicable asset models: </p>
+        <select class="modelSelector expandableListSelector">
+            <option value="_none" class="noneOption">Clear selection</option>
+            <option value="_all" class="noneOption" selected>All Models</option>
+            @for (int i = 0; i < Model.AssetModels.Count; i++)
+            {
+                var model = Model.AssetModels[i];
+                <option value="@(model.Name)">
+                    @(model.Name)
+                </option>
+            }
+        </select>
+    </div>
+    <div class="stepList" id="stepList">
+        <h3 class="listTitle">Repair Steps</h3>
+        <div class="listItem stepContainer cloneableListItem">
+            <div class="inputContainer">
+                <p class="inputLabel">Step name: </p>
+                <input class="text-box single-line stepName"
+                       type="text"
+                       value="" />
+            </div>
+            <div class="subStepList">
+                <p class="listSubTitle">Repair Sub-steps</p>
+                <div class="listSubItem btnAddListItemContainer btnAddSubStepContainer">
+                    <button class="btnAddListSubItem btnAddSubStep">Add Sub-step</button>
+                </div>
+            </div>
+        </div>
+        <div class="listItem btnAddListItemContainer btnAddStepContainer">
+            <button class="btnAddListItem btnAddStep">Add Step</button>
+        </div>
+    </div>
+</div>
+
+<div class="templateContainer" style="display: none">
+    <div class="listSubItem subStepContainer templateListItem">
+        <div class="inputContainer">
+            <p class="inputLabel">Sub-step name: </p>
+            <input class="text-box single-line subStepName"
+                   type="text"
+                   value="" />
+        </div>
+    </div>
+</div>

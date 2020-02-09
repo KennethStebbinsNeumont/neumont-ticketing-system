@@ -475,7 +475,16 @@ namespace Neumont_Ticketing_System.Controllers
         }
         #endregion AssetDefinitions
 
+        #region RepairManagement
+        public IActionResult NewRepairDefinition()
+        {
+            var model = new NewRepairDefinitionModel(_assetDatabaseService.GetTypes(),
+                _assetDatabaseService.GetManufacturers(),
+                _assetDatabaseService.GetModels());
 
+            return View(model);
+        }
+        #endregion RepairManagement
     }
 
     public class AssetManagerQuery
