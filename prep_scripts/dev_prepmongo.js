@@ -125,11 +125,13 @@ let jcena = db.owners.find({ "Name": "John Cena" })[0]._id;
 db = mongo.getDB("assets");
 db.assets.insertMany([{
     "SerialNumber": "QR30FH2",
+    "NormalizedSerialNumber": "QR30FH2",
     "Model": p5520,
     "Owner": mjones
 },
 {
     "SerialNumber": "R9-0WZZZZ",
+    "NormalizedSerialNumber": "R90WZZZZ",
     "Model": p1g2,
     "Owner": jcena
 }]);
