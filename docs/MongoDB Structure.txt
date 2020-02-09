@@ -140,6 +140,7 @@ assets : {
 		asset : {
 			_id : <ObjectId - determined by MongoDB>,
 			SerialNumber : <string - serial number of this asset>,
+			NormalizedSerialNumber: <string - normalized version of serial number (non-alpha characters removed, upper case); managed by application>,
 			Model : <ObjectId - a model definition's unique _id value>,
 			Owner : <ObjectID - an owner definition's unique _id value>
 		}

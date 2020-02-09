@@ -156,6 +156,7 @@ namespace Neumont_Ticketing_System.Services
         #region Assets
         public Asset Create(Asset asset)
         {
+            asset.NormalizedSerialNumber = asset.SerialNumber.RemoveSpecialCharacters().ToUpper();
             _assets.InsertOne(asset);
             return asset;
         }
@@ -232,18 +233,21 @@ namespace Neumont_Ticketing_System.Services
         #region Assets
         public void UpdateAsset(Asset asset)
         {
+            asset.NormalizedSerialNumber = asset.SerialNumber.RemoveSpecialCharacters().ToUpper();
             _assets.ReplaceOne(u => u.Id == asset.Id, asset);
         }
 
         public void ReplaceAsset(string id, Asset asset)
         {
+            asset.NormalizedSerialNumber = asset.SerialNumber.RemoveSpecialCharacters().ToUpper();
             _assets.ReplaceOne(u => u.Id == id, asset);
         }
 
         public void ReplaceAsset(System.Linq.Expressions.Expression<Func<Asset, bool>>
-            expression, Asset manufacturer)
+            expression, Asset asset)
         {
-            _assets.ReplaceOne(expression, manufacturer);
+            asset.NormalizedSerialNumber = asset.SerialNumber.RemoveSpecialCharacters().ToUpper();
+            _assets.ReplaceOne(expression, asset);
         }
         #endregion Assets
 
