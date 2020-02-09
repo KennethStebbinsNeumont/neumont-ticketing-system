@@ -3,7 +3,7 @@
     let newVal = selector.val();
     let parent = selector.parent();
     let selectorIndex = selector.index();
-    let childrenLength = selector.children().length;
+    let childrenLength = parent.children().length;
     if (newVal === '_none') {
         // If the user has chosen to delete this selector
         if (selectorIndex === childrenLength - 1) {
