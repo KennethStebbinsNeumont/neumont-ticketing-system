@@ -181,26 +181,26 @@ namespace Neumont_Ticketing_System.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> AssetManager(AssetManagerQuery query)
+        public async Task<JsonResult> AssetManager(AssetManagerQuery queryObject)
         {
             var result = Task.Run<JsonResult>(() =>
             {
-                if(query.Query == null || query.Query == "")
+                if(queryObject.Query == null || queryObject.Query == "")
                 {
                     _logger.LogError("The given query was null or empty.");
                     return new JsonResult(new AssetManagerQueryResponse
                     {
                         Successful = false,
                         Message = "The query string was null or empty.",
-                        Query = query.Query,
+                        Query = queryObject.Query,
                         Assets = new List<AssetManagerQueryResponseAsset>()
                     });
                 } else
                 {
                     try
                     {
-                        string[] words = query.Query.Split(' ');
-                        string possibleSerialNumber = query.Query.RemoveSpecialCharacters();
+                        string[] words = queryObject.Query.Split(' ');
+                        string possibleSerialNumber = queryObject.Query.RemoveSpecialCharacters();
                         List<Asset> matchedAssets = _assetDatabaseService.GetAssets(a => a.SerialNumber
                             .Contains(possibleSerialNumber));
 
@@ -268,7 +268,7 @@ namespace Neumont_Ticketing_System.Controllers
                         {
                             Successful = true,
                             Message = "Query completed normally.",
-                            Query = query.Query,
+                            Query = queryObject.Query,
                             Assets = responseAssets
                         });
                     } catch(Exception e)
@@ -278,7 +278,7 @@ namespace Neumont_Ticketing_System.Controllers
                         {
                             Successful = false,
                             Message = "An unexpected internal error ocurred.",
-                            Query = query.Query,
+                            Query = queryObject.Query,
                             Assets = new List<AssetManagerQueryResponseAsset>()
                         });
                     }
