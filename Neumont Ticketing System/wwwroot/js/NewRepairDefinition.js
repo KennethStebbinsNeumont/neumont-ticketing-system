@@ -84,7 +84,7 @@ let eilOnNewStepClick = function eilOnNewStepClick() {
     clone.find('.btnAddSubStep').click(eilOnNewSubStepClick);
 
     // Insert the new step right above the new step button
-    stepList.insertBefore(btnAddStep);
+    clone.insertBefore(btnAddStep);
 }
 
 // Apply the eilOnNewStepClick handler to the add step button's click event
