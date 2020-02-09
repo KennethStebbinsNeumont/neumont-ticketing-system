@@ -46,10 +46,10 @@
                         singleResult.attr('owner-id', asset.ownerId);
                         singleResult.attr('asset-id', asset.assetId)
 
-                        singleResult.find('.ownerName').val(asset.ownerName);
-                        singleResult.find('.serialNumber').val(asset.assetSerial);
-                        singleResult.find('.assetModel').val(asset.assetModelName);
-                        singleResult.find('.assetType').val(asset.assetTypeName);
+                        singleResult.find('.ownerName').html(asset.ownerName);
+                        singleResult.find('.serialNumber').html(asset.assetSerial);
+                        singleResult.find('.assetModel').html(asset.assetModelName);
+                        singleResult.find('.assetType').html(asset.assetTypeName);
 
                         results.push(singleResult);
                     }
