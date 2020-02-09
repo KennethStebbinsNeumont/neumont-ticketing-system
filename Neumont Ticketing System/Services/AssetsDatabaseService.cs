@@ -204,9 +204,9 @@ namespace Neumont_Ticketing_System.Services
         }
 
         public void ReplaceType(System.Linq.Expressions.Expression<Func<AssetType, bool>>
-            expression, AssetType manufacturer)
+            expression, AssetType type)
         {
-            _types.ReplaceOne(expression, manufacturer);
+            _types.ReplaceOne(expression, type);
         }
         #endregion Types
 
@@ -223,9 +223,9 @@ namespace Neumont_Ticketing_System.Services
         }
 
         public void ReplaceModel(System.Linq.Expressions.Expression<Func<AssetModel, bool>>
-            expression, AssetModel manufacturer)
+            expression, AssetModel model)
         {
-            _models.ReplaceOne(expression, manufacturer);
+            _models.ReplaceOne(expression, model);
         }
         #endregion Models
 
@@ -264,9 +264,9 @@ namespace Neumont_Ticketing_System.Services
         }
 
         public void ReplaceLoanerAsset(System.Linq.Expressions.Expression<Func<LoanerAsset, bool>>
-            expression, LoanerAsset manufacturer)
+            expression, LoanerAsset loaner)
         {
-            _loaners.ReplaceOne(expression, manufacturer);
+            _loaners.ReplaceOne(expression, loaner);
         }
         #endregion Loaners
         #endregion Update
