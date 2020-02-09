@@ -85,3 +85,51 @@ db.models.insertMany([{
     "ModelNumber": "M5520",
     "Manufacturer": dell
 }]);
+let p1g2 = db.models.find({ "Name": "Lenovo P1 gen 2" })[0]._id;
+let p5520 = db.models.find({ "Name": "Dell Precision 5520" })[0]._id;
+
+db = mongo.getDB("owners");
+db.owners.insertMany([{
+    "Name": "Michael Jones",
+    "NormalizedName": null,
+    "EmailAddresses": [
+        "mjones@student.neumont.edu"
+    ],
+    "PhoneNumbers": [
+        "9990002222"
+    ],
+    "PreferredName": {
+        "First": "Mikey",
+        "Middle": "\"Jersey\"",
+        "Last": "Jones"
+    }
+},
+{
+    "Name": "John Cena",
+    "NormalizedName": null,
+    "EmailAddresses": [
+        "jcena@student.neumont.edu"
+    ],
+    "PhoneNumbers": [
+        "8013022860"
+    ],
+    "PreferredName": {
+        "First": "Gerald",
+        "Middle": "\"The Stone\"",
+        "Last": "Phoenix"
+    }
+    }]);
+let mjones = db.owners.find({ "Name": "Michael Jones" })[0]._id;
+let jcena = db.owners.find({ "Name": "John Cena" })[0]._id;
+
+db = mongo.getDB("assets");
+db.assets.insertMany([{
+    "SerialNumber": "QR30FH2",
+    "Model": p5520,
+    "Owner": mjones
+},
+{
+    "SerialNumber": "R9-0WZZZZ",
+    "Model": p1g2,
+    "Owner": jcena
+}]);
