@@ -12,5 +12,10 @@ namespace Neumont_Ticketing_System.Controllers
         {
             return View();
         }
+
+        public IActionResult NewTicket()
+        {
+            return View();
+        }
     }
 }
