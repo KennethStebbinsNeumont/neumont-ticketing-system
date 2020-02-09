@@ -29,19 +29,17 @@
      * */
     let responseReceied = function responseReceived(response) {
         try {
-            let r = JSON.parse(response);
-
-            if (r.Successful) {
+            if (response.Successful) {
                 // Make sure that the response we're about to display
                 // isn't a response to an old query.
-                if (searchInput.val() === r.Query) {
+                if (searchInput.val() === response.Query) {
                     // Empty the table of results
                     resultTable.find('.singleResult').remove();
 
                     // Create the new result elements
                     let results = [];
-                    for (let i = 0; i < r.Assets.length; i++) {
-                        let asset = r.Assets[i];
+                    for (let i = 0; i < response.Assets.length; i++) {
+                        let asset = response.Assets[i];
                         let singleResult = template.clone();
 
                         singleResult.removeAttr('id');
@@ -59,10 +57,10 @@
                     // Show the new result elements
                     resultTable.append(results);
                 } else {
-                    console.log(`A response for an old query ("${r.query}") was received.`)
+                    console.log(`A response for an old query ("${response.query}") was received.`)
                 }
             } else {
-                console.log(`Query was unsuccessful: \"${r.Message}\"`);
+                console.log(`Query was unsuccessful: \"${response.Message}\"`);
             }
            
         } catch(err) {
