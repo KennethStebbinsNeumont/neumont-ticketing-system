@@ -1,6 +1,4 @@
-﻿let subStepTemplate = $('#templateContainer').children().first();
-
-let eslOnSelectorChange = function eslOnSelectorChange() {
+﻿let eslOnSelectorChange = function eslOnSelectorChange() {
     let selector = $(this);
     let newVal = selector.val();
     let parent = selector.parent();
@@ -43,7 +41,8 @@ let eslOnSelectorChange = function eslOnSelectorChange() {
         });
     } else if (selectorIndex === childrenLength - 1) {
         // If this was a normal selection and 
-        // this selector is the last one in the list
+        // this selector is the last one in the list,
+        // add a new empty selector
         let clone = selector.clone();
         clone.val('');
         parent.append(clone);
@@ -57,4 +56,36 @@ let eslOnSelectorChange = function eslOnSelectorChange() {
         });
     }
 }
+// Assign the above handler to all selectors
+$('select').change(eslOnSelectorChange);
 
+const subStepTemplate = $('#templateContainer').children().first();
+let eilOnNewSubStepClick = function eilOnNewSubStepClick() {
+    let container = $(this).parent();
+
+    let clone = subStepTemplate.clone();
+
+    clone.insertBefore(container);
+}
+// Assign the above handler to all add sub-step buttons
+$('.btnAddSubStep').click(eilOnNewSubStepClick);
+
+const btnAddStep = $('#btnAddStep');
+const stepList = $('#stepList');
+let eilOnNewStepClick = function eilOnNewStepClick() {
+    // Clone the first step in the repair step list
+    let clone = stepList.find('.stepContainer').first().clone();
+
+    // Reset values to defaults
+    clone.find('.stepName').val('');
+    clone.find('.subStepList').find('.subStepContainer').remove();
+
+    // Add new sub-step handler to first level add sub-step button
+    clone.find('.btnAddSubStep').click(eilOnNewSubStepClick);
+
+    // Insert the new step right above the new step button
+    stepList.insertBefore(btnAddStep);
+}
+
+// Apply the eilOnNewStepClick handler to the add step button's click event
+btnAddStep.click(eilOnNewStepClick);
