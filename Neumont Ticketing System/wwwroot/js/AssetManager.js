@@ -29,27 +29,27 @@
      * */
     let responseReceied = function responseReceived(response) {
         try {
-            if (response.Successful) {
+            if (response.successful) {
                 // Make sure that the response we're about to display
                 // isn't a response to an old query.
-                if (searchInput.val() === response.Query) {
+                if (searchInput.val() === response.query) {
                     // Empty the table of results
                     resultTable.find('.singleResult').remove();
 
                     // Create the new result elements
                     let results = [];
-                    for (let i = 0; i < response.Assets.length; i++) {
-                        let asset = response.Assets[i];
+                    for (let i = 0; i < response.assets.length; i++) {
+                        let asset = response.assets[i];
                         let singleResult = template.clone();
 
                         singleResult.removeAttr('id');
-                        singleResult.attr('owner-id', asset.OwnerId);
-                        singleResult.attr('asset-id', asset.AssetId)
+                        singleResult.attr('owner-id', asset.ownerId);
+                        singleResult.attr('asset-id', asset.assetId)
 
-                        singleResult.find('.ownerName').val(asset.OwnerName);
-                        singleResult.find('.serialNumber').val(asset.AssetSerial);
-                        singleResult.find('.assetModel').val(asset.AssetModelName);
-                        singleResult.find('.assetType').val(asset.AssetTypeName);
+                        singleResult.find('.ownerName').val(asset.ownerName);
+                        singleResult.find('.serialNumber').val(asset.assetSerial);
+                        singleResult.find('.assetModel').val(asset.assetModelName);
+                        singleResult.find('.assetType').val(asset.assetTypeName);
 
                         results.push(singleResult);
                     }
@@ -60,7 +60,7 @@
                     console.log(`A response for an old query ("${response.query}") was received.`)
                 }
             } else {
-                console.log(`Query was unsuccessful: \"${response.Message}\"`);
+                console.log(`Query was unsuccessful: \"${response.message}\"`);
             }
            
         } catch(err) {
