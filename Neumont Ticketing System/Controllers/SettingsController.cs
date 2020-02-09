@@ -179,6 +179,86 @@ namespace Neumont_Ticketing_System.Controllers
         {
             return View(new AssetManagerModel(_assetDatabaseService.GetModels()));
         }
+
+        [HttpPost]
+        public async Task<JsonResult> AssetManager(AssetManagerQuery query)
+        {
+            var result = Task.Run(() =>
+            {
+                string[] words = query.Query.Split(' ');
+                string possibleSerialNumber = query.Query.RemoveSpecialCharacters();
+                List<Asset> matchedAssets = _assetDatabaseService.GetAssets(a => a.SerialNumber
+                    .Contains(possibleSerialNumber));
+
+                List<Owner> matchedOwners = new List<Owner>();
+                foreach (string word in words)
+                {
+                    matchedOwners.AddRange(_ownersDatabaseService.GetOwners(o => o.Name.Contains(word)));
+                    matchedOwners.AddRange(_ownersDatabaseService.GetOwners(o => o.PreferredName.First.Contains(word)));
+                    matchedOwners.AddRange(_ownersDatabaseService.GetOwners(o => o.PreferredName.Middle.Contains(word)));
+                    matchedOwners.AddRange(_ownersDatabaseService.GetOwners(o => o.PreferredName.Last.Contains(word)));
+                }
+
+                List<Asset> tempMatchedAssets = new List<Asset>();
+                foreach (Owner owner in matchedOwners)
+                {
+                    tempMatchedAssets = _assetDatabaseService.GetAssets(a => a.OwnerId.Equals(owner.Id));
+                    foreach (Asset asset in tempMatchedAssets)
+                    {
+                        if (!matchedAssets.Contains(asset))
+                            matchedAssets.Add(asset);
+                    }
+                }
+
+                List<AssetManagerQueryResponseAsset> responseAssets = new List<AssetManagerQueryResponseAsset>();
+                Owner matchedOwner = null;
+                AssetModel matchedModel = null;
+                AssetType matchedType = null;
+                foreach (var owner in matchedOwners)
+                {
+                    foreach (var asset in _assetDatabaseService.GetAssets(a => a.OwnerId.Equals(owner.Id)))
+                    {
+                        matchedModel = _assetDatabaseService.GetModelById(asset.ModelId);
+                        matchedType = _assetDatabaseService.GetTypeById(matchedModel.TypeId);
+                        responseAssets.Add(new AssetManagerQueryResponseAsset
+                        {
+                            OwnerId = asset.OwnerId,
+                            OwnerName = owner.Name,
+                            OwnerPreferredName = owner.PreferredName,
+                            AssetId = asset.Id,
+                            AssetSerial = asset.SerialNumber,
+                            AssetModelName = matchedModel.Name,
+                            AssetTypeName = matchedType.Name
+                        });
+                    }
+                }
+
+                foreach (var asset in matchedAssets)
+                {
+                    matchedOwner = _ownersDatabaseService.GetOwnerById(asset.OwnerId);
+                    matchedModel = _assetDatabaseService.GetModelById(asset.ModelId);
+                    matchedType = _assetDatabaseService.GetTypeById(matchedModel.TypeId);
+                    responseAssets.Add(new AssetManagerQueryResponseAsset
+                    {
+                        OwnerId = asset.OwnerId,
+                        OwnerName = matchedOwner.Name,
+                        OwnerPreferredName = matchedOwner.PreferredName,
+                        AssetId = asset.Id,
+                        AssetSerial = asset.SerialNumber,
+                        AssetModelName = matchedModel.Name,
+                        AssetTypeName = matchedType.Name
+                    });
+                }
+
+                return new JsonResult(new AssetManagerQueryResponse
+                {
+                    Query = query.Query,
+                    Assets = responseAssets
+                });
+            });
+
+            return await result;
+        }
         #endregion AssetManager
 
         #region AssetDefinitions
@@ -374,6 +454,29 @@ namespace Neumont_Ticketing_System.Controllers
         #endregion AssetDefinitions
 
 
+    }
+
+    public class AssetManagerQuery
+    {
+        public string Query { get; set; }
+        public int MaxNumOfResults { get; set; } = 50;
+    }
+
+    public class AssetManagerQueryResponseAsset
+    {
+        public string OwnerId { get; set; }
+        public string OwnerName { get; set; }
+        public PreferredName OwnerPreferredName { get; set; }
+        public string AssetId { get; set; }
+        public string AssetSerial { get; set; }
+        public string AssetModelName { get; set; }
+        public string AssetTypeName { get; set; }
+    }
+
+    public class AssetManagerQueryResponse
+    {
+        public string Query { get; set; }
+        public List<AssetManagerQueryResponseAsset> Assets { get; set; }
     }
 
     public class AssetCreatorReturnAsset

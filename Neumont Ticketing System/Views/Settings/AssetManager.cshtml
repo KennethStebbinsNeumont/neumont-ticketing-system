@@ -21,81 +21,22 @@
         <input class="largeInput" id="searchInput" />
     </div>
     <div class="resultsContainer">
-        <div class="table">
+        <div class="table" id="resultTable">
             <div class="tableHeader">
                 <p class="tableHeaderText tableText">Owner Name</p>
                 <p class="tableHeaderText tableText">Serial Number</p>
                 <p class="tableHeaderText tableText">Asset Model</p>
                 <p class="tableHeaderText tableText">Asset Type</p>
             </div>
-            <div class="singleResult">
-                <p class="resultValueText tableText">Owner Name</p>
-                <p class="resultValueText tableText">Serial Number</p>
-                <p class="resultValueText tableText">Asset Model</p>
-                <p class="resultValueText tableText">Asset Type</p>
-            </div>
         </div>
     </div>
 </div>
 
 <div class="hidden" style="display:none">
-    <div class="listItem templateListItem ownerContainer">
-        <div class="inputContainer">
-            <p class="inputLabel">Owner's Name: </p>
-            <input class="text-box single-line nameInput"
-                   type="text" value="">
-        </div>
-        <div class="inputContainer">
-            <p class="inputLabel">Preferred First Name: </p>
-            <input class="text-box single-line preferredFNameInput"
-                   type="text" value="">
-        </div>
-        <div class="inputContainer">
-            <p class="inputLabel">Preferred Middle Name: </p>
-            <input class="text-box single-line preferredMNameInput"
-                   type="text" value="">
-        </div>
-        <div class="inputContainer">
-            <p class="inputLabel">Preferred Last Name: </p>
-            <input class="text-box single-line preferredLNameInput"
-                   type="text" value="">
-        </div>
-        <div class="inputContainer phoneNumberContainer">
-            <p class="inputLabel">Phone Numbers: </p>
-            <input class="text-box single-line expandableListInput phoneNumberInput"
-                   type="tel" />
-        </div>
-        <div class="inputContainer emailAddressContainer">
-            <p class="inputLabel">Email addresses: </p>
-            <input class="text-box single-line expandableListInput emailAddressInput"
-                   type="email" />
-        </div>
-        <div class="assetList">
-            <h3 class="listTitle">Owned Assets</h3>
-            <div class="listSubItem assetContainer cloneableListItem">
-                <div class="inputContainer">
-                    <p class="inputLabel">Serial Number: </p>
-                    <input class="text-box single-line serialNumberInput"
-                           type="text"
-                           value="" />
-                </div>
-                <div class="inputContainer">
-                    <p class="inputLabel">Model: </p>
-                    <select class="modelSelector">
-                        @for (int k = 0; k < Model.AssetModels.Count; k++)
-                            {
-                                var model = Model.AssetModels[k];
-                        <option value="@(model.Name)"
-                                selected=@(k <= 0)>
-                            @(model.Name)
-                        </option>
-                            }
-                    </select>
-                </div>
-            </div>
-            <div class="listSubItem btnAddListItemContainer btnAddAssetContainer">
-                <button class="btnAddListSubItem btnAddAsset">Add Asset</button>
-            </div>
-        </div>
+    <div class="singleResult cloneableListItem" id="resultTemplate">
+        <p class="resultValueText tableText ownerName">Owner Name</p>
+        <p class="resultValueText tableText serialNumber">Serial Number</p>
+        <p class="resultValueText tableText assetModel">Asset Model</p>
+        <p class="resultValueText tableText assetType">Asset Type</p>
     </div>
 </div>
