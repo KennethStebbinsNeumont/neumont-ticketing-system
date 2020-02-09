@@ -3,12 +3,13 @@ using MongoDB.Bson.Serialization.Attributes;
 using Neumont_Ticketing_System.Models.Assets;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Neumont_Ticketing_System.Models.Owners
 {
-    public class Owner
+    public class Owner : IEquatable<Owner>
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -38,6 +39,11 @@ namespace Neumont_Ticketing_System.Models.Owners
                     result.Add(asset);
             }
             return result;
+        }
+
+        public bool Equals([AllowNull] Owner other)
+        {
+            return other != null && other.Id.Equals(Id);
         }
     }
 }

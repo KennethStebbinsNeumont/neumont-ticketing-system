@@ -26,7 +26,7 @@ namespace Neumont_Ticketing_System.Models.Assets
 
         public bool Equals([AllowNull] Asset other)
         {
-            return other != null && other.Id == Id;
+            return other != null && other.Id.Equals(Id);
         }
 
         public AssetModel GetModel(List<AssetModel> allModels)

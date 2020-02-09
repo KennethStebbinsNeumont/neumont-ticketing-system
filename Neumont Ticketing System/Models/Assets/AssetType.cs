@@ -22,7 +22,7 @@ namespace Neumont_Ticketing_System.Models.Assets
 
         public bool Equals([AllowNull] AssetType other)
         {
-            return other != null && other.Id == Id;
+            return other != null && other.Id.Equals(Id);
         }
     }
 }

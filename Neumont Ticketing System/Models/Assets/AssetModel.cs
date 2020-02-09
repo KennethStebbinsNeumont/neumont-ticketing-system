@@ -30,7 +30,7 @@ namespace Neumont_Ticketing_System.Models.Assets
 
         public bool Equals([AllowNull] AssetModel other)
         {
-            return other != null && other.Id == Id;
+            return other != null && other.Id.Equals(Id);
         }
     }
 }
