@@ -6,10 +6,12 @@
     /* Response schema:
      * 
      * response = {
-     *     Query: <the query this response was crafted for>,
+     *     Successful: <bool - whether or not the query was successful>,
+     *     Message : <string - a message from the server about this query>,
+     *     Query: <string - the query this response was crafted for>,
      *     Assets: [
      *         {
-     *             OwnerId: <ObjectId of owner>,
+     *             OwnerId: <ObjectId - id of owner>,
      *             OwnerName: <name, not preferred name, of owner>,
      *             OwnerPreferredName: {
      *                 First: <owner's preferred first name>,
