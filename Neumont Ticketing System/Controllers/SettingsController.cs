@@ -205,12 +205,17 @@ namespace Neumont_Ticketing_System.Controllers
                             .Contains(possibleSerialNumber));
 
                         List<Owner> matchedOwners = new List<Owner>();
+                        List<Owner> tempOwners = null;
                         foreach (string word in words)
                         {
-                            matchedOwners.AddRange(_ownersDatabaseService.GetOwners(o => o.Name.Contains(word)));
-                            matchedOwners.AddRange(_ownersDatabaseService.GetOwners(o => o.PreferredName.First.Contains(word)));
-                            matchedOwners.AddRange(_ownersDatabaseService.GetOwners(o => o.PreferredName.Middle.Contains(word)));
-                            matchedOwners.AddRange(_ownersDatabaseService.GetOwners(o => o.PreferredName.Last.Contains(word)));
+                            tempOwners = _ownersDatabaseService.GetOwners(o => o.Name.Contains(word));
+                            tempOwners.AddRange(_ownersDatabaseService.GetOwners(o => o.PreferredName.First.Contains(word)));
+                            tempOwners.AddRange(_ownersDatabaseService.GetOwners(o => o.PreferredName.Middle.Contains(word)));
+                            tempOwners.AddRange(_ownersDatabaseService.GetOwners(o => o.PreferredName.Last.Contains(word)));
+                            tempOwners.ForEach(o => {
+                                if (!matchedOwners.Contains(o))
+                                    matchedOwners.Add(o);
+                            });
                         }
 
                         List<AssetManagerQueryResponseAsset> responseAssets = new List<AssetManagerQueryResponseAsset>();
