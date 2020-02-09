@@ -45,6 +45,7 @@
         // add a new empty selector
         let clone = selector.clone();
         clone.val('');
+        clone.change(eslOnSelectorChange);
         parent.append(clone);
     }
 
