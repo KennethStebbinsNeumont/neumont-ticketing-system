@@ -202,7 +202,7 @@ namespace Neumont_Ticketing_System.Controllers
                         string[] words = queryObject.Query.Split(' ');
                         string possibleSerialNumber = queryObject.Query.RemoveSpecialCharacters();
                         List<Asset> matchedAssets = _assetDatabaseService.GetAssets(a => a.SerialNumber
-                            .Contains(possibleSerialNumber));
+                            .RemoveSpecialCharacters().Contains(possibleSerialNumber));
 
                         List<Owner> matchedOwners = new List<Owner>();
                         List<Owner> tempOwners = null;
