@@ -181,7 +181,7 @@ namespace Neumont_Ticketing_System.Controllers
         }
 
         [HttpPost]
-        public async Task<JsonResult> AssetManager(AssetManagerQuery queryObject)
+        public async Task<JsonResult> AssetManager([FromBody] AssetManagerQuery queryObject)
         {
             var result = Task.Run<JsonResult>(() =>
             {
