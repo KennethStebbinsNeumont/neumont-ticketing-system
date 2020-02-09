@@ -118,3 +118,7 @@ p {
 select {
     height: 30px;
 }
+
+.expandableListSelector {
+    grid-column-start: 2
+}
