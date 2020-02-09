@@ -41,6 +41,11 @@ namespace Neumont_Ticketing_System.Services
         {
             return _manufacturers.Find(expression, options).ToList();
         }
+
+        public AssetManufacturer GetManufacturerById(string id)
+        {
+            return _manufacturers.Find(m => m.Id.Equals(id)).First();
+        }
         #endregion Manufacturers
 
         #region Types
@@ -54,6 +59,11 @@ namespace Neumont_Ticketing_System.Services
             FindOptions options = null)
         {
             return _types.Find(expression, options).ToList();
+        }
+
+        public AssetType GetTypeById(string id)
+        {
+            return _types.Find(t => t.Id.Equals(id)).First();
         }
         #endregion Types
 
@@ -69,6 +79,11 @@ namespace Neumont_Ticketing_System.Services
         {
             return _models.Find(expression, options).ToList();
         }
+
+        public AssetModel GetModelById(string id)
+        {
+            return _models.Find(m => m.Id.Equals(id)).First();
+        }
         #endregion Models
 
         #region Assets
@@ -83,6 +98,11 @@ namespace Neumont_Ticketing_System.Services
         {
             return _assets.Find(expression, options).ToList();
         }
+
+        public Asset GetAssetById(string id)
+        {
+            return _assets.Find(a => a.Id.Equals(id)).First();
+        }
         #endregion Assets
 
         #region Loaners
@@ -96,6 +116,11 @@ namespace Neumont_Ticketing_System.Services
             FindOptions options = null)
         {
             return _loaners.Find(expression, options).ToList();
+        }
+
+        public LoanerAsset GetLoanerById(string id)
+        {
+            return _loaners.Find(l => l.Id.Equals(id)).First();
         }
         #endregion Loaners
         #endregion Read
