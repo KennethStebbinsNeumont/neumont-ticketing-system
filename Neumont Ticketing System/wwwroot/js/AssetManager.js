@@ -28,37 +28,48 @@
      * 
      * */
     let responseReceied = function responseReceived(response) {
-        let r = JSON.parse(response);
+        try {
+            let r = JSON.parse(response);
 
-        // Make sure that the response we're about to display
-        // isn't a response to an old query.
-        if (searchInput.val() === r.query) {
-            // Empty the table of results
-            resultTable.find('.singleResult').remove();
+            if (r.Successful) {
+                // Make sure that the response we're about to display
+                // isn't a response to an old query.
+                if (searchInput.val() === r.Query) {
+                    // Empty the table of results
+                    resultTable.find('.singleResult').remove();
 
-            // Create the new result elements
-            let results = [];
-            for (let i = 0; i < r.assets.length; i++) {
-                let asset = r.assets[i];
-                let singleResult = template.clone();
+                    // Create the new result elements
+                    let results = [];
+                    for (let i = 0; i < r.Assets.length; i++) {
+                        let asset = r.Assets[i];
+                        let singleResult = template.clone();
 
-                singleResult.removeAttr('id');
-                singleResult.attr('owner-id', asset.OwnerId);
-                singleResult.attr('asset-id', asset.AssetId)
+                        singleResult.removeAttr('id');
+                        singleResult.attr('owner-id', asset.OwnerId);
+                        singleResult.attr('asset-id', asset.AssetId)
 
-                singleResult.find('.ownerName').val(asset.OwnerName);
-                singleResult.find('.serialNumber').val(asset.AssetSerial);
-                singleResult.find('.assetModel').val(asset.AssetModelName);
-                singleResult.find('.assetType').val(asset.AssetTypeName);
+                        singleResult.find('.ownerName').val(asset.OwnerName);
+                        singleResult.find('.serialNumber').val(asset.AssetSerial);
+                        singleResult.find('.assetModel').val(asset.AssetModelName);
+                        singleResult.find('.assetType').val(asset.AssetTypeName);
 
-                results.push(singleResult);
+                        results.push(singleResult);
+                    }
+
+                    // Show the new result elements
+                    resultTable.append(results);
+                } else {
+                    console.log(`A response for an old query ("${r.query}") was received.`)
+                }
+            } else {
+                console.log(`Query was unsuccessful: \"${r.Message}\"`);
             }
-
-            // Show the new result elements
-            resultTable.append(results);
-        } else {
-            console.log(`A response for an old query ("${r.query}") was received.`)
+           
+        } catch {
+            console.log(`Unable to parse response: \"${response}\"`);
         }
+
+        
     };
 
     let unexpectedFailure = function unexpectedFailure(response) {
