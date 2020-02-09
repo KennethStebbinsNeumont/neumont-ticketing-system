@@ -65,7 +65,7 @@
                 console.log(`Query was unsuccessful: \"${r.Message}\"`);
             }
            
-        } catch {
+        } catch(err) {
             console.log(`Unable to parse response: \"${response}\"`);
         }
 
