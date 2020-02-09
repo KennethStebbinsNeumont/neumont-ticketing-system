@@ -21,98 +21,6 @@
     <div class="listItem btnAddListItemContainer btnNewOwnerContainer">
         <button class="btnAddListItem btnNewOwner">Add Owner</button>
     </div>
-    @if (Model.Owners.Count > 0)
-    {
-
-        @for (int i = 0; i < Model.Owners.Count; i++)
-        {
-            var owner = Model.Owners[i];
-            <div class="listItem cloneableListItem ownerContainer">
-                <div class="inputContainer">
-                    <p class="inputLabel">Owner's Name: </p>
-                    <input class="text-box single-line nameInput"
-                           type="text" value="@(owner.Name)"
-                           old-value="@(owner.Name)" original-value="@(owner.Name)">
-                </div>
-                <div class="inputContainer">
-                    <p class="inputLabel">Owner's preferred name: </p>
-                    <input class="text-box single-line preferredNameInput"
-                           type="text" value="@(owner.PreferredName)"
-                           old-value="@(owner.PreferredName)">
-                </div>
-                <div class="inputContainer phoneNumberContainer">
-                    <p class="inputLabel">Phone Numbers: </p>
-                    @for (int j = 0; j <= owner.PhoneNumbers.Count; j++)
-                    {
-                        if (j >= owner.PhoneNumbers.Count)
-                        {
-                            <input class="text-box single-line expandableListInput phoneNumberInput"
-                                   type="tel" />
-                        }
-                        else
-                        {
-                            <input class="text-box single-line expandableListInput phoneNumberInput"
-                                   type="tel"
-                                   value="@(owner.PhoneNumbers[j])" />
-                        }
-                    }
-                </div>
-                <div class="inputContainer emailAddressContainer">
-                    <p class="inputLabel">Email addresses: </p>
-                    @for (int j = 0; j <= owner.EmailAddresses.Count; j++)
-                    {
-                        if (j >= owner.EmailAddresses.Count)
-                        {
-                            <input class="text-box single-line expandableListInput emailAddressInput"
-                                   type="email" />
-                        }
-                        else
-                        {
-                            <input class="text-box single-line expandableListInput emailAddressInput"
-                                   type="email"
-                                   value="@(owner.EmailAddresses[j])" />
-                        }
-                    }
-                </div>
-                <div class="assetList">
-                    <h3 class="listTitle">Owned Assets</h3>
-                    @{List<Asset> ownedAssets = owner.GetOwnedAssets(Model.Assets);}
-                    @for (int j = 0; j <= ownedAssets.Count; j++)
-                    {
-                        <div class="listSubItem assetContainer cloneableListItem">
-                            <div class="inputContainer">
-                                <p class="inputLabel">Serial Number: </p>
-                                <input class="text-box single-line serialNumberInput"
-                                       type="text"
-                                       value="@(ownedAssets[j].SerialNumber)"
-                                       old-value="@(ownedAssets[j].SerialNumber)"
-                                       original-value="@(ownedAssets[j].SerialNumber)">
-                            </div>
-                            <div class="inputContainer">
-                                <p class="inputLabel">Model: </p>
-                                <select class="modelSelector">
-                                    @for (int k = 0; k < Model.AssetModels.Count; k++)
-                                    {
-                                        var model = Model.AssetModels[k];
-                                        <option value="@(model.Name)"
-                                                selected=@(ownedAssets[j].ModelId.Equals(model.Id))>
-                                            @(model.Name)
-                                        </option>
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                    }
-                    <div class="listSubItem btnAddListItemContainer btnAddAssetContainer">
-                        <button class="btnAddListSubItem btnAddAsset">Add Asset</button>
-                    </div>
-                </div>
-
-            </div>
-        }
-    }
-    else
-    { @* Blank model inserted when no owners are defined *@
     <div class="listItem cloneableListItem ownerContainer">
         <div class="inputContainer">
             <p class="inputLabel">Owner's Name: </p>
@@ -172,5 +80,4 @@
             </div>
         </div>
     </div>
-}
 </div>
