@@ -75,7 +75,7 @@ namespace Neumont_Ticketing_System.Services
         #region Repairs
         public Repair CreateRepair(Repair repair)
         {
-            repair.NormalizedName = CommonFunctions.NormalizeString(repair.Name)
+            repair.NormalizedName = CommonFunctions.NormalizeString(repair.Name);
             var matchedRepairs = GetRepairs(r => r.NormalizedName.Equals(repair.NormalizedName));
             if (matchedRepairs.Count > 0)
             {   // If another repair with the same normalized name is found, throw an exception
@@ -106,14 +106,14 @@ namespace Neumont_Ticketing_System.Services
         #region Repairs
         public void UpdateRepair(Repair repair)
         {
-            repair.NormalizedName = CommonFunctions.NormalizeString(repair.Name)
+            repair.NormalizedName = CommonFunctions.NormalizeString(repair.Name);
             SetAllStepsNormalizedNames(repair.Steps);
             _repairs.ReplaceOne(u => u.Id == repair.Id, repair);
         }
 
         public void ReplaceRepair(string id, Repair repair)
         {
-            repair.NormalizedName = CommonFunctions.NormalizeString(repair.Name)
+            repair.NormalizedName = CommonFunctions.NormalizeString(repair.Name);
             var matchedRepairs = GetRepairs(r => r.NormalizedName.Equals(repair.NormalizedName) 
                                                 && !r.Id.Equals(id));
             if (matchedRepairs.Count > 0)
