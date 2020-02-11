@@ -113,7 +113,19 @@ namespace Neumont_Ticketing_System.Services
 
         public void ReplaceRepair(string id, Repair repair)
         {
-            _repairs.ReplaceOne(u => u.Id == id, repair);
+            repair.NormalizedName = repair.Name.RemoveSpecialCharacters().ToUpper();
+            var matchedRepairs = GetRepairs(r => r.NormalizedName.Equals(repair.NormalizedName) 
+                                                && !r.Id.Equals(id));
+            if (matchedRepairs.Count > 0)
+            {   // If another repair with the same normalized name is found THAT IS 
+                // NOT THE ONE WE'RE REPLACING, throw an exception
+                throw new DuplicateException<Repair>(matchedRepairs.First());
+            }
+            else
+            {
+                SetAllStepsNormalizedNames(repair.Steps);
+                _repairs.ReplaceOne(u => u.Id == id, repair);
+            }
         }
         #endregion Repairs
         #endregion Update
