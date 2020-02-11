@@ -21,5 +21,16 @@ namespace Neumont_Ticketing_System
             }
             return sb.ToString();
         }
+
+        // Add only the items in additional that don't already exist in this list
+        // NOTE: Will come with a massive performance cost compared to AddRange()
+        public static void AddRangeUnique<T>(this List<T> list, List<T> additional)
+        {
+            foreach(T thing in additional)
+            {
+                if (!list.Contains(thing))
+                    list.Add(thing);
+            }
+        }
     }
 }
