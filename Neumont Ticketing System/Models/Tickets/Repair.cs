@@ -19,9 +19,10 @@ namespace Neumont_Ticketing_System.Models.Tickets
 
         public string NormalizedName { get; set; }
 
+        public AppliesTo AppliesTo { get; set; }
+
         public List<RepairStep> Steps { get; set; }
 
-        public AppliesTo AppliesTo { get; set; }
 
         public bool DoesApplyTo(AssetType type)
         {

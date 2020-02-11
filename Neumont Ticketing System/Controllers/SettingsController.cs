@@ -20,15 +20,18 @@ namespace Neumont_Ticketing_System.Controllers
 
         private readonly AssetsDatabaseService _assetDatabaseService;
         private readonly OwnersDatabaseService _ownersDatabaseService;
+        private readonly TicketsDatabaseService _ticketsDatabaseService;
 
         public SettingsController(ILogger<SettingsController> logger,
             AssetsDatabaseService assetsDatabaseService,
-            OwnersDatabaseService ownersDatabaseService)
+            OwnersDatabaseService ownersDatabaseService,
+            TicketsDatabaseService ticketsDatabaseService)
         {
             _logger = logger;
 
             _assetDatabaseService = assetsDatabaseService;
             _ownersDatabaseService = ownersDatabaseService;
+            _ticketsDatabaseService = ticketsDatabaseService;
         }
 
         public IActionResult Index()
@@ -487,14 +490,57 @@ namespace Neumont_Ticketing_System.Controllers
         }
 
         [HttpPost]
-        public JsonResult NewRepairDefinition([FromBody] NewRepairData data)
+        public JsonResult NewRepairDefinition([FromBody] NewRepairData proposedRepair)
         {
-
-
-            return new JsonResult(new
+            try
             {
-                Successful = true
-            });
+                Repair duplicate = _ticketsDatabaseService.GetRepairByName(proposedRepair.Name);
+                if (duplicate != null)
+                {   // If a repair with the same name was found
+                    _logger.LogError($"A duplicate repair with the name \"{duplicate.Name}\" was found while " +
+                        $"trying to create a new repair.");
+                    return new JsonResult(new NewRepairDataResponse
+                    {
+                        Successful = false,
+                        Message = $"A duplicate repair with the name \"{duplicate.Name}\" was found."
+                    });
+                }
+
+                List<AssetType> types = _assetDatabaseService.GetTypesByName(proposedRepair.AppliesTo.TypeNames);
+                List<string> typeIds = new List<string>();
+                types.ForEach(type => typeIds.Add(type.Id));
+                List<AssetManufacturer> mfrs = _assetDatabaseService.GetManufacturersByName(
+                    proposedRepair.AppliesTo.ManufacturerNames);
+                List<string> mfrIds = new List<string>();
+                mfrs.ForEach(mfr => mfrIds.Add(mfr.Id));
+                List<AssetModel> models = _assetDatabaseService.GetModelsByName(proposedRepair.AppliesTo.ModelNames);
+                List<string> modelIds = new List<string>();
+                models.ForEach(model => modelIds.Add(model.Id));
+
+                _ticketsDatabaseService.CreateRepair(new Repair
+                {
+                    Name = proposedRepair.Name,
+                    Steps = proposedRepair.Steps,
+                    AppliesTo = new AppliesTo
+                    {
+                        TypeIds = typeIds,
+                        ManufacturerIds = mfrIds,
+                        ModelIds = modelIds
+                    }
+                });
+
+                return new JsonResult(new NewRepairDataResponse
+                {
+                    Successful = true
+                });
+            } catch(Exception e) {
+                _logger.LogError(e, "Unexpected exception while trying to create a new repair definition from HTTP POST.");
+                return new JsonResult(new NewRepairDataResponse
+                {
+                    Successful = false,
+                    Message = "Unexpected internal error."
+                });
+            }
         }
         #endregion RepairManagement
     }
@@ -587,6 +633,12 @@ namespace Neumont_Ticketing_System.Controllers
         public string Name { get; set; }
         public RepairAppliesTo AppliesTo { get; set; }
         public List<RepairStep> Steps { get; set; }
+    }
+
+    public class NewRepairDataResponse
+    {
+        public bool Successful { get; set; }
+        public string Message { get; set; }
     }
 
     public class RepairAppliesTo
