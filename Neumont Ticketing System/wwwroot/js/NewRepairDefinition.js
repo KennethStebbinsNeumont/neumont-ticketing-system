@@ -63,6 +63,8 @@ let eilOnNewSubStepClick = function eilOnNewSubStepClick() {
 
     let clone = $('#templateContainer').children('.subStepContainer').clone();
 
+    clone.find('.btnAddSubStep').click(eilOnNewSubStepClick);
+
     clone.insertBefore(container);
 }
 
