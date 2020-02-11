@@ -36,16 +36,36 @@ namespace Neumont_Ticketing_System.Services
             return GetTypes(type => true);
         }
 
-        public List<AssetType> GetTypes(System.Linq.Expressions.Expression<Func<AssetType,
-            bool>> expression,
-            FindOptions options = null)
+        public AssetType GetTypeByName(string name)
         {
-            return _types.Find(expression, options).ToList();
+            string normalizedName = CommonFunctions.NormalizeString(name);
+            var matches = GetTypes(r => r.NormalizedName.Equals(normalizedName));
+            if (matches.Count > 0)
+                return matches.First();
+            else
+                return null;
+        }
+
+        public List<AssetType> GetTypesByName(List<string> names)
+        {
+            List<string> normalizedNames = new List<string>();
+            foreach(string name in names)
+            {
+                normalizedNames.Add(CommonFunctions.NormalizeString(name));
+            }
+            return GetTypes(t => normalizedNames.Contains(t.NormalizedName));
         }
 
         public AssetType GetTypeById(string id)
         {
             return _types.Find(t => t.Id.Equals(id)).First();
+        }
+
+        public List<AssetType> GetTypes(System.Linq.Expressions.Expression<Func<AssetType,
+            bool>> expression,
+            FindOptions options = null)
+        {
+            return _types.Find(expression, options).ToList();
         }
         #endregion Types
 
@@ -55,16 +75,36 @@ namespace Neumont_Ticketing_System.Services
             return GetManufacturers(manufacturer => true);
         }
 
-        public List<AssetManufacturer> GetManufacturers(System.Linq.Expressions.Expression<Func<AssetManufacturer, 
-            bool>> expression,
-            FindOptions options = null)
+        public AssetManufacturer GetManufacturerByName(string name)
         {
-            return _manufacturers.Find(expression, options).ToList();
+            string normalizedName = CommonFunctions.NormalizeString(name);
+            var matches = GetManufacturers(r => r.NormalizedName.Equals(normalizedName));
+            if (matches.Count > 0)
+                return matches.First();
+            else
+                return null;
+        }
+
+        public List<AssetManufacturer> GetManufacturersByName(List<string> names)
+        {
+            List<string> normalizedNames = new List<string>();
+            foreach (string name in names)
+            {
+                normalizedNames.Add(CommonFunctions.NormalizeString(name));
+            }
+            return GetManufacturers(m => normalizedNames.Contains(m.NormalizedName));
         }
 
         public AssetManufacturer GetManufacturerById(string id)
         {
             return _manufacturers.Find(m => m.Id.Equals(id)).First();
+        }
+
+        public List<AssetManufacturer> GetManufacturers(System.Linq.Expressions.Expression<Func<AssetManufacturer,
+            bool>> expression,
+            FindOptions options = null)
+        {
+            return _manufacturers.Find(expression, options).ToList();
         }
         #endregion Manufacturers
 
@@ -74,16 +114,45 @@ namespace Neumont_Ticketing_System.Services
             return GetModels(model => true);
         }
 
-        public List<AssetModel> GetModels(System.Linq.Expressions.Expression<Func<AssetModel,
-            bool>> expression,
-            FindOptions options = null)
+        public AssetModel GetModelByName(AssetType type, AssetModel model, string name)
         {
-            return _models.Find(expression, options).ToList();
+            return GetModelByName(type.Id, model.Id, name);
+        }
+
+        public AssetModel GetModelByName(string typeId, string mfrId, string name)
+        {
+            string normalizedName = CommonFunctions.NormalizeString(name);
+            var matches = GetModels(m => m.NormalizedName.Equals(normalizedName) &&
+                                        m.TypeId.Equals(typeId) &&
+                                        m.ManufacturerId.Equals(mfrId));
+            if (matches.Count > 0)
+                return matches.First();
+            else
+                return null;
+        }
+
+        public List<AssetModel> GetModelsByName(string typeId, string mfrId, List<string> names)
+        {
+            List<string> normalizedNames = new List<string>();
+            foreach (string name in names)
+            {
+                normalizedNames.Add(CommonFunctions.NormalizeString(name));
+            }
+            return GetModels(m => normalizedNames.Contains(m.NormalizedName) &&
+                                        m.TypeId.Equals(typeId) &&
+                                        m.ManufacturerId.Equals(mfrId));
         }
 
         public AssetModel GetModelById(string id)
         {
             return _models.Find(m => m.Id.Equals(id)).First();
+        }
+
+        public List<AssetModel> GetModels(System.Linq.Expressions.Expression<Func<AssetModel,
+            bool>> expression,
+            FindOptions options = null)
+        {
+            return _models.Find(expression, options).ToList();
         }
         #endregion Models
 
@@ -171,26 +240,14 @@ namespace Neumont_Ticketing_System.Services
             model.NormalizedName = CommonFunctions.NormalizeString(model.Name);
             model.NormalizedModelNumber = CommonFunctions.NormalizeString(model.ModelNumber);
             var matchedModels = GetModels(m => m.NormalizedName.Equals(model.NormalizedName) &&
-                                                m.ManufacturerId.Equals(model.ManufacturerId));
+                                                m.NormalizedModelNumber.Equals(model.NormalizedModelNumber));
             if (matchedModels.Count > 0)
             {
-                // If we find another model with the same name & mfr
+                // If we find another model with the same name & model number
                 throw new DuplicateException<AssetModel>(matchedModels);
-            }
-            else
-            {
-                matchedModels = GetModels(m => m.NormalizedModelNumber.Equals(model.NormalizedModelNumber) &&
-                                                m.ManufacturerId.Equals(model.ManufacturerId));
-                if (matchedModels.Count > 0)
-                {
-                    // If we find another model with the same model number & mfr
-                    throw new DuplicateException<AssetModel>(matchedModels);
-                }
-                else
-                {
-                    _models.InsertOne(model);
-                    return model;
-                }
+            } else {
+            _models.InsertOne(model);
+            return model;
             }
         }
         #endregion Models
@@ -299,28 +356,17 @@ namespace Neumont_Ticketing_System.Services
             model.NormalizedName = CommonFunctions.NormalizeString(model.Name);
             model.NormalizedModelNumber = CommonFunctions.NormalizeString(model.ModelNumber);
             var matchedModels = GetModels(m => m.NormalizedName.Equals(model.NormalizedName) &&
-                                                m.ManufacturerId.Equals(model.ManufacturerId) &&
+                                                m.NormalizedModelNumber.Equals(model.NormalizedModelNumber) &&
                                                 !m.Id.Equals(id));
             if (matchedModels.Count > 0)
             {
-                // If we find another model with the same name & mfr THAT ISN'T THE ONE
+                // If we find another model with the same name & model number THAT ISN'T THE ONE
                 // WE'RE REPLACING
                 throw new DuplicateException<AssetModel>(matchedModels);
             }
             else
             {
-                matchedModels = GetModels(m => m.NormalizedModelNumber.Equals(model.NormalizedModelNumber) &&
-                                                m.ManufacturerId.Equals(model.ManufacturerId) &&
-                                                        !m.Id.Equals(id));
-                if(matchedModels.Count > 0)
-                {
-                    // If we find another model with the same model number & mfr THAT ISN'T THE ONE
-                    // WE'RE REPLACING
-                    throw new DuplicateException<AssetModel>(matchedModels);
-                } else
-                {
-                    _models.ReplaceOne(u => u.Id == id, model);
-                }
+                _models.ReplaceOne(u => u.Id == id, model);
             }
         }
         #endregion Models
