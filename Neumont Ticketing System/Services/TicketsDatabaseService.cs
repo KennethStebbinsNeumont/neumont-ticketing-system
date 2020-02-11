@@ -79,7 +79,7 @@ namespace Neumont_Ticketing_System.Services
             var matchedRepairs = GetRepairs(r => r.NormalizedName.Equals(repair.NormalizedName));
             if (matchedRepairs.Count > 0)
             {   // If another repair with the same normalized name is found, throw an exception
-                throw new DuplicateException<Repair>(matchedRepairs.First());
+                throw new DuplicateException<Repair>(matchedRepairs);
             } else
             {
                 SetAllStepsNormalizedNames(repair.Steps);
@@ -119,7 +119,7 @@ namespace Neumont_Ticketing_System.Services
             if (matchedRepairs.Count > 0)
             {   // If another repair with the same normalized name is found THAT IS 
                 // NOT THE ONE WE'RE REPLACING, throw an exception
-                throw new DuplicateException<Repair>(matchedRepairs.First());
+                throw new DuplicateException<Repair>(matchedRepairs);
             }
             else
             {
