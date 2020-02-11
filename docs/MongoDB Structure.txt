@@ -111,7 +111,7 @@ assets : {
 		// Describes an asset type (i.e. Laptop)
 		type : {
 			_id : <ObjectId - determined by MongoDB>,
-			Name : <string - name of asset type>,
+			Name : <string - name of asset type; must be unique>,
 			NormalizedName : <string - normalized version of name; managed by application>,
 			Description : <long string - description of this type of asset>
 		}
@@ -120,7 +120,7 @@ assets : {
 		// Describes an asset manufacturer along with their contact information (i.e. Lenovo)
 		manufacturer : {
 			_id : <ObjectId - determined by MongoDB>,
-			Name : <string - Human-readable name of model>,
+			Name : <string - Human-readable name of model; must be unique>,
 			NormalizedName: <string - normalized version of name; managed by application>,
 			EmailAddresses : [<string - email address to use for support; in order of usefulness>, ...],
 			PhoneNumbers : [<string - phone numbers to use for support; in order of usefulness; 
@@ -131,7 +131,7 @@ assets : {
 		// Describes an asset model (i.e. P1 gen 2)
 		model : {
 			_id : <ObjectId - determined by MongoDB>,
-			Name : <string - Human-readable name of model>,
+			Name : <string - Human-readable name of model; must be unique>,
 			NormalizedName : <string - normalized verison of name; handeled by application>,
 			Type : <ObjectId - the type definition's unique _id value that this model best fits>,
 			ModelNumber : <string - manufaturer's standardized identifier of this model>,
