@@ -78,7 +78,7 @@ let eilOnNewStepClick = function eilOnNewStepClick() {
     clone.find('.btnAddSubStep').click(eilOnNewSubStepClick);
 
     // Insert the new step right above the new step button
-    clone.insertBefore($('#btnAddStep'));
+    clone.insertBefore($('#btnAddStep').parent());
 }
 
 let jsonifyInputs = function jsonifyInputs() {
