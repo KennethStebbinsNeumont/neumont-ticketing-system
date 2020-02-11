@@ -8,6 +8,7 @@ using Neumont_Ticketing_System.Controllers.Exceptions;
 using Neumont_Ticketing_System.Models;
 using Neumont_Ticketing_System.Models.Assets;
 using Neumont_Ticketing_System.Models.Owners;
+using Neumont_Ticketing_System.Models.Tickets;
 using Neumont_Ticketing_System.Services;
 using Neumont_Ticketing_System.Views.Settings;
 
@@ -484,9 +485,19 @@ namespace Neumont_Ticketing_System.Controllers
 
             return View(model);
         }
+
+        [HttpPost]
+        public JsonResult NewRepairDefinition([FromBody] NewRepairData data)
+        {
+            return new JsonResult(new
+            {
+                Successful = true
+            });
+        }
         #endregion RepairManagement
     }
 
+    #region AssetManager
     public class AssetManagerQuery
     {
         public string Query { get; set; }
@@ -511,7 +522,9 @@ namespace Neumont_Ticketing_System.Controllers
         public string Query { get; set; }
         public List<AssetManagerQueryResponseAsset> Assets { get; set; }
     }
+    #endregion AssetManager
 
+    #region AssetCreator
     public class AssetCreatorReturnAsset
     {
         public string SerialNumber { get; set; }
@@ -531,7 +544,9 @@ namespace Neumont_Ticketing_System.Controllers
     {
         public List<AssetCreatorReturnOwner> owners { get; set; }
     }
+    #endregion AssetCreator
 
+    #region AssetDefinitions
     public class AssetDefReturnType
     {
         public string Name { get; set; }
@@ -562,4 +577,21 @@ namespace Neumont_Ticketing_System.Controllers
         public List<AssetDefReturnManufacturer> manufacturers { get; set; }
         public List<AssetDefReturnModel> models { get; set; }
     }
+    #endregion AssetDefinitions
+
+    #region RepairManagement
+    public class NewRepairData
+    {
+        public string Name { get; set; }
+        public RepairAppliesTo AppliesTo { get; set; }
+        public List<RepairStep> Steps { get; set; }
+    }
+
+    public class RepairAppliesTo
+    {
+        public List<string> TypeNames { get; set; }
+        public List<string> ManufacturerNames { get; set; }
+        public List<string> ModelNames { get; set; }
+    }
+    #endregion RepairManagement
 }

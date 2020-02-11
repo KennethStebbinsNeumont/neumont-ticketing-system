@@ -81,6 +81,58 @@ let eilOnNewStepClick = function eilOnNewStepClick() {
     clone.insertBefore($('#btnAddStep'));
 }
 
+let jsonifyInputs = function jsonifyInputs() {
+    let repair = $('#repairList');
+    let nameVal = repair.find('.nameInput').val();
+
+    // Make sure that the name field isn't empty/null
+    if (nameVal) {
+        let appliesTo = {
+            TypeNames: [],
+            ManufacturerNames: [],
+            ModelNames: []
+        }
+        let typeSelectors = repair.find('.typeSelector');
+        if (typeSelectors.length >= 1 && typeSelectors.first().val() !== "_all") {
+            // If the user has chosen for this repair to apply to all types, then leave the array blank
+            // otherwise, add the selections to appliesTo.TypeNames
+            typeSelectors.each(function (i, e) {
+                appliesTo.TypeNames.push(e.value);
+            });
+        }
+        let mfrSelectors = repair.find('.mfrSelector');
+        if (mfrSelectors.length >= 1 && mfrSelectors.first().val() !== "_all") {
+            // If the user has chosen for this repair to apply to all mfrs, then leave the array blank
+            // otherwise, add the selections to appliesTo.TypeNames
+            mfrSelectors.each(function (i, e) {
+                appliesTo.ManufacturerNames.push(e.value);
+            });
+        }
+        let modelSelectors = repair.find('.modelSelector');
+        if (modelSelectors.length >= 1 && modelSelectors.first().val() !== "_all") {
+            // If the user has chosen for this repair to apply to all models, then leave the array blank
+            // otherwise, add the selections to appliesTo.TypeNames
+            modelSelectors.each(function (i, e) {
+                appliesTo.ModelNames.push(e.value);
+            });
+        }
+
+        let getSteps = function (index, container) {
+            return {
+                Name: container.value,
+                SubSteps: $(container).children('.subStepList').each(getSteps)
+            };
+        }
+        let steps = $('#stepList').children('.stepContainer').each(getSteps);
+
+
+        return {
+            Name: nameVal,
+            AppliesTo: appliesTo,
+            Steps: steps
+        }
+    }
+}
 
 $(document).ready(function () {
     // Assign the above handler to all selectors
@@ -92,4 +144,23 @@ $(document).ready(function () {
     // Apply the eilOnNewStepClick handler to the add step button's click event
     $('#btnAddStep').click(eilOnNewStepClick);
 
+    $('#submit').click(function () {
+        // Send the repair definition to the back end
+        $.ajax({
+            type: "POST",
+            url: "/Settings/NewRepairDefinition",
+            data: JSON.stringify(jsonifyInputs()),
+            contentType: "application/json",
+            dataType: "json",
+            success: function (response) {
+                console.log("Success!");
+            },
+            failure: function (response) {
+                console.log("Failure :(");
+            },
+            error: function (response) {
+                console.log("ERROR!!!!");
+            }
+        });
+    })
 });
