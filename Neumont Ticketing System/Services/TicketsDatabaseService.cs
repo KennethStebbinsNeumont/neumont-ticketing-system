@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using Neumont_Ticketing_System.Controllers.Exceptions;
 using Neumont_Ticketing_System.Models.DatabaseSettings;
 using Neumont_Ticketing_System.Models.Tickets;
 using System;
@@ -20,6 +21,16 @@ namespace Neumont_Ticketing_System.Services
 
             _tickets = database.GetCollection<Ticket>(settings.TicketsCollectionName);
             _repairs = database.GetCollection<Repair>(settings.RepairsCollectionName);
+        }
+
+
+        private void SetAllStepsNormalizedNames(List<RepairStep> steps)
+        {
+            foreach (var step in steps)
+            {
+                step.NormalizedName = step.Name.RemoveSpecialCharacters().ToUpper();
+                SetAllStepsNormalizedNames(step.SubSteps);
+            }
         }
 
         #region Read
@@ -64,8 +75,17 @@ namespace Neumont_Ticketing_System.Services
         #region Repairs
         public Repair CreateRepair(Repair repair)
         {
-            _repairs.InsertOne(repair);
-            return repair;
+            repair.NormalizedName = repair.Name.RemoveSpecialCharacters().ToUpper();
+            var matchedRepairs = GetRepairs(r => r.NormalizedName.Equals(repair.NormalizedName));
+            if (matchedRepairs.Count > 0)
+            {   // If another repair with the same normalized name is found, throw an exception
+                throw new DuplicateException<Repair>(matchedRepairs.First());
+            } else
+            {
+                SetAllStepsNormalizedNames(repair.Steps);
+                _repairs.InsertOne(repair);
+                return repair;
+            }
         }
         #endregion Repairs
         #endregion Create
@@ -86,6 +106,8 @@ namespace Neumont_Ticketing_System.Services
         #region Repairs
         public void UpdateRepair(Repair repair)
         {
+            repair.NormalizedName = repair.Name.RemoveSpecialCharacters().ToUpper();
+            SetAllStepsNormalizedNames(repair.Steps);
             _repairs.ReplaceOne(u => u.Id == repair.Id, repair);
         }
 

@@ -9,6 +9,8 @@ namespace Neumont_Ticketing_System.Models.Tickets
     {
         public string Name { get; set; }
 
+        public string NormalizedName { get; set; }
+
         public DateTime StartedDate { get; set; }
 
         public DateTime CompletedDate { get; set; }

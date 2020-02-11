@@ -24,6 +24,7 @@ TrackedString : {
 
 Step : {
 	Name : <string - name of the step>,
+	NormalizedName: <string - normalized version of name>,
 	StartedDate : <datetime - when the step was started; optional>,
 	CompletedDate : <datetime - when the step was completed; null means incomplete>,
 	Comments : [<TrackedString - a comment about this specific step>, ...],
@@ -44,11 +45,13 @@ database : {
 	collection : [
 		// thing1 definition
 		thing1 : {
-			prop1 : <type - description>,
-			// prop2 extended description
-			prop2 : <type - description>,
-			object_prop : {
-				sub_prop1 : <type - description>
+			Prop1 : <type - description>,
+			// Prop2 extended description
+			Prop2 : <type - description>,
+			Text : <string - some text>,
+			NormalizedText : <string - text, transformed to upper case with non-alpha-numeric characters removed>,
+			ObjectProp : {
+				SubProp1 : <type - description>
 			}
 		},
 		thing2 : {}
@@ -140,7 +143,7 @@ assets : {
 		asset : {
 			_id : <ObjectId - determined by MongoDB>,
 			SerialNumber : <string - serial number of this asset>,
-			NormalizedSerialNumber: <string - normalized version of serial number (non-alpha characters removed, upper case); managed by application>,
+			NormalizedSerialNumber: <string - normalized version of serial number; managed by application>,
 			Model : <ObjectId - a model definition's unique _id value>,
 			Owner : <ObjectID - an owner definition's unique _id value>
 		}
@@ -164,6 +167,7 @@ tickets : {
 		repair : {
 			_id : <ObjectId - determined by MongoDB>,
 			Name : <string - name of this kind of repair>,
+			NormalizedName: <string - normalized version of name; managed by application>,
 			// Defines what kinds of assets this repair applies to.
 			//   i.e. Depot repair applies to Lenovo and Dell, but only Dell does on-site repair
 			// If an array is empty, the repair will apply to any of that property

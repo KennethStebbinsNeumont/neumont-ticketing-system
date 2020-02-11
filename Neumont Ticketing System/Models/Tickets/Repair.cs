@@ -17,6 +17,8 @@ namespace Neumont_Ticketing_System.Models.Tickets
 
         public string Name { get; set; }
 
+        public string NormalizedName { get; set; }
+
         public List<RepairStep> Steps { get; set; }
 
         [BsonElement("AppliesTo.Types")]
