@@ -133,10 +133,7 @@ let jsonifyInputs = function jsonifyInputs() {
             }
 
 
-            return {
-                Name: $(container).children('.inputContainer').children('.subStepName').val(),
-                SubSteps: subSteps
-            };
+            return subSteps;
         }
         let stepContainers = $('#stepList').children('.stepContainer');
         let steps = [];
