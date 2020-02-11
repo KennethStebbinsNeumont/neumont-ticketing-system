@@ -99,7 +99,8 @@ let jsonifyInputs = function jsonifyInputs() {
             // If the user has chosen for this repair to apply to all types, then leave the array blank
             // otherwise, add the selections to appliesTo.TypeNames
             typeSelectors.each(function (i, e) {
-                appliesTo.TypeNames.push(e.value);
+                if(e.value) // Don't add empty selections
+                    appliesTo.TypeNames.push(e.value);
             });
         }
         let mfrSelectors = repair.find('.mfrSelector');
@@ -107,7 +108,8 @@ let jsonifyInputs = function jsonifyInputs() {
             // If the user has chosen for this repair to apply to all mfrs, then leave the array blank
             // otherwise, add the selections to appliesTo.TypeNames
             mfrSelectors.each(function (i, e) {
-                appliesTo.ManufacturerNames.push(e.value);
+                if (e.value) // Don't add empty selections
+                    appliesTo.ManufacturerNames.push(e.value);
             });
         }
         let modelSelectors = repair.find('.modelSelector');
@@ -115,7 +117,8 @@ let jsonifyInputs = function jsonifyInputs() {
             // If the user has chosen for this repair to apply to all models, then leave the array blank
             // otherwise, add the selections to appliesTo.TypeNames
             modelSelectors.each(function (i, e) {
-                appliesTo.ModelNames.push(e.value);
+                if (e.value) // Don't add empty selections
+                    appliesTo.ModelNames.push(e.value);
             });
         }
 
