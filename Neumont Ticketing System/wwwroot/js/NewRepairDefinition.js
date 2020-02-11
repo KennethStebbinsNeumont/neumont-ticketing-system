@@ -127,7 +127,7 @@ let jsonifyInputs = function jsonifyInputs() {
             let subStepCtrs = $(container).children('.subStepList');
             for (let i = 0; i < subStepCtrs.length; i++) {
                 subSteps.push({
-                    Name: subStepCtrs[i].children('.inputContainer').children('.subStepName').val(),
+                    Name: $(subStepCtrs[i]).children('.inputContainer').children('.subStepName').val(),
                     SubSteps: getSteps(subStepCtrs[i])
                 });
             }
