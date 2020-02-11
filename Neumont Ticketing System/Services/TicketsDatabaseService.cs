@@ -49,6 +49,16 @@ namespace Neumont_Ticketing_System.Services
         #endregion Tickets
 
         #region Repairs
+        public Repair GetRepairByName(string name)
+        {
+            string normalizedName = CommonFunctions.NormalizeString(name);
+            var matches = GetRepairs(r => r.NormalizedName.Equals(normalizedName));
+            if (matches.Count > 0)
+                return matches.First();
+            else
+                return null;
+        }
+
         public List<Repair> GetRepairs()
         {
             return GetRepairs(repair => true);
