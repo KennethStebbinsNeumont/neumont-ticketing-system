@@ -114,33 +114,44 @@ namespace Neumont_Ticketing_System.Services
             return GetModels(model => true);
         }
 
-        public AssetModel GetModelByName(AssetType type, AssetModel model, string name)
-        {
-            return GetModelByName(type.Id, model.Id, name);
-        }
-
-        public AssetModel GetModelByName(string typeId, string mfrId, string name)
+        public AssetModel GetModelByName(string name)
         {
             string normalizedName = CommonFunctions.NormalizeString(name);
-            var matches = GetModels(m => m.NormalizedName.Equals(normalizedName) &&
-                                        m.TypeId.Equals(typeId) &&
-                                        m.ManufacturerId.Equals(mfrId));
+            var matches = GetModels(m => m.NormalizedName.Equals(normalizedName));
             if (matches.Count > 0)
                 return matches.First();
             else
                 return null;
         }
 
-        public List<AssetModel> GetModelsByName(string typeId, string mfrId, List<string> names)
+        public AssetModel GetModelByModelNumber(string modelNumber)
+        {
+            string normalizedModelNumber = CommonFunctions.NormalizeString(modelNumber);
+            var matches = GetModels(m => m.NormalizedModelNumber.Equals(normalizedModelNumber));
+            if (matches.Count > 0)
+                return matches.First();
+            else
+                return null;
+        }
+
+        public List<AssetModel> GetModelsByName(List<string> names)
         {
             List<string> normalizedNames = new List<string>();
             foreach (string name in names)
             {
                 normalizedNames.Add(CommonFunctions.NormalizeString(name));
             }
-            return GetModels(m => normalizedNames.Contains(m.NormalizedName) &&
-                                        m.TypeId.Equals(typeId) &&
-                                        m.ManufacturerId.Equals(mfrId));
+            return GetModels(m => normalizedNames.Contains(m.NormalizedName));
+        }
+
+        public List<AssetModel> GetModelsByModelNumber(List<string> modelNumbers)
+        {
+            List<string> normalizedModelNumbers = new List<string>();
+            foreach (string modelNumber in modelNumbers)
+            {
+                normalizedModelNumbers.Add(CommonFunctions.NormalizeString(modelNumber));
+            }
+            return GetModels(m => normalizedModelNumbers.Contains(m.NormalizedModelNumber));
         }
 
         public AssetModel GetModelById(string id)
