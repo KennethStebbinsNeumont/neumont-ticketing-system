@@ -24,6 +24,8 @@ namespace Neumont_Ticketing_System.Models.Assets
 
         public string ModelNumber { get; set; }
 
+        public string NormalizedModelNumber { get; set; }
+
         [BsonElement("Manufacturer")]
         [BsonRepresentation(BsonType.ObjectId)]
         public string ManufacturerId { get; set; }

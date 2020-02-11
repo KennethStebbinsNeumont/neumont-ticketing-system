@@ -135,6 +135,7 @@ assets : {
 			NormalizedName : <string - normalized verison of name; handeled by application>,
 			Type : <ObjectId - the type definition's unique _id value that this model best fits>,
 			ModelNumber : <string - manufaturer's standardized identifier of this model>,
+			NormalizedModelNumber : <string - normalized version of model number; managed by application>,
 			Manufacturer : <ObjectId - a manufacturer definition's unique _id value>
 		}
 	],
