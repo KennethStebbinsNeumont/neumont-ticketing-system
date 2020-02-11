@@ -122,13 +122,27 @@ let jsonifyInputs = function jsonifyInputs() {
             });
         }
 
-        let getSteps = function (index, container) {
+        let getSteps = function (container) {
+            let subSteps = [];
+            let subStepCtrs = $(container).children('.subStepList');
+            for (let i = 0; i < subStepCtrs.length; i++) {
+                subSteps.push({
+                    Name: subStepCtrs[i].children('.inputContainer').children('.subStepName').val(),
+                    SubSteps: getSteps(subStepCtrs[i])
+                });
+            }
+
+
             return {
                 Name: $(container).children('.inputContainer').children('.subStepName').val(),
-                SubSteps: $(container).children('.subStepList').each(getSteps)
+                SubSteps: subSteps
             };
         }
-        let steps = $('#stepList').children('.stepContainer').each(getSteps);
+        let stepContainers = $('#stepList').children('.stepContainer');
+        let steps = [];
+        for (let i = 0; i < stepContainers.length; i++) {
+            steps.push
+        }
 
 
         return {
