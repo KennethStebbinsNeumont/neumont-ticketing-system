@@ -20,15 +20,18 @@ namespace Neumont_Ticketing_System.Controllers
 
         private readonly AssetsDatabaseService _assetDatabaseService;
         private readonly OwnersDatabaseService _ownersDatabaseService;
+        private readonly TicketsDatabaseService _ticketsDatabaseService;
 
         public SettingsController(ILogger<SettingsController> logger,
             AssetsDatabaseService assetsDatabaseService,
-            OwnersDatabaseService ownersDatabaseService)
+            OwnersDatabaseService ownersDatabaseService,
+            TicketsDatabaseService ticketsDatabaseService)
         {
             _logger = logger;
 
             _assetDatabaseService = assetsDatabaseService;
             _ownersDatabaseService = ownersDatabaseService;
+            _ticketsDatabaseService = ticketsDatabaseService;
         }
 
         public IActionResult Index()
@@ -60,14 +63,14 @@ namespace Neumont_Ticketing_System.Controllers
                     Successful = true,
                     Message = "Owners and assets successfully saved."
                 });
-            } catch(DuplicateAssetException e)
+            } catch(DuplicateException<Asset> e)
             {
                 _logger.LogError(e, "Error while attempting to save new owners/assets.");
                 return new JsonResult(new
                 {
                     Successful = false,
-                    Message = $"A duplicate asset was found: Serial number: \"{e.Asset.SerialNumber}\", " +
-                    $"Model name: \"{e.Asset.GetModel(_assetDatabaseService.GetModels()).Name}\"."
+                    Message = $"A duplicate asset was found: Serial number: \"{e.Duplicate.SerialNumber}\", " +
+                    $"Model name: \"{e.Duplicate.GetModel(_assetDatabaseService.GetModels()).Name}\"."
                 });
             } catch(ModelNotFoundException e)
             {
@@ -132,7 +135,7 @@ namespace Neumont_Ticketing_System.Controllers
                             {
                                 // If we've found an already existing asset with the exact same serial number
                                 // and model, throw an exception (cannot create duplicate assets)
-                                throw new DuplicateAssetException(matchedAssets.First(), $"A duplicate asset with serial " +
+                                throw new DuplicateException<Asset>(matchedAssets.First(), $"A duplicate asset with serial " +
                                     $"number \"{matchedAssets.First().SerialNumber}\" and model name \"" +
                                     $"{matchedAssets.First().GetModel(assetModels).Name}\" was found in the given assets " +
                                     $"to create.");
@@ -489,6 +492,9 @@ namespace Neumont_Ticketing_System.Controllers
         [HttpPost]
         public JsonResult NewRepairDefinition([FromBody] NewRepairData data)
         {
+            string normalizedName = data.Name.RemoveSpecialCharacters().ToUpper();
+            var matchedRepair = _ticketsDatabaseService.GetRepairs(r => r.)
+
             return new JsonResult(new
             {
                 Successful = true
