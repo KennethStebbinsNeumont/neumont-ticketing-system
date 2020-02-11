@@ -141,7 +141,7 @@ let jsonifyInputs = function jsonifyInputs() {
         let stepContainers = $('#stepList').children('.stepContainer');
         let steps = [];
         for (let i = 0; i < stepContainers.length; i++) {
-            steps.push
+            steps.push(getSteps(stepContainers[i]));
         }
 
 
