@@ -152,7 +152,7 @@ assets : {
 		// Describes a specific asset used as a loaner by IT
 		loaner : {
 			_id : <ObjectId - determined by MongoDB>,
-			Name : <string - represent's the loaner's common name, i.e. 12261>,
+			Name : <string - represent's the loaner's common name, i.e. [12261>,
 			NormalizedName : <string - normalized version of name; managed by application>,
 			Asset : <ObjectId - links to an asset definition for this loaner>,
 			InInventory : <bool - whether or not this iten is currently in inventory>,
