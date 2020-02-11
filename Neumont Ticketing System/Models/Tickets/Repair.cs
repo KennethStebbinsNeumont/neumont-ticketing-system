@@ -21,35 +21,53 @@ namespace Neumont_Ticketing_System.Models.Tickets
 
         public List<RepairStep> Steps { get; set; }
 
-        [BsonElement("AppliesTo.Types")]
-        public List<AssetType> AppliesToTypes { get; set; } = new List<AssetType>();
+        public AppliesTo AppliesTo { get; set; }
 
-        [BsonElement("AppliesTo.Manufacturers")]
-        public List<AssetManufacturer> AppliesToManufacturers { get; set; } =
-            new List<AssetManufacturer>();
-
-        [BsonElement("AppliesTo.Models")]
-        public List<AssetModel> AppliesToModels { get; set; } = new List<AssetModel>();
-
-        public bool AppliesTo(AssetType type)
+        public bool DoesApplyTo(AssetType type)
         {
-            return AppliesToTypes.Count == 0 || AppliesToTypes.Contains(type);
+            return AppliesTo.DoesApplyTo(type);
         }
 
-        public bool AppliesTo(AssetManufacturer manufacturer)
+        public bool DoesApplyTo(AssetManufacturer manufacturer)
         {
-            return AppliesToManufacturers.Count == 0 || 
-                AppliesToManufacturers.Contains(manufacturer);
+            return AppliesTo.DoesApplyTo(manufacturer);
         }
 
-        public bool AppliesTo(AssetModel model)
+        public bool DoesApplyTo(AssetModel model)
         {
-            return AppliesToModels.Count == 0 || AppliesToModels.Contains(model);
+            return AppliesTo.DoesApplyTo(model);
         }
 
         public bool Equals([AllowNull] Repair other)
         {
             return other != null && other.Id == Id;
+        }
+    }
+
+    public class AppliesTo
+    {
+        [BsonElement("Types")]
+        public List<string> TypeIds { get; set; }
+
+        [BsonElement("Manufacturers")]
+        public List<string> ManufacturerIds { get; set; }
+
+        [BsonElement("Models")]
+        public List<string> ModelIds { get; set; }
+
+        public bool DoesApplyTo(AssetType type)
+        {
+            return TypeIds.Contains(type.Id);
+        }
+
+        public bool DoesApplyTo(AssetManufacturer mfr)
+        {
+            return ManufacturerIds.Contains(mfr.Id);
+        }
+
+        public bool DoesApplyTo(AssetModel model)
+        {
+            return ModelIds.Contains(model.Id);
         }
     }
 }
