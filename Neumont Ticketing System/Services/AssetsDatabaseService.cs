@@ -1,4 +1,5 @@
 ﻿using MongoDB.Driver;
+using Neumont_Ticketing_System.Controllers.Exceptions;
 using Neumont_Ticketing_System.Models.Assets;
 using Neumont_Ticketing_System.Models.DatabaseSettings;
 using System;
@@ -10,8 +11,8 @@ namespace Neumont_Ticketing_System.Services
 {
     public class AssetsDatabaseService
     {
-        private readonly IMongoCollection<AssetManufacturer> _manufacturers;
         private readonly IMongoCollection<AssetType> _types;
+        private readonly IMongoCollection<AssetManufacturer> _manufacturers;
         private readonly IMongoCollection<AssetModel> _models;
         private readonly IMongoCollection<Asset> _assets;
         private readonly IMongoCollection<LoanerAsset> _loaners;
@@ -21,33 +22,14 @@ namespace Neumont_Ticketing_System.Services
             var client = new MongoClient(settings.ConnectionString);
             var database = client.GetDatabase(settings.DatabaseName);
 
-            _manufacturers = database.GetCollection<AssetManufacturer>(settings.ManufacturersCollectionName);
             _types = database.GetCollection<AssetType>(settings.TypesCollectionName);
+            _manufacturers = database.GetCollection<AssetManufacturer>(settings.ManufacturersCollectionName);
             _models = database.GetCollection<AssetModel>(settings.ModelsCollectionName);
             _assets = database.GetCollection<Asset>(settings.AssetsCollectionName);
             _loaners = database.GetCollection<LoanerAsset>(settings.LoanersCollectionName);
         }
 
         #region Read
-        #region Manufacturers
-        public List<AssetManufacturer> GetManufacturers()
-        {
-            return GetManufacturers(manufacturer => true);
-        }
-
-        public List<AssetManufacturer> GetManufacturers(System.Linq.Expressions.Expression<Func<AssetManufacturer, 
-            bool>> expression,
-            FindOptions options = null)
-        {
-            return _manufacturers.Find(expression, options).ToList();
-        }
-
-        public AssetManufacturer GetManufacturerById(string id)
-        {
-            return _manufacturers.Find(m => m.Id.Equals(id)).First();
-        }
-        #endregion Manufacturers
-
         #region Types
         public List<AssetType> GetTypes()
         {
@@ -66,6 +48,25 @@ namespace Neumont_Ticketing_System.Services
             return _types.Find(t => t.Id.Equals(id)).First();
         }
         #endregion Types
+
+        #region Manufacturers
+        public List<AssetManufacturer> GetManufacturers()
+        {
+            return GetManufacturers(manufacturer => true);
+        }
+
+        public List<AssetManufacturer> GetManufacturers(System.Linq.Expressions.Expression<Func<AssetManufacturer, 
+            bool>> expression,
+            FindOptions options = null)
+        {
+            return _manufacturers.Find(expression, options).ToList();
+        }
+
+        public AssetManufacturer GetManufacturerById(string id)
+        {
+            return _manufacturers.Find(m => m.Id.Equals(id)).First();
+        }
+        #endregion Manufacturers
 
         #region Models
         public List<AssetModel> GetModels()
@@ -126,29 +127,71 @@ namespace Neumont_Ticketing_System.Services
         #endregion Read
 
         #region Create
-        #region Manufacturers
-        public AssetManufacturer CreateManufacturer(AssetManufacturer manufacturer)
-        {
-            _manufacturers.InsertOne(manufacturer);
-            return manufacturer;
-        }
-        #endregion Manufacturers
-
-
         #region Types
         public AssetType CreateType(AssetType type)
         {
-            _types.InsertOne(type);
-            return type;
+            type.NormalizedName = CommonFunctions.NormalizeString(type.Name);
+            var matchedTypes = GetTypes(t => t.NormalizedName.Equals(type.NormalizedName));
+            if (matchedTypes.Count > 0)
+            {
+                // If we find another type with the same name
+                throw new DuplicateException<AssetType>(matchedTypes);
+            }
+            else
+            {
+                _types.InsertOne(type);
+                return type;
+            }
         }
         #endregion Types
+
+
+        #region Manufacturers
+        public AssetManufacturer CreateManufacturer(AssetManufacturer manufacturer)
+        {
+            manufacturer.NormalizedName = CommonFunctions.NormalizeString(manufacturer.Name);
+            var matchedMfrs = GetManufacturers(m => m.NormalizedName.Equals(manufacturer.NormalizedName));
+            if (matchedMfrs.Count > 0)
+            {
+                // If we find another mfr with the same name
+                throw new DuplicateException<AssetManufacturer>(matchedMfrs);
+            }
+            else
+            {
+                _manufacturers.InsertOne(manufacturer);
+                return manufacturer;
+            }
+        }
+        #endregion Manufacturers
 
 
         #region Models
         public AssetModel CreateModel(AssetModel model)
         {
-            _models.InsertOne(model);
-            return model;
+            model.NormalizedName = CommonFunctions.NormalizeString(model.Name);
+            model.NormalizedModelNumber = CommonFunctions.NormalizeString(model.ModelNumber);
+            var matchedModels = GetModels(m => m.NormalizedName.Equals(model.NormalizedName) &&
+                                                m.ManufacturerId.Equals(model.ManufacturerId));
+            if (matchedModels.Count > 0)
+            {
+                // If we find another model with the same name & mfr
+                throw new DuplicateException<AssetModel>(matchedModels);
+            }
+            else
+            {
+                matchedModels = GetModels(m => m.NormalizedModelNumber.Equals(model.NormalizedModelNumber) &&
+                                                m.ManufacturerId.Equals(model.ManufacturerId));
+                if (matchedModels.Count > 0)
+                {
+                    // If we find another model with the same model number & mfr
+                    throw new DuplicateException<AssetModel>(matchedModels);
+                }
+                else
+                {
+                    _models.InsertOne(model);
+                    return model;
+                }
+            }
         }
         #endregion Models
 
@@ -156,9 +199,18 @@ namespace Neumont_Ticketing_System.Services
         #region Assets
         public Asset Create(Asset asset)
         {
-            asset.NormalizedSerialNumber = asset.SerialNumber.RemoveSpecialCharacters().ToUpper();
-            _assets.InsertOne(asset);
-            return asset;
+            asset.NormalizedSerialNumber = CommonFunctions.NormalizeString(asset.SerialNumber);
+            var matchedAssets = GetAssets(a => a.NormalizedSerialNumber.Equals(asset.NormalizedSerialNumber));
+            if (matchedAssets.Count > 0)
+            {
+                // If we find another asset with the same serial number
+                throw new DuplicateException<Asset>(matchedAssets);
+            }
+            else
+            {
+                _assets.InsertOne(asset);
+                return asset;
+            }
         }
         #endregion Assets
 
@@ -166,66 +218,110 @@ namespace Neumont_Ticketing_System.Services
         #region Loaners
         public LoanerAsset Create(LoanerAsset loaner)
         {
-            _loaners.InsertOne(loaner);
-            return loaner;
+            loaner.NormalizedName = CommonFunctions.NormalizeString(loaner.Name);
+            var matchedLoaners = GetLoaners(l => l.NormalizedName.Equals(loaner.NormalizedName));
+            if(matchedLoaners.Count > 0)
+            {
+                // If we find another loaner with the same name
+                throw new DuplicateException<LoanerAsset>(matchedLoaners);
+            } else
+            {
+                _loaners.InsertOne(loaner);
+                return loaner;
+            }
         }
         #endregion Loaners
         #endregion Create
 
         #region Update
-        #region Manufacturers
-        public void UpdateManufacturer(AssetManufacturer manufacturer)
-        {
-            _manufacturers.ReplaceOne(u => u.Id == manufacturer.Id, manufacturer);
-        }
-
-        public void ReplaceManufacturer(string id, AssetManufacturer manufacturer)
-        {
-            _manufacturers.ReplaceOne(u => u.Id == id, manufacturer);
-        }
-
-        public void ReplaceManufacturer(System.Linq.Expressions.Expression<Func<AssetManufacturer, bool>> 
-            expression, AssetManufacturer manufacturer)
-        {
-            _manufacturers.ReplaceOne(expression, manufacturer);
-        }
-        #endregion Manufacturers
-
-
         #region Types
         public void UpdateType(AssetType type)
         {
+            type.NormalizedName = CommonFunctions.NormalizeString(type.Name);
             _types.ReplaceOne(u => u.Id == type.Id, type);
         }
 
         public void ReplaceType(string id, AssetType type)
         {
-            _types.ReplaceOne(u => u.Id == id, type);
-        }
-
-        public void ReplaceType(System.Linq.Expressions.Expression<Func<AssetType, bool>>
-            expression, AssetType type)
-        {
-            _types.ReplaceOne(expression, type);
+            type.NormalizedName = CommonFunctions.NormalizeString(type.Name);
+            var matchedTypes = GetTypes(t => t.NormalizedName.Equals(type.NormalizedName) &&
+                                                !t.Id.Equals(id));
+            if (matchedTypes.Count > 0)
+            {
+                // If we find another type with the same name THAT ISN'T THE ONE
+                // WE'RE REPLACING
+                throw new DuplicateException<AssetType>(matchedTypes);
+            }
+            else
+            {
+                _types.ReplaceOne(u => u.Id == id, type);
+            }
         }
         #endregion Types
+
+
+        #region Manufacturers
+        public void UpdateManufacturer(AssetManufacturer manufacturer)
+        {
+            manufacturer.NormalizedName = CommonFunctions.NormalizeString(manufacturer.Name);
+            _manufacturers.ReplaceOne(u => u.Id == manufacturer.Id, manufacturer);
+        }
+
+        public void ReplaceManufacturer(string id, AssetManufacturer manufacturer)
+        {
+            manufacturer.NormalizedName = CommonFunctions.NormalizeString(manufacturer.Name);
+            var matchedMfrs = GetManufacturers(m => m.NormalizedName.Equals(manufacturer.NormalizedName) &&
+                                                !m.Id.Equals(id));
+            if (matchedMfrs.Count > 0)
+            {
+                // If we find another mfr with the same name THAT ISN'T THE ONE
+                // WE'RE REPLACING
+                throw new DuplicateException<AssetManufacturer>(matchedMfrs);
+            }
+            else
+            {
+                _manufacturers.ReplaceOne(u => u.Id == id, manufacturer);
+            }
+        }
+        #endregion Manufacturers
 
 
         #region Models
         public void UpdateModel(AssetModel model)
         {
+            model.NormalizedName = CommonFunctions.NormalizeString(model.Name);
+            model.NormalizedModelNumber = CommonFunctions.NormalizeString(model.ModelNumber);
             _models.ReplaceOne(u => u.Id == model.Id, model);
         }
 
         public void ReplaceModel(string id, AssetModel model)
         {
-            _models.ReplaceOne(u => u.Id == id, model);
-        }
-
-        public void ReplaceModel(System.Linq.Expressions.Expression<Func<AssetModel, bool>>
-            expression, AssetModel model)
-        {
-            _models.ReplaceOne(expression, model);
+            model.NormalizedName = CommonFunctions.NormalizeString(model.Name);
+            model.NormalizedModelNumber = CommonFunctions.NormalizeString(model.ModelNumber);
+            var matchedModels = GetModels(m => m.NormalizedName.Equals(model.NormalizedName) &&
+                                                m.ManufacturerId.Equals(model.ManufacturerId) &&
+                                                !m.Id.Equals(id));
+            if (matchedModels.Count > 0)
+            {
+                // If we find another model with the same name & mfr THAT ISN'T THE ONE
+                // WE'RE REPLACING
+                throw new DuplicateException<AssetModel>(matchedModels);
+            }
+            else
+            {
+                matchedModels = GetModels(m => m.NormalizedModelNumber.Equals(model.NormalizedModelNumber) &&
+                                                m.ManufacturerId.Equals(model.ManufacturerId) &&
+                                                        !m.Id.Equals(id));
+                if(matchedModels.Count > 0)
+                {
+                    // If we find another model with the same model number & mfr THAT ISN'T THE ONE
+                    // WE'RE REPLACING
+                    throw new DuplicateException<AssetModel>(matchedModels);
+                } else
+                {
+                    _models.ReplaceOne(u => u.Id == id, model);
+                }
+            }
         }
         #endregion Models
 
@@ -233,21 +329,25 @@ namespace Neumont_Ticketing_System.Services
         #region Assets
         public void UpdateAsset(Asset asset)
         {
-            asset.NormalizedSerialNumber = asset.SerialNumber.RemoveSpecialCharacters().ToUpper();
+            asset.NormalizedSerialNumber = CommonFunctions.NormalizeString(asset.SerialNumber);
             _assets.ReplaceOne(u => u.Id == asset.Id, asset);
         }
 
         public void ReplaceAsset(string id, Asset asset)
         {
-            asset.NormalizedSerialNumber = asset.SerialNumber.RemoveSpecialCharacters().ToUpper();
-            _assets.ReplaceOne(u => u.Id == id, asset);
-        }
-
-        public void ReplaceAsset(System.Linq.Expressions.Expression<Func<Asset, bool>>
-            expression, Asset asset)
-        {
-            asset.NormalizedSerialNumber = asset.SerialNumber.RemoveSpecialCharacters().ToUpper();
-            _assets.ReplaceOne(expression, asset);
+            asset.NormalizedSerialNumber = CommonFunctions.NormalizeString(asset.SerialNumber);
+            var matchedAssets = GetAssets(a => a.NormalizedSerialNumber.Equals(asset.NormalizedSerialNumber) &&
+                                                a.ModelId.Equals(asset.ModelId) &&
+                                                !a.Id.Equals(id));
+            if(matchedAssets.Count > 0)
+            {
+                // If we find another asset with the same name & model THAT ISN'T THE ONE
+                // WE'RE REPLACING
+                throw new DuplicateException<Asset>(matchedAssets);
+            } else
+            {
+                _assets.ReplaceOne(u => u.Id == id, asset);
+            }
         }
         #endregion Assets
 
@@ -255,40 +355,30 @@ namespace Neumont_Ticketing_System.Services
         #region Loaners
         public void UpdateLoaner(LoanerAsset loaner)
         {
+            loaner.NormalizedName = CommonFunctions.NormalizeString(loaner.Name);
             _loaners.ReplaceOne(u => u.Id == loaner.Id, loaner);
         }
 
         public void ReplaceLoaner(string id, LoanerAsset loaner)
         {
-            _loaners.ReplaceOne(u => u.Id == id, loaner);
-        }
-
-        public void ReplaceLoanerAsset(System.Linq.Expressions.Expression<Func<LoanerAsset, bool>>
-            expression, LoanerAsset loaner)
-        {
-            _loaners.ReplaceOne(expression, loaner);
+            loaner.NormalizedName = CommonFunctions.NormalizeString(loaner.Name);
+            var matchedLoaners = GetLoaners(l => l.NormalizedName.Equals(loaner.NormalizedName) &&
+                                                !l.Id.Equals(id));
+            if (matchedLoaners.Count > 0)
+            {
+                // If we find another loaner with the same name THAT ISN'T THE ONE
+                // WE'RE REPLACING
+                throw new DuplicateException<LoanerAsset>(matchedLoaners);
+            }
+            else
+            {
+                _loaners.ReplaceOne(u => u.Id == id, loaner);
+            }
         }
         #endregion Loaners
         #endregion Update
 
         #region Delete
-        #region Manufacturers
-        public void RemoveManufacturer(AssetManufacturer manufacturer)
-        {
-            _manufacturers.DeleteOne(u => u.Id == manufacturer.Id);
-        }
-
-        public void RemoveManufacturer(string id)
-        {
-            _manufacturers.DeleteOne(u => u.Id == id);
-        }
-
-        public void RemoveManufacturers(System.Linq.Expressions.Expression<Func<AssetManufacturer, bool>> expression)
-        {
-            _manufacturers.DeleteMany(expression);
-        }
-        #endregion Manufacturers
-
         #region Types
         public void RemoveType(AssetType type)
         {
@@ -305,6 +395,23 @@ namespace Neumont_Ticketing_System.Services
             _types.DeleteMany(expression);
         }
         #endregion Types
+
+        #region Manufacturers
+        public void RemoveManufacturer(AssetManufacturer manufacturer)
+        {
+            _manufacturers.DeleteOne(u => u.Id == manufacturer.Id);
+        }
+
+        public void RemoveManufacturer(string id)
+        {
+            _manufacturers.DeleteOne(u => u.Id == id);
+        }
+
+        public void RemoveManufacturers(System.Linq.Expressions.Expression<Func<AssetManufacturer, bool>> expression)
+        {
+            _manufacturers.DeleteMany(expression);
+        }
+        #endregion Manufacturers
 
         #region Models
         public void RemoveModel(AssetModel model)
