@@ -12,8 +12,11 @@ Common objects
 
 PreferredName : {
 	First : <string - owner's preferred first name>,
+	NormalizedFirst : <string - normalized version of First; managed by application>,
 	Middle : <string - owner's preferred middle name>,
-	Last : <string - owner's preferred last name>
+	NormalizedMiddle : <string - normalized version of Middle; managed by application>,
+	Last : <string - owner's preferred last name>,
+	NormalizedLast : <string - normalized version of Last; managed by application>
 }
 
 TrackedString : {
