@@ -42,6 +42,10 @@ namespace Neumont_Ticketing_System.Services
         #region Create
         public Owner CreateOwner(Owner owner)
         {
+            owner.NormalizedName = CommonFunctions.NormalizeString(owner.Name);
+            owner.PreferredName.NormalizedFirst = CommonFunctions.NormalizeString(owner.PreferredName.First);
+            owner.PreferredName.NormalizedMiddle = CommonFunctions.NormalizeString(owner.PreferredName.Middle);
+            owner.PreferredName.NormalizedLast = CommonFunctions.NormalizeString(owner.PreferredName.Last);
             _owners.InsertOne(owner);
             return owner;
         }
@@ -50,11 +54,19 @@ namespace Neumont_Ticketing_System.Services
         #region Create
         public void UpdateOwner(Owner owner)
         {
+            owner.NormalizedName = CommonFunctions.NormalizeString(owner.Name);
+            owner.PreferredName.NormalizedFirst = CommonFunctions.NormalizeString(owner.PreferredName.First);
+            owner.PreferredName.NormalizedMiddle = CommonFunctions.NormalizeString(owner.PreferredName.Middle);
+            owner.PreferredName.NormalizedLast = CommonFunctions.NormalizeString(owner.PreferredName.Last);
             _owners.ReplaceOne(u => u.Id == owner.Id, owner);
         }
 
         public void ReplaceOwner(string id, Owner owner)
         {
+            owner.NormalizedName = CommonFunctions.NormalizeString(owner.Name);
+            owner.PreferredName.NormalizedFirst = CommonFunctions.NormalizeString(owner.PreferredName.First);
+            owner.PreferredName.NormalizedMiddle = CommonFunctions.NormalizeString(owner.PreferredName.Middle);
+            owner.PreferredName.NormalizedLast = CommonFunctions.NormalizeString(owner.PreferredName.Last);
             _owners.ReplaceOne(u => u.Id == id, owner);
         }
         #endregion Create
