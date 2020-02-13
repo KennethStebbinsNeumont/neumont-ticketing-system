@@ -25,7 +25,7 @@ namespace Neumont_Ticketing_System
             .ConfigureLogging(logging =>
             {
                 logging.ClearProviders();
-                // AddDebug logs to /var/log/message
+                // AddDebug logs to /var/log/messages
                 logging.AddDebug();
                 logging.AddConsole();
             });
