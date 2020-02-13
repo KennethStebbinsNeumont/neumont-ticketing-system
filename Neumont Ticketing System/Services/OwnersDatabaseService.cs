@@ -64,18 +64,36 @@ namespace Neumont_Ticketing_System.Services
         public void UpdateOwner(Owner owner)
         {
             owner.NormalizedName = CommonFunctions.NormalizeString(owner.Name);
-            owner.PreferredName.NormalizedFirst = CommonFunctions.NormalizeString(owner.PreferredName.First);
-            owner.PreferredName.NormalizedMiddle = CommonFunctions.NormalizeString(owner.PreferredName.Middle);
-            owner.PreferredName.NormalizedLast = CommonFunctions.NormalizeString(owner.PreferredName.Last);
+            if (owner.PreferredName != null)
+            {
+                if (owner.PreferredName.First != null)
+                    owner.PreferredName.NormalizedFirst =
+                        CommonFunctions.NormalizeString(owner.PreferredName.First);
+                if (owner.PreferredName.Middle != null)
+                    owner.PreferredName.NormalizedMiddle =
+                        CommonFunctions.NormalizeString(owner.PreferredName.Middle);
+                if (owner.PreferredName.Last != null)
+                    owner.PreferredName.NormalizedLast =
+                        CommonFunctions.NormalizeString(owner.PreferredName.Last);
+            }
             _owners.ReplaceOne(u => u.Id == owner.Id, owner);
         }
 
         public void ReplaceOwner(string id, Owner owner)
         {
             owner.NormalizedName = CommonFunctions.NormalizeString(owner.Name);
-            owner.PreferredName.NormalizedFirst = CommonFunctions.NormalizeString(owner.PreferredName.First);
-            owner.PreferredName.NormalizedMiddle = CommonFunctions.NormalizeString(owner.PreferredName.Middle);
-            owner.PreferredName.NormalizedLast = CommonFunctions.NormalizeString(owner.PreferredName.Last);
+            if (owner.PreferredName != null)
+            {
+                if (owner.PreferredName.First != null)
+                    owner.PreferredName.NormalizedFirst =
+                        CommonFunctions.NormalizeString(owner.PreferredName.First);
+                if (owner.PreferredName.Middle != null)
+                    owner.PreferredName.NormalizedMiddle =
+                        CommonFunctions.NormalizeString(owner.PreferredName.Middle);
+                if (owner.PreferredName.Last != null)
+                    owner.PreferredName.NormalizedLast =
+                        CommonFunctions.NormalizeString(owner.PreferredName.Last);
+            }
             _owners.ReplaceOne(u => u.Id == id, owner);
         }
         #endregion Create
