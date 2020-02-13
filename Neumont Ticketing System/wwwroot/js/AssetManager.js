@@ -3,6 +3,10 @@
     const resultTable = $('#resultTable');
     const template = $('#resultTemplate');
 
+    const matchedOnSerialNumberString = "SerialNumber";
+    const matchedOnOwnerNameString = "Name";
+    const matchedOnOwnerPreferredNameString = "PreferredName";
+
     /* Response schema:
      * 
      * response = {
@@ -21,7 +25,9 @@
      *             AssetId: <ObjectId of asset>,
      *             AssetSerial: <serial number of the matched asset>,
      *             AssetModelName: <name of the model of the matched asset>,
-     *             AssetTypeName: <name of the type of the matched asset>
+     *             AssetTypeName: <name of the type of the matched asset>,
+     *             Score: <int - the "score" of the match; higher is a better match>,
+     *             MatchedOn: <string - the property that this asset was matched on>
      *         }
      *     ]
      * }
@@ -47,7 +53,14 @@
                         singleResult.attr('asset-id', asset.assetId)
 
                         singleResult.find('.ownerName').html(asset.ownerName);
+                        if (asset.matchedOn === matchedOnOwnerNameString ||
+                            asset.matchedOn === matchedOnOwnerPreferredNameString) {
+                            singleResult.find('.ownerName').css('font-weight', 'bold');
+                        }
                         singleResult.find('.serialNumber').html(asset.assetSerial);
+                        if (asset.matchedOn === matchedOnSerialNumberString) {
+                            singleResult.find('.serialNumber').css('font-weight', 'bold');
+                        }
                         singleResult.find('.assetModel').html(asset.assetModelName);
                         singleResult.find('.assetType').html(asset.assetTypeName);
 
