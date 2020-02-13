@@ -466,6 +466,18 @@ namespace Neumont_Ticketing_System.Controllers
                                 }
                             }
                         }
+
+                        // Sort by score
+                        responseAssets.Sort((a, b) =>
+                        {
+                            if (a.Score < b.Score)
+                                return -1;
+                            else if (a.Score == b.Score)
+                                return 0;
+                            else
+                                return 1;
+                        });
+
                         return new JsonResult(new AssetManagerQueryResponse
                         {
                             Successful = true,
