@@ -144,8 +144,8 @@ db.owners.insertMany([{
     }
 }]);
 let mjones1 = db.owners.find({"NormalizedName": "MICHAELJOHNS" })[0]._id;
-let mjones3 = db.owners.find({ "NormalizedName": "MIKEYJEWS" })[0]._id;
-let mjones4 = db.owners.find({ "NormalizedName": "MICHAELJONES" })[0]._id;
+let mjones2 = db.owners.find({ "NormalizedName": "MIKEYJEWS" })[0]._id;
+let mjones3 = db.owners.find({ "NormalizedName": "MICHAELJONES" })[0]._id;
 let jcena = db.owners.find({ "NormalizedName": "JOHNCENA" })[0]._id;
 
 db = mongo.getDB("assets");
