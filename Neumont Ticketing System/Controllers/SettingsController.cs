@@ -226,7 +226,7 @@ namespace Neumont_Ticketing_System.Controllers
                     {
                         string[] split = queryObject.Query.Split(' ');
                         // Normalize the individual words
-                        string[] words = new string[split.Length];
+                        List<string> words = new List<string>(split.Length);
                         int j = 0;
                         string normalized;
                         for(int i = 0; i < split.Length; i++)
@@ -298,7 +298,7 @@ namespace Neumont_Ticketing_System.Controllers
                         int nameScore = 0, prefNameScore = 0;
                         string matchedOn = null;
                         AssetManagerQueryResponseAsset matchedResponseAsset;
-                        string[] possibleNames = null;
+                        List<string> possibleNames = null;
                         // A match can only be counted once per preferred name component
                         bool matchedFirst = false, matchedMiddle = false, matchedLast = false;
                         bool firstContains = false, middleContains = false, lastContains = false;
@@ -330,7 +330,7 @@ namespace Neumont_Ticketing_System.Controllers
                                 firstLength = 0;
                                 middleLength = 0;
                                 lastLength = 0;
-                                for (int i = 0; i < possibleNames.Length; i++)
+                                for (int i = 0; i < possibleNames.Count; i++)
                                 {
                                     string name = possibleNames[i];
 
