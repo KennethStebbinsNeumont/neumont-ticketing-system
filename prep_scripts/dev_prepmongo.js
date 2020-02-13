@@ -90,8 +90,32 @@ let p5520 = db.models.find({ "Name": "Dell Precision 5520" })[0]._id;
 
 db = mongo.getDB("owners");
 db.owners.insertMany([{
+    "Name": "Michael Johns",
+    "NormalizedName": "MICHAELJOHNS",
+    "EmailAddresses": [
+        "mjohns@student.neumont.edu"
+    ],
+    "PhoneNumbers": [
+        "4204206969"
+    ],
+    "PreferredName": {
+        "First": "Mikey",
+        "Last": "Johns"
+    }
+},
+{
+    "Name": "Mikey Jews",
+    "NormalizedName": "MIKEYJEWS",
+    "EmailAddresses": [
+        "mjews@student.neumont.edu"
+    ],
+    "PhoneNumbers": [
+        "9996662222"
+    ],
+},
+{
     "Name": "Michael Jones",
-    "NormalizedName": null,
+    "NormalizedName": "MICHAELJONES",
     "EmailAddresses": [
         "mjones@student.neumont.edu"
     ],
@@ -106,7 +130,7 @@ db.owners.insertMany([{
 },
 {
     "Name": "John Cena",
-    "NormalizedName": null,
+    "NormalizedName": "JOHNCENA",
     "EmailAddresses": [
         "jcena@student.neumont.edu"
     ],
@@ -118,20 +142,34 @@ db.owners.insertMany([{
         "Middle": "\"The Stone\"",
         "Last": "Phoenix"
     }
-    }]);
-let mjones = db.owners.find({ "Name": "Michael Jones" })[0]._id;
-let jcena = db.owners.find({ "Name": "John Cena" })[0]._id;
+}]);
+let mjones1 = db.owners.find({"NormalizedName": "MICHAELJOHNS" })[0]._id;
+let mjones3 = db.owners.find({ "NormalizedName": "MIKEYJEWS" })[0]._id;
+let mjones4 = db.owners.find({ "NormalizedName": "MICHAELJONES" })[0]._id;
+let jcena = db.owners.find({ "NormalizedName": "JOHNCENA" })[0]._id;
 
 db = mongo.getDB("assets");
 db.assets.insertMany([{
     "SerialNumber": "QR30FH2",
     "NormalizedSerialNumber": "QR30FH2",
     "Model": p5520,
-    "Owner": mjones
+    "Owner": mjones1
 },
 {
-    "SerialNumber": "R9-0WZZZZ",
-    "NormalizedSerialNumber": "R90WZZZZ",
+    "SerialNumber": "QR30FH3",
+    "NormalizedSerialNumber": "QR30FH3",
+    "Model": p5520,
+    "Owner": mjones2
+},
+{
+    "SerialNumber": "QR30FH2",
+    "NormalizedSerialNumber": "QR30FH2",
+    "Model": p5520,
+    "Owner": mjones3
+},
+{
+    "SerialNumber": "Johns",
+    "NormalizedSerialNumber": "JOHNS",
     "Model": p1g2,
     "Owner": jcena
 }]);
