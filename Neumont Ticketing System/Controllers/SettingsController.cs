@@ -227,16 +227,12 @@ namespace Neumont_Ticketing_System.Controllers
                         string[] split = queryObject.Query.Split(' ');
                         // Normalize the individual words
                         List<string> words = new List<string>(split.Length);
-                        int j = 0;
                         string normalized;
                         for(int i = 0; i < split.Length; i++)
                         {
                             normalized = CommonFunctions.NormalizeString(split[i]);
                             if(normalized.Length > 0)
-                            {
-                                words[j] = normalized;
-                                j++;
-                            }
+                                words.Add(normalized);
                         }
                         string normalizedQueryString = CommonFunctions.NormalizeString(queryObject.Query);
                         List<Asset> matchedAssets = _assetDatabaseService.GetAssets(a => a.NormalizedSerialNumber
