@@ -311,99 +311,102 @@ namespace Neumont_Ticketing_System.Controllers
 
                             possibleNames = words;
 
-                            matchedFirst = false;
-                            matchedMiddle = false;
-                            matchedLast = false;
-                            firstContains = false;
-                            middleContains = false;
-                            lastContains = false;
-                            firstLength = 0;
-                            middleLength = 0;
-                            lastLength = 0;
-                            for (int i = 0; i < possibleNames.Length; i++)
+                            if(owner.PreferredName != null)
                             {
-                                string name = possibleNames[i];
-
-                                // First, check to see if this possible name exactly matches any of the preferred
-                                // name components
-                                if(!matchedFirst && name.Equals(owner.PreferredName.NormalizedFirst))
+                                matchedFirst = false;
+                                matchedMiddle = false;
+                                matchedLast = false;
+                                firstContains = false;
+                                middleContains = false;
+                                lastContains = false;
+                                firstLength = 0;
+                                middleLength = 0;
+                                lastLength = 0;
+                                for (int i = 0; i < possibleNames.Length; i++)
                                 {
-                                    if (owner.PreferredName.NormalizedMiddle == null ||
-                                        owner.PreferredName.NormalizedMiddle.Length == 0)
-                                    {   // If the user's middle name isn't set, a matching preferred first
-                                        // name is worth more
-                                        prefNameScore += 3;
-                                    } else
+                                    string name = possibleNames[i];
+
+                                    // First, check to see if this possible name exactly matches any of the preferred
+                                    // name components
+                                    if(!matchedFirst && name.Equals(owner.PreferredName.NormalizedFirst))
+                                    {
+                                        if (owner.PreferredName.NormalizedMiddle == null ||
+                                            owner.PreferredName.NormalizedMiddle.Length == 0)
+                                        {   // If the user's middle name isn't set, a matching preferred first
+                                            // name is worth more
+                                            prefNameScore += 3;
+                                        } else
+                                        {
+                                            prefNameScore += 2;
+                                        }
+                                        matchedFirst = true;
+                                    } else if(!matchedMiddle && name.Equals(owner.PreferredName.NormalizedMiddle))
                                     {
                                         prefNameScore += 2;
-                                    }
-                                    matchedFirst = true;
-                                } else if(!matchedMiddle && name.Equals(owner.PreferredName.NormalizedMiddle))
-                                {
-                                    prefNameScore += 2;
-                                    matchedMiddle = true;
-                                } else if (!matchedLast && name.Equals(owner.PreferredName.NormalizedLast))
-                                {
-                                    if (owner.PreferredName.NormalizedMiddle == null ||
-                                        owner.PreferredName.NormalizedMiddle.Length == 0)
-                                    {   // If the user's middle name isn't set, a matching preferred first
-                                        // name is worth more
-                                        prefNameScore += 3;
-                                    }
+                                        matchedMiddle = true;
+                                    } else if (!matchedLast && name.Equals(owner.PreferredName.NormalizedLast))
+                                    {
+                                        if (owner.PreferredName.NormalizedMiddle == null ||
+                                            owner.PreferredName.NormalizedMiddle.Length == 0)
+                                        {   // If the user's middle name isn't set, a matching preferred first
+                                            // name is worth more
+                                            prefNameScore += 3;
+                                        }
+                                        else
+                                        {
+                                            prefNameScore += 2;
+                                        }
+                                        matchedLast = true;
+                                    } 
+                                    // Failing an exact match, see if any of the components contain the possible name
+                                    // at all
                                     else
                                     {
-                                        prefNameScore += 2;
-                                    }
-                                    matchedLast = true;
-                                } 
-                                // Failing an exact match, see if any of the components contain the possible name
-                                // at all
-                                else
-                                {
-                                    firstContains = !matchedFirst &&
-                                                        (owner.PreferredName.NormalizedFirst?.Contains(name) 
-                                                            ?? false);
-                                    if(firstContains)
-                                    {
-                                        firstLength = owner.PreferredName.NormalizedFirst?.Length ?? 0;
-                                    }
-                                    middleContains = !matchedMiddle &&
-                                                        (owner.PreferredName.NormalizedMiddle?.Contains(name) 
-                                                            ?? false);
-                                    if(middleContains)
-                                    {
-                                        middleLength = owner.PreferredName.NormalizedMiddle?.Length ?? 0;
-                                    }
-                                    lastContains = !matchedLast &&
-                                                        (owner.PreferredName.NormalizedLast?.Contains(name) 
-                                                            ?? false);
-                                    if(lastContains)
-                                    {
-                                        lastLength = owner.PreferredName.NormalizedLast?.Length ?? 0;
-                                    }
+                                        firstContains = !matchedFirst &&
+                                                            (owner.PreferredName.NormalizedFirst?.Contains(name) 
+                                                                ?? false);
+                                        if(firstContains)
+                                        {
+                                            firstLength = owner.PreferredName.NormalizedFirst?.Length ?? 0;
+                                        }
+                                        middleContains = !matchedMiddle &&
+                                                            (owner.PreferredName.NormalizedMiddle?.Contains(name) 
+                                                                ?? false);
+                                        if(middleContains)
+                                        {
+                                            middleLength = owner.PreferredName.NormalizedMiddle?.Length ?? 0;
+                                        }
+                                        lastContains = !matchedLast &&
+                                                            (owner.PreferredName.NormalizedLast?.Contains(name) 
+                                                                ?? false);
+                                        if(lastContains)
+                                        {
+                                            lastLength = owner.PreferredName.NormalizedLast?.Length ?? 0;
+                                        }
 
-                                    if (firstContains && firstLength > middleLength && 
-                                        firstLength > lastLength)
-                                    {
-                                        // If the first name contains the possible name and is the shortest of
-                                        // those that contain the possible name, it is the best match
-                                        prefNameScore += 1;
-                                        matchedFirst = true;
-                                    } else if (middleContains && middleLength > firstLength && 
-                                        middleLength > lastLength)
-                                    {
-                                        // If the middle name contains the possible name and is the shortest of
-                                        // those that contain the possible name, it is the best match
-                                        prefNameScore += 1;
-                                        matchedMiddle = true;
-                                    }
-                                    else if(lastContains && lastLength > firstLength &&
-                                        lastLength > middleLength)
-                                    {
-                                        // If the last name contains the possible name and is the shortest of
-                                        // those that contain the possible name, it is the best match
-                                        prefNameScore += 1;
-                                        matchedLast = true;
+                                        if (firstContains && firstLength > middleLength && 
+                                            firstLength > lastLength)
+                                        {
+                                            // If the first name contains the possible name and is the shortest of
+                                            // those that contain the possible name, it is the best match
+                                            prefNameScore += 1;
+                                            matchedFirst = true;
+                                        } else if (middleContains && middleLength > firstLength && 
+                                            middleLength > lastLength)
+                                        {
+                                            // If the middle name contains the possible name and is the shortest of
+                                            // those that contain the possible name, it is the best match
+                                            prefNameScore += 1;
+                                            matchedMiddle = true;
+                                        }
+                                        else if(lastContains && lastLength > firstLength &&
+                                            lastLength > middleLength)
+                                        {
+                                            // If the last name contains the possible name and is the shortest of
+                                            // those that contain the possible name, it is the best match
+                                            prefNameScore += 1;
+                                            matchedLast = true;
+                                        }
                                     }
                                 }
                             }
