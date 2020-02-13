@@ -21,6 +21,13 @@ namespace Neumont_Ticketing_System
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+            .ConfigureLogging(logging =>
+            {
+                logging.ClearProviders();
+                // AddDebug logs to /var/log/message
+                logging.AddDebug();
+                logging.AddConsole();
+            });
     }
 }
