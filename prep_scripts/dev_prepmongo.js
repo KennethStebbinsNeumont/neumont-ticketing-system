@@ -100,7 +100,9 @@ db.owners.insertMany([{
     ],
     "PreferredName": {
         "First": "Mikey",
-        "Last": "Johns"
+        "NormalizedFirst": "MIKEY",
+        "Last": "Johns",
+        "NormalizedLast": "JOHNS"
     }
 },
 {
@@ -124,8 +126,11 @@ db.owners.insertMany([{
     ],
     "PreferredName": {
         "First": "Mikey",
+        "NormalizedFirst": "MIKEY",
         "Middle": "\"Jersey\"",
-        "Last": "Jones"
+        "NormalizedMiddle": "JERSEY",
+        "Last": "Jones",
+        "NormalizedLast": "JONES"
     }
 },
 {
@@ -139,8 +144,11 @@ db.owners.insertMany([{
     ],
     "PreferredName": {
         "First": "Gerald",
+        "NormalizedFirst": "GERALD",
         "Middle": "\"The Stone\"",
-        "Last": "Phoenix"
+        "NormalizedMiddle": "THESTONE",
+        "Last": "Phoenix",
+        "NormalizedLast": "PHOENIX"
     }
 }]);
 let mjones1 = db.owners.find({"NormalizedName": "MICHAELJOHNS" })[0]._id;
