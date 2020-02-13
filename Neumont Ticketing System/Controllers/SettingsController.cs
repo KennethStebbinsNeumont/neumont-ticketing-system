@@ -239,7 +239,7 @@ namespace Neumont_Ticketing_System.Controllers
                         List<Owner> tempOwners = null;
                         foreach (string normalizedWord in words)
                         {
-                            tempOwners = _ownersDatabaseService.GetOwners(o => o.Name.Contains(normalizedWord));
+                            tempOwners = _ownersDatabaseService.GetOwners(o => o.NormalizedName.Contains(normalizedWord));
                             tempOwners.AddRange(_ownersDatabaseService.GetOwners(o => 
                                 o.PreferredName.NormalizedFirst.Contains(normalizedWord)));
                             tempOwners.AddRange(_ownersDatabaseService.GetOwners(o => 
