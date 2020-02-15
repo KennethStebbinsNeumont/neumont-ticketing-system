@@ -177,6 +177,7 @@ tickets : {
 			_id : <ObjectId - determined by MongoDB>,
 			Name : <string - name of this kind of repair>,
 			NormalizedName: <string - normalized version of name; managed by application>,
+			Description : <string - text description of the repair>,
 			// Defines what kinds of assets this repair applies to.
 			//   i.e. Depot repair applies to Lenovo and Dell, but only Dell does on-site repair
 			// If an array is empty, the repair will apply to any of that property

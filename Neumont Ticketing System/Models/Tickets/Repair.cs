@@ -19,6 +19,8 @@ namespace Neumont_Ticketing_System.Models.Tickets
 
         public string NormalizedName { get; set; }
 
+        public string Description { get; set; }
+
         public AppliesTo AppliesTo { get; set; }
 
         [BsonElement("AdditionalFields")]
