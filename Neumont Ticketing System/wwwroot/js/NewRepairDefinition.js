@@ -132,14 +132,14 @@ let jsonifyInputs = function jsonifyInputs() {
         let getSteps = function (container) {
             let subSteps = [];
             let subStepCtrs = $(container).children('.subStepContainer');
-            let nameVal = undefined;
+            let stepNameVal = undefined;
             let inputContainers = undefined;
             for (let i = 0; i < subStepCtrs.length; i++) {
                 inputContainers = $(subStepCtrs[i]).children('.inputContainer');
-                nameVal = inputContainers.children('.subStepName').val();
-                if (nameVal) {
+                stepNameVal = inputContainers.children('.subStepName').val();
+                if (stepNameVal) {
                     subSteps.push({
-                        Name: nameVal,
+                        Name: stepNameVal,
                         Description: inputContainers.children('.subStepDescription').val(),
                         SubSteps: getSteps(subStepCtrs[i])
                     });
@@ -151,14 +151,14 @@ let jsonifyInputs = function jsonifyInputs() {
         }
         let stepContainers = $('#stepList').children('.stepContainer');
         let steps = [];
-        let nameVal = undefined;
+        let stepNameVal = undefined;
         let inputContainers = undefined;
         for (let i = 0; i < stepContainers.length; i++) {
             inputContainers = $(stepContainers[i]).children('.inputContainer');
-            nameVal = inputContainers.children('.stepName').val();
-            if (nameVal) {
+            stepNameVal = inputContainers.children('.stepName').val();
+            if (stepNameVal) {
                 steps.push({
-                    Name: nameVal,
+                    Name: stepNameVal,
                     Description: inputContainers.children('.stepDescription').val(),
                     SubSteps: getSteps($(stepContainers[i]).children('.subStepList'))
                 });
