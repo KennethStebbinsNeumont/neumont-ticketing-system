@@ -6,6 +6,7 @@
 @section Scripts
 {
     <script src="~/js/NewRepairDefinition.js" type="text/javascript"></script>
+    <script src="~/js/expandableInputList.js" type="text/javascript"></script>
 }
 <link href="~/css/NewRepairDefinition.css" rel="stylesheet" type="text/css" />
 
@@ -65,6 +66,10 @@
                 </option>
             }
         </select>
+    </div>
+    <div class="inputContainer addFieldsContainer">
+        <p class="inputLabel">Additional field names:</p>
+        <input class="text-box single-line expandableListInput addFieldInput" type="text" />
     </div>
     <div class="stepList" id="stepList">
         <h3 class="listTitle">Repair Steps</h3>
