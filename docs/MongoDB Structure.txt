@@ -201,12 +201,12 @@ tickets : {
 			Technicians : [<ObjectId - _id of the app use who made the ticket>, <ObjectId - _id of another app user whoe helped on the ticket>, ...],
 			Loaners : [<ObjectId - _id of an asset loaned to the client>, ...],
 			Title : <string - title of the ticket for easy reference later; immutable>,
+			AdditionalFields : [<AdditionalField - defined from selected repair>, ...],
 			// Description can be changed by technicians. New version will create a new
 			// TrackedString entry containing the complete new description in the Description 
 			// array. This allows changes to be tracked and history to be recovered.
 			Description : [<TrackedString - 1st version of description>, ...],
-			Comments : [<TrackedString - a comment about the ticket>, ...],
-			AdditionalFields : [<AdditionalField - defined from selected repair>, ...]
+			Comments : [<TrackedString - a comment about the ticket>, ...]
 		}
 	]
 }

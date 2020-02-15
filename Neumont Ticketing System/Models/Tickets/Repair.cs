@@ -21,10 +21,10 @@ namespace Neumont_Ticketing_System.Models.Tickets
 
         public AppliesTo AppliesTo { get; set; }
 
-        public List<RepairStep> Steps { get; set; }
-
         [BsonElement("AdditionalFields")]
         public List<string> AdditionalFieldNames { get; set; }
+
+        public List<RepairStep> Steps { get; set; }
 
 
         public bool DoesApplyTo(AssetType type)
