@@ -86,6 +86,13 @@ let eilOnNewStepClick = function eilOnNewStepClick() {
 let jsonifyInputs = function jsonifyInputs() {
     let repair = $('#repairList');
     let nameVal = repair.find('.nameInput').val();
+    let descriptionVal = repair.find('.descriptionInput').val();
+    let addFields = [];
+    // Add all of the additional field inputs with values to the addFields array
+    $('.addFieldInput').each(function (i, e) {
+        if (e.value)
+            addFields.push(e.value);
+    });
 
     // Make sure that the name field isn't empty/null
     if (nameVal) {
@@ -147,7 +154,9 @@ let jsonifyInputs = function jsonifyInputs() {
 
         return {
             Name: nameVal,
+            Description: descriptionVal,
             AppliesTo: appliesTo,
+            AdditionalFields: addFields,
             Steps: steps
         }
     }
