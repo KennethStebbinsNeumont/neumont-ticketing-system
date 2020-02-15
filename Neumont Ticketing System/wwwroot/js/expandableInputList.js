@@ -18,8 +18,7 @@
     let onInputKeypress = function onInputKeypress() {
         // This event is triggered every time a key is pressed while this field
         // is in focus. This handler is only active for the last input in the list
-        if ($(this).val() &&
-            $(this).parent().children().last().index() === $(this).index()) {
+        if ($(this).parent().children().last().index() === $(this).index()) {
             // If this element is the last element in the list and
             // it now has a value, create a new field
 
