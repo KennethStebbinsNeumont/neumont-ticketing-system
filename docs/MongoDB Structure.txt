@@ -28,6 +28,7 @@ TrackedString : {
 Step : {
 	Name : <string - name of the step>,
 	NormalizedName: <string - normalized version of name>,
+	Description: <string - description of step>,
 	StartedDate : <datetime - when the step was started; optional>,
 	CompletedDate : <datetime - when the step was completed; null means incomplete>,
 	Comments : [<TrackedString - a comment about this specific step>, ...],
