@@ -23,6 +23,9 @@ namespace Neumont_Ticketing_System.Models.Tickets
 
         public List<RepairStep> Steps { get; set; }
 
+        [BsonElement("AdditionalFields")]
+        public List<string> AdditionalFieldNames { get; set; }
+
 
         public bool DoesApplyTo(AssetType type)
         {

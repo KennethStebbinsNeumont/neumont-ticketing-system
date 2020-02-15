@@ -34,6 +34,11 @@ Step : {
 	SubSteps : [<Step - 1st child step that makes up this step>, ...]
 }
 
+AdditionalField : {
+	Name : <string - name of field>,
+	Value : <string - value of field>
+}
+
 Setting : {
 	Name : <string - name of settings>,
 	NormalizedName : <string - normalized name; managed by application>,
@@ -182,7 +187,8 @@ tickets : {
 				Manufacturers : [<ObjectId - _id of an AssetManufacturer that this repair applies to>, ...],
 				Models : [<ObjectId - _id of an AssetModel that this repair applies to>, ...]
 			},
-			Steps : [<Step - 1st step of repair>, <Step - 2nd step of repair>, ...]
+			Steps : [<Step - 1st step of repair>, <Step - 2nd step of repair>, ...],
+			AdditionalFields : [<string - the name of an additional ticket field when this repair is selected>, ...]
 		}
 	],
 	tickets : [
@@ -199,7 +205,8 @@ tickets : {
 			// TrackedString entry containing the complete new description in the Description 
 			// array. This allows changes to be tracked and history to be recovered.
 			Description : [<TrackedString - 1st version of description>, ...],
-			Comments : [<TrackedString - a comment about the ticket>, ...]
+			Comments : [<TrackedString - a comment about the ticket>, ...],
+			AdditionalFields : [<AdditionalField - defined from selected repair>, ...]
 		}
 	]
 }

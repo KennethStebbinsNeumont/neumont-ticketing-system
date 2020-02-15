@@ -32,6 +32,8 @@ namespace Neumont_Ticketing_System.Models.Tickets
 
         public List<TrackedString> Comments { get; set; }
 
+        public List<AdditionalField> AdditionalFields { get; set; }
+
         public bool Equals([AllowNull] Ticket other)
         {
             return other != null && other.Id == Id;
