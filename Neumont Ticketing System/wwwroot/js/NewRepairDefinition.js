@@ -132,11 +132,18 @@ let jsonifyInputs = function jsonifyInputs() {
         let getSteps = function (container) {
             let subSteps = [];
             let subStepCtrs = $(container).children('.subStepContainer');
+            let nameVal = undefined;
+            let inputContainers = undefined;
             for (let i = 0; i < subStepCtrs.length; i++) {
-                subSteps.push({
-                    Name: $(subStepCtrs[i]).children('.inputContainer').children('.subStepName').val(),
-                    SubSteps: getSteps(subStepCtrs[i])
-                });
+                inputContainers = $(subStepCtrs[i]).children('.inputContainer');
+                nameVal = inputContainers.children('.subStepName').val();
+                if (nameVal) {
+                    subSteps.push({
+                        Name: nameVal,
+                        Description: inputContainers.children('.stepDescription').val(),
+                        SubSteps: getSteps(subStepCtrs[i])
+                    });
+                }
             }
 
 
@@ -144,11 +151,18 @@ let jsonifyInputs = function jsonifyInputs() {
         }
         let stepContainers = $('#stepList').children('.stepContainer');
         let steps = [];
+        let nameVal = undefined;
+        let inputContainers = undefined;
         for (let i = 0; i < stepContainers.length; i++) {
-            steps.push({
-                Name: $(stepContainers[i]).children('.inputContainer').children('.stepName').val(),
-                SubSteps: getSteps($(stepContainers[i]).children('.subStepList'))
-            });
+            inputContainers = $(stepContainers[i]).children('.inputContainer');
+            nameVal = inputContainers.children('.stepName').val();
+            if (nameVal) {
+                steps.push({
+                    Name: nameVal,
+                    Description: inputContainers.children('.stepDescription').val(),
+                    SubSteps: getSteps($(stepContainers[i]).children('.subStepList'))
+                });
+            }
         }
 
 
