@@ -74,6 +74,7 @@ let eilOnNewStepClick = function eilOnNewStepClick() {
 
     // Reset values to defaults
     clone.find('.stepName').val('');
+    clone.find('.stepDescription').val('');
     clone.find('.subStepList').find('.subStepContainer').remove();
 
     // Add new sub-step handler to first level add sub-step button
