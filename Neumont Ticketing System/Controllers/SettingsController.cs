@@ -743,7 +743,9 @@ namespace Neumont_Ticketing_System.Controllers
                 _ticketsDatabaseService.CreateRepair(new Repair
                 {
                     Name = proposedRepair.Name,
+                    Description = proposedRepair.Description,
                     Steps = proposedRepair.Steps,
+                    AdditionalFieldNames = proposedRepair.AdditionalFields,
                     AppliesTo = new AppliesTo
                     {
                         TypeIds = typeIds,
@@ -856,7 +858,9 @@ namespace Neumont_Ticketing_System.Controllers
     public class NewRepairData
     {
         public string Name { get; set; }
+        public string Description { get; set; }
         public RepairAppliesTo AppliesTo { get; set; }
+        public List<string> AdditionalFields { get; set; }
         public List<RepairStep> Steps { get; set; }
     }
 
