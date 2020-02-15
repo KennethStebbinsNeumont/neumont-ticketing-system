@@ -140,7 +140,7 @@ let jsonifyInputs = function jsonifyInputs() {
                 if (nameVal) {
                     subSteps.push({
                         Name: nameVal,
-                        Description: inputContainers.children('.stepDescription').val(),
+                        Description: inputContainers.children('.subStepDescription').val(),
                         SubSteps: getSteps(subStepCtrs[i])
                     });
                 }
