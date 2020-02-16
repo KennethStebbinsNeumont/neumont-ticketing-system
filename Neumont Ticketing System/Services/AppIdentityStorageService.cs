@@ -14,6 +14,9 @@ namespace Neumont_Ticketing_System.Services
         private readonly IMongoCollection<AppUser> _users;
         private readonly IMongoCollection<AppRole> _roles;
 
+        public readonly string adminsRoleNormName = "ADMINISTRATORS";
+        public readonly string techniciansRoleNormName = "TECHNICIANS";
+
         public AppIdentityStorageService(IIdentityDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
