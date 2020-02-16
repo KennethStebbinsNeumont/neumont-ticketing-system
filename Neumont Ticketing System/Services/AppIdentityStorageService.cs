@@ -103,7 +103,7 @@ namespace Neumont_Ticketing_System.Services
 
         public List<AppRole> GetUsersRoles(AppUser user)
         {
-            return GetRoles(role => role.Users.Contains(user));
+            return GetRoles(role => role.UserIds.Contains(user.Id));
         }
         #endregion Role operations
         #endregion Read
