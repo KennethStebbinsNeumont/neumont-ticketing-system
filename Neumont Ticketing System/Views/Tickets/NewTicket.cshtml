@@ -1,16 +1,63 @@
-﻿
+﻿@model Neumont_Ticketing_System.Views.Tickets.NewTicketModel;
 @{
     ViewData["Title"] = "New Ticket";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section Scripts
+{
+}
 
-<h1>New Ticket</h1>
+<h1>Create a new ticket</h1>
 
 <div class="ticketCtr" id="ticketCtr">
+    <h2 class="listTitle">New Ticket</h2>
     <div class="inputContainer">
         <p class="inputLabel">Owner's Name: </p>
         <input class="text-box single-line ownerNameInput"
                type="text" value="">
-
+    </div>
+    <div class="inputContainer assetSelectorContainer">
+        <p class="inputLabel">Asset: </p>
+        <select class="assetSelector" disabled></select>
+    </div>
+    <div class="inputContainer repairSelectorContainer">
+        <p class="inputLabel">Repair: </p>
+        <select class="repairSelector" disabled></select>
+    </div>
+    <div class="inputContainer techNameSelectorContainer">
+        <p class="inputLabel">Technician: </p>
+        <select class="techNameSelector">
+            @foreach (var tech in Model.Technicians)
+            {
+                <option value="@(tech.FullName)">
+                    @(tech.FullName)
+                </option>
+            }
+        </select>
+    </div>
+    <div class="inputContainer loanersContainer">
+        <p class="inputLabel">Loaners:</p>
+        <input class="text-box single-line expandableListInput loanerInput" type="text" />
+    </div>
+    @* Additional fields will be inserted here by front-end javascript *@
+    <div class="inputContainer descriptionContainer">
+        <p class="inputLabel descriptionLabel">Description: </p>
+        <input class="text-box single-line descriptionInput"
+               type="text" value="">
+    </div>
+    <div class="commentList" id="commentList">
+        <div class="listItem cloneableListItem commentContainer">
+            <div class="inputContainer">
+                <p class="inputLabel">Comment: </p>
+                <input class="text-box single-line" type="text" />
+            </div>
+            <div class="inputContainer">
+                <p class="inputLabel">Date: </p>
+                <p class="valueText"></p> @* Initial value is set by front-end javascript *@
+            </div>
+        </div>
+        <div class="listItem btnAddListItemContainer">
+            <button class="btnAddListItem" id="btnNewManufacturer">Add Manufacturer</button>
+        </div>
     </div>
 </div>
