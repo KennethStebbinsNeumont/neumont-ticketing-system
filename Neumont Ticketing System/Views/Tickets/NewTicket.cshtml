@@ -19,7 +19,7 @@
     <h2 class="listTitle">New Ticket</h2>
     <div class="inputContainer">
         <p class="inputLabel">Owner's Name: </p>
-        <input class="listInput" list="ownerList" name="ownerInput" />
+        <input class="listInput" list="ownerList" name="ownerInput" id="ownerInput" />
         <datalist id="ownerList">
             <option value="John Cena" ownerId="90u3094uoznoh3DFFF" />
         </datalist>
@@ -57,7 +57,9 @@
         <textarea class="textArea descriptionInput"
                   type="text" value=""></textarea>
     </div>
-    @* Additional fields will be inserted here by front-end javascript *@
+    <div class="additionalFields">
+        @* Additional fields will be inserted here by front-end javascript *@
+    </div>
     <div class="commentList" id="commentList">
         <div class="listItem cloneableListItem commentContainer">
             <div class="inputContainer">
