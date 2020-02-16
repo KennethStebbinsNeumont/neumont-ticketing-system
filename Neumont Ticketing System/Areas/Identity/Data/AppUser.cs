@@ -39,5 +39,10 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
         {
             return other != null && other.Id.Equals(Id);
         }
+
+        public bool IsInRole(AppRole role)
+        {
+            return role.Id.Equals(Id);
+        }
     }
 }
