@@ -54,6 +54,11 @@ namespace Neumont_Ticketing_System.Services
             return _users.Find(user => true);
         }
 
+        public List<AppUser> GetUsersByRole(AppRole role)
+        {
+            return GetUsers(u => role.UserIds.Contains(u.Id));
+        }
+
         public List<AppUser> GetUsers()
         {
             return GetUsers(user => true);
