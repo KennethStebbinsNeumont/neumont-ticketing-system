@@ -260,8 +260,7 @@ users : {
 		}
 	],
 	roles : [
-		role : {
-			// Describes the roles an application use might have. Used for authorization.
+		{
 			_id : <ObjectId - determined by MongoDB>,
 			Name : 'Administrators',
 			NormalizedName : 'Administrators',
@@ -272,7 +271,7 @@ users : {
 
 owners : {
 	owners : [
-		owner : {
+		{
 			// The IT owner
 			_id : <ObjectId - determined by MongoDB>,
 			FullName : 'Student Support',
