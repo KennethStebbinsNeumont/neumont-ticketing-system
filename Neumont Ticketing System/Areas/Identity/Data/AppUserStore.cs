@@ -388,7 +388,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
             return Task.Run(() => {
                 var role = _storageService.GetRoleByName(roleName);
-                role.Users.Add(user);
+                role.UserIds.Add(user.Id);
             });
         }
 
@@ -400,7 +400,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
             return Task.Run<IList<string>>(() => {
                 var result = new List<string>();
-                _storageService.GetRoles(role => role.Users.Contains(user)).ForEach(role => result.Add(role.Name));
+                _storageService.GetRoles(role => role.UserIds.Contains(user.Id)).ForEach(role => result.Add(role.Name));
                 return result;
             });
         }
@@ -413,7 +413,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
             return Task.Run<IList<AppUser>>(() => {
                 var role = _storageService.GetRoleByName(roleName);
-                return role.Users;
+                return _storageService.GetUsersByRole(role);
             });
         }
 
@@ -426,7 +426,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
             return Task.Run<bool>(() => {
                 var role = _storageService.GetRoleByName(roleName);
-                return role.Users.Contains(user);
+                return role.UserIds.Contains(user.Id);
             });
         }
 
@@ -439,7 +439,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
 
             return Task.Run(() => {
                 var role = _storageService.GetRoleByName(roleName);
-                role.Users.Remove(user);
+                role.UserIds.Remove(user.Id);
                 _storageService.UpdateRole(role);
             });
         }
