@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Neumont_Ticketing_System.Areas.Identity.Data;
 using Neumont_Ticketing_System.Models.Assets;
 using Neumont_Ticketing_System.Services;
+using Neumont_Ticketing_System.Services.Exceptions;
 using Neumont_Ticketing_System.Views.Tickets;
 
 namespace Neumont_Ticketing_System.Controllers
@@ -31,9 +32,18 @@ namespace Neumont_Ticketing_System.Controllers
 
         public IActionResult NewTicket()
         {
-            var model = new NewTicketModel(_appIdentityStorageService.GetUsersByRole(
-                _appIdentityStorageService.GetRoleByName(
-                    _appIdentityStorageService.techniciansRoleNormName)));
+            NewTicketModel model;
+            try
+            {
+                var techs = _appIdentityStorageService.GetUsersByRole(
+                    _appIdentityStorageService.GetRoleByName(
+                        _appIdentityStorageService.techniciansRoleNormName));
+                model = new NewTicketModel(techs);
+            } catch(RoleNotFoundException e)
+            {
+                _logger.LogWarning(e, "The technicians role was not found.");
+                model = new NewTicketModel(new List<AppUser>());
+            }
 
             return View(model);
         }
