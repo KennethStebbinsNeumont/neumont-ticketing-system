@@ -244,7 +244,6 @@ users : {
 	users : [
 		{
 			// The root user
-			_id : <ObjectId - determined by MongoDB>,
 			Username : 'root',
 			NormalizedUsername: 'root',
 			Email : null,
@@ -260,11 +259,15 @@ users : {
 		}
 	],
 	roles : [
-		{
-			_id : <ObjectId - determined by MongoDB>,
+		{	// Managers of the application
 			Name : 'Administrators',
-			NormalizedName : 'Administrators',
+			NormalizedName : 'ADMINISTRATORS',
 			Users : [<root user's _id>]
+		},
+		{	// SSupport employees. Create tickets, email users, etc.
+			Name : 'Technicians',
+			NormalizedName: 'TECHNICIANS',
+			Users : []
 		}
 	]
 }
@@ -273,10 +276,9 @@ owners : {
 	owners : [
 		{
 			// The IT owner
-			_id : <ObjectId - determined by MongoDB>,
 			FullName : 'Student Support',
 			Name : 'Student Support',
-			NormalizedName : 'STUDENT SUPPORT',
+			NormalizedName : 'STUDENTSUPPORT',
 			PreferredName : {
 				First : 'Student',
 				Middle : null,
@@ -292,7 +294,6 @@ assets : {
 	types : [
 		{
 			// Laptop type
-			_id : <ObjectId - determined by MongoDB>,
 			Name : 'Laptop',
 			NormalizedName : 'LAPTOP',
 			Description : 'Laptop computer'
