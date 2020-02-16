@@ -19,10 +19,10 @@
     <h2 class="listTitle">New Ticket</h2>
     <div class="inputContainer">
         <p class="inputLabel">Owner's Name: </p>
-        <div class="editableSelector ownerNameES">
-            <select class="ownerNameSelector"></select>
-            <input type="text" class="text-box single-line ownerNameInput" />
-        </div>
+        <input class="listInput" list="ownerList" name="ownerInput" />
+        <datalist id="ownerList">
+            <option value="JOHNCENA">John Cena</option>
+        </datalist>
     </div>
     <div class="inputContainer assetSelectorContainer">
         <p class="inputLabel">Asset: </p>
