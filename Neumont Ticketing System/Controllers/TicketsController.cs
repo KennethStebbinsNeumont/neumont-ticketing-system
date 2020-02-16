@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Neumont_Ticketing_System.Areas.Identity.Data;
 using Neumont_Ticketing_System.Models.Assets;
+using Neumont_Ticketing_System.Services;
 using Neumont_Ticketing_System.Views.Tickets;
 
 namespace Neumont_Ticketing_System.Controllers
@@ -14,13 +15,13 @@ namespace Neumont_Ticketing_System.Controllers
     {
         private readonly ILogger<SettingsController> _logger;
 
-        private List<AppUser> _technicians;
+        private AppIdentityStorageService _appIdentityStorageService;
 
         public TicketsController(ILogger<SettingsController> logger,
-            List<AppUser> technicians)
+            AppIdentityStorageService appIdentityStorageService)
         {
-            _technicians = technicians;
             _logger = logger;
+            _appIdentityStorageService = appIdentityStorageService;
         }
 
         public IActionResult Index()
@@ -30,7 +31,9 @@ namespace Neumont_Ticketing_System.Controllers
 
         public IActionResult NewTicket()
         {
-            var model = new NewTicketModel(_technicians);
+            var model = new NewTicketModel(_appIdentityStorageService.GetUsersByRole(
+                _appIdentityStorageService.GetRoleByName(
+                    _appIdentityStorageService.techniciansRoleNormName)));
 
             return View(model);
         }
