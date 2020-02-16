@@ -18,15 +18,15 @@ namespace Neumont_Ticketing_System.Models.Tickets
 
         public int TicketId { get; set; }
 
-        public Repair Repair { get; set; }
+        public string Title { get; set; }
 
         public Asset Asset { get; set; }
+
+        public Repair Repair { get; set; }
 
         public List<AppUser> Technicians { get; set; }
 
         public List<LoanerAsset> Loaners { get; set; }
-
-        public string Title { get; set; }
 
         public string Description { get; set; }
 
