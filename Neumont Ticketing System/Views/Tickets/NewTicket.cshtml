@@ -43,17 +43,22 @@
         <p class="inputLabel">Loaners:</p>
         <input class="text-box single-line expandableListInput loanerInput" type="text" />
     </div>
-    @* Additional fields will be inserted here by front-end javascript *@
+    <div class="inputContainer descriptionContainer">
+        <p class="inputLabel descriptionLabel">Title: </p>
+        <input class="text-box single-line titleInput"
+                  type="text" value="" />
+    </div>
     <div class="inputContainer descriptionContainer">
         <p class="inputLabel descriptionLabel">Description: </p>
-        <input class="text-box single-line descriptionInput"
-               type="text" value="">
+        <textarea class="textArea descriptionInput"
+                  type="text" value="" />
     </div>
+    @* Additional fields will be inserted here by front-end javascript *@
     <div class="commentList" id="commentList">
         <div class="listItem cloneableListItem commentContainer">
             <div class="inputContainer">
                 <p class="inputLabel">Comment: </p>
-                <input class="text-box single-line" type="text" />
+                <textarea class="textArea commentInput"/>
             </div>
             <div class="inputContainer">
                 <p class="inputLabel">Date: </p>
@@ -61,7 +66,7 @@
             </div>
         </div>
         <div class="listItem btnAddListItemContainer">
-            <button class="btnAddListItem" id="btnNewManufacturer">Add Manufacturer</button>
+            <button class="btnAddListItem" id="btnNewManufacturer">Add Comment</button>
         </div>
     </div>
 </div>
