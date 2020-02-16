@@ -1,2 +1,8 @@
-﻿body {
+﻿#ticketCtr {
+    min-width: 700px;
+    width: 90%;
+}
+
+.descriptionInput {
+    min-height: 150px;
 }
