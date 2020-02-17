@@ -260,7 +260,7 @@
                 ele = options[i];
                 if (ele.value === input.val()) {
                     // We've found the matching selection
-                    ownerId = $(e).attr('ownerId');
+                    ownerId = $(ele).attr('ownerId');
                     input.attr('ownerId', ownerId);
                     onOwnerChosen(ownerId);
                     break;
