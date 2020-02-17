@@ -13,5 +13,10 @@ namespace Neumont_Ticketing_System.Models
         public string NormalizedMiddle { get; set; }
         public string Last { get; set; }
         public string NormalizedLast { get; set; }
+
+        public override string ToString()
+        {
+            return $"{First} {Middle} {Last}";
+        }
     }
 }
