@@ -2,6 +2,7 @@
 using Neumont_Ticketing_System.Controllers.Exceptions;
 using Neumont_Ticketing_System.Models.Assets;
 using Neumont_Ticketing_System.Models.DatabaseSettings;
+using Neumont_Ticketing_System.Models.Owners;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -183,6 +184,11 @@ namespace Neumont_Ticketing_System.Services
         public Asset GetAssetById(string id)
         {
             return _assets.Find(a => a.Id.Equals(id)).First();
+        }
+
+        public List<Asset> GetAssetsByOwnerId(string ownerId)
+        {
+            return _assets.Find(a => a.OwnerId.Equals(ownerId)).ToList();
         }
         #endregion Assets
 
