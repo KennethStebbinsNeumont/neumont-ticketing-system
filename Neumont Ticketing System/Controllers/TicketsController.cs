@@ -60,12 +60,6 @@ namespace Neumont_Ticketing_System.Controllers
             return View(model);
         }
 
-        [HttpPost] 
-        public JsonResult GetOwners([FromBody] GetOwnersRequest request)
-        {
-
-        }
-
         [HttpPost]
         public JsonResult GetApplicableRepairs([FromBody] Asset asset)
         {
