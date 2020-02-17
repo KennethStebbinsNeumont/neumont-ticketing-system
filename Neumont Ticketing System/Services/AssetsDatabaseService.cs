@@ -3,6 +3,7 @@ using Neumont_Ticketing_System.Controllers.Exceptions;
 using Neumont_Ticketing_System.Models.Assets;
 using Neumont_Ticketing_System.Models.DatabaseSettings;
 using Neumont_Ticketing_System.Models.Owners;
+using Neumont_Ticketing_System.Services.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -44,7 +45,7 @@ namespace Neumont_Ticketing_System.Services
             if (matches.Count > 0)
                 return matches.First();
             else
-                return null;
+                throw new NotFoundException<AssetType>($"No type with a name matching \"{name}\" was found.");
         }
 
         public List<AssetType> GetTypesByName(List<string> names)
@@ -59,7 +60,11 @@ namespace Neumont_Ticketing_System.Services
 
         public AssetType GetTypeById(string id)
         {
-            return _types.Find(t => t.Id.Equals(id)).First();
+            var types = _types.Find(t => t.Id.Equals(id)).ToList();
+            if (types.Count > 0)
+                return types.First();
+            else
+                throw new NotFoundException<AssetType>($"No type with a matching ID of \"{id}\" was found.");
         }
 
         public List<AssetType> GetTypes(System.Linq.Expressions.Expression<Func<AssetType,
@@ -83,7 +88,8 @@ namespace Neumont_Ticketing_System.Services
             if (matches.Count > 0)
                 return matches.First();
             else
-                return null;
+                throw new NotFoundException<AssetManufacturer>(
+                    $"No manufacturer with a name matching \"{name}\" was found.");
         }
 
         public List<AssetManufacturer> GetManufacturersByName(List<string> names)
@@ -98,7 +104,12 @@ namespace Neumont_Ticketing_System.Services
 
         public AssetManufacturer GetManufacturerById(string id)
         {
-            return _manufacturers.Find(m => m.Id.Equals(id)).First();
+            var mfrs = _manufacturers.Find(m => m.Id.Equals(id)).ToList();
+            if (mfrs.Count > 0)
+                return mfrs.First();
+            else
+                throw new NotFoundException<AssetManufacturer>(
+                    $"No manufacturer with a matching ID of \"{id}\" was found.");
         }
 
         public List<AssetManufacturer> GetManufacturers(System.Linq.Expressions.Expression<Func<AssetManufacturer,
@@ -122,7 +133,8 @@ namespace Neumont_Ticketing_System.Services
             if (matches.Count > 0)
                 return matches.First();
             else
-                return null;
+                throw new NotFoundException<AssetModel>(
+                    $"No model with a name matching \"{name}\" was found.");
         }
 
         public AssetModel GetModelByModelNumber(string modelNumber)
@@ -132,7 +144,8 @@ namespace Neumont_Ticketing_System.Services
             if (matches.Count > 0)
                 return matches.First();
             else
-                return null;
+                throw new NotFoundException<AssetModel>(
+                    $"No model with a model number matching \"{modelNumber}\" was found.");
         }
 
         public List<AssetModel> GetModelsByName(List<string> names)
@@ -157,7 +170,12 @@ namespace Neumont_Ticketing_System.Services
 
         public AssetModel GetModelById(string id)
         {
-            return _models.Find(m => m.Id.Equals(id)).First();
+            var models = _models.Find(m => m.Id.Equals(id)).ToList();
+            if (models.Count > 0)
+                return models.First();
+            else
+                throw new NotFoundException<AssetModel>(
+                    $"No model with a matching ID of \"{id}\" was found.");
         }
 
         public List<AssetModel> GetModels(System.Linq.Expressions.Expression<Func<AssetModel,
@@ -183,7 +201,12 @@ namespace Neumont_Ticketing_System.Services
 
         public Asset GetAssetById(string id)
         {
-            return _assets.Find(a => a.Id.Equals(id)).First();
+            var assets = _assets.Find(a => a.Id.Equals(id)).ToList();
+            if (assets.Count > 0)
+                return assets.First();
+            else
+                throw new NotFoundException<Asset>(
+                    $"No model with a matching ID of \"{id}\" was found.");
         }
 
         public List<Asset> GetAssetsByOwnerId(string ownerId)
@@ -207,7 +230,12 @@ namespace Neumont_Ticketing_System.Services
 
         public LoanerAsset GetLoanerById(string id)
         {
-            return _loaners.Find(l => l.Id.Equals(id)).First();
+            var loaners = _loaners.Find(l => l.Id.Equals(id)).ToList();
+            if (loaners.Count > 0)
+                return loaners.First();
+            else
+                throw new NotFoundException<LoanerAsset>(
+                    $"No loaner with a matching ID of \"{id}\" was found.");
         }
         #endregion Loaners
         #endregion Read
