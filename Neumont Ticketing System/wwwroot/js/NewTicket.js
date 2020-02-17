@@ -253,7 +253,7 @@
             }
         } else {
             // If the user just clicked on an autocomplete option
-            let options = $(event.target.list.options).children('option');
+            let options = $('#ownerList').children('option');
             let ownerId = undefined;
             let ele = undefined;
             for (let i = 0; i < options.length; i++) {
