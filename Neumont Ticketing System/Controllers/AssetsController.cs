@@ -94,7 +94,7 @@ namespace Neumont_Ticketing_System.Controllers
                     }
 
                     int score, nameScore = 0, prefNameScore = 0, emailScore = 0;
-                    string matchedOn, primaryEmail;
+                    string matchedOn, primaryEmail, finalName;
                     List<string> possibleNames;
                     // A match can only be counted once per preferred name component
                     bool matchedFirst, matchedMiddle, matchedLast;
@@ -242,22 +242,25 @@ namespace Neumont_Ticketing_System.Controllers
                         {
                             score = nameScore;
                             matchedOn = matchedOnOwnerNameString;
+                            finalName = owner.Name;
                         }
                         else if(emailScore >= nameScore && emailScore >= prefNameScore)
                         {
                             score = emailScore;
                             matchedOn = matchedOnOwnerOwnerEmailString;
+                            finalName = owner.Name;
                         } else
                         {
                             score = prefNameScore;
                             matchedOn = matchedOnOwnerPreferredNameString;
+                            finalName = owner.PreferredName.ToString();
                         }
                         #endregion Calculate match score
 
                         responseOwners.Add(new GetOwnersResponseOwner
                         {
                             Id = owner.Id,
-                            Name = owner.Name,
+                            Name = finalName,
                             PrimaryEmail = owner.EmailAddresses.First(),
                             MatchedOn = matchedOn,
                             Score = score
