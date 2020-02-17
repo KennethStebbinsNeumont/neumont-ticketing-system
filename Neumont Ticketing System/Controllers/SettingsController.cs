@@ -218,7 +218,7 @@ namespace Neumont_Ticketing_System.Controllers
                         Successful = false,
                         Message = "The query string was null or empty.",
                         Query = queryObject.Query,
-                        Assets = new List<AssetManagerQueryResponseAsset>()
+                        Assets = new List<AssetManagerQueryResponseAsset>(0)
                     });
                 } else
                 {
@@ -504,7 +504,7 @@ namespace Neumont_Ticketing_System.Controllers
                             Successful = false,
                             Message = "An unexpected internal error ocurred.",
                             Query = queryObject.Query,
-                            Assets = new List<AssetManagerQueryResponseAsset>()
+                            Assets = new List<AssetManagerQueryResponseAsset>(0)
                         });
                     }
                 }
