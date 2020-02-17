@@ -35,4 +35,10 @@ namespace Neumont_Ticketing_System.Controllers
 
         }
     }
+
+    public class GetOwnersRequest
+    {
+        public string Query { get; set; }
+        public int MaxResults { get; set; } = 10;
+    }
 }

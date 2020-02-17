@@ -67,10 +67,4 @@ namespace Neumont_Ticketing_System.Controllers
             throw new NotImplementedException();
         }
     }
-
-    public class GetOwnersRequest
-    {
-        public string Query { get; set; }
-        public int MaxResults { get; set; } = 10;
-    }
 }
