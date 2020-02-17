@@ -75,7 +75,7 @@ namespace Neumont_Ticketing_System.Controllers
                     // Start matchedOwners with all of the owners whose primary email address contains the query
                     // as-is
                     List<Owner> matchedOwners = _ownersDatabaseService.GetOwners(o => o.EmailAddresses.Count > 0 &&
-                                                    o.EmailAddresses.First().Contains(request.Query));
+                                                    o.EmailAddresses[0].Contains(request.Query));
                     List<Owner> tempOwners;
                     foreach (string normalizedWord in words)
                     {
