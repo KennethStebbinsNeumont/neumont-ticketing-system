@@ -203,7 +203,7 @@
 
     let onOwnerInputEvent = async function onOwnerInputEvent(event) {
         let input = $(event.target);
-        if (event instanceof InputEvent) {
+        if (event.originalEvent instanceof InputEvent) {
             // If the user just edited the text of the input
             input.removeAttr('ownerId');
             onOwnerClear();
