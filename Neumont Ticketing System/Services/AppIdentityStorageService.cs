@@ -40,7 +40,7 @@ namespace Neumont_Ticketing_System.Services
             if (list.Count > 0)
                 return list[0];
             else
-                throw new UserNotFoundException($"User with username {username} not found.");
+                throw new NotFoundException<AppUser>($"User with username {username} not found.");
         }
 
         public AppUser GetUserByEmail(string email)
@@ -49,7 +49,7 @@ namespace Neumont_Ticketing_System.Services
             if (list.Count > 0)
                 return list[0];
             else
-                throw new UserNotFoundException($"User with email address {email} not found.");
+                throw new NotFoundException<AppUser>($"User with email address {email} not found.");
         }
 
         public IFindFluent<AppUser, AppUser> GetUsersQueryable()
@@ -87,7 +87,7 @@ namespace Neumont_Ticketing_System.Services
             if (list.Count > 0)
                 return list[0];
             else
-                throw new RoleNotFoundException($"Role with name {name} not found.");
+                throw new NotFoundException<AppRole>($"Role with name {name} not found.");
         }
 
         public List<AppRole> GetRoles()
