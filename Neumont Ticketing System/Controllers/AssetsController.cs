@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Neumont_Ticketing_System.Models.Owners;
 using Neumont_Ticketing_System.Services;
+using Neumont_Ticketing_System.Services.Exceptions;
 
 namespace Neumont_Ticketing_System.Controllers
 {
@@ -45,7 +46,7 @@ namespace Neumont_Ticketing_System.Controllers
                     Successful = false,
                     Message = "The query string was null or empty.",
                     Query = request.Query,
-                    Owners = new List<GetOwnersResponseOwner>()
+                    Owners = new List<GetOwnersResponseOwner>(0)
                 });
             }
             else
@@ -292,8 +293,76 @@ namespace Neumont_Ticketing_System.Controllers
                 }
             }
         }
+
+        [HttpPost]
+        public JsonResult GetOwnedAssets([FromBody] GetOwnedAssetsRequest request)
+        {
+            if (request.OwnerId == null || request.OwnerId == "")
+            {
+                _logger.LogError("The given OwnerId was null or empty.");
+                return new JsonResult(new GetOwnedAssetsResponse
+                {
+                    Successful = false,
+                    Message = "The given OwnerId was null or empty.",
+                    OwnerId = request.OwnerId,
+                    Assets = new List<GetOwnedAssetsResponseAsset>(0)
+                });
+            } else
+            {
+                try
+                {
+                    var owner = _ownersDatabaseService.GetOwnerById(request.OwnerId);
+                    var ownedAssets = _assetsDatabaseService.GetAssetsByOwnerId(owner.Id);
+                    List<GetOwnedAssetsResponseAsset> responseAssets = 
+                        new List<GetOwnedAssetsResponseAsset>(ownedAssets.Count);
+                    string modelName;
+
+                    foreach(var asset in ownedAssets)
+                    {
+                        modelName = _assetsDatabaseService.GetModelById(asset.ModelId).Name;
+                        responseAssets.Add(new GetOwnedAssetsResponseAsset
+                        {
+                            Id = asset.Id,
+                            SerialNumber = asset.SerialNumber,
+                            ModelName = modelName
+                        });
+                    }
+
+                    return new JsonResult(new GetOwnedAssetsResponse
+                    {
+                        Successful = true,
+                        Message = "Query completed normally.",
+                        OwnerId = request.OwnerId,
+                        Assets = responseAssets
+                    });
+
+                } catch(NotFoundException<Owner>)
+                {
+                    _logger.LogError($"No owner was found matching the id \"{request.OwnerId}\".");
+                    return new JsonResult(new GetOwnedAssetsResponse
+                    {
+                        Successful = false,
+                        Message = "No owner was found matching the given OwnerId.",
+                        OwnerId = request.OwnerId,
+                        Assets = new List<GetOwnedAssetsResponseAsset>(0)
+                    });
+                } catch(Exception e)
+                {
+                    _logger.LogError(e, $"Unexpected error while searching for assets beloning to " +
+                        $"an owner with the id \"{request.OwnerId}\".");
+                    return new JsonResult(new GetOwnedAssetsResponse
+                    {
+                        Successful = false,
+                        Message = "An unexpected internal error occurred.",
+                        OwnerId = request.OwnerId,
+                        Assets = new List<GetOwnedAssetsResponseAsset>(0)
+                    });
+                }
+            }
+        }
     }
 
+    #region GetOwners
     public class GetOwnersRequest
     {
         public string Query { get; set; }
@@ -316,4 +385,27 @@ namespace Neumont_Ticketing_System.Controllers
         public string MatchedOn { get; set; }
         public int Score { get; set; }
     }
+    #endregion GetOwners
+
+    #region GetOwnedAssets
+    public class GetOwnedAssetsRequest
+    {
+        public string OwnerId { get; set; }
+    }
+
+    public class GetOwnedAssetsResponse
+    {
+        public bool Successful { get; set; }
+        public string Message { get; set; }
+        public string OwnerId { get; set; }
+        public List<GetOwnedAssetsResponseAsset> Assets { get; set; }
+    }
+
+    public class GetOwnedAssetsResponseAsset
+    {
+        public string Id { get; set; }
+        public string SerialNumber { get; set; }
+        public string ModelName { get; set; }
+    }
+    #endregion GetOwnedAssets
 }
