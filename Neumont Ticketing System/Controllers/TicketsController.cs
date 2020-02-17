@@ -14,15 +14,27 @@ namespace Neumont_Ticketing_System.Controllers
 {
     public class TicketsController : Controller
     {
-        private readonly ILogger<SettingsController> _logger;
+        private readonly ILogger<TicketsController> _logger;
 
-        private AppIdentityStorageService _appIdentityStorageService;
+        private readonly TicketsDatabaseService _ticketsDatabaseService;
 
-        public TicketsController(ILogger<SettingsController> logger,
-            AppIdentityStorageService appIdentityStorageService)
+        private readonly AppIdentityStorageService _appIdentityStorageService;
+
+        private readonly OwnersDatabaseService _ownersDatabaseService;
+
+        private readonly AssetsDatabaseService _assetsDatabaseService;
+
+        public TicketsController(ILogger<TicketsController> logger,
+            TicketsDatabaseService ticketsDatabaseService,
+            AppIdentityStorageService appIdentityStorageService,
+            OwnersDatabaseService ownersDatabaseService,
+            AssetsDatabaseService assetsDatabaseService)
         {
             _logger = logger;
+            _ticketsDatabaseService = ticketsDatabaseService;
             _appIdentityStorageService = appIdentityStorageService;
+            _ownersDatabaseService = ownersDatabaseService;
+            _assetsDatabaseService = assetsDatabaseService;
         }
 
         public IActionResult Index()
@@ -48,11 +60,23 @@ namespace Neumont_Ticketing_System.Controllers
             return View(model);
         }
 
+        [HttpPost] 
+        public JsonResult GetOwners([FromBody] GetOwnersRequest request)
+        {
+
+        }
+
         [HttpPost]
         public JsonResult GetApplicableRepairs([FromBody] Asset asset)
         {
             //TODO: Implement
             throw new NotImplementedException();
         }
+    }
+
+    public class GetOwnersRequest
+    {
+        public string Query { get; set; }
+        public int MaxResults { get; set; } = 10;
     }
 }
