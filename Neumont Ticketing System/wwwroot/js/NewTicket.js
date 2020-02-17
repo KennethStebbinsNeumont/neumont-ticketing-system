@@ -161,7 +161,7 @@
 
                 repairElements.push(ele);
             }
-            $('.repairSelector').append(assetElements);
+            $('.repairSelector').append(repairElements);
             $('.repairSelector').prop('disabled', false);
 
             // Appending will automatically choose the first option,
