@@ -14,3 +14,7 @@ datalist > option {
 textarea {
     padding: 2px 5px
 }
+
+input#ownerInput {
+    padding: 2px 5px;
+}
