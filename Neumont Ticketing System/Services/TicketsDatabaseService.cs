@@ -1,5 +1,6 @@
 ﻿using MongoDB.Driver;
 using Neumont_Ticketing_System.Controllers.Exceptions;
+using Neumont_Ticketing_System.Models.Assets;
 using Neumont_Ticketing_System.Models.DatabaseSettings;
 using Neumont_Ticketing_System.Models.Tickets;
 using System;
@@ -69,6 +70,20 @@ namespace Neumont_Ticketing_System.Services
             FindOptions options = null)
         {
             return _repairs.Find(expression, options).ToList();
+        }
+
+        public List<Repair> GetApplicableRepairs(AssetModel model)
+        {
+            return _repairs.Find(r => 
+                            // Ensure the repair applies to this model's type
+                            (r.AppliesTo.TypeIds.Count == 0 ||
+                                r.AppliesTo.TypeIds.Contains(model.TypeId)) &&
+                            // Next, ensure the repair applies to this model's manufacturer
+                            (r.AppliesTo.ManufacturerIds.Count == 0 ||
+                                r.AppliesTo.ManufacturerIds.Contains(model.ManufacturerId) &&
+                            // Finally, ensure the repair applies to this model specifically
+                            (r.AppliesTo.ModelIds.Count == 0 ||
+                                r.AppliesTo.ModelIds.Contains(model.Id)))).ToList();
         }
         #endregion Repairs
         #endregion Read
