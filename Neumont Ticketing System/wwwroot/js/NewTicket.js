@@ -217,7 +217,7 @@
                     // If the value of the input hasn't changed after waiting, make the query
 
                     // First, though, clear the old options
-                    let datalist = $('.ownerList');
+                    let datalist = $('#ownerList');
                     datalist.empty();
 
                     // Now, make the query and add the results as options to the datalist
