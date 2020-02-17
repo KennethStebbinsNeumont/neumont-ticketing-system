@@ -228,8 +228,8 @@
                             let ele = undefined;
                             let displayText = undefined;
                             let options = [];
-                            for (let i = 0; i < response.Owners.length; i++) {
-                                owner = response.Owners[i];
+                            for (let i = 0; i < response.owners.length; i++) {
+                                owner = response.owners[i];
 
                                 ele = document.createElement('option');
                                 if (owner.matchedOn === matchedOnOwnerNameString ||
