@@ -292,5 +292,7 @@
             }));
 
         templateInput = $('#templateContainer').children('.inputContainer');
+
+        $('#ownerInput').bind('input', onOwnerInputEvent);
     });
 })();
