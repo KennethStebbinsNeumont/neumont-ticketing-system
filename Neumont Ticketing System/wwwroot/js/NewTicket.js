@@ -118,20 +118,24 @@
         // Clear the old assets
         $('.assetSelector').empty();
 
-        let assets = await getOwnersAssets(ownerId);
-        let assetElements = [];
-        let ele = undefined;
-        let asset = undefined;
-        for (let i = 0; i < assets.length; i++) {
-            asset = assets[i];
-            ele = document.createElement('option');
-            ele.value = asset.id;
-            ele.innerHTML = `${asset.modelName} (${asset.serialNumber})`;
+        let response = await getOwnersAssets(ownerId);
+        if (response.successful) {
+            let assetElements = [];
+            let ele = undefined;
+            let asset = undefined;
+            for (let i = 0; i < response.assets.length; i++) {
+                asset = response.assets[i];
+                ele = document.createElement('option');
+                ele.value = asset.id;
+                ele.innerHTML = `${asset.modelName} (${asset.serialNumber})`;
 
-            assetElements.push(ele);
+                assetElements.push(ele);
+            }
+            $('.assetSelector').append(assetElements);
+            $('.assetSelector').prop('disabled', false);
+        } else {
+            console.error(`getOwnersAssets query unsuccessful: ${response.message}`);
         }
-        $('.assetSelector').append(assetElements);
-        $('.assetSelector').prop('disabled', false);
     }
 
     let onAssetChosen = async function onAssetChosen(assetId) {
@@ -140,20 +144,24 @@
         // Clear old repairs
         $('.repairSelector').empty();
 
-        let repairs = await getApplicableRepairs(assetId);
-        let repairElements = [];
-        let ele = undefined;
-        let repair = undefined;
-        for (let i = 0; i < repairs.length; i++) {
-            repair = repairs[i];
-            ele = document.createElement('option');
-            ele.value = repair.id;
-            ele.innerHTML = repair.name;
+        let response = await getApplicableRepairs(assetId);
+        if (response.successful) {
+            let repairElements = [];
+            let ele = undefined;
+            let repair = undefined;
+            for (let i = 0; i < response.repairs.length; i++) {
+                repair = response.repairs[i];
+                ele = document.createElement('option');
+                ele.value = repair.id;
+                ele.innerHTML = repair.name;
 
-            repairElements.push(ele);
+                repairElements.push(ele);
+            }
+            $('.repairSelector').append(assetElements);
+            $('.repairSelector').prop('disabled', false);
+        } else {
+            console.error(`getOwnersAssets query unsuccessful: ${response.message}`);
         }
-        $('.repairSelector').append(assetElements);
-        $('.repairSelector').prop('disabled', false);
     }
 
     let onRepairChosen = async function onRepairChosen(repairId) {
