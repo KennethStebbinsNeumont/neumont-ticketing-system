@@ -4,8 +4,42 @@
 
     let templateInput = undefined;
 
-    /*
-     * return object schema
+    
+    const matchedOnOwnerNameString = "Name";
+    const matchedOnOwnerPreferredNameString = "PreferredName";
+    const matchedOnOwnerOwnerEmailString = "EmailAddress";
+
+    /* Return object schema
+     * 
+     * {
+     *     successful: <bool - whether the query was successful>,
+     *     message: <string - message from the server>,
+     *     query: <string - the query this response was crafted from>,
+     *     owners: [
+     *         id: <string - owner's objectid>,
+     *         name: <string - the owner's name>,
+     *         primaryEmail: <string - the owner's primary email address>,
+     *         matchedOn: <string - describes what attribute this owner matched on>,
+     *         score: <int - this owner's match score; higher means a better match>
+     *     ]
+     * }
+     *  
+     * 
+     */
+    let getOwners = function getOwners(query) {
+        $.ajax({
+            type: "POST",
+            url: "/Assets/GetOwners",
+            data: JSON.stringify({
+                Query: query,
+                MaxNumOfResults: 10
+            }),
+            contentType: "application/json",
+            dataType: "json"
+        });
+    }
+
+    /* Return object schema
      * 
      * [{
      *     id: <string - asset's object id>,
@@ -17,8 +51,7 @@
         // TODO
     }
 
-    /*
-     * return object schema
+    /* Return object schema
      * 
      * [{
      *     id: <string - repair's id>,
