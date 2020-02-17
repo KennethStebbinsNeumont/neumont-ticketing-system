@@ -40,7 +40,7 @@ namespace Neumont_Ticketing_System.Services
             if (owners.Count > 0)
                 return owners.First();
             else
-                throw new NotFoundException<Owner>($"No owner with a matching ID of {id} was found.");
+                throw new NotFoundException<Owner>($"No owner with a matching ID of \"{id}\" was found.");
         }
         #endregion Read
 
