@@ -1,6 +1,7 @@
 ﻿using MongoDB.Driver;
 using Neumont_Ticketing_System.Models.DatabaseSettings;
 using Neumont_Ticketing_System.Models.Owners;
+using Neumont_Ticketing_System.Services.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,7 +36,11 @@ namespace Neumont_Ticketing_System.Services
 
         public Owner GetOwnerById(string id)
         {
-            return _owners.Find(o => o.Id.Equals(id)).First();
+            var owners = _owners.Find(o => o.Id.Equals(id)).ToList();
+            if (owners.Count > 0)
+                return owners.First();
+            else
+                throw new NotFoundException<Owner>($"No owner with a matching ID of {id} was found.");
         }
         #endregion Read
 
