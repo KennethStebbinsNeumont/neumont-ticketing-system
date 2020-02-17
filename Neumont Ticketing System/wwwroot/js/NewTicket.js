@@ -247,6 +247,9 @@
                         console.error(e);
                     }
                 }
+            } else {
+                // If the query is now too short for autocompletes, remove them
+                $('#ownerList').empty();
             }
         } else {
             // If the user just clicked on an autocomplete option
