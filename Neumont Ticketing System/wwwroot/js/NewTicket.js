@@ -136,7 +136,7 @@
 
             // Appending will automatically choose the first option,
             // so we need to manually trigger the onAssetChosen handler
-            onAssetChosen();
+            onAssetChosen(response.assets[0].id);
         } else {
             console.error(`getOwnersAssets query unsuccessful: ${response.message}`);
         }
@@ -166,7 +166,7 @@
 
             // Appending will automatically choose the first option,
             // so we need to manually trigger the onRepairChosen handler
-            onRepairChosen();
+            onRepairChosen(response.repairs[0].id);
         } else {
             console.error(`getOwnersAssets query unsuccessful: ${response.message}`);
         }
@@ -314,7 +314,11 @@
         templateInput = $('#templateContainer').children('.inputContainer');
 
         $('#ownerInput').bind('input', onOwnerInputEvent);
-        $('#assetSelector').change(onAssetChosen);
-        $('#repairSelector').change(onRepairChosen);
+        $('#assetSelector').change(function() {
+            onAssetChosen(this.value);
+        });
+        $('#repairSelector').change(function () {
+            onRepairChosen(this.value);
+        });
     });
 })();
