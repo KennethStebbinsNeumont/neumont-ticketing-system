@@ -213,7 +213,7 @@
                 let oldVal = input.val();
                 // Wait QUERY_DELAY_MS milliseconds before deciding whether to make the query
                 await new Promise((resolve, reject) => setTimeout(resolve, QUERY_DELAY_MS));
-                if (oldval === input.val()) {
+                if (oldVal === input.val()) {
                     // If the value of the input hasn't changed after waiting, make the query
 
                     // First, though, clear the old options
