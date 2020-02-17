@@ -35,7 +35,7 @@ namespace Neumont_Ticketing_System.Controllers
         private readonly string matchedOnOwnerOwnerEmailString = "EmailAddress";
 
         [HttpPost]
-        public async Task<JsonResult> GetOwners([FromBody] GetOwnersRequest request)
+        public JsonResult GetOwners([FromBody] GetOwnersRequest request)
         {
             if (request.Query == null || request.Query == "")
             {
@@ -50,185 +50,244 @@ namespace Neumont_Ticketing_System.Controllers
             }
             else
             {
-                List<GetOwnersResponseOwner> responseOwners = new List<GetOwnersResponseOwner>();
-                string[] split = request.Query.Split(' ');
-                // Normalize the individual words
-                List<string> words = new List<string>(split.Length);
-                string normalized;
-                for (int i = 0; i < split.Length; i++)
+                try
                 {
-                    normalized = CommonFunctions.NormalizeString(split[i]);
-                    if (normalized.Length > 0)
-                        words.Add(normalized);
-                }
-                string normalizedQueryString = CommonFunctions.NormalizeString(request.Query);
 
-                List<Owner> matchedOwners = new List<Owner>();
-                List<Owner> tempOwners = null;
-                foreach (string normalizedWord in words)
-                {
-                    tempOwners = _ownersDatabaseService.GetOwners(o => o.NormalizedName.Contains(normalizedWord));
-                    tempOwners.AddRange(_ownersDatabaseService.GetOwners(o =>
-                        o.PreferredName.NormalizedFirst.Contains(normalizedWord)));
-                    tempOwners.AddRange(_ownersDatabaseService.GetOwners(o =>
-                        o.PreferredName.NormalizedMiddle.Contains(normalizedWord)));
-                    tempOwners.AddRange(_ownersDatabaseService.GetOwners(o =>
-                        o.PreferredName.NormalizedLast.Contains(normalizedWord)));
-                    tempOwners.ForEach(o =>
+                    List<GetOwnersResponseOwner> responseOwners = new List<GetOwnersResponseOwner>();
+                    string[] split = request.Query.Split(' ');
+                    // Normalize the individual words
+                    List<string> words = new List<string>(split.Length);
+                    string normalized;
+                    for (int i = 0; i < split.Length; i++)
                     {
-                        if (!matchedOwners.Contains(o))
-                            matchedOwners.Add(o);
-                    });
-                }
-
-                int score = 0, nameScore = 0, prefNameScore = 0;
-                string matchedOn = null;
-                List<string> possibleNames = null;
-                // A match can only be counted once per preferred name component
-                bool matchedFirst = false, matchedMiddle = false, matchedLast = false;
-                bool firstContains = false, middleContains = false, lastContains = false;
-                int firstLength = 0, middleLength = 0, lastLength = 0;
-                foreach (var owner in matchedOwners)
-                {
-                    score = 0;
-
-                    #region Calculate name match score
-                    if (owner.NormalizedName.Equals(normalizedQueryString))
-                    {
-                        nameScore = 6;
+                        normalized = CommonFunctions.NormalizeString(split[i]);
+                        if (normalized.Length > 0)
+                            words.Add(normalized);
                     }
-                    else if (owner.NormalizedName.Contains(normalizedQueryString))
-                    {
-                        nameScore = 3;
-                    }
+                    string normalizedQueryString = CommonFunctions.NormalizeString(request.Query);
 
-                    possibleNames = words;
-
-                    if (owner.PreferredName != null)
+                    // Start matchedOwners with all of the owners whose primary email address contains the query
+                    // as-is
+                    List<Owner> matchedOwners = _ownersDatabaseService.GetOwners(o => o.EmailAddresses.Count > 0 &&
+                                                    o.EmailAddresses.First().Contains(request.Query));
+                    List<Owner> tempOwners;
+                    foreach (string normalizedWord in words)
                     {
-                        matchedFirst = false;
-                        matchedMiddle = false;
-                        matchedLast = false;
-                        firstContains = false;
-                        middleContains = false;
-                        lastContains = false;
-                        firstLength = 0;
-                        middleLength = 0;
-                        lastLength = 0;
-                        for (int i = 0; i < possibleNames.Count; i++)
+                        tempOwners = _ownersDatabaseService.GetOwners(o => o.NormalizedName.Contains(normalizedWord));
+                        tempOwners.AddRange(_ownersDatabaseService.GetOwners(o =>
+                            o.PreferredName.NormalizedFirst.Contains(normalizedWord)));
+                        tempOwners.AddRange(_ownersDatabaseService.GetOwners(o =>
+                            o.PreferredName.NormalizedMiddle.Contains(normalizedWord)));
+                        tempOwners.AddRange(_ownersDatabaseService.GetOwners(o =>
+                            o.PreferredName.NormalizedLast.Contains(normalizedWord)));
+                        tempOwners.ForEach(o =>
                         {
-                            string name = possibleNames[i];
+                            if (!matchedOwners.Contains(o))
+                                matchedOwners.Add(o);
+                        });
+                    }
 
-                            // First, check to see if this possible name exactly matches any of the preferred
-                            // name components
-                            if (!matchedFirst && name.Equals(owner.PreferredName.NormalizedFirst))
-                            {
-                                if (owner.PreferredName.NormalizedMiddle == null ||
-                                    owner.PreferredName.NormalizedMiddle.Length == 0)
-                                {   // If the user's middle name isn't set, a matching preferred first
-                                    // name is worth more
-                                    prefNameScore += 3;
-                                }
-                                else
-                                {
-                                    prefNameScore += 2;
-                                }
-                                matchedFirst = true;
-                            }
-                            else if (!matchedMiddle && name.Equals(owner.PreferredName.NormalizedMiddle))
-                            {
-                                prefNameScore += 2;
-                                matchedMiddle = true;
-                            }
-                            else if (!matchedLast && name.Equals(owner.PreferredName.NormalizedLast))
-                            {
-                                if (owner.PreferredName.NormalizedMiddle == null ||
-                                    owner.PreferredName.NormalizedMiddle.Length == 0)
-                                {   // If the user's middle name isn't set, a matching preferred first
-                                    // name is worth more
-                                    prefNameScore += 3;
-                                }
-                                else
-                                {
-                                    prefNameScore += 2;
-                                }
-                                matchedLast = true;
-                            }
-                            // Failing an exact match, see if any of the components contain the possible name
-                            // at all
-                            else
-                            {
-                                firstContains = !matchedFirst &&
-                                                    (owner.PreferredName.NormalizedFirst?.Contains(name)
-                                                        ?? false);
-                                if (firstContains)
-                                {
-                                    firstLength = owner.PreferredName.NormalizedFirst?.Length ?? 0;
-                                }
-                                middleContains = !matchedMiddle &&
-                                                    (owner.PreferredName.NormalizedMiddle?.Contains(name)
-                                                        ?? false);
-                                if (middleContains)
-                                {
-                                    middleLength = owner.PreferredName.NormalizedMiddle?.Length ?? 0;
-                                }
-                                lastContains = !matchedLast &&
-                                                    (owner.PreferredName.NormalizedLast?.Contains(name)
-                                                        ?? false);
-                                if (lastContains)
-                                {
-                                    lastLength = owner.PreferredName.NormalizedLast?.Length ?? 0;
-                                }
+                    int score, nameScore = 0, prefNameScore = 0, emailScore = 0;
+                    string matchedOn, primaryEmail;
+                    List<string> possibleNames;
+                    // A match can only be counted once per preferred name component
+                    bool matchedFirst, matchedMiddle, matchedLast;
+                    bool firstContains, middleContains, lastContains;
+                    int firstLength, middleLength, lastLength;
+                    foreach (var owner in matchedOwners)
+                    {
+                        score = 0;
 
-                                if (firstContains && firstLength > middleLength &&
-                                    firstLength > lastLength)
+                        #region Calculate match score
+                        if (owner.NormalizedName.Equals(normalizedQueryString))
+                        {
+                            nameScore = 6;
+                        }
+                        else if (owner.NormalizedName.Contains(normalizedQueryString))
+                        {
+                            nameScore = 3;
+                        }
+
+                        if(owner.EmailAddresses.Count > 0)
+                        {
+                            primaryEmail = owner.EmailAddresses.First();
+                            if(primaryEmail.Equals(request.Query) || 
+                                primaryEmail.Split('@')[0].Equals(request.Query))
+                            {
+                                // If either the whole email or just the part before the domain
+                                // exactly matches the query
+                                emailScore = 6;
+                            } else
+                            {
+                                emailScore = 3;
+                            }
+                        }
+
+                        #region Preferred name score
+                        possibleNames = words;
+                        if (owner.PreferredName != null)
+                        {
+                            matchedFirst = false;
+                            matchedMiddle = false;
+                            matchedLast = false;
+                            firstContains = false;
+                            middleContains = false;
+                            lastContains = false;
+                            firstLength = 0;
+                            middleLength = 0;
+                            lastLength = 0;
+                            for (int i = 0; i < possibleNames.Count; i++)
+                            {
+                                string name = possibleNames[i];
+
+                                // First, check to see if this possible name exactly matches any of the preferred
+                                // name components
+                                if (!matchedFirst && name.Equals(owner.PreferredName.NormalizedFirst))
                                 {
-                                    // If the first name contains the possible name and is the shortest of
-                                    // those that contain the possible name, it is the best match
-                                    prefNameScore += 1;
+                                    if (owner.PreferredName.NormalizedMiddle == null ||
+                                        owner.PreferredName.NormalizedMiddle.Length == 0)
+                                    {   // If the user's middle name isn't set, a matching preferred first
+                                        // name is worth more
+                                        prefNameScore += 3;
+                                    }
+                                    else
+                                    {
+                                        prefNameScore += 2;
+                                    }
                                     matchedFirst = true;
                                 }
-                                else if (middleContains && middleLength > firstLength &&
-                                  middleLength > lastLength)
+                                else if (!matchedMiddle && name.Equals(owner.PreferredName.NormalizedMiddle))
                                 {
-                                    // If the middle name contains the possible name and is the shortest of
-                                    // those that contain the possible name, it is the best match
-                                    prefNameScore += 1;
+                                    prefNameScore += 2;
                                     matchedMiddle = true;
                                 }
-                                else if (lastContains && lastLength > firstLength &&
-                                    lastLength > middleLength)
+                                else if (!matchedLast && name.Equals(owner.PreferredName.NormalizedLast))
                                 {
-                                    // If the last name contains the possible name and is the shortest of
-                                    // those that contain the possible name, it is the best match
-                                    prefNameScore += 1;
+                                    if (owner.PreferredName.NormalizedMiddle == null ||
+                                        owner.PreferredName.NormalizedMiddle.Length == 0)
+                                    {   // If the user's middle name isn't set, a matching preferred first
+                                        // name is worth more
+                                        prefNameScore += 3;
+                                    }
+                                    else
+                                    {
+                                        prefNameScore += 2;
+                                    }
                                     matchedLast = true;
+                                }
+                                // Failing an exact match, see if any of the components contain the possible name
+                                // at all
+                                else
+                                {
+                                    firstContains = !matchedFirst &&
+                                                        (owner.PreferredName.NormalizedFirst?.Contains(name)
+                                                            ?? false);
+                                    if (firstContains)
+                                    {
+                                        firstLength = owner.PreferredName.NormalizedFirst?.Length ?? 0;
+                                    }
+                                    middleContains = !matchedMiddle &&
+                                                        (owner.PreferredName.NormalizedMiddle?.Contains(name)
+                                                            ?? false);
+                                    if (middleContains)
+                                    {
+                                        middleLength = owner.PreferredName.NormalizedMiddle?.Length ?? 0;
+                                    }
+                                    lastContains = !matchedLast &&
+                                                        (owner.PreferredName.NormalizedLast?.Contains(name)
+                                                            ?? false);
+                                    if (lastContains)
+                                    {
+                                        lastLength = owner.PreferredName.NormalizedLast?.Length ?? 0;
+                                    }
+
+                                    if (firstContains && firstLength > middleLength &&
+                                        firstLength > lastLength)
+                                    {
+                                        // If the first name contains the possible name and is the shortest of
+                                        // those that contain the possible name, it is the best match
+                                        prefNameScore += 1;
+                                        matchedFirst = true;
+                                    }
+                                    else if (middleContains && middleLength > firstLength &&
+                                      middleLength > lastLength)
+                                    {
+                                        // If the middle name contains the possible name and is the shortest of
+                                        // those that contain the possible name, it is the best match
+                                        prefNameScore += 1;
+                                        matchedMiddle = true;
+                                    }
+                                    else if (lastContains && lastLength > firstLength &&
+                                        lastLength > middleLength)
+                                    {
+                                        // If the last name contains the possible name and is the shortest of
+                                        // those that contain the possible name, it is the best match
+                                        prefNameScore += 1;
+                                        matchedLast = true;
+                                    }
                                 }
                             }
                         }
+                        #endregion Preferred name score
+
+                        // Now, assign the highest score as the master score value && note
+                        // the "winner" in matchedOn
+                        if (nameScore >= prefNameScore && nameScore >= emailScore)
+                        {
+                            score = nameScore;
+                            matchedOn = matchedOnOwnerNameString;
+                        }
+                        else if(emailScore >= nameScore && emailScore >= prefNameScore)
+                        {
+                            score = emailScore;
+                            matchedOn = matchedOnOwnerOwnerEmailString;
+                        } else
+                        {
+                            score = prefNameScore;
+                            matchedOn = matchedOnOwnerPreferredNameString;
+                        }
+                        #endregion Calculate match score
+
+                        responseOwners.Add(new GetOwnersResponseOwner
+                        {
+                            Id = owner.Id,
+                            Name = owner.Name,
+                            PrimaryEmail = owner.EmailAddresses.First(),
+                            MatchedOn = matchedOn,
+                            Score = score
+                        });
                     }
 
-                    // Now, assign the highest score as the master score value && note
-                    // the "winner" in matchedOn
-                    if (nameScore >= prefNameScore)
+                    // Sort by score
+                    responseOwners.Sort((a, b) =>
                     {
-                        score = nameScore;
-                        matchedOn = matchedOnOwnerNameString;
-                    }
-                    else
-                    {
-                        score = prefNameScore;
-                        matchedOn = matchedOnOwnerPreferredNameString;
-                    }
-                    #endregion Calculate name match score
+                        if (a.Score < b.Score)
+                            return -1;
+                        else if (a.Score == b.Score)
+                            return 0;
+                        else
+                            return 1;
+                    });
 
-                    responseOwners.Add(new GetOwnersResponseOwner
+                    // Trim to the requested result size
+                    responseOwners.RemoveRange(request.MaxResults, responseOwners.Count - request.MaxResults);
+
+                    return new JsonResult(new GetOwnersResponse
                     {
-                        Id = owner.Id,
-                        Name = owner.Name,
-                        PrimaryEmail = owner.EmailAddresses.First(),
-                        MatchedOn = matchedOn,
-                        Score = score
+                        Successful = true,
+                        Message = "Query completed normally.",
+                        Query = request.Query,
+                        Owners = responseOwners
+                    });
+                } catch(Exception e)
+                {
+                    _logger.LogError(e, "Unexpected exception while trying to query database for owners.");
+                    return new JsonResult(new GetOwnersResponse
+                    {
+                        Successful = false,
+                        Message = "An unexpected internal error occurred.",
+                        Query = request.Query,
+                        Owners = new List<GetOwnersResponseOwner>(0)
                     });
                 }
             }
