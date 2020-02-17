@@ -136,7 +136,9 @@
 
             // Appending will automatically choose the first option,
             // so we need to manually trigger the onAssetChosen handler
-            onAssetChosen(response.assets[0].id);
+            // unless there are no assets available
+            if(response.assets.length > 0)
+                onAssetChosen(response.assets[0].id);
         } else {
             console.error(`getOwnersAssets query unsuccessful: ${response.message}`);
         }
@@ -166,7 +168,9 @@
 
             // Appending will automatically choose the first option,
             // so we need to manually trigger the onRepairChosen handler
-            onRepairChosen(response.repairs[0].id);
+            // unless there are no repairs available
+            if(response.repairs.length > 0)
+                onRepairChosen(response.repairs[0].id);
         } else {
             console.error(`getOwnersAssets query unsuccessful: ${response.message}`);
         }
