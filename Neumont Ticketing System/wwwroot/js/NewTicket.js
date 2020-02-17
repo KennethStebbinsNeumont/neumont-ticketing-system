@@ -232,18 +232,7 @@
                                 owner = response.owners[i];
 
                                 ele = document.createElement('option');
-                                if (owner.matchedOn === matchedOnOwnerNameString ||
-                                    owner.matchedOn === matchedOnOwnerPreferredNameString) {
-                                    // If we matched on the owner's name or preferred name, bold it.
-                                    displayText = `<strong>${owner.name}</strong> (${owner.primaryEmail})`;
-                                } else if (owner.matchedOn === matchedOnOwnerOwnerEmailString) {
-                                    // If we matched on the owner's email address, bold it.
-                                    displayText = `${owner.name} (<strong>${owner.primaryEmail}</strong>)`;
-                                } else {
-                                    // If we've somehow matched on something else, don't bold anything
-                                    displayText = `${owner.name} (${owner.primaryEmail})`;
-                                }
-                                ele.value = displayText
+                                ele.value = `${owner.name} (${owner.primaryEmail})`;
                                 ele.setAttribute('ownerId', owner.id);
 
                                 options.push(ele);
