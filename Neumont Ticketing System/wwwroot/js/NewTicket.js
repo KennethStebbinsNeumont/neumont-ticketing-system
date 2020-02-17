@@ -181,7 +181,7 @@
         for (let i = 0; i < applicableRepairs.length; i++) {
             repair = applicableRepairs[i];
             if (repair.id === repairId) {
-                additionalFields = repair.additionalFields;
+                additionalFields = repair.additionalFieldNames;
                 break;
             }
         }
