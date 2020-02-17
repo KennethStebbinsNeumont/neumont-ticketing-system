@@ -133,6 +133,10 @@
             }
             $('.assetSelector').append(assetElements);
             $('.assetSelector').prop('disabled', false);
+
+            // Appending will automatically choose the first option,
+            // so we need to manually trigger the onAssetChosen handler
+            onAssetChosen();
         } else {
             console.error(`getOwnersAssets query unsuccessful: ${response.message}`);
         }
@@ -159,6 +163,10 @@
             }
             $('.repairSelector').append(assetElements);
             $('.repairSelector').prop('disabled', false);
+
+            // Appending will automatically choose the first option,
+            // so we need to manually trigger the onRepairChosen handler
+            onRepairChosen();
         } else {
             console.error(`getOwnersAssets query unsuccessful: ${response.message}`);
         }
@@ -306,5 +314,7 @@
         templateInput = $('#templateContainer').children('.inputContainer');
 
         $('#ownerInput').bind('input', onOwnerInputEvent);
+        $('#assetSelector').change(onAssetChosen);
+        $('#repairSelector').change(onRepairChosen);
     });
 })();
