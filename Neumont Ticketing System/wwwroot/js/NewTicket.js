@@ -221,33 +221,42 @@
                     datalist.empty();
 
                     // Now, make the query and add the results as options to the datalist
-                    let response = await getOwners(oldVal);
-                    let owner = undefined;
-                    let ele = undefined;
-                    let displayText = undefined;
-                    let options = [];
-                    for (let i = 0; i < response.Owners.length; i++) {
-                        owner = response.Owners[i];
+                    try {
+                        let response = await getOwners(oldVal);
+                        if (response.successful) {
+                            let owner = undefined;
+                            let ele = undefined;
+                            let displayText = undefined;
+                            let options = [];
+                            for (let i = 0; i < response.Owners.length; i++) {
+                                owner = response.Owners[i];
 
-                        ele = document.createElement('option');
-                        if (owner.matchedOn === matchedOnOwnerNameString ||
-                            owner.matchedOn === matchedOnOwnerPreferredNameString) {
-                            // If we matched on the owner's name or preferred name, bold it.
-                            displayText = `<strong>${owner.name}</strong> (${owner.primaryEmail})`;
-                        } else if (owner.matchedOn === matchedOnOwnerOwnerEmailString) {
-                            // If we matched on the owner's email address, bold it.
-                            displayText = `${owner.name} (<strong>${owner.primaryEmail}</strong>)`;
+                                ele = document.createElement('option');
+                                if (owner.matchedOn === matchedOnOwnerNameString ||
+                                    owner.matchedOn === matchedOnOwnerPreferredNameString) {
+                                    // If we matched on the owner's name or preferred name, bold it.
+                                    displayText = `<strong>${owner.name}</strong> (${owner.primaryEmail})`;
+                                } else if (owner.matchedOn === matchedOnOwnerOwnerEmailString) {
+                                    // If we matched on the owner's email address, bold it.
+                                    displayText = `${owner.name} (<strong>${owner.primaryEmail}</strong>)`;
+                                } else {
+                                    // If we've somehow matched on something else, don't bold anything
+                                    displayText = `${owner.name} (${owner.primaryEmail})`;
+                                }
+                                ele.value = displayText
+                                ele.setAttribute('ownerId', owner.id);
+
+                                options.push(ele);
+                            }
+
+                            datalist.append(options);
                         } else {
-                            // If we've somehow matched on something else, don't bold anything
-                            displayText = `${owner.name} (${owner.primaryEmail})`;
+                            console.error(`Request failed: ${response.message}`);
                         }
-                        ele.value = displayText
-                        ele.setAttribute('ownerId', owner.id);
-
-                        options.push(ele);
+                    } catch (e) {
+                        console.error("A JS error occurred while trying to search for owners.");
+                        console.error(e);
                     }
-
-                    datalist.append(options);
                 }
             }
         } else {
