@@ -4,30 +4,38 @@
 
     let templateInput = undefined;
 
+    // The amount of time to wait after the value of the owner
+    // field has been changed before making a query in onOwnerInputEvent
+    const QUERY_DELAY_MS = 250;
     
     const matchedOnOwnerNameString = "Name";
     const matchedOnOwnerPreferredNameString = "PreferredName";
     const matchedOnOwnerOwnerEmailString = "EmailAddress";
 
-    /* Return object schema
+    /* 
+     * Returns a then-able object, which, when resolved, produces an object
+     * as outlined in "Return object schema" below.
+     * 
+     * Return object schema
      * 
      * {
      *     successful: <bool - whether the query was successful>,
      *     message: <string - message from the server>,
      *     query: <string - the query this response was crafted from>,
      *     owners: [
+     *     {
      *         id: <string - owner's objectid>,
      *         name: <string - the owner's name>,
      *         primaryEmail: <string - the owner's primary email address>,
      *         matchedOn: <string - describes what attribute this owner matched on>,
      *         score: <int - this owner's match score; higher means a better match>
-     *     ]
+     *     }, ...]
      * }
      *  
      * 
      */
     let getOwners = function getOwners(query) {
-        $.ajax({
+        return $.ajax({
             type: "POST",
             url: "/Assets/GetOwners",
             data: JSON.stringify({
@@ -39,40 +47,78 @@
         });
     }
 
-    /* Return object schema
+    /*
+     * Returns a then-able object, which, when resolved, produces an object
+     * as outlined in "Return object schema" below.
+     *
+     * Return object schema
      * 
-     * [{
-     *     id: <string - asset's object id>,
-     *     serialNumber: <string - asset's serial number>,
-     *     modelName: <string - name of asset's model>
-     * }, ...]
+     * {
+     *     successful: <bool - whether the query was successful>,
+     *     message: <string - message from the server>,
+     *     ownerId: <string - the ID of the owner to whom these assets belong>,
+     *     assets: [
+     *     {
+     *         id: <string - asset's object id>,
+     *         serialNumber: <string - asset's serial number>,
+     *         modelName: <string - name of asset's model>
+     *     }, ...]
+     * }
      */
     let getOwnersAssets = function getOwnersAssets(ownerId) {
-        // TODO
+        return $.ajax({
+            type: "POST",
+            url: "/Assets/GetOwnedAssets",
+            data: JSON.stringify({
+                OwnerId: ownerId
+            }),
+            contentType: "application/json",
+            dataType: "json"
+        });
     }
 
-    /* Return object schema
+    /*
+     * Returns a then-able object, which, when resolved, produces an object
+     * as outlined in "Return object schema" below.
+     *
+     * Return object schema
      * 
-     * [{
-     *     id: <string - repair's id>,
-     *     name: <string - repair's name>,
-     *     description: <string - repair's description>,
-     *     additionalFieldNames: [<string - additional field name>, ...]
-     * }, ...]
+     * {
+     *     successful: <bool - whether the query was successful>,
+     *     message: <string - message from the server>,
+     *     assetId: <string - the ID of the asset to which these repair apply>,
+     *     repairs: [
+     *     {
+     *         id: <string - repair's id>,
+     *         name: <string - repair's name>,
+     *         description: <string - repair's description>,
+     *         additionalFieldNames: [<string - additional field name>, ...]
+     *     }, ...]
+     * }
+     * 
      */
     let getApplicableRepairs = function getApplicableRepairs(assetId) {
-        // TODO
-
-        return applicableRepairs;
+        return $.ajax({
+            type: "POST",
+            url: "/Assets/GetApplicableRepairs",
+            data: JSON.stringify({
+                AssetId: assetId
+            }),
+            contentType: "application/json",
+            dataType: "json"
+        }).then((json) => {
+            applicableRepairs = json.repairs;
+            return json;
+        });
     }
 
-    let onOwnerChosen = function onOwnerChosen(ownerId) {
+    let onOwnerChosen = async function onOwnerChosen(ownerId) {
         // Clear the asset stuff since no assets are chosen anymore
         onAssetClear();
         // Clear the old assets
         $('.assetSelector').empty();
 
-        let assets = getOwnersAssets(ownerId);
+        let assets = await getOwnersAssets(ownerId);
         let assetElements = [];
         let ele = undefined;
         let asset = undefined;
@@ -88,13 +134,13 @@
         $('.assetSelector').prop('disabled', false);
     }
 
-    let onAssetChosen = function onAssetChosen(assetId) {
+    let onAssetChosen = async function onAssetChosen(assetId) {
         // Clear the repair stuff since no repairs are chosen anymore
         onRepairClear();
         // Clear old repairs
         $('.repairSelector').empty();
 
-        let repairs = getApplicableRepairs(assetId);
+        let repairs = await getApplicableRepairs(assetId);
         let repairElements = [];
         let ele = undefined;
         let repair = undefined;
@@ -110,7 +156,7 @@
         $('.repairSelector').prop('disabled', false);
     }
 
-    let onRepairChosen = function onRepairChosen(repairId) {
+    let onRepairChosen = async function onRepairChosen(repairId) {
         // Clear old additional fields
         $('#additionalFields').empty();
 
@@ -155,12 +201,55 @@
         $('#additionalFields').empty();
     }
 
-    let onOwnerInputEvent = function onOwnerInputEvent(event) {
+    let onOwnerInputEvent = async function onOwnerInputEvent(event) {
         let input = $(event.target);
         if (event instanceof InputEvent) {
             // If the user just edited the text of the input
             input.removeAttr('ownerId');
             onOwnerClear();
+            // Don't start making requests until there are at least 4 characters
+            // in the owner's input
+            if (input.val() && input.val().length > 3) {
+                let oldVal = input.val();
+                // Wait QUERY_DELAY_MS milliseconds before deciding whether to make the query
+                await new Promise((resolve, reject) => setTimeout(resolve, QUERY_DELAY_MS));
+                if (oldval === input.val()) {
+                    // If the value of the input hasn't changed after waiting, make the query
+
+                    // First, though, clear the old options
+                    let datalist = $('.ownerList');
+                    datalist.empty();
+
+                    // Now, make the query and add the results as options to the datalist
+                    let response = await getOwners(oldVal);
+                    let owner = undefined;
+                    let ele = undefined;
+                    let displayText = undefined;
+                    let options = [];
+                    for (let i = 0; i < response.Owners.length; i++) {
+                        owner = response.Owners[i];
+
+                        ele = document.createElement('option');
+                        if (owner.matchedOn === matchedOnOwnerNameString ||
+                            owner.matchedOn === matchedOnOwnerPreferredNameString) {
+                            // If we matched on the owner's name or preferred name, bold it.
+                            displayText = `<strong>${owner.name}</strong> (${owner.primaryEmail})`;
+                        } else if (owner.matchedOn === matchedOnOwnerOwnerEmailString) {
+                            // If we matched on the owner's email address, bold it.
+                            displayText = `${owner.name} (<strong>${owner.primaryEmail}</strong>)`;
+                        } else {
+                            // If we've somehow matched on something else, don't bold anything
+                            displayText = `${owner.name} (${owner.primaryEmail})`;
+                        }
+                        ele.value = displayText
+                        ele.setAttribute('ownerId', owner.id);
+
+                        options.push(ele);
+                    }
+
+                    datalist.append(options);
+                }
+            }
         } else {
             // If the user just clicked on an autocomplete option
             let optionsList = $(event.target.list.options);
