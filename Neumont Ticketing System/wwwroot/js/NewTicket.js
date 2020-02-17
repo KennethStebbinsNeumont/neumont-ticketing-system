@@ -258,7 +258,7 @@
             let ele = undefined;
             for (let i = 0; i < options.length; i++) {
                 ele = options[i];
-                if (ele.val() === input.val()) {
+                if (ele.value === input.val()) {
                     // We've found the matching selection
                     ownerId = $(e).attr('ownerId');
                     input.attr('ownerId', ownerId);
