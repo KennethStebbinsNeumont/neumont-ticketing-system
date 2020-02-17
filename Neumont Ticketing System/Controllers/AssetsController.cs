@@ -278,8 +278,10 @@ namespace Neumont_Ticketing_System.Controllers
                             return 1;
                     });
 
-                    // Trim to the requested result size
-                    responseOwners.RemoveRange(request.MaxResults, responseOwners.Count - request.MaxResults);
+                    // Trim to the requested result size, if necessary
+                    if(responseOwners.Count > request.MaxResults)
+                        responseOwners.RemoveRange(request.MaxResults, responseOwners.Count - 
+                            request.MaxResults);
 
                     return new JsonResult(new GetOwnersResponse
                     {
