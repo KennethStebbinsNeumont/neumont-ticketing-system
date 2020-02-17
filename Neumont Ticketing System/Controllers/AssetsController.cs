@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Neumont_Ticketing_System.Models.Assets;
 using Neumont_Ticketing_System.Models.Owners;
 using Neumont_Ticketing_System.Services;
 using Neumont_Ticketing_System.Services.Exceptions;
@@ -20,15 +21,19 @@ namespace Neumont_Ticketing_System.Controllers
 
         private readonly AssetsDatabaseService _assetsDatabaseService;
 
+        private readonly TicketsDatabaseService _ticketsDatabaseService;
+
         public AssetsController(ILogger<AssetsController> logger,
             AppIdentityStorageService appIdentityStorageService,
             OwnersDatabaseService ownersDatabaseService,
-            AssetsDatabaseService assetsDatabaseService)
+            AssetsDatabaseService assetsDatabaseService,
+            TicketsDatabaseService ticketsDatabaseService)
         {
             _logger = logger;
             _appIdentityStorageService = appIdentityStorageService;
             _ownersDatabaseService = ownersDatabaseService;
             _assetsDatabaseService = assetsDatabaseService;
+            _ticketsDatabaseService = ticketsDatabaseService;
         }
 
         private readonly string matchedOnOwnerNameString = "Name";
@@ -360,6 +365,71 @@ namespace Neumont_Ticketing_System.Controllers
                 }
             }
         }
+
+        [HttpPost]
+        public JsonResult GetApplicableRepairs([FromBody] GetApplicableRepairsRequest request)
+        {
+            if (request.AssetId == null || request.AssetId == "")
+            {
+                _logger.LogError("The given AssetId was null or empty.");
+                return new JsonResult(new GetApplicableRepairsResponse
+                {
+                    Successful = false,
+                    Message = "The given OwnerId was null or empty.",
+                    AssetId = request.AssetId,
+                    Repairs = new List<GetApplicableRepairsResponseRepair>(0)
+                });
+            } else
+            {
+                try
+                {
+                    var asset = _assetsDatabaseService.GetAssetById(request.AssetId);
+                    var model = _assetsDatabaseService.GetModelById(asset.ModelId);
+                    var repairs = _ticketsDatabaseService.GetApplicableRepairs(model);
+                    var responseRepairs = new List<GetApplicableRepairsResponseRepair>();
+                    foreach(var repair in repairs)
+                    {
+                        responseRepairs.Add(new GetApplicableRepairsResponseRepair
+                        {
+                            Id = repair.Id,
+                            Name = repair.Name,
+                            Description = repair.Description,
+                            AdditionalFieldNames = repair.AdditionalFieldNames
+                        });
+                    }
+
+                    return new JsonResult(new GetApplicableRepairsResponse
+                    {
+                        Successful = true,
+                        Message = "Query completed normally.",
+                        AssetId = request.AssetId,
+                        Repairs = responseRepairs
+                    });
+
+                } catch(NotFoundException<Asset>)
+                {
+                    _logger.LogError($"No asset with an ID of \"{request.AssetId}\" was found.");
+                    return new JsonResult(new GetApplicableRepairsResponse
+                    {
+                        Successful = false,
+                        Message = $"No asset with an ID of \"{request.AssetId}\" was found.",
+                        AssetId = request.AssetId,
+                        Repairs = new List<GetApplicableRepairsResponseRepair>(0)
+                    });
+                } catch(Exception e)
+                {
+                    _logger.LogError(e, $"Unexpected exception while attempting to find applicable repairs " +
+                        $"for an asset with ID \"{request.AssetId}\"");
+                    return new JsonResult(new GetApplicableRepairsResponse
+                    {
+                        Successful = false,
+                        Message = "An unexpected internal error occurred.",
+                        AssetId = request.AssetId,
+                        Repairs = new List<GetApplicableRepairsResponseRepair>(0)
+                    });
+                }
+            }
+        }
     }
 
     #region GetOwners
@@ -408,4 +478,27 @@ namespace Neumont_Ticketing_System.Controllers
         public string ModelName { get; set; }
     }
     #endregion GetOwnedAssets
+
+    #region GetApplicableRepairs
+    public class GetApplicableRepairsRequest
+    {
+        public string AssetId { get; set; }
+    }
+
+    public class GetApplicableRepairsResponse
+    {
+        public bool Successful { get; set; }
+        public string Message { get; set; }
+        public string AssetId { get; set; }
+        public List<GetApplicableRepairsResponseRepair> Repairs { get; set; }
+    }
+
+    public class GetApplicableRepairsResponseRepair
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public List<string> AdditionalFieldNames { get; set; }
+    }
+    #endregion GetApplicableRepairs
 }
