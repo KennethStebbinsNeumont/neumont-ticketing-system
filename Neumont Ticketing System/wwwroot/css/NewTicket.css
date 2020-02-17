@@ -10,3 +10,7 @@
 datalist > option {
     display: none;
 }
+
+textarea {
+    padding: 2px 5px
+}
