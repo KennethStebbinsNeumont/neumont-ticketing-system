@@ -253,16 +253,19 @@
             }
         } else {
             // If the user just clicked on an autocomplete option
-            let optionsList = $(event.target.list.options);
+            let options = $(event.target.list.options).children('option');
             let ownerId = undefined;
-            optionsList.each(function (i, e) {
-                if (e.value === input.val()) {
+            let ele = undefined;
+            for (let i = 0; i < options.length; i++) {
+                ele = options[i];
+                if (ele.val() === input.val()) {
                     // We've found the matching selection
                     ownerId = $(e).attr('ownerId');
                     input.attr('ownerId', ownerId);
                     onOwnerChosen(ownerId);
+                    break;
                 }
-            });
+            }
         }
     };
 
