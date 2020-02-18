@@ -721,7 +721,7 @@ namespace Neumont_Ticketing_System.Controllers
         {
             try
             {
-                Repair duplicate = _ticketsDatabaseService.GetRepairByName(proposedRepair.Name);
+                RepairDefinition duplicate = _ticketsDatabaseService.GetRepairByName(proposedRepair.Name);
                 if (duplicate != null)
                 {   // If a repair with the same name was found
                     _logger.LogError($"A duplicate repair with the name \"{duplicate.Name}\" was found while " +
@@ -744,7 +744,7 @@ namespace Neumont_Ticketing_System.Controllers
                 List<string> modelIds = new List<string>();
                 models.ForEach(model => modelIds.Add(model.Id));
 
-                _ticketsDatabaseService.CreateRepair(new Repair
+                _ticketsDatabaseService.CreateRepair(new RepairDefinition
                 {
                     Name = proposedRepair.Name,
                     Description = proposedRepair.Description,

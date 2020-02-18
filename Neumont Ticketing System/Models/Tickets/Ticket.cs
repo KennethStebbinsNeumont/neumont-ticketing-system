@@ -22,7 +22,7 @@ namespace Neumont_Ticketing_System.Models.Tickets
 
         public Asset Asset { get; set; }
 
-        public Repair Repair { get; set; }
+        public RepairDefinition Repair { get; set; }
 
         public List<AppUser> Technicians { get; set; }
 

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace Neumont_Ticketing_System.Models.Tickets
 {
-    public class Repair : IEquatable<Repair>
+    public class RepairDefinition : IEquatable<RepairDefinition>
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
@@ -44,7 +44,7 @@ namespace Neumont_Ticketing_System.Models.Tickets
             return AppliesTo.DoesApplyTo(model);
         }
 
-        public bool Equals([AllowNull] Repair other)
+        public bool Equals([AllowNull] RepairDefinition other)
         {
             return other != null && other.Id == Id;
         }
