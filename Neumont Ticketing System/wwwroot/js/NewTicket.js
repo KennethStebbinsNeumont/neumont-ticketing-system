@@ -45,7 +45,7 @@
             contentType: "application/json",
             dataType: "json"
         });
-    }
+    };
 
     /*
      * Returns a then-able object, which, when resolved, produces an object
@@ -75,7 +75,7 @@
             contentType: "application/json",
             dataType: "json"
         });
-    }
+    };
 
     /*
      * Returns a then-able object, which, when resolved, produces an object
@@ -110,7 +110,7 @@
             applicableRepairs = json.repairs;
             return json;
         });
-    }
+    };
 
     let onOwnerChosen = async function onOwnerChosen(ownerId) {
         // Clear the asset stuff since no assets are chosen anymore
@@ -137,12 +137,12 @@
             // Appending will automatically choose the first option,
             // so we need to manually trigger the onAssetChosen handler
             // unless there are no assets available
-            if(response.assets.length > 0)
+            if (response.assets.length > 0)
                 onAssetChosen(response.assets[0].id);
         } else {
             console.error(`getOwnersAssets query unsuccessful: ${response.message}`);
         }
-    }
+    };
 
     let onAssetChosen = async function onAssetChosen(assetId) {
         // Clear the repair stuff since no repairs are chosen anymore
@@ -169,12 +169,12 @@
             // Appending will automatically choose the first option,
             // so we need to manually trigger the onRepairChosen handler
             // unless there are no repairs available
-            if(response.repairs.length > 0)
+            if (response.repairs.length > 0)
                 onRepairChosen(response.repairs[0].id);
         } else {
             console.error(`getOwnersAssets query unsuccessful: ${response.message}`);
         }
-    }
+    };
 
     let onRepairChosen = async function onRepairChosen(repairId) {
         // Clear old additional fields
@@ -197,29 +197,28 @@
             fieldName = additionalFields[i];
             ele = templateInput.clone();
             ele.find('p').text(`${fieldName}: `);
-            ele.find('input').addClass(`input${fieldName}`)
 
             addFieldElements.push(ele);
         }
         $('#additionalFields').append(addFieldElements);
-    }
+    };
 
     let onOwnerClear = function onOwnerClear() {
         $('.assetSelector').empty();
         $('.assetSelector').prop('disabled', true);
         onAssetClear();
-    }
+    };
 
     let onAssetClear = function onAssetClear() {
         $('.repairSelector').empty();
         $('.repairSelector').prop('disabled', true);
         applicableRepairs = [];
         onRepairClear();
-    }
+    };
 
     let onRepairClear = function onRepairClear() {
         $('#additionalFields').empty();
-    }
+    };
 
     let onOwnerInputEvent = async function onOwnerInputEvent(event) {
         let input = $(event.target);
@@ -300,7 +299,74 @@
             input.attr('ownerId', ownerId);
             onOwnerChosen(ownerId);
         }
-    }
+    };
+
+    let jsonifyInputs = function jsonifyInputs() {
+        let ownerId = $('#ownerInput').attr('ownerId');
+        let assetId = $('#assetSelector').val();
+        let repairId = $('#repairSelector').val();
+        let techId = $('#technicianSelector').val();
+        let title = $('#titleInput').val();
+        let description = $('#descriptionInput').val();
+
+        let loanerIds = [];
+        $('.loanerInput').each(function (i, e) {
+            loanerIds.push(e.value);
+        });
+
+        let additionalFields = [];
+        let ele;
+        $('#additionalFields').children('.inputContainer').each(function (i, e) {
+            ele = $(e)
+            additionalFields.push({
+                Name: ele.children('p').html(),
+                Value: ele.children('input').val()
+            })
+        });
+
+        let comments = [];
+        $('.commentContainer').find('textarea').each(function (i, e) {
+            comment.push(e.value);
+        });
+
+        return {
+            OwnerId: ownerId,
+            AssetId: assetId,
+            RepairId: repairId,
+            TechnicianId: techId,
+            LoanerIds: loanerIds,
+            Title: title,
+            Description: description,
+            AdditionalFields: additionalFields,
+            Comments: comments
+        }
+    };
+
+    /*
+     * 
+     * Return a then-able object that 
+     * 
+     */
+    let submitTicket = async function submitTicket() {
+        try {
+            let response = await $.ajax({
+                type: "POST",
+                url: "/Tickets/NewTicket",
+                data: JSON.stringify(jsonifyInputs()),
+                contentType: "application/json",
+                dataType: "json"
+            });
+
+            if (response.successful) {
+                console.log(`Ticket submission succeeded: ${response.message}`);
+            } else {
+                console.error(`Ticket submission failed: ${response.message}`);
+            }
+        } catch (e) {
+            console.error(`Unexpected error [${e.name}] while submitting ticket.`);
+            console.error(e);
+        }
+    };
 
     $(document).ready(function () {
         const expandableListInputs = $('.expandableListInput');
@@ -324,5 +390,8 @@
         $('#repairSelector').change(function () {
             onRepairChosen(this.value);
         });
+        $('#btnSubmit').click(submitTicket);
     });
+// This is called closure. It ensures that any local variables/constants/functions
+// can't be seen by any other scripts, for simplicity and cleanliness
 })();
