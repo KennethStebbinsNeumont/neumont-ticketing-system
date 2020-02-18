@@ -9,24 +9,16 @@ using System.Threading.Tasks;
 
 namespace Neumont_Ticketing_System.Models.Tickets
 {
-    public class RepairDefinition : IEquatable<RepairDefinition>
+    public class RepairDefinition : Repair, IEquatable<RepairDefinition>
     {
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
         public string Id { get; set; }
 
-        public string Name { get; set; }
-
-        public string NormalizedName { get; set; }
-
-        public string Description { get; set; }
-
         public AppliesTo AppliesTo { get; set; }
 
         [BsonElement("AdditionalFields")]
         public List<string> AdditionalFieldNames { get; set; }
-
-        public List<RepairStep> Steps { get; set; }
 
 
         public bool DoesApplyTo(AssetType type)
