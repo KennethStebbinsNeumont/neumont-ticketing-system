@@ -33,10 +33,10 @@
     </div>
     <div class="inputContainer techNameSelectorContainer">
         <p class="inputLabel">Technician: </p>
-        <select class="techNameSelector">
+        <select class="technicianSelector" id="technicianSelector">
             @foreach (var tech in Model.Technicians)
             {
-                <option value="@(tech.FullName)">
+                <option value="@(tech.Id)">
                     @(tech.FullName)
                 </option>
             }
@@ -48,12 +48,12 @@
     </div>
     <div class="inputContainer descriptionContainer">
         <p class="inputLabel descriptionLabel">Title: </p>
-        <input class="text-box single-line titleInput"
+        <input class="text-box single-line titleInput" id="titleInput"
                type="text" value="" />
     </div>
     <div class="inputContainer descriptionContainer">
         <p class="inputLabel descriptionLabel">Description: </p>
-        <textarea class="textArea descriptionInput"
+        <textarea class="textArea descriptionInput" id="descriptionInput"
                   type="text" value=""></textarea>
     </div>
     <div class="additionalFields" id="additionalFields">
@@ -74,6 +74,7 @@
             <button class="btnAddListItem" id="btnNewManufacturer">Add Comment</button>
         </div>
     </div>
+    <button class="btnSubmit" id="btnSubmit">Submit Ticket</button>
 </div>
 
 <div class="templateContainer" id="templateContainer" style="display: none">
