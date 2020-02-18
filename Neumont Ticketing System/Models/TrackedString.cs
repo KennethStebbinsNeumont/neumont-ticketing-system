@@ -10,7 +10,7 @@ namespace Neumont_Ticketing_System.Models
     {
         public string Value { get; set; }
 
-        public DateTime Timestamp { get; set; }
+        public DateTime Timestamp { get; set; } = DateTime.Now;
 
         public AppUser Author { get; set; }
     }
