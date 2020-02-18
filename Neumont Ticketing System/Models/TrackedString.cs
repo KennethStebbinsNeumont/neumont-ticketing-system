@@ -1,4 +1,6 @@
-﻿using Neumont_Ticketing_System.Areas.Identity.Data;
+﻿using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using Neumont_Ticketing_System.Areas.Identity.Data;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,6 +14,8 @@ namespace Neumont_Ticketing_System.Models
 
         public DateTime Timestamp { get; set; } = DateTime.Now;
 
-        public AppUser Author { get; set; }
+        [BsonElement("Author")]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string AuthorId { get; set; }
     }
 }
