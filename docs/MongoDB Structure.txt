@@ -25,6 +25,11 @@ TrackedString : {
 	Author : <ObjectId - _id of the app user who created the string>
 }
 
+Repair : {
+	DefinitionId : <objectid - the ID of the definition of this repair>,
+	Steps : [<Step - a step of this repair>, ...]
+}
+
 Step : {
 	Name : <string - name of the step>,
 	NormalizedName: <string - normalized version of name>,
@@ -174,7 +179,7 @@ assets : {
 tickets : {
 	repairs : [
 		// Definition of a kind of repair
-		repair : {
+		repair_definition : {
 			_id : <ObjectId - determined by MongoDB>,
 			Name : <string - name of this kind of repair>,
 			NormalizedName: <string - normalized version of name; managed by application>,
