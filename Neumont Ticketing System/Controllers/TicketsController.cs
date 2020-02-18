@@ -170,8 +170,13 @@ namespace Neumont_Ticketing_System.Controllers
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Unexpected error while creating a new ticket.");
-
+                _logger.LogError(e, "Unexpected exception while creating a new ticket.");
+                return new JsonResult(new NewTicketResponse
+                {
+                    Successful = false,
+                    Message = "An unexpected internal error occurred.",
+                    TicketId = -1
+                });
             }
         }
     }
