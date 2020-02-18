@@ -20,13 +20,19 @@ namespace Neumont_Ticketing_System.Models.Tickets
 
         public string Title { get; set; }
 
-        public Asset Asset { get; set; }
+        [BsonElement("Asset")]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string AssetId { get; set; }
 
         public Repair Repair { get; set; }
 
-        public List<AppUser> Technicians { get; set; }
+        [BsonElement("Technicians")]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public List<string> TechnicianIds { get; set; }
 
-        public List<LoanerAsset> Loaners { get; set; }
+        [BsonElement("Loaners")]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public List<string> LoanerIds { get; set; }
 
         public string Description { get; set; }
 
