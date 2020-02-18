@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Neumont_Ticketing_System.Areas.Identity.Data;
 using Neumont_Ticketing_System.Models.Assets;
+using Neumont_Ticketing_System.Models.Tickets;
 using Neumont_Ticketing_System.Services;
 using Neumont_Ticketing_System.Services.Exceptions;
 using Neumont_Ticketing_System.Views.Tickets;
@@ -61,10 +62,31 @@ namespace Neumont_Ticketing_System.Controllers
         }
 
         [HttpPost]
-        public JsonResult GetApplicableRepairs([FromBody] Asset asset)
+        public JsonResult NewTicket([FromBody] NewTicketRequest request)
         {
             //TODO: Implement
             throw new NotImplementedException();
         }
     }
+
+    public class NewTicketRequest
+    {
+        public string OwnerId { get; set; }
+        public string AssetId { get; set; }
+        public string RepairId { get; set; }
+        public string TechnicianId { get; set; }
+        public List<string> LoanerIds { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public List<AdditionalField> AdditionalFields { get; set; }
+        public List<string> Comments { get; set; }
+    }
+
+    public class NewTicketResponse
+    {
+        public bool Successful { get; set; }
+        public string Message { get; set; }
+        public int TicketId { get; set; }
+    }
+
 }
