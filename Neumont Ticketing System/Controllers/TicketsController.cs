@@ -5,7 +5,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Neumont_Ticketing_System.Areas.Identity.Data;
+using Neumont_Ticketing_System.Models;
 using Neumont_Ticketing_System.Models.Assets;
+using Neumont_Ticketing_System.Models.Owners;
 using Neumont_Ticketing_System.Models.Tickets;
 using Neumont_Ticketing_System.Services;
 using Neumont_Ticketing_System.Services.Exceptions;
@@ -64,8 +66,113 @@ namespace Neumont_Ticketing_System.Controllers
         [HttpPost]
         public JsonResult NewTicket([FromBody] NewTicketRequest request)
         {
-            //TODO: Implement
-            throw new NotImplementedException();
+            try
+            {
+                Owner matchedOwner = _ownersDatabaseService.GetOwnerById(request.OwnerId);
+                Asset matchedAsset = _assetsDatabaseService.GetAssetById(request.AssetId);
+                RepairDefinition matchedRepairDef = _ticketsDatabaseService.GetRepairById(request.RepairId);
+                AppUser technician = _appIdentityStorageService.GetUserById(request.TechnicianId);
+                
+                var technicians = new List<string>();
+                technicians.Add(technician.Id);
+
+                List<string> loaners = new List<string>();
+                LoanerAsset loaner;
+                foreach(var id in request.LoanerIds)
+                {
+                    loaner = _assetsDatabaseService.GetLoanerById(id);
+                    loaners.Add(loaner.Id);
+                }
+
+                List<TrackedString> comments = new List<TrackedString>();
+                foreach(string comment in request.Comments)
+                {
+                    comments.Add(new TrackedString
+                    {
+                        Value = comment,
+                        AuthorId = request.TechnicianId
+                    });
+                }
+
+                Ticket ticket = new Ticket
+                {
+                    Title = request.Title,
+                    AssetId = matchedAsset.Id,
+                    Repair = new Repair
+                    {
+                        DefinitionId = matchedRepairDef.Id
+                    },
+                    TechnicianIds = technicians,
+                    LoanerIds = loaners,
+                    Description = request.Description,
+                    AdditionalFields = request.AdditionalFields,
+                    Comments = comments
+                };
+
+                _ticketsDatabaseService.CreateTicket(ticket);
+
+                return new JsonResult(new NewTicketResponse
+                {
+                    Successful = true,
+                    Message = "Query completed normally.",
+                    TicketId = ticket.TicketId
+                });
+            } 
+            catch(NotFoundException<Owner>)
+            {
+                _logger.LogError($"Unable to find an owner with ID {request.OwnerId}");
+                return new JsonResult(new NewTicketResponse
+                {
+                    Successful = false,
+                    Message = "Unable to find the given owner.",
+                    TicketId = -1
+                });
+            }
+            catch (NotFoundException<Asset>)
+            {
+                _logger.LogError($"Unable to find an asset with ID {request.AssetId}");
+                return new JsonResult(new NewTicketResponse
+                {
+                    Successful = false,
+                    Message = "Unable to find the given asset.",
+                    TicketId = -1
+                });
+            }
+            catch (NotFoundException<RepairDefinition>)
+            {
+                _logger.LogError($"Unable to find an owner with ID {request.RepairId}");
+                return new JsonResult(new NewTicketResponse
+                {
+                    Successful = false,
+                    Message = "Unable to find the given repair.",
+                    TicketId = -1
+                });
+            }
+            catch (NotFoundException<AppUser>)
+            {
+                _logger.LogError($"Unable to find a user with ID {request.RepairId}");
+                return new JsonResult(new NewTicketResponse
+                {
+                    Successful = false,
+                    Message = "Unable to find the given technician.",
+                    TicketId = -1
+                });
+            }
+            catch (NotFoundException<LoanerAsset> e)
+            {
+                _logger.LogError($"Unable to find a loaner specified: {e.Message}");
+                return new JsonResult(new NewTicketResponse
+                {
+                    Successful = false,
+                    Message = "Unable to find a loaner.",
+                    TicketId = -1
+                });
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Unexpected error while creating a new ticket.");
+
+            }
         }
     }
 
