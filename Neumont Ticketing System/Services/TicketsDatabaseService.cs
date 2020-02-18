@@ -37,6 +37,26 @@ namespace Neumont_Ticketing_System.Services
 
         #region Read
         #region Tickets
+        public Ticket GetTicketById(string id)
+        {
+            if (id == null || id.Length == 0)
+                throw new ArgumentException("Given id cannot be null nor empty.");
+            var matches = GetTickets(r => r.Id.Equals(id));
+            if (matches.Count > 0)
+                return matches[0];
+            else
+                throw new NotFoundException<Ticket>($"No ticket with a matching ID of \"{id}\" was found.");
+        }
+        public Ticket GetTicketByTicketId(int ticketId)
+        {
+            var matches = GetTickets(r => r.TicketId == ticketId);
+            if (matches.Count > 0)
+                return matches[0];
+            else
+                throw new NotFoundException<Ticket>($"No ticket with a matching ticket id of " +
+                    $"\"{ticketId}\" was found.");
+        }
+
         public List<Ticket> GetTickets()
         {
             return GetTickets(ticket => true);
