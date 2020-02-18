@@ -3,6 +3,7 @@ using Neumont_Ticketing_System.Controllers.Exceptions;
 using Neumont_Ticketing_System.Models.Assets;
 using Neumont_Ticketing_System.Models.DatabaseSettings;
 using Neumont_Ticketing_System.Models.Tickets;
+using Neumont_Ticketing_System.Services.Exceptions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -52,12 +53,25 @@ namespace Neumont_Ticketing_System.Services
         #region Repairs
         public Repair GetRepairByName(string name)
         {
+            if (name == null || name.Length == 0)
+                throw new ArgumentException("Given name cannot be null nor empty.");
             string normalizedName = CommonFunctions.NormalizeString(name);
             var matches = GetRepairs(r => r.NormalizedName.Equals(normalizedName));
             if (matches.Count > 0)
-                return matches.First();
+                return matches[0];
             else
-                return null;
+                throw new NotFoundException<Repair>($"No repair with a name matching \"{name}\" was found.");
+        }
+
+        public Repair GetRepairById(string id)
+        {
+            if (id == null || id.Length == 0)
+                throw new ArgumentException("Given id cannot be null nor empty.");
+            var matches = GetRepairs(r => r.Id.Equals(id));
+            if (matches.Count > 0)
+                return matches[0];
+            else
+                throw new NotFoundException<Repair>($"No repair with a matching ID of \"{id}\" was found.");
         }
 
         public List<Repair> GetRepairs()
