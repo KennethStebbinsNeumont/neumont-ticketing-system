@@ -34,6 +34,16 @@ namespace Neumont_Ticketing_System.Services
             return list.Count > 0;
         }
 
+        public AppUser GetUserById(string id)
+        {
+            var matches = GetUsers(u => u.Id.Equals(id));
+            if (matches.Count > 0)
+                return matches[0];
+            else
+                throw new NotFoundException<AppUser>($"No app user with a matching ID of " +
+                    $"\"{id}\" was found.");
+        }
+
         public AppUser GetUserByUsername(string username)
         {
             var list = GetUsers(user => user.Username == username);
