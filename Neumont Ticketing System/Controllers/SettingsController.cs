@@ -722,18 +722,6 @@ namespace Neumont_Ticketing_System.Controllers
         {
             try
             {
-                RepairDefinition duplicate = _ticketsDatabaseService.GetRepairByName(proposedRepair.Name);
-                if (duplicate != null)
-                {   // If a repair with the same name was found
-                    _logger.LogError($"A duplicate repair with the name \"{duplicate.Name}\" was found while " +
-                        $"trying to create a new repair.");
-                    return new JsonResult(new NewRepairDataResponse
-                    {
-                        Successful = false,
-                        Message = $"A duplicate repair with the name \"{duplicate.Name}\" was found."
-                    });
-                }
-
                 List<AssetType> types = _assetDatabaseService.GetTypesByName(proposedRepair.AppliesTo.TypeNames);
                 List<string> typeIds = new List<string>();
                 types.ForEach(type => typeIds.Add(type.Id));
@@ -763,7 +751,18 @@ namespace Neumont_Ticketing_System.Controllers
                 {
                     Successful = true
                 });
-            } catch(Exception e) {
+            }
+            catch (DuplicateException<RepairDefinition> e)
+            {
+                _logger.LogError($"A duplicate repair with the name \"{e.Duplicate.Name}\" was found while " +
+                        $"trying to create a new repair.");
+                return new JsonResult(new NewRepairDataResponse
+                {
+                    Successful = false,
+                    Message = $"A duplicate repair with the name \"{e.Duplicate.Name}\" was found."
+                });
+            }
+            catch(Exception e) {
                 _logger.LogError(e, "Unexpected exception while trying to create a new repair definition from HTTP POST.");
                 return new JsonResult(new NewRepairDataResponse
                 {

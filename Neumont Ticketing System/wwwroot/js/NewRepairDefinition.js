@@ -194,16 +194,15 @@ $(document).ready(function () {
             url: "/Settings/NewRepairDefinition",
             data: JSON.stringify(jsonifyInputs()),
             contentType: "application/json",
-            dataType: "json",
-            success: function (response) {
+            dataType: "json"
+        }).then(json => {
+            if (json.successful) {
                 console.log("Success!");
-            },
-            failure: function (response) {
-                console.log("Failure :(");
-            },
-            error: function (response) {
-                console.log("ERROR!!!!");
+            } else {
+                console.error(`Query failed: ${json.message}`);
             }
+        }).catch(() => {
+            console.error("Unexpected error while submitting new repair.");
         });
     });
 
