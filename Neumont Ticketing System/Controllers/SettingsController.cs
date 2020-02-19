@@ -486,7 +486,8 @@ namespace Neumont_Ticketing_System.Controllers
                         });
 
                         // Trim to the requested result size
-                        responseAssets.RemoveRange(queryObject.MaxNumOfResults, 
+                        if (responseAssets.Count > queryObject.MaxNumOfResults)
+                            responseAssets.RemoveRange(queryObject.MaxNumOfResults, 
                             responseAssets.Count - queryObject.MaxNumOfResults);
 
                         return new JsonResult(new AssetManagerQueryResponse
