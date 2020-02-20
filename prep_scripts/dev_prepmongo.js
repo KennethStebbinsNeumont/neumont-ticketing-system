@@ -205,241 +205,241 @@ db.assets.insertMany([{
 db = mongo.getDB("tickets")
 
 db.repairs.insertMany([{
-		"Name": "Dell depot repair",
-		"NormalizedName": "DELLDEPOTREPAIR",
-		"Description": "Send a Dell machine to Dell's Advanced Resolution Center to repair.",
-		"AppliesTo": {
-			"Types": [
-				laptop
-			],
-			"Manufacturers": [
-				dell
-			],
-			"Models": []
-		},
-		"AdditionalFields": [
-			"Helped by",
-			"Service request #"
+	"Name": "Dell depot repair",
+	"NormalizedName": "DELLDEPOTREPAIR",
+	"Description": "Send a Dell machine to Dell's Advanced Resolution Center to repair.",
+	"AppliesTo": {
+		"Types": [
+			laptop
 		],
-		"Steps": [
-			{
-				"Name": "Receive machine from student",
-				"NormalizedName": "RECEIVEMACHINEFROMSTUDENT",
-				"Description": "",
-				"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-				"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-				"Comments": null,
-				"SubSteps": []
-			},
-			{
-				"Name": "Incoming benchmark",
-				"NormalizedName": "INCOMINGBENCHMARK",
-				"Description": "Run a battery of tests against the machine to confirm the described problem(s) and discover new ones.",
-				"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-				"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-				"Comments": null,
-				"SubSteps": [
-					{
-						"Name": "POST/Boot test",
-						"NormalizedName": "POSTBOOTTEST",
-						"Description": "Boot the machine into an appropriate benching image.",
-						"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-						"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-						"Comments": null,
-						"SubSteps": []
-					},
-					{
-						"Name": "Performance tests",
-						"NormalizedName": "PERFORMANCETESTS",
-						"Description": "Push the machine to its limits",
-						"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-						"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-						"Comments": null,
-						"SubSteps": [
-							{
-								"Name": "Intel Processor Diagnostic Tool",
-								"NormalizedName": "INTELPROCESSORDIAGNOSTICTOOL",
-								"Description": "A test made by Intel to discover problems within the CPU.",
-								"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-								"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-								"Comments": null,
-								"SubSteps": []
-							},
-							{
-								"Name": "Cinebench",
-								"NormalizedName": "CINEBENCH",
-								"Description": "A CPU benchmark that renders a 3D scene as fast as the machine can.",
-								"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-								"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-								"Comments": null,
-								"SubSteps": []
-							},
-							{
-								"Name": "FurMark (dGPU)",
-								"NormalizedName": "FURMARKDGPU",
-								"Description": "A simple GPU test that runs on the dedicated graphics chip in the machine.",
-								"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-								"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-								"Comments": null,
-								"SubSteps": []
-							},
-							{
-								"Name": "FurMark (iGPU)",
-								"NormalizedName": "FURMARKIGPU",
-								"Description": "A simple GPU test that runs on the machine's processor's integrated graphics processor.",
-								"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-								"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-								"Comments": null,
-								"SubSteps": []
-							},
-							{
-								"Name": "Heaven Benchmark",
-								"NormalizedName": "HEAVENBENCHMARK",
-								"Description": "A gaming benchmark that hits both the CPU and GPU hard.",
-								"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-								"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-								"Comments": null,
-								"SubSteps": []
-							}
-						]
-					},
-					{
-						"Name": "Stability Tests",
-						"NormalizedName": "STABILITYTESTS",
-						"Description": "These tests determine how stable the machine is under the largest of loads.",
-						"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-						"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-						"Comments": null,
-						"SubSteps": [
-							{
-								"Name": "Prime95",
-								"NormalizedName": "PRIME95",
-								"Description": "A CPU torture-test designed to put as much load on and generate the most heat from the CPU.",
-								"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-								"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-								"Comments": null,
-								"SubSteps": []
-							},
-							{
-								"Name": "MemTest64",
-								"NormalizedName": "MEMTEST64",
-								"Description": "A test that runs operations on the machine's memory, stressing as much of it as possible.",
-								"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-								"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-								"Comments": null,
-								"SubSteps": []
-							}
-						]
-					},
-					{
-						"Name": "Basic tests",
-						"NormalizedName": "BASICTESTS",
-						"Description": "These tests ensure that the basic functions of the machine are in working order.",
-						"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-						"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-						"Comments": null,
-						"SubSteps": [
-							{
-								"Name": "USB-A test",
-								"NormalizedName": "USBATEST",
-								"Description": "Connect a flash drive to each USB-A port and ensure the machine can read it",
-								"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-								"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-								"Comments": null,
-								"SubSteps": []
-							},
-							{
-								"Name": "USB-C test",
-								"NormalizedName": "USBCTEST",
-								"Description": "Connect a flash drive to each USB-C port and ensure the machine can read it",
-								"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-								"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-								"Comments": null,
-								"SubSteps": []
-							},
-							{
-								"Name": "Speaker test",
-								"NormalizedName": "SPEAKERTEST",
-								"Description": "Play a sound through the computer's speakers and ensure there is no audible distortion and that the speakers are balanced.",
-								"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-								"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-								"Comments": null,
-								"SubSteps": []
-							},
-							{
-								"Name": "Headphone test",
-								"NormalizedName": "HEADPHONETEST",
-								"Description": "Connect headphones to the machine and ensure both audio channels sound balanced and clear.",
-								"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-								"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-								"Comments": null,
-								"SubSteps": []
-							},
-							{
-								"Name": "Wi-Fi test",
-								"NormalizedName": "WIFITEST",
-								"Description": "Connect the machine to Wi-Fi and load a webpage.",
-								"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-								"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-								"Comments": null,
-								"SubSteps": []
-							},
-							{
-								"Name": "HDMI test",
-								"NormalizedName": "HDMITEST",
-								"Description": "Connect the machine to an HDMI monitor and make sure an image appears.",
-								"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-								"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-								"Comments": null,
-								"SubSteps": []
-							},
-							{
-								"Name": "SD card test",
-								"NormalizedName": "SDCARDTEST",
-								"Description": "Connect an SD card to the machine and ensure the machine can read it",
-								"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-								"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-								"Comments": null,
-								"SubSteps": []
-							},
-							{
-								"Name": "Keyboard test",
-								"NormalizedName": "KEYBOARDTEST",
-								"Description": "Go to https://keyboardtester.com/tester.html and ensure that every key on the keyboard registers reliably and accurately.",
-								"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-								"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-								"Comments": null,
-								"SubSteps": []
-							},
-							{
-								"Name": "Trackpad test",
-								"NormalizedName": "TRACKPADTEST",
-								"Description": "Move the cursor up, down, left, and right using the trackpad. Ensure both left and right clicks register. Ensure there are no errant clicks registered when moving a finger from the bottom to the top of the trackpad.",
-								"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-								"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-								"Comments": null,
-								"SubSteps": []
-							},
-							{
-								"Name": "Monitor test",
-								"NormalizedName": "MONITORTEST",
-								"Description": "Run Monitor Test and ensure that no clusters of dead pixels nor light spots are seen.",
-								"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-								"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-								"Comments": null,
-								"SubSteps": []
-							},
-							{
-								"Name": "Touchscreen test",
-								"NormalizedName": "TOUCHSCREENTEST",
-								"Description": "Run Monitor Test and ensure that all of the touchscreen tests pass. Tap on the display with 5 fingers and confirm that Windows registers all 5 taps.",
-								"StartedDate": ISODate("0001-01-01T00:00:00Z"),
-								"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
-								"Comments": null,
-								"SubSteps": []
-							}
-						]
-					}
+		"Manufacturers": [
+			dell
+		],
+		"Models": []
+	},
+	"AdditionalFields": [
+		"Helped by",
+		"Service request #"
+	],
+	"Steps": [
+		{
+			"Name": "Receive machine from student",
+			"NormalizedName": "RECEIVEMACHINEFROMSTUDENT",
+			"Description": "",
+			"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+			"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+			"Comments": null,
+			"SubSteps": []
+		},
+		{
+			"Name": "Incoming benchmark",
+			"NormalizedName": "INCOMINGBENCHMARK",
+			"Description": "Run a battery of tests against the machine to confirm the described problem(s) and discover new ones.",
+			"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+			"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+			"Comments": null,
+			"SubSteps": [
+				{
+					"Name": "POST/Boot test",
+					"NormalizedName": "POSTBOOTTEST",
+					"Description": "Boot the machine into an appropriate benching image.",
+					"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+					"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+					"Comments": null,
+					"SubSteps": []
+				},
+				{
+					"Name": "Performance tests",
+					"NormalizedName": "PERFORMANCETESTS",
+					"Description": "Push the machine to its limits",
+					"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+					"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+					"Comments": null,
+					"SubSteps": [
+						{
+							"Name": "Intel Processor Diagnostic Tool",
+							"NormalizedName": "INTELPROCESSORDIAGNOSTICTOOL",
+							"Description": "A test made by Intel to discover problems within the CPU.",
+							"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+							"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+							"Comments": null,
+							"SubSteps": []
+						},
+						{
+							"Name": "Cinebench",
+							"NormalizedName": "CINEBENCH",
+							"Description": "A CPU benchmark that renders a 3D scene as fast as the machine can.",
+							"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+							"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+							"Comments": null,
+							"SubSteps": []
+						},
+						{
+							"Name": "FurMark (dGPU)",
+							"NormalizedName": "FURMARKDGPU",
+							"Description": "A simple GPU test that runs on the dedicated graphics chip in the machine.",
+							"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+							"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+							"Comments": null,
+							"SubSteps": []
+						},
+						{
+							"Name": "FurMark (iGPU)",
+							"NormalizedName": "FURMARKIGPU",
+							"Description": "A simple GPU test that runs on the machine's processor's integrated graphics processor.",
+							"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+							"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+							"Comments": null,
+							"SubSteps": []
+						},
+						{
+							"Name": "Heaven Benchmark",
+							"NormalizedName": "HEAVENBENCHMARK",
+							"Description": "A gaming benchmark that hits both the CPU and GPU hard.",
+							"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+							"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+							"Comments": null,
+							"SubSteps": []
+						}
+					]
+				},
+				{
+					"Name": "Stability Tests",
+					"NormalizedName": "STABILITYTESTS",
+					"Description": "These tests determine how stable the machine is under the largest of loads.",
+					"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+					"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+					"Comments": null,
+					"SubSteps": [
+						{
+							"Name": "Prime95",
+							"NormalizedName": "PRIME95",
+							"Description": "A CPU torture-test designed to put as much load on and generate the most heat from the CPU.",
+							"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+							"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+							"Comments": null,
+							"SubSteps": []
+						},
+						{
+							"Name": "MemTest64",
+							"NormalizedName": "MEMTEST64",
+							"Description": "A test that runs operations on the machine's memory, stressing as much of it as possible.",
+							"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+							"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+							"Comments": null,
+							"SubSteps": []
+						}
+					]
+				},
+				{
+					"Name": "Basic tests",
+					"NormalizedName": "BASICTESTS",
+					"Description": "These tests ensure that the basic functions of the machine are in working order.",
+					"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+					"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+					"Comments": null,
+					"SubSteps": [
+						{
+							"Name": "USB-A test",
+							"NormalizedName": "USBATEST",
+							"Description": "Connect a flash drive to each USB-A port and ensure the machine can read it",
+							"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+							"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+							"Comments": null,
+							"SubSteps": []
+						},
+						{
+							"Name": "USB-C test",
+							"NormalizedName": "USBCTEST",
+							"Description": "Connect a flash drive to each USB-C port and ensure the machine can read it",
+							"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+							"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+							"Comments": null,
+							"SubSteps": []
+						},
+						{
+							"Name": "Speaker test",
+							"NormalizedName": "SPEAKERTEST",
+							"Description": "Play a sound through the computer's speakers and ensure there is no audible distortion and that the speakers are balanced.",
+							"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+							"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+							"Comments": null,
+							"SubSteps": []
+						},
+						{
+							"Name": "Headphone test",
+							"NormalizedName": "HEADPHONETEST",
+							"Description": "Connect headphones to the machine and ensure both audio channels sound balanced and clear.",
+							"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+							"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+							"Comments": null,
+							"SubSteps": []
+						},
+						{
+							"Name": "Wi-Fi test",
+							"NormalizedName": "WIFITEST",
+							"Description": "Connect the machine to Wi-Fi and load a webpage.",
+							"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+							"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+							"Comments": null,
+							"SubSteps": []
+						},
+						{
+							"Name": "HDMI test",
+							"NormalizedName": "HDMITEST",
+							"Description": "Connect the machine to an HDMI monitor and make sure an image appears.",
+							"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+							"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+							"Comments": null,
+							"SubSteps": []
+						},
+						{
+							"Name": "SD card test",
+							"NormalizedName": "SDCARDTEST",
+							"Description": "Connect an SD card to the machine and ensure the machine can read it",
+							"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+							"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+							"Comments": null,
+							"SubSteps": []
+						},
+						{
+							"Name": "Keyboard test",
+							"NormalizedName": "KEYBOARDTEST",
+							"Description": "Go to https://keyboardtester.com/tester.html and ensure that every key on the keyboard registers reliably and accurately.",
+							"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+							"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+							"Comments": null,
+							"SubSteps": []
+						},
+						{
+							"Name": "Trackpad test",
+							"NormalizedName": "TRACKPADTEST",
+							"Description": "Move the cursor up, down, left, and right using the trackpad. Ensure both left and right clicks register. Ensure there are no errant clicks registered when moving a finger from the bottom to the top of the trackpad.",
+							"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+							"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+							"Comments": null,
+							"SubSteps": []
+						},
+						{
+							"Name": "Monitor test",
+							"NormalizedName": "MONITORTEST",
+							"Description": "Run Monitor Test and ensure that no clusters of dead pixels nor light spots are seen.",
+							"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+							"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+							"Comments": null,
+							"SubSteps": []
+						},
+						{
+							"Name": "Touchscreen test",
+							"NormalizedName": "TOUCHSCREENTEST",
+							"Description": "Run Monitor Test and ensure that all of the touchscreen tests pass. Tap on the display with 5 fingers and confirm that Windows registers all 5 taps.",
+							"StartedDate": ISODate("0001-01-01T00:00:00Z"),
+							"CompletedDate": ISODate("0001-01-01T00:00:00Z"),
+							"Comments": null,
+							"SubSteps": []
+						}
+					]
+				}}}}}}sdioafnuieh980inqo2efw
 				]
 			},
 			{
