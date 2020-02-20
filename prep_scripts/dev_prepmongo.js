@@ -19,28 +19,48 @@ db.tset.insert({ "name": "Hemlo World!", "value": "This is pretty neat-o!" });
 
 // Create user and role databases
 db = mongo.getDB("users");
-db.users.insert({
-    "Username": "JohnnyBoi@net.net",
-    "NormalizedUsername": "JOHNNYBOI@NET.NET",
-    "Email": "JOHNNYBOI@NET.NET",
-    "NormalizedEmail": "JOHNNYBOI@NET.NET",
-    "EmailConfirmed": false,
-    "FullName": "Johnny Boi",
-//  "Password": "aBc123$%^",
-    "PasswordHash": "AQAAAAEAACcQAAAAECf1ja3G75KH70FUM4K+Y4YlQjK21hkvG/p2dGQMjUy1lPWeR8/o2QTY9bPoD3ZAow==",
-    "SecurityStamp": "A3HM2WLAG7ORJWWX6ELVL5CVXEIGWNY6",
-    "FailedLoginAttempts": 0,
-    "LockoutEnabled": true,
-    "LockedOutUntil": null
-})
+db.users.insertMany([{
+	"Username": "JohnnyBoi@net.net",
+	"NormalizedUsername": "JOHNNYBOI@NET.NET",
+	"Email": "JOHNNYBOI@NET.NET",
+	"NormalizedEmail": "JOHNNYBOI@NET.NET",
+	"EmailConfirmed": false,
+	"FullName": "Johnny Boi",
+	//  "Password": "aBc123$%^",
+	"PasswordHash": "AQAAAAEAACcQAAAAECf1ja3G75KH70FUM4K+Y4YlQjK21hkvG/p2dGQMjUy1lPWeR8/o2QTY9bPoD3ZAow==",
+	"SecurityStamp": "A3HM2WLAG7ORJWWX6ELVL5CVXEIGWNY6",
+	"FailedLoginAttempts": 0,
+	"LockoutEnabled": true,
+	"LockedOutUntil": null
+},
+{
+	"Username": "LBelcher@BobsBurgers.com",
+	"NormalizedUsername": "LBELCHER@BOBSBURGERS.COM",
+	"Email": "LBELCHER@BOBSBURGERS.COM",
+	"NormalizedEmail": "LBELCHER@BOBSBURGERS.COM",
+	"EmailConfirmed": false,
+	"FullName": "Louise Belcher",
+	//  "Password": "aBc123$%^",
+	"PasswordHash": "AQAAAAEAACcQAAAAECf1ja3G75KH70FUM4K+Y4YlQjK21hkvG/p2dGQMjUy1lPWeR8/o2QTY9bPoD3ZAow==",
+	"SecurityStamp": null,
+	"FailedLoginAttempts": 0,
+	"LockoutEnabled": true,
+	"LockedOutUntil": null
+}])
 
 let johnnyBoiId = db.users.find({ "NormalizedUsername": "JOHNNYBOI@NET.NET" })[0]._id;
+let lBelcherId = db.users.find({ "NormalizedUsername": "LBELCHER@BOBSBURGERS.COM" })[0]._id;
 
-db.roles.insert({
-    "Name": "Tree Planters",
-    "NormalizedName": "TREE PLANTERS",
-    "Users": [johnnyBoiId]
-})
+db.roles.insertMany([{
+	"Name": "Technicians",
+	"NormalizedName": "TECHNICIANS",
+	"Users": [johnnyBoiId]
+},
+{
+	"Name": "Administrators",
+	"NormalizedName": "ADMINISTRATORS",
+	"Users": [lBelcherId]
+}]);
 
 db = mongo.getDB("assets");
 db.types.insertMany([{
