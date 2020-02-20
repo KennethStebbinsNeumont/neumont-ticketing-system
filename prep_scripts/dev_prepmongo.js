@@ -205,7 +205,6 @@ db.assets.insertMany([{
 db = mongo.getDB("tickets")
 
 db.repairs.insertMany([{
-    {
 		"Name": "Dell depot repair",
 		"NormalizedName": "DELLDEPOTREPAIR",
 		"Description": "Send a Dell machine to Dell's Advanced Resolution Center to repair.",
@@ -498,5 +497,4 @@ db.repairs.insertMany([{
 				"SubSteps": []
 			}
 		]
-	}
 }]);
