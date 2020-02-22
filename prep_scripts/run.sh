@@ -21,6 +21,11 @@ files=$(ls | grep -e ^${mode}_.*\.sh)
 if [ "$files" != "" ]; then
     while read file; do
         /bin/bash "$file"
+        if [ $? -ne 0 ]; then
+            # If this script failed
+            echo "$file exited with non-zero exit status." 1>&2
+            exit $?
+        fi
     done <<< $files
 fi
 
