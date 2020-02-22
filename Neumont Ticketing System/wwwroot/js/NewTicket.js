@@ -326,7 +326,7 @@
 
         let comments = [];
         $('.commentContainer').find('textarea').each(function (i, e) {
-            comment.push(e.value);
+            comments.push(e.value);
         });
 
         return {
