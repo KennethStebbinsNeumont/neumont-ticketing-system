@@ -17,7 +17,7 @@ namespace Neumont_Ticketing_System.Services
         public readonly string adminsRoleNormName = "ADMINISTRATORS";
         public readonly string techniciansRoleNormName = "TECHNICIANS";
 
-        private readonly string[] enumRoleNormNames = ["ADMINISTRATORS", "TECHNICIANS"];
+        private readonly string[] enumRoleNormNames = new string[] { "ADMINISTRATORS", "TECHNICIANS" };
 
         public enum Roles
         {
