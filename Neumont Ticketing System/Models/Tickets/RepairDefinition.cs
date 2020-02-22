@@ -53,12 +53,15 @@ namespace Neumont_Ticketing_System.Models.Tickets
     public class AppliesTo
     {
         [BsonElement("Types")]
+        [BsonRepresentation(BsonType.ObjectId)]
         public List<string> TypeIds { get; set; }
 
         [BsonElement("Manufacturers")]
+        [BsonRepresentation(BsonType.ObjectId)]
         public List<string> ManufacturerIds { get; set; }
 
         [BsonElement("Models")]
+        [BsonRepresentation(BsonType.ObjectId)]
         public List<string> ModelIds { get; set; }
 
         public bool DoesApplyTo(AssetType type)
