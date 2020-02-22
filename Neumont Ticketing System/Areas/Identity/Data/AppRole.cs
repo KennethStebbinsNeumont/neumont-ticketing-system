@@ -19,6 +19,7 @@ namespace Neumont_Ticketing_System.Areas.Identity.Data
         public string NormalizedName { get; set; }
 
         [BsonElement("Users")]
+        [BsonRepresentation(BsonType.ObjectId)]
         public List<string> UserIds { get; set; }
 
         public bool Equals([AllowNull] AppRole other)
