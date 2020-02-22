@@ -58,12 +58,10 @@ stages:
               displayName: 'Clear deployment directory'
               inputs:
                 script: 'rm -rf $(deploymentDir)*'
-                failOnStderr: true
             - task: CmdLine@2
               displayName: 'Run prep scripts (dev mode)'
               inputs:
                 script: '/bin/bash $(Build.SourcesDirectory)/prep_scripts/run.sh dev $(Build.SourcesDirectory)/prep_scripts'
-                failOnStderr: true
         deploy:
           steps:
             - task: CopyFiles@2
@@ -78,4 +76,3 @@ stages:
               displayName: 'Restart webserver'
               inputs:
                 script: 'sudo systemctl restart kestrel-webapp.service'
-                failOnStderr: true
