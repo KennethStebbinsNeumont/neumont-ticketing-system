@@ -114,10 +114,10 @@ namespace Neumont_Ticketing_System.Services
                                 r.AppliesTo.TypeIds.Contains(model.TypeId)) &&
                             // Next, ensure the repair applies to this model's manufacturer
                             (r.AppliesTo.ManufacturerIds.Count == 0 ||
-                                r.AppliesTo.ManufacturerIds.Contains(model.ManufacturerId) &&
+                                r.AppliesTo.ManufacturerIds.Contains(model.ManufacturerId)) &&
                             // Finally, ensure the repair applies to this model specifically
                             (r.AppliesTo.ModelIds.Count == 0 ||
-                                r.AppliesTo.ModelIds.Contains(model.Id)))).ToList();
+                                r.AppliesTo.ModelIds.Contains(model.Id))).ToList();
         }
         #endregion Repairs
         #endregion Read
