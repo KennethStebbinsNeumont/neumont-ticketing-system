@@ -40,6 +40,10 @@ namespace Neumont_Ticketing_System.Models.Tickets
 
         public List<TrackedString> Comments { get; set; }
 
+        public DateTime Opened { get; set; }
+
+        public DateTime Closed { get; set; }
+
         public bool Equals([AllowNull] Ticket other)
         {
             return other != null && other.Id == Id;

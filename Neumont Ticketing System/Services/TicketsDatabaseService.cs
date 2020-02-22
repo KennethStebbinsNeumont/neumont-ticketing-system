@@ -126,6 +126,21 @@ namespace Neumont_Ticketing_System.Services
         #region Tickets
         public Ticket CreateTicket(Ticket ticket)
         {
+            // https://stackoverflow.com/questions/32076382/mongodb-how-to-get-max-value-from-collections
+            var queryResult = _tickets.Find(t => true, new FindOptions { BatchSize = 1 });
+            if(queryResult.CountDocuments() > 0)
+            {
+                ticket.TicketId = queryResult.First().TicketId + 1;
+            } else
+            {   // If this is the first ticket in the database
+                ticket.TicketId = 1;
+            }
+
+            if(ticket.Opened == null)
+            {   // If this ticket's opened date hasn't been set
+                ticket.Opened = DateTime.Now;
+            }
+
             _tickets.InsertOne(ticket);
             return ticket;
         }

@@ -213,7 +213,9 @@ tickets : {
 			// TrackedString entry containing the complete new description in the Description 
 			// array. This allows changes to be tracked and history to be recovered.
 			Description : [<TrackedString - 1st version of description>, ...],
-			Comments : [<TrackedString - a comment about the ticket>, ...]
+			Comments : [<TrackedString - a comment about the ticket>, ...],
+			Opened : <datetime - the date and time that this ticket was created>,
+			Closed : <datetime - the date and time this ticket was marked as closed>
 		}
 	]
 }

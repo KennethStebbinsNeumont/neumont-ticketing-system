@@ -111,7 +111,8 @@ namespace Neumont_Ticketing_System.Controllers
                     LoanerIds = loaners,
                     Description = request.Description,
                     AdditionalFields = request.AdditionalFields,
-                    Comments = comments
+                    Comments = comments,
+                    Opened = DateTime.Now
                 };
 
                 _ticketsDatabaseService.CreateTicket(ticket);
