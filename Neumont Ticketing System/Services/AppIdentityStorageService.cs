@@ -17,6 +17,13 @@ namespace Neumont_Ticketing_System.Services
         public readonly string adminsRoleNormName = "ADMINISTRATORS";
         public readonly string techniciansRoleNormName = "TECHNICIANS";
 
+        private readonly string[] enumRoleNormNames = ["ADMINISTRATORS", "TECHNICIANS"];
+
+        public enum Roles
+        {
+            Administrators, Technicians
+        }
+
         public AppIdentityStorageService(IIdentityDatabaseSettings settings)
         {
             var client = new MongoClient(settings.ConnectionString);
@@ -98,6 +105,20 @@ namespace Neumont_Ticketing_System.Services
                 return list[0];
             else
                 throw new NotFoundException<AppRole>($"Role with name {name} not found.");
+        }
+
+        public AppRole GetRoleByNormalizedName(string normalizedName)
+        {
+            var list = GetRoles(role => role.NormalizedName == normalizedName);
+            if (list.Count > 0)
+                return list[0];
+            else
+                throw new NotFoundException<AppRole>($"Role with normalized name {normalizedName} not found.");
+        }
+
+        public AppRole GetRole(Roles role)
+        {
+            return GetRoleByNormalizedName(enumRoleNormNames[(int)role]);
         }
 
         public List<AppRole> GetRoles()

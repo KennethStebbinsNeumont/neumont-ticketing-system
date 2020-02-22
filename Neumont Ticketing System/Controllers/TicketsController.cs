@@ -51,8 +51,7 @@ namespace Neumont_Ticketing_System.Controllers
             try
             {
                 var techs = _appIdentityStorageService.GetUsersByRole(
-                    _appIdentityStorageService.GetRoleByName(
-                        _appIdentityStorageService.techniciansRoleNormName));
+                    _appIdentityStorageService.GetRole(AppIdentityStorageService.Roles.Technicians));
                 model = new NewTicketModel(techs);
             } catch(NotFoundException<AppRole> e)
             {
