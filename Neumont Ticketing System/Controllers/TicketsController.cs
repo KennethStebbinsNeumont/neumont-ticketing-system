@@ -79,18 +79,24 @@ namespace Neumont_Ticketing_System.Controllers
                 LoanerAsset loaner;
                 foreach(var id in request.LoanerIds)
                 {
-                    loaner = _assetsDatabaseService.GetLoanerById(id);
-                    loaners.Add(loaner.Id);
+                    if(id != null && id.Length > 0)
+                    {   // Ignore empty or null loaners
+                        loaner = _assetsDatabaseService.GetLoanerById(id);
+                        loaners.Add(loaner.Id);
+                    }
                 }
 
                 List<TrackedString> comments = new List<TrackedString>();
                 foreach(string comment in request.Comments)
                 {
-                    comments.Add(new TrackedString
-                    {
-                        Value = comment,
-                        AuthorId = request.TechnicianId
-                    });
+                    if(comment != null && comment.Length > 0)
+                    {   // Ignore empty or null comments
+                        comments.Add(new TrackedString
+                        {
+                            Value = comment,
+                            AuthorId = request.TechnicianId
+                        });
+                    }
                 }
 
                 Ticket ticket = new Ticket
