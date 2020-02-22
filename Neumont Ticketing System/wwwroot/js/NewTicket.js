@@ -311,7 +311,7 @@
 
         let loanerIds = [];
         $('.loanerInput').each(function (i, e) {
-            loanerIds.push(e.value);
+            if(e.value) loanerIds.push(e.value);
         });
 
         let additionalFields = [];
@@ -326,7 +326,7 @@
 
         let comments = [];
         $('.commentContainer').find('textarea').each(function (i, e) {
-            comments.push(e.value);
+            if(e.value) comments.push(e.value);
         });
 
         return {
