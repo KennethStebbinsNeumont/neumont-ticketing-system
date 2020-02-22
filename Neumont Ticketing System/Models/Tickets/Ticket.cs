@@ -42,7 +42,7 @@ namespace Neumont_Ticketing_System.Models.Tickets
 
         public DateTime Opened { get; set; }
 
-        public DateTime Closed { get; set; }
+        public DateTime? Closed { get; set; }
 
         public bool Equals([AllowNull] Ticket other)
         {
