@@ -1,7 +1,5 @@
 #!/bin/bash
 
-exit -1
-
 RESULT=$(mongo ./dev_prepmongo.js)
 
 if [ $? -ne 0 ]; then
