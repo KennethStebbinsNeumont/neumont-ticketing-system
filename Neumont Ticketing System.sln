@@ -25,6 +25,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{B376D0DD-D
 		docs\MongoDB Structure.txt = docs\MongoDB Structure.txt
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{943B24D0-9D0E-49A5-9677-D291C1CF2E0F}"
+	ProjectSection(SolutionItems) = preProject
+		azure-pipelines-development.yml = azure-pipelines-development.yml
+		azure-pipelines-release.yml = azure-pipelines-release.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
