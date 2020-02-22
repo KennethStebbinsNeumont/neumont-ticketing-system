@@ -346,7 +346,19 @@ namespace Neumont_Ticketing_System.Controllers
                         Assets = responseAssets
                     });
 
-                } catch(NotFoundException<Owner>)
+                } 
+                catch(FormatException e)
+                {
+                    _logger.LogError($"The given owner id \"{request.OwnerId}\" is invalid.");
+                    return new JsonResult(new GetOwnedAssetsResponse
+                    {
+                        Successful = false,
+                        Message = "The given owner id is invalid.",
+                        OwnerId = request.OwnerId,
+                        Assets = new List<GetOwnedAssetsResponseAsset>(0)
+                    });
+                }
+                catch(NotFoundException<Owner>)
                 {
                     _logger.LogError($"No owner was found matching the id \"{request.OwnerId}\".");
                     return new JsonResult(new GetOwnedAssetsResponse
