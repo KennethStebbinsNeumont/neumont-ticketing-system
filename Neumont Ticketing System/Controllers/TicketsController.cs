@@ -42,7 +42,50 @@ namespace Neumont_Ticketing_System.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            List<TicketEntry> ticketEntries = new List<TicketEntry>();
+
+            List<Ticket> openTickets = _ticketsDatabaseService.GetTickets(t => t.Closed == null);
+
+            Asset asset;
+            Owner owner;
+            RepairDefinition repairDefinition;
+            TicketEntry ticketEntry;
+            string preferredName;
+            foreach(var ticket in openTickets)
+            {
+                asset = _assetsDatabaseService.GetAssetById(ticket.AssetId);
+                owner = _ownersDatabaseService.GetOwnerById(asset.OwnerId);
+                if(owner.PreferredName != null)
+                {
+                    preferredName = $"{owner.PreferredName.First} {$"{owner.PreferredName.Middle} " ?? ""}" +
+                        $"{owner.PreferredName.Last}";
+                } else
+                {
+                    preferredName = owner.Name;
+                }
+                repairDefinition = _ticketsDatabaseService.GetRepairById(ticket.Repair.DefinitionId);
+
+                ticketEntry = new TicketEntry
+                {
+                    TicketId = ticket.Id,
+                    OwnerName = owner.Name,
+                    AssetSerial = ticket.AssetId,
+                    DateOpened = ticket.Opened,
+                    RepairName = repairDefinition.Name
+                };
+
+                if (ticket.LoanerIds.Count > 0)
+                {
+                    ticketEntry.PrimaryLoanerName = 
+                        _assetsDatabaseService.GetLoanerById(ticket.LoanerIds[0]).Name;
+                }
+
+                ticketEntries.Add(ticketEntry);
+            }
+
+            IndexModel model = new IndexModel { Tickets = ticketEntries };
+
+            return View(model);
         }
 
         public IActionResult NewTicket()
