@@ -126,16 +126,6 @@ db.owners.insertMany([{
     }
 },
 {
-    "Name": "Mikey Jews",
-    "NormalizedName": "MIKEYJEWS",
-    "EmailAddresses": [
-        "mjews@student.neumont.edu"
-    ],
-    "PhoneNumbers": [
-        "9996662222"
-    ],
-},
-{
     "Name": "Michael Jones",
     "NormalizedName": "MICHAELJONES",
     "EmailAddresses": [
@@ -172,7 +162,6 @@ db.owners.insertMany([{
     }
 }]);
 let mjones1 = db.owners.find({"NormalizedName": "MICHAELJOHNS" })[0]._id;
-let mjones2 = db.owners.find({ "NormalizedName": "MIKEYJEWS" })[0]._id;
 let mjones3 = db.owners.find({ "NormalizedName": "MICHAELJONES" })[0]._id;
 let jcena = db.owners.find({ "NormalizedName": "JOHNCENA" })[0]._id;
 
@@ -184,14 +173,8 @@ db.assets.insertMany([{
     "Owner": mjones1
 },
 {
-    "SerialNumber": "QR30FH3",
-    "NormalizedSerialNumber": "QR30FH3",
-    "Model": p5520,
-    "Owner": mjones2
-},
-{
-    "SerialNumber": "QR30FH2",
-    "NormalizedSerialNumber": "QR30FH2",
+    "SerialNumber": "QR30FH5",
+    "NormalizedSerialNumber": "QR30FH5",
     "Model": p5520,
     "Owner": mjones3
 },
@@ -200,7 +183,9 @@ db.assets.insertMany([{
     "NormalizedSerialNumber": "JOHNS",
     "Model": p1g2,
     "Owner": jcena
-    }]);
+	}]);
+
+let mjones1asset = db.assets.find({ "NormalizedSerialNumber": "QR30FH2" })[0]._id;
 
 db = mongo.getDB("tickets")
 
@@ -498,3 +483,41 @@ db.repairs.insertMany([{
 			}
 		]
 }]);
+
+let dellRepair = db.repairs.find({}).limit(1)[0]._id;
+
+db.tickets.insertMany([
+	{
+		"TicketId": 1,
+		"Title": "Pancakes on a stick",
+		"Asset": mjones1asset,
+		"Repair": {
+			"Definition": dellRepair,
+			"Steps": null
+		},
+		"Technicians": [
+			johnnyBoiId
+		],
+		"Loaners": [],
+		"Description": "Ooh, it's all sticky!",
+		"AdditionalFields": [
+			{
+				"Name": "Helped by: ",
+				"Value": "Mrs. Buttersworth"
+			},
+			{
+				"Name": "Service request #: ",
+				"Value": "1001"
+			}
+		],
+		"Comments": [
+			{
+				"Value": "Comment!!!",
+				"Timestamp": ISODate("2020-02-23T22:49:41.044Z"),
+				"Author": johnnyBoiId
+			}
+		],
+		"Opened": ISODate("2020-02-23T22:49:41.045Z"),
+		"Closed": null
+	}
+]);
