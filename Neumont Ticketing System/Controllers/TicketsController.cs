@@ -69,7 +69,7 @@ namespace Neumont_Ticketing_System.Controllers
                 {
                     TicketId = ticket.Id,
                     OwnerName = owner.Name,
-                    AssetSerial = ticket.AssetId,
+                    AssetSerial = asset.SerialNumber,
                     DateOpened = ticket.Opened,
                     RepairName = repairDefinition.Name
                 };
