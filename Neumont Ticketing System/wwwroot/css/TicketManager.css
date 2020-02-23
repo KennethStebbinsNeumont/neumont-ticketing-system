@@ -9,7 +9,7 @@
 .tableRow {
     background: #E3E4E6;
     box-shadow: 2px 2px 4px lightgrey;
-    margin: 5px;
+    margin: 10px 5px;
     padding: 5px 10px;
 }
 
@@ -29,5 +29,5 @@ p.tableBodyText {
 }
 
 .tableHeaderTextContainer {
-    margin: 5px 15px;
+    margin: 5px 15px 0px;
 }
