@@ -1,0 +1,33 @@
+﻿.ticketList {
+    height: fit-content;
+    padding: 5px;
+    box-shadow: 5px 5px 5px lightgrey;
+    background: #F0F1F2;
+    margin: 25px 0px;
+}
+
+.tableRow {
+    background: #E3E4E6;
+    box-shadow: 2px 2px 4px lightgrey;
+    margin: 5px;
+    padding: 5px 10px;
+}
+
+p.tableHeaderText {
+    display: inline-block;
+    font-weight: bold;
+    margin: 0px;
+}
+
+p.tableBodyText {
+    display: inline-block;
+    margin: 0px;
+}
+
+p {
+    width: calc(95% / 5);
+}
+
+.tableHeaderTextContainer {
+    margin: 5px 10px 0px;
+}

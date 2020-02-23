@@ -10,19 +10,19 @@
 <div class="ticketList">
     <div class="tableHeader">
         <div class="tableHeaderTextContainer">
-            <p class="tableHeaderText">
+            <p class="tableText tableHeaderText">
                 Owner's Name
             </p>
-            <p class="tableHeaderText">
+            <p class="tableText tableHeaderText">
                 Asset Serial
             </p>
-            <p class="tableHeaderText">
+            <p class="tableText tableHeaderText">
                 Loaner
             </p>
-            <p class="tableHeaderText">
+            <p class="tableText tableHeaderText">
                 Repair Name
             </p>
-            <p class="tableHeaderText">
+            <p class="tableText tableHeaderText">
                 Date Opened
             </p>
         </div>
@@ -31,22 +31,22 @@
         @foreach(TicketEntry ticket in Model.Tickets)
         {
         <div class="tableRow">
-            <p class="tableBodyText ownerName">
+            <p class="tableText tableBodyText ownerName">
                 <span title="@(ticket.OwnerPreferredName)">
                     @(ticket.OwnerName)
                 </span>
             </p>
-            <p class="tableBodyText assetSerial">@(ticket.AssetSerial)</p>
+            <p class="tableText tableBodyText assetSerial">@(ticket.AssetSerial)</p>
             @if (ticket.PrimaryLoanerName != null)
             {
-                <p class="tableBodyText loanerName">@(ticket.PrimaryLoanerName)</p>
+                <p class="tableText tableBodyText loanerName">@(ticket.PrimaryLoanerName)</p>
             }
             else
             {
-                <p class="tableBodyText loanerName">None</p>
+                <p class="tableText tableBodyText loanerName">None</p>
             }
-            <p class="tableBodyText repairName">@(ticket.RepairName)</p>
-            <p class="tableBodyText dateOpened">
+            <p class="tableText tableBodyText repairName">@(ticket.RepairName)</p>
+            <p class="tableText tableBodyText dateOpened">
                 <span title="@(ticket.DateOpened.ToString(new CultureInfo("en-us")))">
                     @(ticket.DateOpened.ToString("d"))
                 </span>
