@@ -24,7 +24,7 @@ p.tableBodyText {
     margin: 0px;
 }
 
-p {
+.tableText {
     width: calc(95% / 5);
 }
 
