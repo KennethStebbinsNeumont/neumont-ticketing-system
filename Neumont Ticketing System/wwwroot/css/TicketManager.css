@@ -8,9 +8,10 @@
 
 .tableRow {
     background: #E3E4E6;
-    box-shadow: 2px 2px 4px lightgrey;
+    box-shadow: 1px 2px 4px 2px lightgrey;
     margin: 10px 5px;
     padding: 5px 10px;
+    transition: box-shadow .15s;
 }
 
 p.tableHeaderText {
