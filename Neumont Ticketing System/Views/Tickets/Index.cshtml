@@ -12,19 +12,19 @@
     <h2>Open Tickets</h2>
     <div class="tableHeader">
         <div class="tableHeaderTextContainer">
-            <p class="tableText tableHeaderText">
+            <p class="rowItem tableHeaderText">
                 Owner's Name
             </p>
-            <p class="tableText tableHeaderText">
+            <p class="rowItem tableHeaderText">
                 Asset Serial
             </p>
-            <p class="tableText tableHeaderText">
+            <p class="rowItem tableHeaderText">
                 Loaner
             </p>
-            <p class="tableText tableHeaderText">
+            <p class="rowItem tableHeaderText">
                 Repair Name
             </p>
-            <p class="tableText tableHeaderText">
+            <p class="rowItem tableHeaderText">
                 Date Opened
             </p>
         </div>
@@ -33,30 +33,30 @@
         @foreach (TicketEntry ticket in Model.Tickets)
         {
             <div class="tableRow">
-                <div class="checkboxCtr">
+                <div class="rowItem checkboxCtr">
                     <input type="checkbox" class="checkbox" />
                 </div>
-                <p class="tableText tableBodyText ownerName">
+                <p class="rowItem tableBodyText ownerName">
                     <span title="@(ticket.OwnerPreferredName)">
                         @(ticket.OwnerName)
                     </span>
                 </p>
-                <p class="tableText tableBodyText assetSerial">@(ticket.AssetSerial)</p>
+                <p class="rowItem tableBodyText assetSerial">@(ticket.AssetSerial)</p>
                 @if (ticket.PrimaryLoanerName != null)
                 {
-                    <p class="tableText tableBodyText loanerName">@(ticket.PrimaryLoanerName)</p>
+                    <p class="rowItem tableBodyText loanerName">@(ticket.PrimaryLoanerName)</p>
                 }
                 else
                 {
-                    <p class="tableText tableBodyText loanerName">None</p>
+                    <p class="rowItem tableBodyText loanerName">None</p>
                 }
-                <p class="tableText tableBodyText repairName">@(ticket.RepairName)</p>
-                <p class="tableText tableBodyText dateOpened">
+                <p class="rowItem tableBodyText repairName">@(ticket.RepairName)</p>
+                <p class="rowItem tableBodyText dateOpened">
                     <span title="@(ticket.DateOpened.ToString(new CultureInfo("en-us")))">
                         @(ticket.DateOpened.ToString("d"))
                     </span>
                 </p>
-                <div class="ticketBtnContainer">
+                <div class="rowItem ticketBtnContainer">
                     <button class="ticketBtnContainer" title="More Actions">More</button>
                 </div>
             </div>

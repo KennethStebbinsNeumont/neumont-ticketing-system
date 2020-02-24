@@ -19,18 +19,17 @@
 }
 
 p.tableHeaderText {
-    display: inline-block;
     font-weight: bold;
     margin: 0px;
 }
 
 p.tableBodyText {
-    display: inline-block;
     margin: 0px;
 }
 
-.tableText {
+.rowItem {
     width: calc(95% / 5);
+    display: inline-block;
 }
 
 .tableHeaderTextContainer {
