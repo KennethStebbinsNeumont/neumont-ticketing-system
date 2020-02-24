@@ -1,6 +1,6 @@
-﻿@model Neumont_Ticketing_System.Views.Tickets.NewTicketModel;
+﻿@model Neumont_Ticketing_System.Views.Tickets.EditTicketModel;
 @{
-    ViewData["Title"] = "New Ticket";
+    ViewData["Title"] = Model.TitleText;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Scripts
@@ -12,67 +12,134 @@
 <link href="~/css/expandableItemList.css" rel="stylesheet" type="text/css" />
 <link href="~/css/NewTicket.css" rel="stylesheet" type="text/css" />
 
-<h1>Create a new ticket</h1>
+<h1>@(Model.SubtitleText)</h1>
 
 <div class="ticketCtr list" id="ticketCtr">
     <h2 class="listTitle">New Ticket</h2>
     <div class="inputContainer">
         <p class="inputLabel">Owner's Name: </p>
-        <input class="listInput" list="ownerList" name="ownerInput" id="ownerInput" />
-        <datalist id="ownerList">
-        </datalist>
-    </div>
-    <div class="inputContainer assetSelectorContainer">
-        <p class="inputLabel">Asset: </p>
-        <select class="assetSelector" id="assetSelector" disabled></select>
-    </div>
-    <div class="inputContainer repairSelectorContainer">
-        <p class="inputLabel">Repair: </p>
-        <select class="repairSelector" id="repairSelector" disabled></select>
-    </div>
-    <div class="inputContainer techNameSelectorContainer">
-        <p class="inputLabel">Technician: </p>
-        <select class="technicianSelector" id="technicianSelector">
-            @foreach (var tech in Model.Technicians)
+        <input class="listInput" list="ownerList" name="ownerInput" id="ownerInput"
+               @(Model.HasTicket ? "disabled" : "") /> @* Disable the name field if an existing
+            ticket is provided *@
+            <datalist id="ownerList">
+                @if (Model.HasTicket)
+                {
+                    string ownerName = Model.Owner.Name;
+                    if (Model.Owner.EmailAddresses.Count > 0)
+                        ownerName = $"{ownerName} ({Model.Owner.EmailAddresses[0]})";
+                    <option value="@(ownerName)"></option>
+                }
+            </datalist>
+        </div>
+        <div class="inputContainer assetSelectorContainer">
+            <p class="inputLabel">Asset: </p>
+            <select class="assetSelector" id="assetSelector" disabled>
+                @if (Model.HasTicket)
+                {
+                    <option>@($"{Model.AssetModel.Name} ({Model.Asset.SerialNumber})")</option>
+                }
+            </select>
+        </div>
+        <div class="inputContainer repairSelectorContainer">
+            <p class="inputLabel">Repair: </p>
+            <select class="repairSelector" id="repairSelector" disabled></select>
+        </div>
+        <div class="inputContainer techNameSelectorContainer">
+            <p class="inputLabel">Technician: </p>
+            <select class="technicianSelector" id="technicianSelector">
+                @if (Model.HasTicket)
+                {
+                    <option>@(Model.AssignedTechnician.FullName)</option>
+                }
+                else
+                {
+                    @foreach (var tech in Model.Technicians)
+                    {
+                        <option value="@(tech.Id)">
+                            @(tech.FullName)
+                        </option>
+                    }
+                }
+            </select>
+        </div>
+        <div class="inputContainer loanersContainer">
+            <p class="inputLabel">Loaners:</p>
+            @if (Model.HasTicket)
             {
-                <option value="@(tech.Id)">
-                    @(tech.FullName)
-                </option>
+                @foreach (var loaner in Model.Loaners)
+                {
+                    <input class="text-box single-line expandableListInput loanerInput"
+                           type="text" value="@(loaner.Name)" />
+                }
             }
-        </select>
-    </div>
-    <div class="inputContainer loanersContainer">
-        <p class="inputLabel">Loaners:</p>
-        <input class="text-box single-line expandableListInput loanerInput" type="text" />
-    </div>
-    <div class="inputContainer descriptionContainer">
-        <p class="inputLabel descriptionLabel">Title: </p>
-        <input class="text-box single-line titleInput" id="titleInput"
-               type="text" value="" />
-    </div>
-    <div class="inputContainer descriptionContainer">
-        <p class="inputLabel descriptionLabel">Description: </p>
-        <textarea class="textArea descriptionInput" id="descriptionInput"
-                  type="text" value=""></textarea>
-    </div>
-    <div class="additionalFields" id="additionalFields">
-        @* Additional fields will be inserted here by front-end javascript *@
-    </div>
-    <div class="commentList" id="commentList">
-        <div class="listItem cloneableListItem commentContainer">
-            <div class="inputContainer">
-                <p class="inputLabel">Comment: </p>
-                <textarea class="textArea commentInput"></textarea>
-            </div>
-            <div class="inputContainer">
-                <p class="inputLabel">Date: </p>
-                <p class="valueText"></p> @* Initial value is set by front-end javascript *@
+            else
+            {
+                <input class="text-box single-line expandableListInput loanerInput" type="text" />
+            }
+        </div>
+        <div class="inputContainer descriptionContainer">
+            <p class="inputLabel descriptionLabel">Title: </p>
+            <input class="text-box single-line titleInput" id="titleInput"
+                   type="text" value="@(Model.Ticket?.Title ?? "")" />
+            @* Automatically insert title, if a ticket was given *@
+        </div>
+        <div class="inputContainer descriptionContainer">
+            <p class="inputLabel descriptionLabel">Description: </p>
+            <textarea class="textArea descriptionInput" id="descriptionInput"
+                      type="text" value="@(Model.Ticket?.Description ?? "")"></textarea>
+        </div>
+        <div class="additionalFields" id="additionalFields">
+            @if (Model.HasTicket)
+            {
+                @foreach (var field in Model.Ticket.AdditionalFields)
+                {
+                    <div class="inputContainer">
+                        <p class="inputLabel">@(field.Name): </p>
+                        <input class="text-box single-line" type="text" value="@(field.Value ?? "")">
+                    </div>
+                }
+            }
+            @* Additional fields will be inserted here by front-end javascript *@
+        </div>
+        <div class="commentList" id="commentList">
+            @if (Model.HasTicket)
+            {
+                @foreach(var comment in Model.Comments)
+                {
+                    <div class="listItem cloneableListItem commentContainer">
+                        <div class="inputContainer">
+                            <p class="inputLabel">Comment: </p>
+                            <textarea class="textArea commentInput" disabled>@(comment.Value)</textarea>
+                        </div>
+                        <div class="inputContainer">
+                            <p class="inputLabel">Technician: </p>
+                            <p class="valueText">@(comment.AuthorName)</p>
+                        </div>
+                        <div class="inputContainer">
+                            <p class="inputLabel">Date: </p>
+                            <p class="valueText">@(comment.Timestamp.ToString("F"))</p>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div>
+                    class="listItem cloneableListItem commentContainer">
+                    <div class="inputContainer">
+                        <p class="inputLabel">Comment: </p>
+                        <textarea class="textArea commentInput"></textarea>
+                    </div>
+                    <div class="inputContainer">
+                        <p class="inputLabel">Date: </p>
+                        <p class="valueText"></p> @* Initial value is set by front-end javascript *@
+                    </div>
+                </div>
+            }
+            <div class="listItem btnAddListItemContainer">
+                <button class="btnAddListItem" id="btnNewManufacturer">Add Comment</button>
             </div>
         </div>
-        <div class="listItem btnAddListItemContainer">
-            <button class="btnAddListItem" id="btnNewManufacturer">Add Comment</button>
-        </div>
-    </div>
     <div class="btnSubmitCtr">
         <button class="btnSubmit" id="btnSubmit">Submit Ticket</button>
     </div>
