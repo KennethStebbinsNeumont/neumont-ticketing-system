@@ -52,6 +52,20 @@ p.tableBodyText {
     width: 100px;
 }
 
-h2 {
+.listHeaderItem {
+    display: inline-block;
+}
+
+.headerBtnContainer {
+    float: right;
+}
+
+.listHeader {
     margin: 0px 5px;
+}
+
+button#newTicket {
+    display: inline-block;
+    text-align: center;
+    margin: 10px 5px;
 }
