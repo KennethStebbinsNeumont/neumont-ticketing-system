@@ -10,4 +10,7 @@
     $('.checkbox').click(function (event) {
         event.stopPropagation();
     });
+
+    // Ticket from toggling checkbox when a button is pressed
+    $('.ticketBtnContainer').click((event) => event.stopPropagation());
 });
