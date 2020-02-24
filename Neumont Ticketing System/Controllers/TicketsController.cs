@@ -109,11 +109,19 @@ namespace Neumont_Ticketing_System.Controllers
             {
                 var techs = _appIdentityStorageService.GetUsersByRole(
                     _appIdentityStorageService.GetRole(AppIdentityStorageService.Roles.Technicians));
-                model = new EditTicketModel { Technicians = techs };
+                model = new EditTicketModel { 
+                    Technicians = techs,
+                    TitleText = "New Ticket",
+                    SubtitleText = "Create a new ticket"
+                };
             } catch(NotFoundException<AppRole> e)
             {
                 _logger.LogWarning(e, "The technicians role was not found.");
-                model = new EditTicketModel { Technicians = new List<AppUser>() };
+                model = new EditTicketModel { 
+                    Technicians = new List<AppUser>(),
+                    TitleText = "New Ticket",
+                    SubtitleText = "Create a new ticket"
+                };
             }
 
             return View("EditTicket", model);
