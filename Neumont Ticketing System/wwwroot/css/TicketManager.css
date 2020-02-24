@@ -28,7 +28,7 @@ p.tableBodyText {
 }
 
 .rowItem {
-    width: calc(95% / 5);
+    width: calc(100% / 5);
     display: inline-block;
 }
 
@@ -42,4 +42,16 @@ p.tableBodyText {
 
 .ticketBtnContainer {
     width: 100px;
+}
+
+#checkboxSpacer {
+    width: 20px;
+}
+
+#buttonSpacer {
+    width: 100px;
+}
+
+h2 {
+    margin: 0px 5px;
 }
