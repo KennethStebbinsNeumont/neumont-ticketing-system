@@ -150,7 +150,7 @@ namespace Neumont_Ticketing_System.Services
         public RepairDefinition CreateRepair(RepairDefinition repair)
         {
             repair.NormalizedName = CommonFunctions.NormalizeString(repair.Name);
-            var matchedRepairs = GetRepairs(r => r.NormalizedName.Equals(repair.NormalizedName));
+            var matchedRepairs = GetRepairs(r => r.NormalizedName == repair.NormalizedName);
             if (matchedRepairs.Count > 0)
             {   // If another repair with the same normalized name is found, throw an exception
                 throw new DuplicateException<RepairDefinition>(matchedRepairs);
@@ -188,8 +188,8 @@ namespace Neumont_Ticketing_System.Services
         public void ReplaceRepair(string id, RepairDefinition repair)
         {
             repair.NormalizedName = CommonFunctions.NormalizeString(repair.Name);
-            var matchedRepairs = GetRepairs(r => r.NormalizedName.Equals(repair.NormalizedName) 
-                                                && !r.Id.Equals(id));
+            var matchedRepairs = GetRepairs(r => r.NormalizedName == repair.NormalizedName 
+                                                && r.Id != id);
             if (matchedRepairs.Count > 0)
             {   // If another repair with the same normalized name is found THAT IS 
                 // NOT THE ONE WE'RE REPLACING, throw an exception

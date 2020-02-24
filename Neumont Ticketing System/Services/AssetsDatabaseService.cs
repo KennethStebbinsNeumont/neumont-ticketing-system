@@ -86,7 +86,7 @@ namespace Neumont_Ticketing_System.Services
         public AssetManufacturer GetManufacturerByName(string name)
         {
             string normalizedName = CommonFunctions.NormalizeString(name);
-            var manufacturers = _manufacturers.Find(r => r.NormalizedName.Equals(normalizedName));
+            var manufacturers = _manufacturers.Find(r => r.NormalizedName == normalizedName);
             if (manufacturers.CountDocuments() > 0)
                 return manufacturers.First();
             else
@@ -106,7 +106,7 @@ namespace Neumont_Ticketing_System.Services
 
         public AssetManufacturer GetManufacturerById(string id)
         {
-            var manufacturers = _manufacturers.Find(m => m.Id.Equals(id));
+            var manufacturers = _manufacturers.Find(m => m.Id == id);
             if (manufacturers.CountDocuments() > 0)
                 return manufacturers.First();
             else
@@ -142,7 +142,7 @@ namespace Neumont_Ticketing_System.Services
         public AssetModel GetModelByModelNumber(string modelNumber)
         {
             string normalizedModelNumber = CommonFunctions.NormalizeString(modelNumber);
-            var models = _models.Find(m => m.NormalizedModelNumber.Equals(normalizedModelNumber));
+            var models = _models.Find(m => m.NormalizedModelNumber == normalizedModelNumber);
             if (models.CountDocuments() > 0)
                 return models.First();
             else
@@ -203,7 +203,7 @@ namespace Neumont_Ticketing_System.Services
 
         public Asset GetAssetById(string id)
         {
-            var assets = _assets.Find(a => a.Id.Equals(id));
+            var assets = _assets.Find(a => a.Id == id);
             if (assets.CountDocuments() > 0)
                 return assets.First();
             else
@@ -213,7 +213,7 @@ namespace Neumont_Ticketing_System.Services
 
         public List<Asset> GetAssetsByOwnerId(string ownerId)
         {
-            return _assets.Find(a => a.OwnerId.Equals(ownerId)).ToList();
+            return _assets.Find(a => a.OwnerId == ownerId).ToList();
         }
         #endregion Assets
 
@@ -232,7 +232,7 @@ namespace Neumont_Ticketing_System.Services
 
         public LoanerAsset GetLoanerById(string id)
         {
-            var loaners = _loaners.Find(l => l.Id.Equals(id));
+            var loaners = _loaners.Find(l => l.Id == id);
             if (loaners.CountDocuments() > 0)
                 return loaners.First();
             else
@@ -247,7 +247,7 @@ namespace Neumont_Ticketing_System.Services
         public AssetType CreateType(AssetType type)
         {
             type.NormalizedName = CommonFunctions.NormalizeString(type.Name);
-            var matchedTypes = GetTypes(t => t.NormalizedName.Equals(type.NormalizedName));
+            var matchedTypes = GetTypes(t => t.NormalizedName == type.NormalizedName);
             if (matchedTypes.Count > 0)
             {
                 // If we find another type with the same name
@@ -266,7 +266,7 @@ namespace Neumont_Ticketing_System.Services
         public AssetManufacturer CreateManufacturer(AssetManufacturer manufacturer)
         {
             manufacturer.NormalizedName = CommonFunctions.NormalizeString(manufacturer.Name);
-            var matchedMfrs = GetManufacturers(m => m.NormalizedName.Equals(manufacturer.NormalizedName));
+            var matchedMfrs = GetManufacturers(m => m.NormalizedName == manufacturer.NormalizedName);
             if (matchedMfrs.Count > 0)
             {
                 // If we find another mfr with the same name
@@ -286,8 +286,8 @@ namespace Neumont_Ticketing_System.Services
         {
             model.NormalizedName = CommonFunctions.NormalizeString(model.Name);
             model.NormalizedModelNumber = CommonFunctions.NormalizeString(model.ModelNumber);
-            var matchedModels = GetModels(m => m.NormalizedName.Equals(model.NormalizedName) &&
-                                                m.NormalizedModelNumber.Equals(model.NormalizedModelNumber));
+            var matchedModels = GetModels(m => m.NormalizedName == model.NormalizedName &&
+                                                m.NormalizedModelNumber == model.NormalizedModelNumber);
             if (matchedModels.Count > 0)
             {
                 // If we find another model with the same name & model number
@@ -304,7 +304,7 @@ namespace Neumont_Ticketing_System.Services
         public Asset Create(Asset asset)
         {
             asset.NormalizedSerialNumber = CommonFunctions.NormalizeString(asset.SerialNumber);
-            var matchedAssets = GetAssets(a => a.NormalizedSerialNumber.Equals(asset.NormalizedSerialNumber));
+            var matchedAssets = GetAssets(a => a.NormalizedSerialNumber == asset.NormalizedSerialNumber);
             if (matchedAssets.Count > 0)
             {
                 // If we find another asset with the same serial number
@@ -323,7 +323,7 @@ namespace Neumont_Ticketing_System.Services
         public LoanerAsset Create(LoanerAsset loaner)
         {
             loaner.NormalizedName = CommonFunctions.NormalizeString(loaner.Name);
-            var matchedLoaners = GetLoaners(l => l.NormalizedName.Equals(loaner.NormalizedName));
+            var matchedLoaners = GetLoaners(l => l.NormalizedName == loaner.NormalizedName);
             if(matchedLoaners.Count > 0)
             {
                 // If we find another loaner with the same name
@@ -348,8 +348,8 @@ namespace Neumont_Ticketing_System.Services
         public void ReplaceType(string id, AssetType type)
         {
             type.NormalizedName = CommonFunctions.NormalizeString(type.Name);
-            var matchedTypes = GetTypes(t => t.NormalizedName.Equals(type.NormalizedName) &&
-                                                !t.Id.Equals(id));
+            var matchedTypes = GetTypes(t => t.NormalizedName == type.NormalizedName &&
+                                                t.Id != id);
             if (matchedTypes.Count > 0)
             {
                 // If we find another type with the same name THAT ISN'T THE ONE
@@ -374,8 +374,8 @@ namespace Neumont_Ticketing_System.Services
         public void ReplaceManufacturer(string id, AssetManufacturer manufacturer)
         {
             manufacturer.NormalizedName = CommonFunctions.NormalizeString(manufacturer.Name);
-            var matchedMfrs = GetManufacturers(m => m.NormalizedName.Equals(manufacturer.NormalizedName) &&
-                                                !m.Id.Equals(id));
+            var matchedMfrs = GetManufacturers(m => m.NormalizedName == manufacturer.NormalizedName &&
+                                                m.Id != id);
             if (matchedMfrs.Count > 0)
             {
                 // If we find another mfr with the same name THAT ISN'T THE ONE
@@ -402,9 +402,9 @@ namespace Neumont_Ticketing_System.Services
         {
             model.NormalizedName = CommonFunctions.NormalizeString(model.Name);
             model.NormalizedModelNumber = CommonFunctions.NormalizeString(model.ModelNumber);
-            var matchedModels = GetModels(m => m.NormalizedName.Equals(model.NormalizedName) &&
-                                                m.NormalizedModelNumber.Equals(model.NormalizedModelNumber) &&
-                                                !m.Id.Equals(id));
+            var matchedModels = GetModels(m => m.NormalizedName == model.NormalizedName &&
+                                                m.NormalizedModelNumber == model.NormalizedModelNumber &&
+                                                m.Id != id);
             if (matchedModels.Count > 0)
             {
                 // If we find another model with the same name & model number THAT ISN'T THE ONE
@@ -429,9 +429,9 @@ namespace Neumont_Ticketing_System.Services
         public void ReplaceAsset(string id, Asset asset)
         {
             asset.NormalizedSerialNumber = CommonFunctions.NormalizeString(asset.SerialNumber);
-            var matchedAssets = GetAssets(a => a.NormalizedSerialNumber.Equals(asset.NormalizedSerialNumber) &&
-                                                a.ModelId.Equals(asset.ModelId) &&
-                                                !a.Id.Equals(id));
+            var matchedAssets = GetAssets(a => a.NormalizedSerialNumber == asset.NormalizedSerialNumber &&
+                                                a.ModelId == asset.ModelId &&
+                                                a.Id != id);
             if(matchedAssets.Count > 0)
             {
                 // If we find another asset with the same name & model THAT ISN'T THE ONE
@@ -455,8 +455,8 @@ namespace Neumont_Ticketing_System.Services
         public void ReplaceLoaner(string id, LoanerAsset loaner)
         {
             loaner.NormalizedName = CommonFunctions.NormalizeString(loaner.Name);
-            var matchedLoaners = GetLoaners(l => l.NormalizedName.Equals(loaner.NormalizedName) &&
-                                                !l.Id.Equals(id));
+            var matchedLoaners = GetLoaners(l => l.NormalizedName == loaner.NormalizedName &&
+                                                l.Id != id);
             if (matchedLoaners.Count > 0)
             {
                 // If we find another loaner with the same name THAT ISN'T THE ONE

@@ -36,7 +36,7 @@ namespace Neumont_Ticketing_System.Services
 
         public Owner GetOwnerById(string id)
         {
-            var owners = _owners.Find(o => o.Id.Equals(id));
+            var owners = _owners.Find(o => o.Id == id);
             if (owners.CountDocuments() > 0)
                 return owners.First();
             else
