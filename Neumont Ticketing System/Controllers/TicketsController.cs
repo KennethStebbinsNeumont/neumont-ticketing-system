@@ -87,10 +87,10 @@ namespace Neumont_Ticketing_System.Controllers
             {
                 if(a.DateOpened > b.DateOpened)
                 {
-                    return 1;
+                    return -1;
                 } else if(a.DateOpened < b.DateOpened)
                 {
-                    return -1;
+                    return 1;
                 } else
                 {
                     return 0;
