@@ -232,7 +232,7 @@ namespace Neumont_Ticketing_System.Controllers
                     }
                 }
 
-                if(request.TicketId == null)
+                if(request.TicketId == null || request.TicketId.Length == 0)
                 {
                     Ticket ticket = new Ticket
                     {
