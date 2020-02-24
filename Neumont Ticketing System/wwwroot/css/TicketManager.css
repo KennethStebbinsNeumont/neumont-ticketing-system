@@ -35,3 +35,11 @@ p.tableBodyText {
 .tableHeaderTextContainer {
     margin: 5px 15px 0px;
 }
+
+.checkboxCtr {
+    width: 20px;
+}
+
+.ticketBtnContainer {
+    width: 100px;
+}
