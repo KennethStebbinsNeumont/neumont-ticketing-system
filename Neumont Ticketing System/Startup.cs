@@ -128,7 +128,7 @@ namespace Neumont_Ticketing_System
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Tickets}/{action=Index}/{id?}");
                 endpoints.MapRazorPages();
             });
         }
