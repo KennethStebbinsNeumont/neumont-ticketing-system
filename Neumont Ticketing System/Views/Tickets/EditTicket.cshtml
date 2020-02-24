@@ -18,7 +18,8 @@
     <h2 class="listTitle">New Ticket</h2>
     <div class="inputContainer">
         <p class="inputLabel">Owner's Name: </p>
-        <input class="listInput" list="ownerList" name="ownerInput" id="ownerInput"
+        <input class="listInput" list="ownerList" name="ownerInput" id="ownerInput" 
+               autocomplete="off"
                @(Model.HasTicket ? "disabled" : "") /> @* Disable the name field if an existing
             ticket is provided *@
             <datalist id="ownerList">
