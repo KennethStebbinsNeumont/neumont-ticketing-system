@@ -202,6 +202,15 @@ namespace Neumont_Ticketing_System.Controllers
                     matchedTicket.LoanerIds = loaners;
                     matchedTicket.Description = request.Description;
                     matchedTicket.Comments.AddRange(comments);
+
+                    _ticketsDatabaseService.UpdateTicket(matchedTicket);
+
+                    return new JsonResult(new EditTicketResponse
+                    {
+                        Successful = true,
+                        Message = "Ticket updated successfully.",
+                        TicketId = matchedTicket.TicketId
+                    });
                 }
             } 
             catch(NotFoundException<Owner>)
