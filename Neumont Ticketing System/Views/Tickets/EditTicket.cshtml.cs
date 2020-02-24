@@ -12,6 +12,8 @@ namespace Neumont_Ticketing_System.Views.Tickets
 
         public string TitleText { get; set; }
 
+        public string SubtitleText { get; set; }
+
         public string TicketId { get; set; }
     }
 }
