@@ -1,7 +1,7 @@
 ﻿.ticketList {
     height: fit-content;
     padding: 5px;
-    box-shadow: 5px 5px 5px lightgrey;
+    box-shadow: 2px 3px 5px 2.5px lightgrey;
     background: #F0F1F2;
     margin: 25px 0px;
 }
