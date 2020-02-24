@@ -1,5 +1,6 @@
 ﻿using Neumont_Ticketing_System.Areas.Identity.Data;
 using Neumont_Ticketing_System.Models.Assets;
+using Neumont_Ticketing_System.Models.Owners;
 using Neumont_Ticketing_System.Models.Tickets;
 using System;
 using System.Collections.Generic;
@@ -19,6 +20,8 @@ namespace Neumont_Ticketing_System.Views.Tickets
         public string SubtitleText { get; set; } = "Edit a Ticket";
 
         public Ticket Ticket { get; set; }
+
+        public Owner Owner { get; set; }
 
         public Asset Asset { get; set; }
 
