@@ -18,7 +18,9 @@ namespace Neumont_Ticketing_System.Models.Assets
 
         public string NormalizedName { get; set; }
 
-        public Asset Asset { get; set; }
+        [BsonElement("Asset")]
+        [BsonRepresentation(BsonType.ObjectId)]
+        public string AssetId { get; set; }
 
         public bool InInventory { get; set; }
 
