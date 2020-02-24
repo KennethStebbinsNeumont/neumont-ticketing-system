@@ -33,6 +33,9 @@
         @foreach (TicketEntry ticket in Model.Tickets)
         {
             <div class="tableRow">
+                <div class="checkboxCtr">
+                    <input type="checkbox" class="checkbox" />
+                </div>
                 <p class="tableText tableBodyText ownerName">
                     <span title="@(ticket.OwnerPreferredName)">
                         @(ticket.OwnerName)
@@ -53,6 +56,9 @@
                         @(ticket.DateOpened.ToString("d"))
                     </span>
                 </p>
+                <div class="ticketBtnContainer">
+                    <button class="ticketBtnContainer" title="More Actions">More</button>
+                </div>
             </div>
         }
     </div>
