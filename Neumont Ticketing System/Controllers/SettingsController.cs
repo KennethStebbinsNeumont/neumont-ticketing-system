@@ -733,7 +733,7 @@ namespace Neumont_Ticketing_System.Controllers
                 List<string> modelIds = new List<string>();
                 models.ForEach(model => modelIds.Add(model.Id));
 
-                _ticketsDatabaseService.CreateRepair(new RepairDefinition
+                _ticketsDatabaseService.CreateRepairDefinition(new RepairDefinition
                 {
                     Name = proposedRepair.Name,
                     Description = proposedRepair.Description,

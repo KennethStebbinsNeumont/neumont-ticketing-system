@@ -63,7 +63,7 @@ namespace Neumont_Ticketing_System.Controllers
                 {
                     preferredName = owner.Name;
                 }
-                repairDefinition = _ticketsDatabaseService.GetRepairById(ticket.Repair.DefinitionId);
+                repairDefinition = _ticketsDatabaseService.GetRepairDefinitionById(ticket.Repair.DefinitionId);
 
                 ticketEntry = new TicketEntry
                 {
@@ -127,7 +127,7 @@ namespace Neumont_Ticketing_System.Controllers
             {
                 Owner matchedOwner = _ownersDatabaseService.GetOwnerById(request.OwnerId);
                 Asset matchedAsset = _assetsDatabaseService.GetAssetById(request.AssetId);
-                RepairDefinition matchedRepairDef = _ticketsDatabaseService.GetRepairById(request.RepairId);
+                RepairDefinition matchedRepairDef = _ticketsDatabaseService.GetRepairDefinitionById(request.RepairId);
                 AppUser technician = _appIdentityStorageService.GetUserById(request.TechnicianId);
                 
                 var technicians = new List<string>();

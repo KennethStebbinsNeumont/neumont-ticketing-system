@@ -402,8 +402,8 @@ namespace Neumont_Ticketing_System.Controllers
                 {
                     var asset = _assetsDatabaseService.GetAssetById(request.AssetId);
                     var model = _assetsDatabaseService.GetModelById(asset.ModelId);
-                    var allRepairs = _ticketsDatabaseService.GetRepairs();
-                    var repairs = _ticketsDatabaseService.GetApplicableRepairs(model);
+                    var allRepairs = _ticketsDatabaseService.GetRepairDefinitions();
+                    var repairs = _ticketsDatabaseService.GetApplicableRepairDefinitions(model);
                     var responseRepairs = new List<GetApplicableRepairsResponseRepair>();
                     foreach(var repair in repairs)
                     {

@@ -71,42 +71,42 @@ namespace Neumont_Ticketing_System.Services
         #endregion Tickets
 
         #region Repairs
-        public RepairDefinition GetRepairByName(string name)
+        public RepairDefinition GetRepairDefinitionByName(string name)
         {
             if (name == null || name.Length == 0)
                 throw new ArgumentException("Given name cannot be null nor empty.");
             string normalizedName = CommonFunctions.NormalizeString(name);
-            var repairs = _repairs.Find(r => r.NormalizedName == normalizedName);
-            if (repairs.CountDocuments() > 0)
-                return repairs.First();
+            var repairDefinitions = _repairs.Find(r => r.NormalizedName == normalizedName);
+            if (repairDefinitions.CountDocuments() > 0)
+                return repairDefinitions.First();
             else
                 throw new NotFoundException<RepairDefinition>($"No repair with a name matching \"{name}\" was found.");
         }
 
-        public RepairDefinition GetRepairById(string id)
+        public RepairDefinition GetRepairDefinitionById(string id)
         {
             if (id == null || id.Length == 0)
                 throw new ArgumentException("Given id cannot be null nor empty.");
-            var matches = _repairs.Find(r => r.Id == id);
-            if (matches.CountDocuments() > 0)
-                return matches.First();
+            var repairDefinitions = _repairs.Find(r => r.Id == id);
+            if (repairDefinitions.CountDocuments() > 0)
+                return repairDefinitions.First();
             else
                 throw new NotFoundException<RepairDefinition>($"No repair with a matching ID of \"{id}\" was found.");
         }
 
-        public List<RepairDefinition> GetRepairs()
+        public List<RepairDefinition> GetRepairDefinitions()
         {
-            return GetRepairs(repair => true);
+            return GetRepairDefinitions(repair => true);
         }
 
-        public List<RepairDefinition> GetRepairs(System.Linq.Expressions.Expression<Func<RepairDefinition,
+        public List<RepairDefinition> GetRepairDefinitions(System.Linq.Expressions.Expression<Func<RepairDefinition,
             bool>> expression,
             FindOptions options = null)
         {
             return _repairs.Find(expression, options).ToList();
         }
 
-        public List<RepairDefinition> GetApplicableRepairs(AssetModel model)
+        public List<RepairDefinition> GetApplicableRepairDefinitions(AssetModel model)
         {
             return _repairs.Find(r => 
                             // Ensure the repair applies to this model's type
@@ -147,13 +147,13 @@ namespace Neumont_Ticketing_System.Services
         #endregion Tickets
 
         #region Repairs
-        public RepairDefinition CreateRepair(RepairDefinition repair)
+        public RepairDefinition CreateRepairDefinition(RepairDefinition repair)
         {
             repair.NormalizedName = CommonFunctions.NormalizeString(repair.Name);
-            var matchedRepairs = GetRepairs(r => r.NormalizedName == repair.NormalizedName);
-            if (matchedRepairs.Count > 0)
+            var repairDefinitions = _repairs.Find(r => r.NormalizedName == repair.NormalizedName);
+            if (repairDefinitions.CountDocuments() > 0)
             {   // If another repair with the same normalized name is found, throw an exception
-                throw new DuplicateException<RepairDefinition>(matchedRepairs);
+                throw new DuplicateException<RepairDefinition>(repairDefinitions.ToList());
             } else
             {
                 SetAllStepsNormalizedNames(repair.Steps);
@@ -178,22 +178,22 @@ namespace Neumont_Ticketing_System.Services
         #endregion Tickets
 
         #region Repairs
-        public void UpdateRepair(RepairDefinition repair)
+        public void UpdateRepairDefinition(RepairDefinition repair)
         {
             repair.NormalizedName = CommonFunctions.NormalizeString(repair.Name);
             SetAllStepsNormalizedNames(repair.Steps);
             _repairs.ReplaceOne(u => u.Id == repair.Id, repair);
         }
 
-        public void ReplaceRepair(string id, RepairDefinition repair)
+        public void ReplaceRepairDefinition(string id, RepairDefinition repair)
         {
             repair.NormalizedName = CommonFunctions.NormalizeString(repair.Name);
-            var matchedRepairs = GetRepairs(r => r.NormalizedName == repair.NormalizedName 
+            var repairDefinitions = _repairs.Find(r => r.NormalizedName == repair.NormalizedName 
                                                 && r.Id != id);
-            if (matchedRepairs.Count > 0)
+            if (repairDefinitions.CountDocuments() > 0)
             {   // If another repair with the same normalized name is found THAT IS 
                 // NOT THE ONE WE'RE REPLACING, throw an exception
-                throw new DuplicateException<RepairDefinition>(matchedRepairs);
+                throw new DuplicateException<RepairDefinition>(repairDefinitions.ToList());
             }
             else
             {
@@ -218,12 +218,12 @@ namespace Neumont_Ticketing_System.Services
         #endregion Tickets
 
         #region Repairs
-        public void RemoveRepair(RepairDefinition repair)
+        public void RemoveRepairDefinition(RepairDefinition repair)
         {
             _repairs.DeleteOne(u => u.Id == repair.Id);
         }
 
-        public void RemoveRepair(string id)
+        public void RemoveRepairDefinition(string id)
         {
             _repairs.DeleteOne(u => u.Id == id);
         }
