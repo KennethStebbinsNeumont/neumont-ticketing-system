@@ -7,18 +7,30 @@
 {
     <script src="~/js/expandableInputList.js" type="text/javascript"></script>
     <script src="~/js/expandableItemList.js" type="text/javascript"></script>
-    <script src="~/js/NewTicket.js" type="text/javascript"></script>
+    @if (Model.HasTicket)
+    {
+        <script src="~/js/EditTicket.js" type="text/javascript"></script>
+    }
+    else
+    {
+        <script src="~/js/NewTicket.js" type="text/javascript"></script>
+    }
 }
 <link href="~/css/expandableItemList.css" rel="stylesheet" type="text/css" />
-<link href="~/css/NewTicket.css" rel="stylesheet" type="text/css" />
+<link href="~/css/EditTicket.css" rel="stylesheet" type="text/css" />
+
 
 <h1>@(Model.SubtitleText)</h1>
 
 <div class="ticketCtr list" id="ticketCtr">
-    <h2 class="listTitle">New Ticket</h2>
+    <h2 class="listTitle">@(Model.TitleText)</h2>
+    @if (Model.HasTicket)
+    {
+        <input id="ticketId" value="@(Model.Ticket.Id)" style="display: none" />
+    }
     <div class="inputContainer">
         <p class="inputLabel">Owner's Name: </p>
-        <input class="listInput" list="ownerList" name="ownerInput" id="ownerInput" 
+        <input class="listInput" list="ownerList" name="ownerInput" id="ownerInput"
                autocomplete="off"
                @(Model.HasTicket ? "disabled" : "") /> @* Disable the name field if an existing
             ticket is provided *@
@@ -105,7 +117,7 @@
         <div class="commentList" id="commentList">
             @if (Model.HasTicket)
             {
-                @foreach(var comment in Model.Comments)
+                @foreach (var comment in Model.Comments)
                 {
                     <div class="listItem cloneableListItem commentContainer">
                         <div class="inputContainer">
@@ -140,15 +152,15 @@
                 <button class="btnAddListItem" id="btnNewManufacturer">Add Comment</button>
             </div>
         </div>
-    <div class="btnSubmitCtr">
-        <button class="btnSubmit" id="btnSubmit">Submit Ticket</button>
+        <div class="btnSubmitCtr">
+            <button class="btnSubmit" id="btnSubmit">@(Model.HasTicket ? "Save Changes" : "Submit Ticket")</button>
+        </div>
     </div>
-</div>
 
-<div class="templateContainer" id="templateContainer" style="display: none">
-    <div class="inputContainer">
-        <p class="inputLabel">Label: </p>
-        <input class="text-box single-line"
-               type="text" value="" />
+    <div class="templateContainer" id="templateContainer" style="display: none">
+        <div class="inputContainer">
+            <p class="inputLabel">Label: </p>
+            <input class="text-box single-line"
+                   type="text" value="" />
+        </div>
     </div>
-</div>

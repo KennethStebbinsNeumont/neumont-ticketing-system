@@ -342,11 +342,6 @@
         }
     };
 
-    /*
-     * 
-     * Return a then-able object that 
-     * 
-     */
     let submitTicket = async function submitTicket() {
         try {
             let response = await $.ajax({
