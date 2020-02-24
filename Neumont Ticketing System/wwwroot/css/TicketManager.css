@@ -58,6 +58,7 @@ p.tableBodyText {
 
 .headerBtnContainer {
     float: right;
+    text-align: right;
 }
 
 .listHeader {
