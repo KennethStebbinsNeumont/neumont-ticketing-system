@@ -116,11 +116,12 @@ namespace Neumont_Ticketing_System.Controllers
                 model = new NewTicketModel(new List<AppUser>());
             }
 
-            return View(model);
+            return View("EditTicket", model);
         }
 
+        // When updating, only include the new comments
         [HttpPost]
-        public JsonResult NewTicket([FromBody] NewTicketRequest request)
+        public JsonResult EditTicket([FromBody] EditTicketRequest request)
         {
             try
             {
@@ -156,35 +157,57 @@ namespace Neumont_Ticketing_System.Controllers
                     }
                 }
 
-                Ticket ticket = new Ticket
+                if(request.TicketId == null)
                 {
-                    Title = request.Title,
-                    AssetId = matchedAsset.Id,
-                    Repair = new Repair
+                    Ticket ticket = new Ticket
                     {
-                        DefinitionId = matchedRepairDef.Id
-                    },
-                    TechnicianIds = technicians,
-                    LoanerIds = loaners,
-                    Description = request.Description,
-                    AdditionalFields = request.AdditionalFields,
-                    Comments = comments,
-                    Opened = DateTime.Now
-                };
+                        Title = request.Title,
+                        AssetId = matchedAsset.Id,
+                        Repair = new Repair
+                        {
+                            DefinitionId = matchedRepairDef.Id
+                        },
+                        AdditionalFields = request.AdditionalFields,
+                        TechnicianIds = technicians,
+                        LoanerIds = loaners,
+                        Description = request.Description,
+                        Comments = comments,
+                        Opened = DateTime.Now
+                    };
 
-                _ticketsDatabaseService.CreateTicket(ticket);
+                    _ticketsDatabaseService.CreateTicket(ticket);
 
-                return new JsonResult(new NewTicketResponse
+                    return new JsonResult(new EditTicketResponse
+                    {
+                        Successful = true,
+                        Message = "Ticket created successfully.",
+                        TicketId = ticket.TicketId
+                    });
+                } else
                 {
-                    Successful = true,
-                    Message = "Query completed normally.",
-                    TicketId = ticket.TicketId
-                });
+                    Ticket matchedTicket = _ticketsDatabaseService
+                                            .GetTicketById(request.TicketId);
+
+                    matchedTicket.Title = request.Title;
+                    if(!matchedRepairDef.Id.Equals(matchedTicket.Repair.DefinitionId))
+                    {   // If the repair definiiton was changed
+                        matchedTicket.Repair = new Repair { DefinitionId = matchedRepairDef.Id };
+                    }
+                    matchedTicket.AdditionalFields = request.AdditionalFields;
+                    if(!matchedTicket.TechnicianIds.Contains(technician.Id))
+                    {   // If the technician who updated this isn't already in the ticket's
+                        // tech list
+                        matchedTicket.TechnicianIds.Add(technician.Id);
+                    }
+                    matchedTicket.LoanerIds = loaners;
+                    matchedTicket.Description = request.Description;
+                    matchedTicket.Comments.AddRange(comments);
+                }
             } 
             catch(NotFoundException<Owner>)
             {
                 _logger.LogError($"Unable to find an owner with ID {request.OwnerId}");
-                return new JsonResult(new NewTicketResponse
+                return new JsonResult(new EditTicketResponse
                 {
                     Successful = false,
                     Message = "Unable to find the given owner.",
@@ -194,7 +217,7 @@ namespace Neumont_Ticketing_System.Controllers
             catch (NotFoundException<Asset>)
             {
                 _logger.LogError($"Unable to find an asset with ID {request.AssetId}");
-                return new JsonResult(new NewTicketResponse
+                return new JsonResult(new EditTicketResponse
                 {
                     Successful = false,
                     Message = "Unable to find the given asset.",
@@ -204,7 +227,7 @@ namespace Neumont_Ticketing_System.Controllers
             catch (NotFoundException<RepairDefinition>)
             {
                 _logger.LogError($"Unable to find an owner with ID {request.RepairId}");
-                return new JsonResult(new NewTicketResponse
+                return new JsonResult(new EditTicketResponse
                 {
                     Successful = false,
                     Message = "Unable to find the given repair.",
@@ -214,7 +237,7 @@ namespace Neumont_Ticketing_System.Controllers
             catch (NotFoundException<AppUser>)
             {
                 _logger.LogError($"Unable to find a user with ID {request.RepairId}");
-                return new JsonResult(new NewTicketResponse
+                return new JsonResult(new EditTicketResponse
                 {
                     Successful = false,
                     Message = "Unable to find the given technician.",
@@ -224,7 +247,7 @@ namespace Neumont_Ticketing_System.Controllers
             catch (NotFoundException<LoanerAsset> e)
             {
                 _logger.LogError($"Unable to find a loaner specified: {e.Message}");
-                return new JsonResult(new NewTicketResponse
+                return new JsonResult(new EditTicketResponse
                 {
                     Successful = false,
                     Message = "Unable to find a loaner.",
@@ -234,7 +257,7 @@ namespace Neumont_Ticketing_System.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e, "Unexpected exception while creating a new ticket.");
-                return new JsonResult(new NewTicketResponse
+                return new JsonResult(new EditTicketResponse
                 {
                     Successful = false,
                     Message = "An unexpected internal error occurred.",
@@ -244,8 +267,9 @@ namespace Neumont_Ticketing_System.Controllers
         }
     }
 
-    public class NewTicketRequest
+    public class EditTicketRequest
     {
+        public string TicketId { get; set; }
         public string OwnerId { get; set; }
         public string AssetId { get; set; }
         public string RepairId { get; set; }
@@ -257,7 +281,7 @@ namespace Neumont_Ticketing_System.Controllers
         public List<string> Comments { get; set; }
     }
 
-    public class NewTicketResponse
+    public class EditTicketResponse
     {
         public bool Successful { get; set; }
         public string Message { get; set; }
