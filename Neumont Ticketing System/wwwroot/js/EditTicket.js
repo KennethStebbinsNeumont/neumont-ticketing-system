@@ -110,6 +110,7 @@
         $('#repairSelector').change(function () {
             onRepairChosen(this.value);
         });
+
         $('#btnSubmit').click(submitTicket);
     });
 // This is called closure. It ensures that any local variables/constants/functions
