@@ -41,7 +41,7 @@
         </div>
     </div>
     <div class="tableBody">
-        @foreach (TicketEntry ticket in Model.Tickets)
+        @foreach (TicketEntry ticket in Model.Tickets ?? new List<TicketEntry>())
         {
             <div class="tableRow" ticket-id="@(ticket.Id)">
                 <div class="rowItem checkboxCtr">
