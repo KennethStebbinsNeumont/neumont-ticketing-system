@@ -43,7 +43,7 @@
     <div class="tableBody">
         @foreach (TicketEntry ticket in Model.Tickets)
         {
-            <div class="tableRow">
+            <div class="tableRow" ticket-id="@(ticket.TicketId)">
                 <div class="rowItem checkboxCtr">
                     <input type="checkbox" class="checkbox" />
                 </div>
@@ -68,7 +68,7 @@
                     </span>
                 </p>
                 <div class="rowItem ticketBtnContainer">
-                    <button class="ticketBtnContainer" title="More Actions">More</button>
+                    <button class="btnEditTicket" title="Edit Ticket">Edit</button>
                 </div>
             </div>
         }
