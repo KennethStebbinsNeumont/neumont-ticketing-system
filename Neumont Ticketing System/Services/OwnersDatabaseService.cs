@@ -36,8 +36,8 @@ namespace Neumont_Ticketing_System.Services
 
         public Owner GetOwnerById(string id)
         {
-            var owners = _owners.Find(o => o.Id.Equals(id)).ToList();
-            if (owners.Count > 0)
+            var owners = _owners.Find(o => o.Id.Equals(id));
+            if (owners.CountDocuments() > 0)
                 return owners.First();
             else
                 throw new NotFoundException<Owner>($"No owner with a matching ID of \"{id}\" was found.");

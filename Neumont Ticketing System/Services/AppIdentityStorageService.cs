@@ -37,15 +37,15 @@ namespace Neumont_Ticketing_System.Services
         #region User operations
         public bool UsernameExists(string username)
         {
-            var list = GetUsers(user => user.Username == username);
-            return list.Count > 0;
+            var users = _users.Find(user => user.Username == username);
+            return users.CountDocuments() > 0;
         }
 
         public AppUser GetUserById(string id)
         {
-            var matches = GetUsers(u => u.Id.Equals(id));
-            if (matches.Count > 0)
-                return matches[0];
+            var users = _users.Find(u => u.Id == id);
+            if (users.CountDocuments() > 0)
+                return users.First();
             else
                 throw new NotFoundException<AppUser>($"No app user with a matching ID of " +
                     $"\"{id}\" was found.");
@@ -53,18 +53,18 @@ namespace Neumont_Ticketing_System.Services
 
         public AppUser GetUserByUsername(string username)
         {
-            var list = GetUsers(user => user.Username == username);
-            if (list.Count > 0)
-                return list[0];
+            var users = _users.Find(user => user.Username == username);
+            if (users.CountDocuments() > 0)
+                return users.First();
             else
                 throw new NotFoundException<AppUser>($"User with username {username} not found.");
         }
 
         public AppUser GetUserByEmail(string email)
         {
-            var list = GetUsers(user => user.Email == email);
-            if (list.Count > 0)
-                return list[0];
+            var users = _users.Find(user => user.Email == email);
+            if (users.CountDocuments() > 0)
+                return users.First();
             else
                 throw new NotFoundException<AppUser>($"User with email address {email} not found.");
         }
@@ -94,24 +94,24 @@ namespace Neumont_Ticketing_System.Services
         #region Role operations
         public bool RoleNameExists(string name)
         {
-            var list = GetRoles(role => role.Name == name);
-            return list.Count > 0;
+            var roles = _roles.Find(role => role.Name == name);
+            return roles.CountDocuments() > 0;
         }
 
         public AppRole GetRoleByName(string name)
         {
-            var list = GetRoles(role => role.Name == name);
-            if (list.Count > 0)
-                return list[0];
+            var roles = _roles.Find(role => role.Name == name);
+            if (roles.CountDocuments() > 0)
+                return roles.First();
             else
                 throw new NotFoundException<AppRole>($"Role with name {name} not found.");
         }
 
         public AppRole GetRoleByNormalizedName(string normalizedName)
         {
-            var list = GetRoles(role => role.NormalizedName == normalizedName);
-            if (list.Count > 0)
-                return list[0];
+            var roles = _roles.Find(role => role.NormalizedName == normalizedName);
+            if (roles.CountDocuments() > 0)
+                return roles.First();
             else
                 throw new NotFoundException<AppRole>($"Role with normalized name {normalizedName} not found.");
         }

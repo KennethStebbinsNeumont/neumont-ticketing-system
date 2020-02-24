@@ -41,17 +41,17 @@ namespace Neumont_Ticketing_System.Services
         {
             if (id == null || id.Length == 0)
                 throw new ArgumentException("Given id cannot be null nor empty.");
-            var matches = GetTickets(r => r.Id.Equals(id));
-            if (matches.Count > 0)
-                return matches[0];
+            var tickets = _tickets.Find(r => r.Id == id);
+            if (tickets.CountDocuments() > 0)
+                return tickets.First();
             else
                 throw new NotFoundException<Ticket>($"No ticket with a matching ID of \"{id}\" was found.");
         }
         public Ticket GetTicketByTicketId(int ticketId)
         {
-            var matches = GetTickets(r => r.TicketId == ticketId);
-            if (matches.Count > 0)
-                return matches[0];
+            var tickets = _tickets.Find(r => r.TicketId == ticketId);
+            if (tickets.CountDocuments() > 0)
+                return tickets.First();
             else
                 throw new NotFoundException<Ticket>($"No ticket with a matching ticket id of " +
                     $"\"{ticketId}\" was found.");
@@ -76,9 +76,9 @@ namespace Neumont_Ticketing_System.Services
             if (name == null || name.Length == 0)
                 throw new ArgumentException("Given name cannot be null nor empty.");
             string normalizedName = CommonFunctions.NormalizeString(name);
-            var matches = GetRepairs(r => r.NormalizedName.Equals(normalizedName));
-            if (matches.Count > 0)
-                return matches[0];
+            var repairs = _repairs.Find(r => r.NormalizedName == normalizedName);
+            if (repairs.CountDocuments() > 0)
+                return repairs.First();
             else
                 throw new NotFoundException<RepairDefinition>($"No repair with a name matching \"{name}\" was found.");
         }
@@ -87,9 +87,9 @@ namespace Neumont_Ticketing_System.Services
         {
             if (id == null || id.Length == 0)
                 throw new ArgumentException("Given id cannot be null nor empty.");
-            var matches = GetRepairs(r => r.Id.Equals(id));
-            if (matches.Count > 0)
-                return matches[0];
+            var matches = _repairs.Find(r => r.Id == id);
+            if (matches.CountDocuments() > 0)
+                return matches.First();
             else
                 throw new NotFoundException<RepairDefinition>($"No repair with a matching ID of \"{id}\" was found.");
         }

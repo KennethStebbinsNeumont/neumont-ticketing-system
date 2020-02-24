@@ -41,13 +41,15 @@ namespace Neumont_Ticketing_System.Services
         public AssetType GetTypeByName(string name)
         {
             string normalizedName = CommonFunctions.NormalizeString(name);
-            var matches = GetTypes(r => r.NormalizedName.Equals(normalizedName));
-            if (matches.Count > 0)
-                return matches.First();
+            var types = _types.Find(r => r.NormalizedName == normalizedName);
+            if (types.CountDocuments() > 0)
+                return types.First();
             else
                 throw new NotFoundException<AssetType>($"No type with a name matching \"{name}\" was found.");
         }
 
+        // Fails silently. If a matching type isn't found, the resulting list
+        // will simply be shorter.
         public List<AssetType> GetTypesByName(List<string> names)
         {
             List<string> normalizedNames = new List<string>();
@@ -60,8 +62,8 @@ namespace Neumont_Ticketing_System.Services
 
         public AssetType GetTypeById(string id)
         {
-            var types = _types.Find(t => t.Id.Equals(id)).ToList();
-            if (types.Count > 0)
+            var types = _types.Find(t => t.Id == id);
+            if (types.CountDocuments() > 0)
                 return types.First();
             else
                 throw new NotFoundException<AssetType>($"No type with a matching ID of \"{id}\" was found.");
@@ -84,9 +86,9 @@ namespace Neumont_Ticketing_System.Services
         public AssetManufacturer GetManufacturerByName(string name)
         {
             string normalizedName = CommonFunctions.NormalizeString(name);
-            var matches = GetManufacturers(r => r.NormalizedName.Equals(normalizedName));
-            if (matches.Count > 0)
-                return matches.First();
+            var manufacturers = _manufacturers.Find(r => r.NormalizedName.Equals(normalizedName));
+            if (manufacturers.CountDocuments() > 0)
+                return manufacturers.First();
             else
                 throw new NotFoundException<AssetManufacturer>(
                     $"No manufacturer with a name matching \"{name}\" was found.");
@@ -104,9 +106,9 @@ namespace Neumont_Ticketing_System.Services
 
         public AssetManufacturer GetManufacturerById(string id)
         {
-            var mfrs = _manufacturers.Find(m => m.Id.Equals(id)).ToList();
-            if (mfrs.Count > 0)
-                return mfrs.First();
+            var manufacturers = _manufacturers.Find(m => m.Id.Equals(id));
+            if (manufacturers.CountDocuments() > 0)
+                return manufacturers.First();
             else
                 throw new NotFoundException<AssetManufacturer>(
                     $"No manufacturer with a matching ID of \"{id}\" was found.");
@@ -129,9 +131,9 @@ namespace Neumont_Ticketing_System.Services
         public AssetModel GetModelByName(string name)
         {
             string normalizedName = CommonFunctions.NormalizeString(name);
-            var matches = GetModels(m => m.NormalizedName.Equals(normalizedName));
-            if (matches.Count > 0)
-                return matches.First();
+            var models = _models.Find(m => m.NormalizedName == normalizedName);
+            if (models.CountDocuments() > 0)
+                return models.First();
             else
                 throw new NotFoundException<AssetModel>(
                     $"No model with a name matching \"{name}\" was found.");
@@ -140,9 +142,9 @@ namespace Neumont_Ticketing_System.Services
         public AssetModel GetModelByModelNumber(string modelNumber)
         {
             string normalizedModelNumber = CommonFunctions.NormalizeString(modelNumber);
-            var matches = GetModels(m => m.NormalizedModelNumber.Equals(normalizedModelNumber));
-            if (matches.Count > 0)
-                return matches.First();
+            var models = _models.Find(m => m.NormalizedModelNumber.Equals(normalizedModelNumber));
+            if (models.CountDocuments() > 0)
+                return models.First();
             else
                 throw new NotFoundException<AssetModel>(
                     $"No model with a model number matching \"{modelNumber}\" was found.");
@@ -170,8 +172,8 @@ namespace Neumont_Ticketing_System.Services
 
         public AssetModel GetModelById(string id)
         {
-            var models = _models.Find(m => m.Id.Equals(id)).ToList();
-            if (models.Count > 0)
+            var models = _models.Find(m => m.Id == id);
+            if (models.CountDocuments() > 0)
                 return models.First();
             else
                 throw new NotFoundException<AssetModel>(
@@ -201,8 +203,8 @@ namespace Neumont_Ticketing_System.Services
 
         public Asset GetAssetById(string id)
         {
-            var assets = _assets.Find(a => a.Id.Equals(id)).ToList();
-            if (assets.Count > 0)
+            var assets = _assets.Find(a => a.Id.Equals(id));
+            if (assets.CountDocuments() > 0)
                 return assets.First();
             else
                 throw new NotFoundException<Asset>(
@@ -230,8 +232,8 @@ namespace Neumont_Ticketing_System.Services
 
         public LoanerAsset GetLoanerById(string id)
         {
-            var loaners = _loaners.Find(l => l.Id.Equals(id)).ToList();
-            if (loaners.Count > 0)
+            var loaners = _loaners.Find(l => l.Id.Equals(id));
+            if (loaners.CountDocuments() > 0)
                 return loaners.First();
             else
                 throw new NotFoundException<LoanerAsset>(
