@@ -18,3 +18,17 @@ textarea {
 input#ownerInput {
     padding: 2px 5px;
 }
+
+button#btnSubmit {
+    width: 100%;
+    border-color: #9D9D9E;
+    border-style: solid;
+    height: 100%;
+    background: #EBECED;
+    color: #5D5E5E;
+    border-radius: 3px;
+}
+
+.btnSubmitCtr {
+    margin: 5px;
+}
