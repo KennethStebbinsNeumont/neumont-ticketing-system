@@ -31,7 +31,7 @@
     <div class="inputContainer">
         <p class="inputLabel">Owner's Name: </p>
         <input class="listInput" list="ownerList" name="ownerInput" id="ownerInput"
-               autocomplete="off"
+               autocomplete="off" value="@(Model.Owner?.Name ?? "")"
                @(Model.HasTicket ? "disabled" : "") /> @* Disable the name field if an existing
             ticket is provided *@
             <datalist id="ownerList">
@@ -55,7 +55,12 @@
         </div>
         <div class="inputContainer repairSelectorContainer">
             <p class="inputLabel">Repair: </p>
-            <select class="repairSelector" id="repairSelector" disabled></select>
+            <select class="repairSelector" id="repairSelector" disabled>
+                @if (Model.HasTicket)
+                {
+                    <option>@(Model.RepairDefinition.Name)</option>
+                }
+            </select>
         </div>
         <div class="inputContainer techNameSelectorContainer">
             <p class="inputLabel">Technician: </p>
@@ -85,10 +90,7 @@
                            type="text" value="@(loaner.Name)" />
                 }
             }
-            else
-            {
-                <input class="text-box single-line expandableListInput loanerInput" type="text" />
-            }
+            <input class="text-box single-line expandableListInput loanerInput" type="text" />
         </div>
         <div class="inputContainer descriptionContainer">
             <p class="inputLabel descriptionLabel">Title: </p>
