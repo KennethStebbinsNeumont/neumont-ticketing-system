@@ -83,6 +83,20 @@ namespace Neumont_Ticketing_System.Controllers
                 ticketEntries.Add(ticketEntry);
             }
 
+            ticketEntries.Sort((a, b) =>
+            {
+                if(a.DateOpened > b.DateOpened)
+                {
+                    return 1;
+                } else if(a.DateOpened < b.DateOpened)
+                {
+                    return -1;
+                } else
+                {
+                    return 0;
+                }
+            });
+
             IndexModel model = new IndexModel { Tickets = ticketEntries };
 
             return View(model);
