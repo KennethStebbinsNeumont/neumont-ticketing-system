@@ -11,6 +11,7 @@ using Neumont_Ticketing_System.Models.Assets;
 using Neumont_Ticketing_System.Models.Owners;
 using Neumont_Ticketing_System.Models.Tickets;
 using Neumont_Ticketing_System.Services;
+using Neumont_Ticketing_System.Services.Exceptions;
 using Neumont_Ticketing_System.Views.Settings;
 
 namespace Neumont_Ticketing_System.Controllers
@@ -73,7 +74,7 @@ namespace Neumont_Ticketing_System.Controllers
                     Message = $"A duplicate asset was found: Serial number: \"{e.Duplicate.SerialNumber}\", " +
                     $"Model name: \"{e.Duplicate.GetModel(_assetDatabaseService.GetModels()).Name}\"."
                 });
-            } catch(ModelNotFoundException e)
+            } catch(NotFoundException e)
             {
                 _logger.LogError(e, "Error while attempting to save new owners/assets.");
                 return new JsonResult(new
@@ -156,7 +157,8 @@ namespace Neumont_Ticketing_System.Controllers
                             // If a matching model wasn't found
                             if(matchedModel == null)
                             {
-                                throw new ModelNotFoundException($"A model with name \"{asset.ModelName}\" was not " +
+                                throw new NotFoundException<Asset>(
+                                    $"A model with name \"{asset.ModelName}\" was not " +
                                     $"found.");
                             } else
                             {
