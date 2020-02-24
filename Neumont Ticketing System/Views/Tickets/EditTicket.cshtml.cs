@@ -10,10 +10,8 @@ namespace Neumont_Ticketing_System.Views.Tickets
     {
         public List<AppUser> Technicians { get; set; }
 
-        public NewTicketModel(List<AppUser> technicians)
-        {
-            Technicians = technicians;
+        public string TitleText { get; set; }
 
-        }
+        public string TicketId { get; set; }
     }
 }
