@@ -102,7 +102,10 @@
 
         $('.btnAddListItem').click(ExpandableItemList.getBtnAddListItemHandler(
             (clone) => {
-                clone.find('textarea').val('');
+                let textarea = clone.find('textarea');
+                textarea.val('');
+                textarea.prop('disabled', false);
+                clone.find('.')
             }));
 
         templateInput = $('#templateContainer').children('.inputContainer');

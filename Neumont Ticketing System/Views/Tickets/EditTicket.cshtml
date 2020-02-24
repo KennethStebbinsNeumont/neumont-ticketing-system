@@ -121,7 +121,7 @@
             {
                 @foreach (var comment in Model.Comments)
                 {
-                    <div class="listItem cloneableListItem commentContainer">
+                    <div class="listItem commentContainer">
                         <div class="inputContainer">
                             <p class="inputLabel">Comment: </p>
                             <textarea class="textArea commentInput" disabled>@(comment.Value)</textarea>
@@ -137,19 +137,16 @@
                     </div>
                 }
             }
-            else
-            {
-                <div class="listItem cloneableListItem commentContainer">
-                    <div class="inputContainer">
-                        <p class="inputLabel">Comment: </p>
-                        <textarea class="textArea commentInput"></textarea>
-                    </div>
-                    <div class="inputContainer">
-                        <p class="inputLabel">Date: </p>
-                        <p class="valueText"></p> @* Initial value is set by front-end javascript *@
-                    </div>
+            <div class="listItem cloneableListItem commentContainer">
+                <div class="inputContainer">
+                    <p class="inputLabel">Comment: </p>
+                    <textarea class="textArea commentInput"></textarea>
                 </div>
-            }
+                <div class="inputContainer">
+                    <p class="inputLabel">Date: </p>
+                    <p class="valueText"></p> @* Initial value is set by front-end javascript *@
+                </div>
+            </div>
             <div class="listItem btnAddListItemContainer">
                 <button class="btnAddListItem" id="btnNewManufacturer">Add Comment</button>
             </div>
