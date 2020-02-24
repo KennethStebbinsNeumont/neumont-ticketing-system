@@ -188,7 +188,7 @@ namespace Neumont_Ticketing_System.Controllers
             {
                 _logger.LogError(e, $"Unexpected error while trying to load EditTicket with " +
                     $"ticket ID {ticketId}");
-                return View("Index");
+                return Redirect("/Tickets");
             }
 
             return View("EditTicket", model);
@@ -335,6 +335,16 @@ namespace Neumont_Ticketing_System.Controllers
                 {
                     Successful = false,
                     Message = "Unable to find a loaner.",
+                    TicketId = -1
+                });
+            }
+            catch (NotFoundException<Ticket>)
+            {
+                _logger.LogError($"Unable to find a ticket specified: {request.TicketId}");
+                return new JsonResult(new EditTicketResponse
+                {
+                    Successful = false,
+                    Message = "Unable to find the given ticket id.",
                     TicketId = -1
                 });
             }
