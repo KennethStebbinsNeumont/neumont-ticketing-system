@@ -359,6 +359,7 @@
 
             if (response.successful) {
                 console.log(`Ticket submission succeeded: ${response.message}`);
+                window.location.href = "/Tickets";
             } else {
                 console.error(`Ticket submission failed: ${response.message}`);
             }
