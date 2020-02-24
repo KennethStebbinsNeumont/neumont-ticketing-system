@@ -21,6 +21,13 @@ namespace Neumont_Ticketing_System.Views.Tickets
 
         public Ticket Ticket { get; set; }
 
+        public bool HasTicket
+        { get
+            {
+                return Ticket != null;
+            }
+        }
+
         public Owner Owner { get; set; }
 
         public Asset Asset { get; set; }
