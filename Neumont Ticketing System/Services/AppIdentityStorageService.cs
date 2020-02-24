@@ -139,7 +139,6 @@ namespace Neumont_Ticketing_System.Services
         #endregion Role operations
         #endregion Read
 
-
         #region Create
         #region User operations
         public AppUser CreateUser(AppUser user)
@@ -157,7 +156,6 @@ namespace Neumont_Ticketing_System.Services
         }
         #endregion Role operations
         #endregion Create
-
 
         #region Update
         #region User operations
