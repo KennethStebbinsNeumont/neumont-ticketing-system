@@ -14,7 +14,7 @@ namespace Neumont_Ticketing_System.Views.Tickets
 
     public class TicketEntry
     {
-        public string TicketId { get; set; }
+        public string Id { get; set; }
 
         public string OwnerName { get; set; }
 

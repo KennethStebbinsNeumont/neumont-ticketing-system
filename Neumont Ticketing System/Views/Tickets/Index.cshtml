@@ -43,7 +43,7 @@
     <div class="tableBody">
         @foreach (TicketEntry ticket in Model.Tickets)
         {
-            <div class="tableRow" ticket-id="@(ticket.TicketId)">
+            <div class="tableRow" ticket-id="@(ticket.Id)">
                 <div class="rowItem checkboxCtr">
                     <input type="checkbox" class="checkbox" />
                 </div>
@@ -68,7 +68,8 @@
                     </span>
                 </p>
                 <div class="rowItem ticketBtnContainer">
-                    <button class="btnEditTicket" title="Edit Ticket">Edit</button>
+                    <button class="btnEditTicket" title="Edit Ticket"
+                            onclick="@($"window.location.href = '/Tickets/EditTicket?ticketId={ticket.Id}'")">Edit</button>
                 </div>
             </div>
         }

@@ -67,7 +67,7 @@ namespace Neumont_Ticketing_System.Controllers
 
                 ticketEntry = new TicketEntry
                 {
-                    TicketId = ticket.Id,
+                    Id = ticket.Id,
                     OwnerName = owner.Name,
                     AssetSerial = asset.SerialNumber,
                     DateOpened = ticket.Opened,
@@ -122,6 +122,73 @@ namespace Neumont_Ticketing_System.Controllers
                     TitleText = "New Ticket",
                     SubtitleText = "Create a new ticket"
                 };
+            }
+
+            return View("EditTicket", model);
+        }
+
+        public IActionResult EditTicket(string ticketId)
+        {
+            EditTicketModel model;
+            try
+            {
+                List<AppUser> techs;
+                try
+                {
+                    techs = _appIdentityStorageService.GetUsersByRole(
+                        _appIdentityStorageService.GetRole(AppIdentityStorageService.Roles.Technicians));
+                }
+                catch (NotFoundException<AppRole> e)
+                {
+                    _logger.LogWarning(e, "The technicians role was not found.");
+                    techs = new List<AppUser>();
+                }
+
+                var ticket = _ticketsDatabaseService.GetTicketById(ticketId);
+
+                List<CombinedComment> comments = new List<CombinedComment>();
+
+                foreach(var comment in ticket.Comments)
+                {
+                    comments.Add(new CombinedComment
+                    {
+                        AuthorName = _appIdentityStorageService.GetUserById(
+                            comment.AuthorId).FullName,
+                        Timestamp = comment.Timestamp,
+                        Value = comment.Value
+                    });
+                }
+
+                List<LoanerAsset> loanerAssets = new List<LoanerAsset>();
+
+                foreach(string loanerId in ticket.LoanerIds)
+                {
+                    loanerAssets.Add(_assetsDatabaseService.GetLoanerById(loanerId));
+                }
+
+                Asset asset = _assetsDatabaseService.GetAssetById(ticket.AssetId);
+
+                model = new EditTicketModel
+                {
+                    Technicians = techs,
+                    AssignedTechnician = _appIdentityStorageService
+                        .GetUserById(ticket.TechnicianIds[0]),
+                    TitleText = "Edit Ticket",
+                    SubtitleText = "Edit an existing ticket",
+                    Ticket = ticket,
+                    Comments = comments,
+                    Loaners = loanerAssets,
+                    Owner = _ownersDatabaseService.GetOwnerById(asset.OwnerId),
+                    Asset = asset,
+                    AssetModel = _assetsDatabaseService.GetModelById(asset.ModelId),
+                    RepairDefinition = _ticketsDatabaseService.GetRepairDefinitionById(
+                        ticket.Repair.DefinitionId)
+                };
+            } catch (Exception e)
+            {
+                _logger.LogError(e, $"Unexpected error while trying to load EditTicket with " +
+                    $"ticket ID {ticketId}");
+                return View("Index");
             }
 
             return View("EditTicket", model);
