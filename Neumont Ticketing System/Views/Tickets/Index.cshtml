@@ -16,7 +16,9 @@
     <div class="listHeader">
         <h2 class="listHeaderItem listHeaderText">Open Tickets</h2>
         <div class="listHeaderItem headerBtnContainer">
-            <button id="newTicket" onclick="window.location.href = '/Tickets/NewTicket';">New Ticket</button>
+            <button id="newTicket" onclick="window.location.href = '/Tickets/NewTicket';">
+                <img src="~/assets/freepik-file.svg" />
+            </button>
         </div>
     </div>
     <div class="tableHeader">
@@ -68,14 +70,19 @@
                     </span>
                 </p>
                 <div class="rowItem ticketBtnContainer">
-                    <button class="ticketBtn btnEmailOwner" title="Email Owner">Email</button>
+                    <button class="ticketBtn btnEmailOwner" title="Email Owner">
+                        <img src="~/assets/freepik-email.svg" /></button>
                     <button class="ticketBtn btnEditTicket" title="Edit Ticket"
                             onclick="@($"window.location.href = '/Tickets/EditTicket?ticketId={ticket.Id}'")">
-                        Edit
+                        <img src="~/assets/freepik-pen.svg" />
                     </button>
-                    <button class="ticketBtn btnDeleteTicket" title="Delete Ticket">Delete</button>
+                    <button class="ticketBtn btnDeleteTicket" title="Delete Ticket">
+                        <img src="~/assets/freepik-delete.svg"
+                    </button>
                 </div>
             </div>
         }
     </div>
 </div>
+
+<div class="freepikAttribution">Icons made by <a href="https://www.flaticon.com/authors/freepik" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a></div>
