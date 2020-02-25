@@ -58,7 +58,7 @@
             <select class="repairSelector" id="repairSelector" disabled>
                 @if (Model.HasTicket)
                 {
-                    <option>@(Model.RepairDefinition.Name)</option>
+                    <option value="@(Model.RepairDefinition.Id)">@(Model.RepairDefinition.Name)</option>
                 }
             </select>
         </div>
