@@ -16,6 +16,7 @@
 
 .tableRow:hover {
     box-shadow: 1px 1.5px 4px 3px hsla(0, 0%, 78%, 1);
+    cursor: pointer;
 }
 
 p.tableHeaderText {
@@ -42,6 +43,7 @@ p.tableBodyText {
 
 .ticketBtnContainer {
     width: 100px;
+    text-align: right;
 }
 
 #checkboxSpacer {
