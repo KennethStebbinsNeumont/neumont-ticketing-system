@@ -67,7 +67,8 @@
             <select class="technicianSelector" id="technicianSelector">
                 @if (Model.HasTicket)
                 {
-                    <option>@(Model.AssignedTechnician.FullName)</option>
+                    <option value="@(Model.AssignedTechnician.Id)">
+                        @(Model.AssignedTechnician.FullName)</option>
                 }
                 else
                 {
