@@ -181,7 +181,7 @@ tickets : {
 		// Definition of a kind of repair
 		repair_definition : {
 			_id : <ObjectId - determined by MongoDB>,
-			Name : <string - name of this kind of repair>,
+			Name : <string - unique; name of this kind of repair>,
 			NormalizedName: <string - normalized version of name; managed by application>,
 			Description : <string - text description of the repair>,
 			// Defines what kinds of assets this repair applies to.
