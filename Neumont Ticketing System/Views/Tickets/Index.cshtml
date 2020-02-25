@@ -68,12 +68,12 @@
                     </span>
                 </p>
                 <div class="rowItem ticketBtnContainer">
-                    <button class="btnEmailOwner" title="Email Owner">Email</button>
-                    <button class="btnEditTicket" title="Edit Ticket"
+                    <button class="ticketBtn btnEmailOwner" title="Email Owner">Email</button>
+                    <button class="ticketBtn btnEditTicket" title="Edit Ticket"
                             onclick="@($"window.location.href = '/Tickets/EditTicket?ticketId={ticket.Id}'")">
                         Edit
                     </button>
-                    <button class="btnDeleteTicket" title="Delete Ticket">Delete</button>
+                    <button class="ticketBtn btnDeleteTicket" title="Delete Ticket">Delete</button>
                 </div>
             </div>
         }
