@@ -1,7 +1,7 @@
 ﻿@using Neumont_Ticketing_System.Views.Tickets;
 @using System.Globalization;
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Ticket Manager";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Scripts
@@ -68,8 +68,12 @@
                     </span>
                 </p>
                 <div class="rowItem ticketBtnContainer">
+                    <button class="btnEmailOwner" title="Email Owner">Email</button>
                     <button class="btnEditTicket" title="Edit Ticket"
-                            onclick="@($"window.location.href = '/Tickets/EditTicket?ticketId={ticket.Id}'")">Edit</button>
+                            onclick="@($"window.location.href = '/Tickets/EditTicket?ticketId={ticket.Id}'")">
+                        Edit
+                    </button>
+                    <button class="btnDeleteTicket" title="Delete Ticket">Delete</button>
                 </div>
             </div>
         }
