@@ -29,7 +29,7 @@ p.tableBodyText {
 }
 
 .rowItem {
-    width: calc(100% / 6);
+    width: calc(93% / 6);
     display: inline-block;
 }
 
@@ -42,7 +42,7 @@ p.tableBodyText {
 }
 
 .ticketBtnContainer {
-    width: 100px;
+    width: 150px;
     text-align: right;
 }
 
@@ -71,4 +71,21 @@ button#newTicket {
     display: inline-block;
     text-align: center;
     margin: 10px 5px;
+}
+
+.ticketBtnIcon {
+    width: 35px;
+    margin: 0px 5px;
+    padding: 3px;
+    border-radius: 5px;
+    transition: box-shadow .25s, background .25s;
+}
+
+button {
+    display: contents;
+}
+
+.ticketBtnIcon:hover {
+    background: hsla(220, 6%, 84%, 1);
+    box-shadow: 0px 0px 5px 0.5px hsla(220, 6%, 60%, 1);
 }
