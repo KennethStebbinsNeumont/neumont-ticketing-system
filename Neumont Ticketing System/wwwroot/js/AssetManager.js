@@ -7,6 +7,26 @@
     const matchedOnOwnerNameString = "Name";
     const matchedOnOwnerPreferredNameString = "PreferredName";
 
+    // The amount of time to wait after the value of the owner
+    // field has been changed before making a query in onOwnerInputEvent
+    const QUERY_DELAY_MS = 250;
+
+    let getAssets = async function getAssets(query) {
+        return $.ajax({
+            type: "POST",
+            url: "/Settings/AssetManager",
+            data: JSON.stringify({
+                Query: searchInput.val(),
+                MaxNumOfResults: 50
+            }),
+            contentType: "application/json",
+            dataType: "json",
+            success: responseReceived,
+            failure: unexpectedFailure,
+            error: unexpectedFailure
+        });
+    }
+
     /* Response schema:
      * 
      * response = {
@@ -33,7 +53,7 @@
      * }
      * 
      * */
-    let responseReceied = function responseReceived(response) {
+    let responseReceived = function responseReceived(response) {
         try {
             if (response.successful) {
                 // Make sure that the response we're about to display
@@ -79,27 +99,33 @@
         } catch(err) {
             console.log(`Unexpected error occurred. Response: \"${response}\"`);
         }
-
-        
     };
 
     let unexpectedFailure = function unexpectedFailure(response) {
-
+        console.error(`Unexpected error while trying to query database for assets/owners.`);
+        console.error(response);
     };
 
-    searchInput.change(function () {
-        $.ajax({
-            type: "POST",
-            url: "/Settings/AssetManager",
-            data: JSON.stringify({
-                Query: searchInput.val(),
-                MaxNumOfResults: 50
-            }),
-            contentType: "application/json",
-            dataType: "json",
-            success: responseReceied,
-            failure: unexpectedFailure,
-            error: unexpectedFailure
-        });
-    });
+    let onOwnerInputEvent = async function onOwnerInputEvent(event) {
+        let input = $(event.target);
+        // If the user just edited the text of the input
+        input.removeAttr('ownerId');
+        onOwnerClear();
+        // Don't start making requests until there are at least 3 characters
+        // in the owner's input
+        if (input.val() && input.val().length > 2) {
+            let oldVal = input.val();
+            // Wait QUERY_DELAY_MS milliseconds before deciding whether to make the query
+            await new Promise((resolve, reject) => setTimeout(resolve, QUERY_DELAY_MS));
+            if (oldVal === input.val()) {
+                // If the value of the input hasn't changed after waiting, make the query
+                getAssets(oldVal).then(responseReceived).catch(unexpectedFailure);
+            }
+        } else {
+            // If the query is now too short for results, remove the old ones
+            resultTable.find('.singleResult').remove();
+        }
+    };
+
+    searchInput.input(onOwnerInputEvent);
 });
