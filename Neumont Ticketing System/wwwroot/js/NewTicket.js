@@ -226,9 +226,9 @@
             // If the user just edited the text of the input
             input.removeAttr('ownerId');
             onOwnerClear();
-            // Don't start making requests until there are at least 4 characters
+            // Don't start making requests until there are at least 3 characters
             // in the owner's input
-            if (input.val() && input.val().length > 3) {
+            if (input.val() && input.val().length > 2) {
                 let oldVal = input.val();
                 // Wait QUERY_DELAY_MS milliseconds before deciding whether to make the query
                 await new Promise((resolve, reject) => setTimeout(resolve, QUERY_DELAY_MS));
