@@ -106,7 +106,7 @@
         console.error(response);
     };
 
-    let onOwnerInputEvent = async function onOwnerInputEvent(event) {
+    let onQueryInputEvent = async function onQueryInputEvent(event) {
         let input = $(event.target);
         // If the user just edited the text of the input
         input.removeAttr('ownerId');
@@ -127,5 +127,5 @@
         }
     };
 
-    searchInput.input(onOwnerInputEvent);
+    searchInput.bind('input', onQueryInputEvent);
 });
