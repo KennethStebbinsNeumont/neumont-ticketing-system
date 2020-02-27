@@ -476,6 +476,9 @@ namespace Neumont_Ticketing_System.Controllers
                             }
                         }
 
+                        // Remove all entires with a score of 0
+                        responseAssets.RemoveAll(a => a.Score <= 0);
+
                         // Sort by score
                         responseAssets.Sort((a, b) =>
                         {
