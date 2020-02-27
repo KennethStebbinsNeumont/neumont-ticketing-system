@@ -108,9 +108,7 @@
 
     let onQueryInputEvent = async function onQueryInputEvent(event) {
         let input = $(event.target);
-        // If the user just edited the text of the input
-        input.removeAttr('ownerId');
-        onOwnerClear();
+
         // Don't start making requests until there are at least 3 characters
         // in the owner's input
         if (input.val() && input.val().length > 2) {
