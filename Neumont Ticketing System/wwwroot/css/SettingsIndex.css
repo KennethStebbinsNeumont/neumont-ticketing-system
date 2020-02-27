@@ -1,0 +1,28 @@
+﻿.linkCard {
+    background: #F0F1F2;
+    border-radius: 5px;
+    width: 400px;
+    display: inline-block;
+    margin: 25px;
+    padding: 10px 20px;
+    box-shadow: 0px 1px 5px 3px lightgray;
+    transition: box-shadow .25s;
+}
+
+div#assetCreatorCard {
+}
+
+.linkCard:hover {
+    cursor: pointer;
+    box-shadow: 0px 2px 5px 4px hsla(0, 0%, 70%, 1);
+}
+
+.cardTitle {
+    font-size: 36px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.cardDescription {
+    font-size: 20px;
+}
