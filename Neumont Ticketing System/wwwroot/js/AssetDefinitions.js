@@ -82,25 +82,59 @@
     const mfrsList = $('#manufacturersList');
     const mfrsNameInputs = mfrsList.find('.nameInput');
     const modelsList = $('#modelsList');
+
+    function onInputChange(inputsList, getSelectorsToUpdate) {
+        return function () {
+            const oldValue = $(this).attr('old-value');
+            const newValue = $(this).val();
+            let newOptions = [];
+            inputsList.children().find('.nameInput').each(function (i, e) {
+                let thingName = $(e).val();
+                if (thingName) {
+                    let option = document.createElement('option');
+                    let o = $(option);
+                    o.val(thingName);
+                    o.html(thingName);
+                    newOptions.push(o);
+                }
+            });
+
+            const selectors = getSelectorsToUpdate();
+            selectors.each(function (i, e) {
+                const element = $(e);
+                let selection = element.children('option:selected').val();
+                // If the thing's name that was just updated is the one selected,
+                // update the selection to the thing's new name
+                if (selection === oldValue)
+                    selection = newValue;
+                // Clean out old options
+                element.empty();
+                newOptions.forEach((option) => {
+                    element.append($(option).clone());
+                });
+                element.val(selection);
+            });
+            $(this).attr('old-value', newValue);
+        };
     
     typeNameInputs.each(function (i, e) {
-        $(e).change(getUpdateSelectorsOnNameInputChangeHandler(typesList, () => $('.typeSelector')));
-        $(e).blur(getUpdateSelectorsOnNameInputChangeHandler(typesList, () => $('.typeSelector')));
+        $(e).change(onInputChange(typesList, () => $('.typeSelector')));
+        $(e).blur(onInputChange(typesList, () => $('.typeSelector')));
     });
     mfrsNameInputs.each(function (i, e) {
-        $(e).change(getUpdateSelectorsOnNameInputChangeHandler(mfrsList, () => $('.manufacturerSelector')));
-        $(e).blur(getUpdateSelectorsOnNameInputChangeHandler(mfrsList, () => $('.manufacturerSelector')));
+        $(e).change(onInputChange(mfrsList, () => $('.manufacturerSelector')));
+        $(e).blur(onInputChange(mfrsList, () => $('.manufacturerSelector')));
     });
 
     typesList.find('.btnAddListItem').click(ExpandableItemList.getBtnAddListItemHandler(function (clone) {
         let nameInput = clone.find('.nameInput');
-        nameInput.change(getUpdateSelectorsOnNameInputChangeHandler(typesList, () => $('.typeSelector')));
-        nameInput.blur(getUpdateSelectorsOnNameInputChangeHandler(typesList, () => $('.typeSelector')));
+        nameInput.change(onInputChange(typesList, () => $('.typeSelector')));
+        nameInput.blur(onInputChange(typesList, () => $('.typeSelector')));
     }));
     mfrsList.find('.btnAddListItem').click(ExpandableItemList.getBtnAddListItemHandler(function (clone) {
         let nameInput = clone.find('.nameInput');
-        nameInput.change(getUpdateSelectorsOnNameInputChangeHandler(mfrsList, () => $('.manufacturerSelector')));
-        nameInput.blur(getUpdateSelectorsOnNameInputChangeHandler(mfrsList, () => $('.manufacturerSelector')));
+        nameInput.change(onInputChange(mfrsList, () => $('.manufacturerSelector')));
+        nameInput.blur(onInputChange(mfrsList, () => $('.manufacturerSelector')));
 
         let phoneInput = clone.find('.phoneNumberInput');
         // Remove excessive input fields
