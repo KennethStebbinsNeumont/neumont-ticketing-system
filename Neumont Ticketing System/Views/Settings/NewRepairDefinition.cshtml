@@ -14,7 +14,6 @@
 
 <div class="list" id="repairList">
     <h2 class="listTitle">Create a new repair definition</h2>
-    <button id="submit">Submit</button>
     <div class="inputContainer">
         <p class="inputLabel">Repair name: </p>
         <input class="text-box single-line nameInput"
@@ -97,6 +96,9 @@
             <button class="btnAddListItem btnAddStep" id="btnAddStep">Add Step</button>
         </div>
     </div>
+    <div class="btnSubmitCtr">
+        <button class="btnSubmit" id="submit">Submit</button>
+    </div>
 </div>
 
 <div class="templateContainer" id="templateContainer" style="display: none">
@@ -104,14 +106,14 @@
         <div class="inputContainer">
             <p class="inputLabel">Sub-step name: </p>
             <input class="text-box single-line subStepName"
-                   type="text"
-                   value="" />
+                    type="text"
+                    value="" />
         </div>
         <div class="inputContainer">
             <p class="inputLabel">Sub-step description: </p>
             <input class="text-box single-line subStepDescription"
-                   type="text"
-                   value="" />
+                    type="text"
+                    value="" />
         </div>
         <div class="listSubItem btnAddListItemContainer btnAddSubStepContainer">
             <button class="btnAddListSubItem btnAddSubStep">Add Sub-step</button>
