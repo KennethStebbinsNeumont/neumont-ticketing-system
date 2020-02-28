@@ -448,6 +448,45 @@ namespace Neumont_Ticketing_System.Controllers
                 }
             }
         }
+
+        [HttpPost]
+        public JsonResult GetEncompassedModels([FromBody] GetEncompassedModelsRequest request)
+        {
+            try
+            {
+                if(request != null)
+                {
+                    _logger.LogInformation("A null request was sent to GetEncompassedModels");
+                    return new JsonResult(new GetEncompassedModelsResponse
+                    {
+                        Successful = false,
+                        Message = "Received response was null."
+                    });
+                }
+
+                List<AssetModel> responseModels = _assetsDatabaseService
+                    .GetModels(m => 
+                    (request.TypeIds.Count == 0 || request.TypeIds.Contains(m.TypeId))
+                    && (request.ManufacturerIds.Count == 0 || 
+                        request.ManufacturerIds.Contains(m.ManufacturerId)));
+
+                return new JsonResult(new GetEncompassedModelsResponse
+                {
+                    Successful = true,
+                    Message = "Query completed successfully.",
+                    Models = responseModels
+                });
+
+            } catch(Exception e)
+            {
+                _logger.LogError(e, "Unexpected exception while searching for encompassed models");
+                return new JsonResult(new GetApplicableRepairsResponse
+                {
+                    Successful = false,
+                    Message = "Unexpected internal error."
+                });
+            }
+        }
     }
 
     #region GetOwners
@@ -519,4 +558,20 @@ namespace Neumont_Ticketing_System.Controllers
         public List<string> AdditionalFieldNames { get; set; }
     }
     #endregion GetApplicableRepairs
+
+    #region GetEncompassedModels
+    public class GetEncompassedModelsRequest
+    {
+        public List<string>? TypeIds { get; set; }
+
+        public List<string>? ManufacturerIds { get; set; }
+    }
+
+    public class GetEncompassedModelsResponse
+    {
+        public bool Successful { get; set; }
+        public string Message { get; set; }
+        public List<AssetModel> Models { get; set; }
+    }
+    #endregion
 }
