@@ -38,25 +38,19 @@ namespace Neumont_Ticketing_System.Services
             return GetTypes(type => true);
         }
 
-        public AssetType GetTypeByName(string name)
+        public AssetType GetTypeByNormalizedName(string normalizedName)
         {
-            string normalizedName = CommonFunctions.NormalizeString(name);
             var types = _types.Find(r => r.NormalizedName == normalizedName);
             if (types.CountDocuments() > 0)
                 return types.First();
             else
-                throw new NotFoundException<AssetType>($"No type with a name matching \"{name}\" was found.");
+                throw new NotFoundException<AssetType>($"No type with a name matching \"{normalizedName}\" was found.");
         }
 
         // Fails silently. If a matching type isn't found, the resulting list
         // will simply be shorter.
-        public List<AssetType> GetTypesByName(List<string> names)
+        public List<AssetType> GetTypesByNormalizedName(List<string> normalizedNames)
         {
-            List<string> normalizedNames = new List<string>();
-            foreach(string name in names)
-            {
-                normalizedNames.Add(CommonFunctions.NormalizeString(name));
-            }
             return GetTypes(t => normalizedNames.Contains(t.NormalizedName));
         }
 
@@ -83,24 +77,18 @@ namespace Neumont_Ticketing_System.Services
             return GetManufacturers(manufacturer => true);
         }
 
-        public AssetManufacturer GetManufacturerByName(string name)
+        public AssetManufacturer GetManufacturerByNormalizedName(string normalizedName)
         {
-            string normalizedName = CommonFunctions.NormalizeString(name);
             var manufacturers = _manufacturers.Find(r => r.NormalizedName == normalizedName);
             if (manufacturers.CountDocuments() > 0)
                 return manufacturers.First();
             else
                 throw new NotFoundException<AssetManufacturer>(
-                    $"No manufacturer with a name matching \"{name}\" was found.");
+                    $"No manufacturer with a name matching \"{normalizedName}\" was found.");
         }
 
-        public List<AssetManufacturer> GetManufacturersByName(List<string> names)
+        public List<AssetManufacturer> GetManufacturersByNormalizedName(List<string> normalizedNames)
         {
-            List<string> normalizedNames = new List<string>();
-            foreach (string name in names)
-            {
-                normalizedNames.Add(CommonFunctions.NormalizeString(name));
-            }
             return GetManufacturers(m => normalizedNames.Contains(m.NormalizedName));
         }
 
@@ -128,15 +116,14 @@ namespace Neumont_Ticketing_System.Services
             return GetModels(model => true);
         }
 
-        public AssetModel GetModelByName(string name)
+        public AssetModel GetModelByNormalizedName(string normalizedName)
         {
-            string normalizedName = CommonFunctions.NormalizeString(name);
             var models = _models.Find(m => m.NormalizedName == normalizedName);
             if (models.CountDocuments() > 0)
                 return models.First();
             else
                 throw new NotFoundException<AssetModel>(
-                    $"No model with a name matching \"{name}\" was found.");
+                    $"No model with a name matching \"{normalizedName}\" was found.");
         }
 
         public AssetModel GetModelByModelNumber(string modelNumber)
@@ -150,13 +137,8 @@ namespace Neumont_Ticketing_System.Services
                     $"No model with a model number matching \"{modelNumber}\" was found.");
         }
 
-        public List<AssetModel> GetModelsByName(List<string> names)
+        public List<AssetModel> GetModelsByNormalizedName(List<string> normalizedNames)
         {
-            List<string> normalizedNames = new List<string>();
-            foreach (string name in names)
-            {
-                normalizedNames.Add(CommonFunctions.NormalizeString(name));
-            }
             return GetModels(m => normalizedNames.Contains(m.NormalizedName));
         }
 
