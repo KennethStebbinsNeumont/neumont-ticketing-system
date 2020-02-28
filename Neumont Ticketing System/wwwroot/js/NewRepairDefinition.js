@@ -60,12 +60,62 @@
     }
 }
 
-let onTypeOrModelSelection = function onTypeOrModelSelection() {
+let onTypeOrModelSelection = async function onTypeOrModelSelection() {
     let typeSelectors = $('.typeSelector');
     let mfrSelectors = $('.mfrSelector');
 
     let request = {
-        TypeIds: 
+        TypeNames: [],
+        ManufacturerNames: []
+    };
+
+    let typeSelectors = repair.find('.typeSelector');
+    if (typeSelectors.length >= 1 && typeSelectors.first().val() !== "_all") {
+        // If the user has chosen for this repair to apply to all types, then leave the array blank
+        // otherwise, add the selections to appliesTo.TypeNames
+        typeSelectors.each(function (i, e) {
+            if (e.value) // Don't add empty selections
+                request.TypeNames.push(e.value);
+        });
+    }
+    let mfrSelectors = repair.find('.mfrSelector');
+    if (mfrSelectors.length >= 1 && mfrSelectors.first().val() !== "_all") {
+        // If the user has chosen for this repair to apply to all mfrs, then leave the array blank
+        // otherwise, add the selections to appliesTo.TypeNames
+        mfrSelectors.each(function (i, e) {
+            if (e.value) // Don't add empty selections
+                request.ManufacturerNames.push(e.value);
+        });
+    }
+
+    try {
+        let response = await $.ajax({
+            type: "POST",
+            url: "/Assets/GetEncompassedModels",
+            data: request,
+            contentType: "application/json",
+            dataType: "json"
+        });
+
+        if (response.successful) {
+            let modelSelectors = $('.modelSelector');
+            let encompassedModels = response.models;
+            let newModelOptions = [];
+
+
+            modelSelectors.each(function (i, e) {
+                let ele = $(e);
+                let oldval = e.value;
+                ele.empty();
+
+            });
+
+        } else {
+            console.error(`Model query failed: "${response.message}"`);
+        }
+    } catch (e) {
+        console.error("Unexpected error while waiting for a response for the model query.");
+        console.error(e);
     }
 }
 
