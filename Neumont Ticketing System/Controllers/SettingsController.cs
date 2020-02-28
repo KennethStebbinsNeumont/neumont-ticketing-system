@@ -727,14 +727,16 @@ namespace Neumont_Ticketing_System.Controllers
         {
             try
             {
-                List<AssetType> types = _assetDatabaseService.GetTypesByName(proposedRepair.AppliesTo.TypeNames);
+                List<AssetType> types = _assetDatabaseService.GetTypesByNormalizedName(
+                    proposedRepair.AppliesTo.TypeNames);
                 List<string> typeIds = new List<string>();
                 types.ForEach(type => typeIds.Add(type.Id));
-                List<AssetManufacturer> mfrs = _assetDatabaseService.GetManufacturersByName(
+                List<AssetManufacturer> mfrs = _assetDatabaseService.GetManufacturersByNormalizedName(
                     proposedRepair.AppliesTo.ManufacturerNames);
                 List<string> mfrIds = new List<string>();
                 mfrs.ForEach(mfr => mfrIds.Add(mfr.Id));
-                List<AssetModel> models = _assetDatabaseService.GetModelsByName(proposedRepair.AppliesTo.ModelNames);
+                List<AssetModel> models = _assetDatabaseService.GetModelsByNormalizedName(
+                    proposedRepair.AppliesTo.ModelNames);
                 List<string> modelIds = new List<string>();
                 models.ForEach(model => modelIds.Add(model.Id));
 

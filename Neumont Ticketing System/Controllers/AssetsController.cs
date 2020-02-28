@@ -464,11 +464,26 @@ namespace Neumont_Ticketing_System.Controllers
                     });
                 }
 
+                var types = _assetsDatabaseService.GetTypes(t => request.TypeNames
+                            .Contains(t.NormalizedName));
+                List<string> typeIds = new List<string>();
+                foreach(var type in types)
+                {
+                    typeIds.Add(type.Id);
+                }
+
+                var mfrs = _assetsDatabaseService.GetManufacturers(m => request.ManufacturerNames
+                            .Contains(m.NormalizedName));
+                List<string> mfrIds = new List<string>();
+                foreach (var mfr in mfrs)
+                {
+                    mfrIds.Add(mfr.Id);
+                }
+
                 List<AssetModel> responseModels = _assetsDatabaseService
                     .GetModels(m => 
-                    (request.TypeIds.Count == 0 || request.TypeIds.Contains(m.TypeId))
-                    && (request.ManufacturerIds.Count == 0 || 
-                        request.ManufacturerIds.Contains(m.ManufacturerId)));
+                    (typeIds.Count == 0 || typeIds.Contains(m.TypeId))
+                    && (mfrIds.Count == 0 || mfrIds.Contains(m.ManufacturerId)));
 
                 return new JsonResult(new GetEncompassedModelsResponse
                 {
@@ -562,9 +577,8 @@ namespace Neumont_Ticketing_System.Controllers
     #region GetEncompassedModels
     public class GetEncompassedModelsRequest
     {
-        public List<string>? TypeIds { get; set; }
-
-        public List<string>? ManufacturerIds { get; set; }
+        public List<string> TypeNames { get; set; }
+        public List<string> ManufacturerNames { get; set; }
     }
 
     public class GetEncompassedModelsResponse

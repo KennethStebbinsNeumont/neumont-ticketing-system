@@ -13,7 +13,8 @@
             // If this selector isn't the last one in the list
             selector.remove();
         }
-    } else if (newVal === '_all') {
+    }
+    else if (newVal === '_all') {
         // If the user chose for this to apply to all types/mfrs/models
         let oldValues = [];
         // Get all of the current selections
@@ -39,7 +40,8 @@
                 ele.remove();
             }
         });
-    } else if (selectorIndex === childrenLength - 1) {
+    }
+    else if (selectorIndex === childrenLength - 1) {
         // If this was a normal selection and 
         // this selector is the last one in the list,
         // add a new empty selector
@@ -55,6 +57,15 @@
         parent.find('.expandableListSelector').each(function (i, e) {
             $(e).attr('disabled', false);
         });
+    }
+}
+
+let onTypeOrModelSelection = function onTypeOrModelSelection() {
+    let typeSelectors = $('.typeSelector');
+    let mfrSelectors = $('.mfrSelector');
+
+    let request = {
+        TypeIds: 
     }
 }
 
