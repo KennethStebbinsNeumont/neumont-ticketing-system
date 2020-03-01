@@ -105,12 +105,12 @@ let onTypeOrModelSelection = async function onTypeOrModelSelection() {
 
             option = document.createElement('option');
             option.value = "_none";
-            option.innerText = "Clear selection"
+            option.text = "Clear selection"
             newModelOptions.push(option);
 
             option = document.createElement('option');
             option.value = "_all";
-            option.innerText = "All Models";
+            option.text = "All Models";
             newModelOptions.push(option);
 
             let model;
@@ -137,7 +137,7 @@ let onTypeOrModelSelection = async function onTypeOrModelSelection() {
                 newVal = null;
 
                 for (let j = 0; j < newModelOptions.length; j++) {
-                    clonedOptions.push(newModelOptions[j].cloneNode());
+                    clonedOptions.push(newModelOptions[j].cloneNode(true));
                     if (newModelOptions[j].value === oldVal) {
                         newVal = oldVal;
                     }
