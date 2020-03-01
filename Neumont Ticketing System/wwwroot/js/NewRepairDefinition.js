@@ -88,18 +88,13 @@ let onTypeOrModelSelection = async function onTypeOrModelSelection() {
     }
 
     try {
-        let response = await new Promise((resolve, reject) => {
-            $.ajax({
-                type: "POST",
-                url: "/Assets/GetEncompassedModels",
-                data: request,
-                contentType: "application/json",
-                dataType: "json",
-                success: resolve,
-                failure: reject,
-                error: reject
-            });
-        }
+        let response = await $.ajax({
+            type: "POST",
+            url: "/Assets/GetEncompassedModels",
+            data: request,
+            contentType: "application/json",
+            dataType: "json"
+        });
 
         if (response.successful) {
             let modelSelectors = $('.modelSelector');
