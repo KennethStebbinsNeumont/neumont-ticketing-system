@@ -48,6 +48,9 @@
         let clone = selector.clone();
         clone.val('');
         clone.change(eslOnSelectorChange);
+        if (clone.hasClass('typeSelector') || clone.hasClass('mfrSelector')) {
+            clone.change(onTypeOrModelSelection);
+        }
         parent.append(clone);
     }
 
