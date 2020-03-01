@@ -54,7 +54,17 @@
         }
 
         parent.append(clone);
+    }
 
+    if (newVal !== '_all') {
+        // Make sure that none of the elements are disabled, just in case
+        // we're moving away from an _all selection
+        parent.find('.expandableListSelector').each(function (i, e) {
+            $(e).attr('disabled', false);
+        });
+    }
+
+    if (newVal !== '_all' && newVal !== '_none') {
         // Now, disable the triggering selector's new selection option in
         // every other selector
         let child;
@@ -69,14 +79,6 @@
                     }
                 }
             }
-        });
-    }
-
-    if (newVal !== '_all') {
-        // Make sure that none of the elements are disabled, just in case
-        // we're moving away from an _all selection
-        parent.find('.expandableListSelector').each(function (i, e) {
-            $(e).attr('disabled', false);
         });
     }
 
