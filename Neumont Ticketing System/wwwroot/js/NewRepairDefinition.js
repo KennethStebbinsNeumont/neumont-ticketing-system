@@ -1,6 +1,7 @@
 ﻿let eslOnSelectorChange = function eslOnSelectorChange() {
     let selector = $(this);
     let newVal = selector.val();
+    let oldVal = selector.attr('old-value');
     let parent = selector.parent();
     let selectorIndex = selector.index();
     let childrenLength = parent.children().length;
@@ -51,7 +52,24 @@
         if (clone.hasClass('typeSelector') || clone.hasClass('mfrSelector')) {
             clone.change(onTypeOrModelSelection);
         }
+
         parent.append(clone);
+
+        // Now, disable the triggering selector's new selection option in
+        // every other selector
+        let child;
+        parent.find('selector').each(function (i, e) {
+            if (e.value !== newVal) {
+                // Skip the selector that now has this value
+                for (let j = 0; j < e.children.length; j++) {
+                    child = e.children[j];
+                    if (child.value === newVal) {
+                        // Disable the option with the same value as the new selection
+                        child.disabled = true;
+                    }
+                }
+            }
+        });
     }
 
     if (newVal !== '_all') {
@@ -61,6 +79,18 @@
             $(e).attr('disabled', false);
         });
     }
+
+    if (oldVal && oldVal != '_all' && oldVal != '_none') {
+        // If we're changing away from a normal option, re-enable it
+        // in all selectors
+        parent.find('option').each(function (i, e) {
+            if (e.value === oldVal) {
+                e.disabled = false;
+            }
+        });
+    }
+
+    selector.attr('old-value', newVal);
 }
 
 let onTypeOrModelSelection = async function onTypeOrModelSelection() {
