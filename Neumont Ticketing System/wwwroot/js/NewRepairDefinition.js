@@ -94,6 +94,8 @@ let onTypeOrModelSelection = async function onTypeOrModelSelection() {
             data: request,
             contentType: "application/json",
             dataType: "json"
+        }).then(response => {
+            console.log(response);
         });
 
         if (response.successful) {
