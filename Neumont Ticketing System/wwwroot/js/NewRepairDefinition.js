@@ -69,7 +69,7 @@ let onTypeOrModelSelection = async function onTypeOrModelSelection() {
         ManufacturerNames: []
     };
 
-    let typeSelectors = repair.find('.typeSelector');
+    typeSelectors = repair.find('.typeSelector');
     if (typeSelectors.length >= 1 && typeSelectors.first().val() !== "_all") {
         // If the user has chosen for this repair to apply to all types, then leave the array blank
         // otherwise, add the selections to appliesTo.TypeNames
