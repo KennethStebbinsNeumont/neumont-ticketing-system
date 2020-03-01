@@ -167,8 +167,8 @@ let onTypeOrModelSelection = async function onTypeOrModelSelection() {
 
             modelSelectors = $('.modelSelector');
             let clone;
-            if (modelSelectors[0].value) {
-                // If the first element has a value, that means we don't
+            if (modelSelectors[0].value && modelSelectors[0].value !== "_all") {
+                // If the first element has a value (that isn't all), that means we don't
                 // have a blank selector for the user to use. Clone the
                 // first selector and add it to the DOM
                 clone = modelSelectors[0].cloneNode(true);
