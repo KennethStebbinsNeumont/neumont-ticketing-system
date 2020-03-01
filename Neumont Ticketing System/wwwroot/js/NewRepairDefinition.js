@@ -120,7 +120,7 @@ let onTypeOrModelSelection = async function onTypeOrModelSelection() {
                 option = document.createElement('option');
                 
                 option.value = model.normalizedName;
-                option.innerText = model.name;
+                option.text = model.name;
 
                 newModelOptions.push(option);
             }
