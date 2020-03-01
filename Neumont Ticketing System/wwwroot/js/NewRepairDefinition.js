@@ -56,6 +56,7 @@
         // add a new empty selector
         let clone = selector.clone();
         clone.val('');
+        clone.removeAttr('old-value');
         clone.change(eslOnSelectorChange);
         if (clone.hasClass('typeSelector') || clone.hasClass('mfrSelector')) {
             clone.change(onTypeOrModelSelection);
