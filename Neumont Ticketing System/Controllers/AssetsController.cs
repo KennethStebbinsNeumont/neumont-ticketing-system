@@ -460,7 +460,7 @@ namespace Neumont_Ticketing_System.Controllers
                     return new JsonResult(new GetEncompassedModelsResponse
                     {
                         Successful = false,
-                        Message = "Received response was null."
+                        Message = "Received request was null."
                     });
                 }
 
