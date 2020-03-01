@@ -454,7 +454,7 @@ namespace Neumont_Ticketing_System.Controllers
         {
             try
             {
-                if(request != null)
+                if(request == null)
                 {
                     _logger.LogInformation("A null request was sent to GetEncompassedModels");
                     return new JsonResult(new GetEncompassedModelsResponse
