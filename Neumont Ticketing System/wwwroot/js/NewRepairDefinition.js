@@ -68,7 +68,7 @@
         // Now, disable the triggering selector's new selection option in
         // every other selector
         let child;
-        parent.find('selector').each(function (i, e) {
+        parent.find('select').each(function (i, e) {
             if (e.value !== newVal) {
                 // Skip the selector that now has this value
                 for (let j = 0; j < e.children.length; j++) {
