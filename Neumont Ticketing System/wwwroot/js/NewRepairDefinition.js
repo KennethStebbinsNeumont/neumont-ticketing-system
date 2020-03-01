@@ -99,8 +99,20 @@ let onTypeOrModelSelection = async function onTypeOrModelSelection() {
         if (response.successful) {
             let modelSelectors = $('.modelSelector');
             let encompassedModels = response.models;
+
             let newModelOptions = [];
             let option;
+
+            option = document.createElement('option');
+            option.value = "_none";
+            option.innerText = "Clear selection"
+            newModelOptions.push(option);
+
+            option = document.createElement('option');
+            option.value = "_all";
+            option.innerText = "All Models";
+            newModelOptions.push(option);
+
             let model;
             for (let i = 0; i < encompassedModels.length; i++) {
                 model = encompassedModels[i];
