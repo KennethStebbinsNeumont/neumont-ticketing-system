@@ -99,7 +99,7 @@ let onTypeOrModelSelection = async function onTypeOrModelSelection() {
                 failure: reject,
                 error: reject
             });
-        }
+        });
 
         if (response.successful) {
             let modelSelectors = $('.modelSelector');
