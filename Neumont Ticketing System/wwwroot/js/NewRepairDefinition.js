@@ -41,6 +41,14 @@
                 ele.remove();
             }
         });
+
+
+        // Re-enable all options in all selectors
+        parent.find('option').each(function (i, e) {
+            if (e.value === oldVal) {
+                e.disabled = false;
+            }
+        });
     }
     else if (selectorIndex === childrenLength - 1) {
         // If this was a normal selection and 
@@ -82,9 +90,9 @@
         });
     }
 
-    if (oldVal && oldVal != '_all' && oldVal != '_none') {
-        // If we're changing away from a normal option, re-enable it
-        // in all selectors
+    if (oldVal && oldVal !== '_all' && oldVal != '_none') {
+        // If we're changing away from a normal selecton, re-enable
+        // the old selection in all similar selectors
         parent.find('option').each(function (i, e) {
             if (e.value === oldVal) {
                 e.disabled = false;
