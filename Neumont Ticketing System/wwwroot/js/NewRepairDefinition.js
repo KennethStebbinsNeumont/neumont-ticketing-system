@@ -88,14 +88,12 @@ let onTypeOrModelSelection = async function onTypeOrModelSelection() {
     }
 
     try {
-        let response = $.ajax({
+        let response = await $.ajax({
             type: "POST",
             url: "/Assets/GetEncompassedModels",
-            data: request,
+            data: JSON.stringify(request),
             contentType: "application/json",
             dataType: "json"
-        }).then(response => {
-            console.log(response);
         });
 
         if (response.successful) {
