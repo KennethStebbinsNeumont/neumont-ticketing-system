@@ -69,7 +69,6 @@ let onTypeOrModelSelection = async function onTypeOrModelSelection() {
         ManufacturerNames: []
     };
 
-    typeSelectors = repair.find('.typeSelector');
     if (typeSelectors.length >= 1 && typeSelectors.first().val() !== "_all") {
         // If the user has chosen for this repair to apply to all types, then leave the array blank
         // otherwise, add the selections to appliesTo.TypeNames
@@ -78,7 +77,7 @@ let onTypeOrModelSelection = async function onTypeOrModelSelection() {
                 request.TypeNames.push(e.value);
         });
     }
-    mfrSelectors = repair.find('.mfrSelector');
+
     if (mfrSelectors.length >= 1 && mfrSelectors.first().val() !== "_all") {
         // If the user has chosen for this repair to apply to all mfrs, then leave the array blank
         // otherwise, add the selections to appliesTo.TypeNames
