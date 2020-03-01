@@ -295,6 +295,7 @@ let jsonifyInputs = function jsonifyInputs() {
 $(document).ready(function () {
     // Assign the above handler to all selectors
     $('select').change(eslOnSelectorChange);
+    $('.typeSelector, .mfrSelector').change(onTypeOrModelSelection);
 
     // Assign the above handler to all add sub-step buttons
     $('.btnAddSubStep').click(eilOnNewSubStepClick);
