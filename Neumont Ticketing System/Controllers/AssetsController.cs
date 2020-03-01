@@ -464,8 +464,7 @@ namespace Neumont_Ticketing_System.Controllers
                     });
                 }
 
-                var types = _assetsDatabaseService.GetTypes(t => request.TypeNames
-                            .Contains(t.NormalizedName));
+                var types = _assetsDatabaseService.GetTypes(t => request.TypeNames.Contains(t.NormalizedName));
                 List<string> typeIds = new List<string>();
                 foreach(var type in types)
                 {
