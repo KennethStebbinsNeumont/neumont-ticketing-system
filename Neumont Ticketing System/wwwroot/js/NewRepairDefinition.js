@@ -101,14 +101,68 @@ let onTypeOrModelSelection = async function onTypeOrModelSelection() {
             let modelSelectors = $('.modelSelector');
             let encompassedModels = response.models;
             let newModelOptions = [];
+            let option;
+            let model;
+            for (let i = 0; i < encompassedModels.length; i++) {
+                model = encompassedModels[i];
 
+                option = document.createElement('option');
+                
+                option.value = model.normalizedName;
+                option.innerHTML = model.name;
 
+                newModelOptions.push(option);
+            }
+
+            let clonedOptions;
+            let oldVal, newVal;
             modelSelectors.each(function (i, e) {
+                oldVal = e.value;
+
                 let ele = $(e);
-                let oldval = e.value;
                 ele.empty();
 
+                clonedOptions = [];
+                newVal = null;
+
+                for (let j = 0; j < newModelOptions.length; j++) {
+                    clonedOptions.push(newModelOptions[j].cloneNode());
+                    if (newModelOptions[j].value === oldVal) {
+                        newVal = oldVal;
+                    }
+                }
+
+                ele.append(clonedOptions);
+                ele.val(newVal);
             });
+
+            modelSelectors.each(function (i, e) {
+                if (i > 0) {
+                    // Skip evaluating the first selector
+                    if (!e.value) {
+                        // If this selector no longer has a selection, remove it
+                        e.remove();
+                    }
+                }
+            });
+
+            modelSelectors = $('.modelSelector');
+            if (modelSelectors.length > 1 && !modelSelectors[0].val()) {
+                modelSelectors[0].remove();
+            }
+
+            modelSelectors = $('.modelSelector');
+            let clone;
+            if (modelSelectors[0].val()) {
+                // If the first element has a value, that means we don't
+                // have a blank selector for the user to use. Clone the
+                // first selector and add it to the DOM
+                clone = modelSelectors[0].clone();
+                clone.val('');
+                clone.change(eslOnSelectorChange);
+
+                modelSelectors[0].parent().append(clone);
+            }
 
         } else {
             console.error(`Model query failed: "${response.message}"`);
