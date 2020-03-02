@@ -352,21 +352,24 @@ $(document).ready(function () {
 
     $('#btnSubmit').click(function () {
         // Send the repair definition to the back end
-        $.ajax({
-            type: "POST",
-            url: "/Settings/NewRepairDefinition",
-            data: JSON.stringify(jsonifyInputs()),
-            contentType: "application/json",
-            dataType: "json"
-        }).then(json => {
-            if (json.successful) {
-                console.log("Success!");
-            } else {
-                console.error(`Query failed: ${json.message}`);
-            }
-        }).catch(() => {
-            console.error("Unexpected error while submitting new repair.");
-        });
+        if ($('.nameInput').val()) {
+            $.ajax({
+                type: "POST",
+                url: "/Settings/NewRepairDefinition",
+                data: JSON.stringify(jsonifyInputs()),
+                contentType: "application/json",
+                dataType: "json"
+            }).then(json => {
+                if (json.successful) {
+                    console.log("Success!");
+                } else {
+                    console.error(`Query failed: ${json.message}`);
+                }
+            }).catch(() => {
+                console.error("Unexpected error while submitting new repair.");
+            });
+        }
+
     });
 
     const expandableListInputs = $('.expandableListInput');
