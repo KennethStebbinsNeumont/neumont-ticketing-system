@@ -3,7 +3,7 @@
     width: fit-content;
     height: fit-content;
     padding: 10px;
-    box-shadow: 5px 5px 5px lightgray;
+    box-shadow: 2px 2px 5px 3px lightgrey;
     background: #F0F1F2;
     margin: 25px 0px;
 }
@@ -17,7 +17,7 @@ p {
     margin: 5px 5px 15px 5px;
     padding: 5px;
     background: #E3E4E6;
-    box-shadow: 2px 2px 4px lightgray;
+    box-shadow: 1px 1px 5px 3px lightgrey;
 }
 
 .inputContainer > * {
@@ -40,10 +40,10 @@ p {
 }
 
 .listSubItem {
-    margin: 5px 5px 10px;
+    margin: 15px 5px 10px;
     padding: 5px;
     background: #BDBEBF;
-    box-shadow: 2px 2px 4px #C9C9C9;
+    box-shadow: 1px 1px 4px 4px #b3b3b3;
 }
 
 .inputLabel {
@@ -98,7 +98,7 @@ p {
 
 .subStepList {
     background: #D7D7D9;
-    box-shadow: 2px 2px 5px #BDBDBF;
+    box-shadow: 1px 1px 5px 3px #BDBDBF;
     padding: 5px;
     margin: 15px 5px 5px;
 }
@@ -132,6 +132,7 @@ button#btnSubmit {
     background: #EBECED;
     color: #5D5E5E;
     border-radius: 3px;
+    box-shadow: 1px 1px 3px 2px #c1c1c1;
 }
 
 .btnSubmitCtr {
