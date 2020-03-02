@@ -42,8 +42,8 @@ p {
 .listSubItem {
     margin: 15px 5px 10px;
     padding: 5px;
-    background: #BDBEBF;
-    box-shadow: 1px 1px 4px 4px #b3b3b3;
+    background: #D7D7D9;
+    box-shadow: 1px 1px 4px 4px #BDBDBF;
 }
 
 .inputLabel {
@@ -82,7 +82,7 @@ p {
     border-color: #9D9D9E;
     border-style: dashed;
     height: 100%;
-    background: #CACBCC;
+    background: #d7d9da;
     color: #727273;
     border-radius: 3px;
 }
