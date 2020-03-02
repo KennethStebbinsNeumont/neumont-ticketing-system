@@ -188,14 +188,18 @@ let onTypeOrModelSelection = async function onTypeOrModelSelection() {
             });
 
             modelSelectors = $('.modelSelector');
-            if (modelSelectors.length > 1 && !modelSelectors[0].value) {
-                modelSelectors[0].remove();
+            if (!modelSelectors[0].value) {
+                if (modelSelectors.length > 1) {
+                    modelSelectors[0].remove();
+                } else {
+                    modelSelectors[0].value = "_all";
+                }
             }
 
             modelSelectors = $('.modelSelector');
             let clone;
             if (modelSelectors[0].value && modelSelectors[0].value !== "_all") {
-                // If the first element has a value (that isn't all), that means we don't
+                // If the first element has a value (that isn't _all), that means we don't
                 // have a blank selector for the user to use. Clone the
                 // first selector and add it to the DOM
                 clone = modelSelectors[0].cloneNode(true);
@@ -204,6 +208,8 @@ let onTypeOrModelSelection = async function onTypeOrModelSelection() {
 
                 modelSelectors[0].parentElement.append(clone);
             }
+
+
 
         } else {
             console.error(`Model query failed: "${response.message}"`);
