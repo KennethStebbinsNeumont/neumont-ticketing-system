@@ -350,7 +350,7 @@ $(document).ready(function () {
     // Apply the eilOnNewStepClick handler to the add step button's click event
     $('#btnAddStep').click(eilOnNewStepClick);
 
-    $('#submit').click(function () {
+    $('#btnSubmit').click(function () {
         // Send the repair definition to the back end
         $.ajax({
             type: "POST",
