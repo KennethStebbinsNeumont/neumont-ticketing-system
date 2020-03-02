@@ -346,7 +346,7 @@
         try {
             let response = await $.ajax({
                 type: "POST",
-                url: "/Tickets/NewTicket",
+                url: "/Tickets/EditTicket",
                 data: JSON.stringify(jsonifyInputs()),
                 contentType: "application/json",
                 dataType: "json"
