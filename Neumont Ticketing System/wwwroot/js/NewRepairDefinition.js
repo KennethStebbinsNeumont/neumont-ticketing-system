@@ -45,9 +45,7 @@
 
         // Re-enable all options in all selectors
         parent.find('option').each(function (i, e) {
-            if (e.value === oldVal) {
-                e.disabled = false;
-            }
+            e.disabled = false;
         });
     }
     else if (selectorIndex === childrenLength - 1) {
