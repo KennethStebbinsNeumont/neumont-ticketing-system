@@ -34,6 +34,7 @@
             if (i === 0) {
                 ele.val('_all');
                 ele.attr('disabled', false);
+                ele.attr('old-value', '_all');
             } else if (i < oldValues.length + 1) {
                 ele.val(oldValues[i + 1]);
                 ele.attr('disabled', true);
