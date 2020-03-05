@@ -20,46 +20,47 @@ db.tset.insert({ "name": "Hemlo World!", "value": "This is pretty neat-o!" });
 // Create user and role databases
 db = mongo.getDB("users");
 db.users.insertMany([{
-	"Username": "JohnnyBoi@net.net",
-	"NormalizedUsername": "JOHNNYBOI@NET.NET",
-	"Email": "JOHNNYBOI@NET.NET",
-	"NormalizedEmail": "JOHNNYBOI@NET.NET",
+	"_id": ObjectId("5e6064ec2260b6051dc0f03b"),
+	"Username": "lbelcher@bobsburgers.net",
+	"NormalizedUsername": "LBELCHER@BOBSBURGERS.NET",
+	"Email": "lbelcher@bobsburgers.net",
+	"NormalizedEmail": "LBELCHER@BOBSBURGERS.NET",
 	"EmailConfirmed": false,
-	"FullName": "Johnny Boi",
-	//  "Password": "aBc123$%^",
-	"PasswordHash": "AQAAAAEAACcQAAAAECf1ja3G75KH70FUM4K+Y4YlQjK21hkvG/p2dGQMjUy1lPWeR8/o2QTY9bPoD3ZAow==",
-	"SecurityStamp": "A3HM2WLAG7ORJWWX6ELVL5CVXEIGWNY6",
+	"FullName": "Louise Belcher",
+	"PasswordHash": "AQAAAAEAACcQAAAAEPJv9W26KWn/bfxcdwHsgEcvCrIBy/3hn6Tl4FpbTnvG0VKrjvDjLhnOwBdQdqMzKg==",
+	"SecurityStamp": "RGQ2MNALZ3Q66D4BIBQOHWSM5KHL5PMY",
 	"FailedLoginAttempts": 0,
 	"LockoutEnabled": true,
 	"LockedOutUntil": null
 },
 {
-	"Username": "LBelcher@BobsBurgers.com",
-	"NormalizedUsername": "LBELCHER@BOBSBURGERS.COM",
-	"Email": "LBELCHER@BOBSBURGERS.COM",
-	"NormalizedEmail": "LBELCHER@BOBSBURGERS.COM",
+	"_id": ObjectId("5e6066162260b6051dc0f03d"),
+	"Username": "tbelcher@bobsburgers.net",
+	"NormalizedUsername": "TBELCHER@BOBSBURGERS.NET",
+	"Email": "tbelcher@bobsburgers.net",
+	"NormalizedEmail": "TBELCHER@BOBSBURGERS.NET",
 	"EmailConfirmed": false,
-	"FullName": "Louise Belcher",
-	//  "Password": "aBc123$%^",
-	"PasswordHash": "AQAAAAEAACcQAAAAECf1ja3G75KH70FUM4K+Y4YlQjK21hkvG/p2dGQMjUy1lPWeR8/o2QTY9bPoD3ZAow==",
-	"SecurityStamp": null,
+	"FullName": "Tina Belcher",
+	"PasswordHash": "AQAAAAEAACcQAAAAENFHB97brv+/spY9/1gJurzctEefy38JuDSEXcJsbMnPrHglzbXBFl6zRwebLzFRkw==",
+	"SecurityStamp": "UOKRZ2KNKUBPSJHEHKLAJTRXEVZRZZ2B",
 	"FailedLoginAttempts": 0,
 	"LockoutEnabled": true,
 	"LockedOutUntil": null
-}])
+}
+])
 
-let johnnyBoiId = db.users.find({ "NormalizedUsername": "JOHNNYBOI@NET.NET" })[0]._id;
-let lBelcherId = db.users.find({ "NormalizedUsername": "LBELCHER@BOBSBURGERS.COM" })[0]._id;
+let tinaBelcherId = db.users.find({ "NormalizedUsername": "TBELCHER@BOBSBURGERS.NET" })[0]._id;
+let louiseBelcherId = db.users.find({ "NormalizedUsername": "LBELCHER@BOBSBURGERS.NET" })[0]._id;
 
 db.roles.insertMany([{
 	"Name": "Technicians",
 	"NormalizedName": "TECHNICIANS",
-	"Users": [johnnyBoiId]
+	"Users": [tinaBelcherId]
 },
 {
 	"Name": "Administrators",
 	"NormalizedName": "ADMINISTRATORS",
-	"Users": [lBelcherId]
+	"Users": [louiseBelcherId]
 }]);
 
 db = mongo.getDB("assets");
@@ -92,10 +93,10 @@ let lenovo = db.manufacturers.find({ "Name": "Lenovo" })[0]._id;
 let dell = db.manufacturers.find({ "Name": "Dell" })[0]._id;
 
 db.models.insertMany([{
-    "Name": "Lenovo P1 gen 2",
-    "NormalizedName": "LENOVO P1 GEN 2",
+    "Name": "Lenovo P1 gen 1",
+    "NormalizedName": "LENOVOP1GEN1",
     "Type": laptop,
-    "ModelNumber": "20QU",
+    "ModelNumber": "20ME",
     "Manufacturer": lenovo
 },
 {
@@ -105,87 +106,87 @@ db.models.insertMany([{
     "ModelNumber": "M5520",
     "Manufacturer": dell
 }]);
-let p1g2 = db.models.find({ "Name": "Lenovo P1 gen 2" })[0]._id;
+let p1g1 = db.models.find({ "Name": "Lenovo P1 gen 1" })[0]._id;
 let p5520 = db.models.find({ "Name": "Dell Precision 5520" })[0]._id;
 
 db = mongo.getDB("owners");
 db.owners.insertMany([{
-    "Name": "Michael Johns",
-    "NormalizedName": "MICHAELJOHNS",
+    "Name": "Andy Pesto",
+    "NormalizedName": "ANDYPESTO",
     "EmailAddresses": [
-        "mjohns@student.neumont.edu"
+        "apesto@student.neumont.edu"
     ],
     "PhoneNumbers": [
-        "4204206969"
+        "5559380293"
     ],
     "PreferredName": {
-        "First": "Mikey",
-        "NormalizedFirst": "MIKEY",
-        "Last": "Johns",
-        "NormalizedLast": "JOHNS"
+        "First": "Andy",
+        "NormalizedFirst": "ANDY",
+        "Last": "Pesto",
+        "NormalizedLast": "PESTO"
     }
 },
 {
-    "Name": "Michael Jones",
-    "NormalizedName": "MICHAELJONES",
+    "Name": "Ollie Pesto",
+    "NormalizedName": "OLLIEPESTO",
     "EmailAddresses": [
-        "mjones@student.neumont.edu"
+        "opesto@student.neumont.edu"
     ],
     "PhoneNumbers": [
-        "9990002222"
+        "5559380294"
     ],
     "PreferredName": {
-        "First": "Mikey",
-        "NormalizedFirst": "MIKEY",
-        "Middle": "\"Jersey\"",
-        "NormalizedMiddle": "JERSEY",
-        "Last": "Jones",
-        "NormalizedLast": "JONES"
+        "First": "Ollie",
+        "NormalizedFirst": "OLLIE",
+        "Middle": "\"Andy's best friend\"",
+        "NormalizedMiddle": "ANDYSBESTFRIEND",
+        "Last": "Pesto",
+        "NormalizedLast": "PESTO"
     }
 },
 {
-    "Name": "John Cena",
-    "NormalizedName": "JOHNCENA",
+    "Name": "Jimmy Pesto",
+    "NormalizedName": "JIMMYPESTO",
     "EmailAddresses": [
-        "jcena@student.neumont.edu"
+        "jpesto@student.neumont.edu"
     ],
     "PhoneNumbers": [
-        "8013022860"
+        "5559380295"
     ],
     "PreferredName": {
-        "First": "Gerald",
-        "NormalizedFirst": "GERALD",
-        "Middle": "\"The Stone\"",
-        "NormalizedMiddle": "THESTONE",
-        "Last": "Phoenix",
-        "NormalizedLast": "PHOENIX"
+        "First": "Jimmy",
+        "NormalizedFirst": "JIMMY",
+        "Middle": "\"Dancing\"",
+        "NormalizedMiddle": "DANCING",
+        "Last": "Pesto",
+        "NormalizedLast": "PESTO"
     }
 }]);
-let mjones1 = db.owners.find({"NormalizedName": "MICHAELJOHNS" })[0]._id;
-let mjones3 = db.owners.find({ "NormalizedName": "MICHAELJONES" })[0]._id;
-let jcena = db.owners.find({ "NormalizedName": "JOHNCENA" })[0]._id;
+let andyPestoId = db.owners.find({ "NormalizedName": "ANDYPESTO" })[0]._id;
+let olliePestoId = db.owners.find({ "NormalizedName": "OLLIEPESTO" })[0]._id;
+let jimmyPestoId = db.owners.find({ "NormalizedName": "JIMMYPESTO" })[0]._id;
 
 db = mongo.getDB("assets");
 db.assets.insertMany([{
     "SerialNumber": "QR30FH2",
     "NormalizedSerialNumber": "QR30FH2",
     "Model": p5520,
-    "Owner": mjones1
+    "Owner": andyPestoId
 },
 {
     "SerialNumber": "QR30FH5",
-    "NormalizedSerialNumber": "QR30FH5",
+    "NormalizedSerialNumber": "QR30FH3",
     "Model": p5520,
-    "Owner": mjones3
+    "Owner": olliePestoId
 },
 {
     "SerialNumber": "Johns",
     "NormalizedSerialNumber": "JOHNS",
-    "Model": p1g2,
-    "Owner": jcena
+    "Model": p1g1,
+    "Owner": jimmyPestoId
 	}]);
 
-let mjones1asset = db.assets.find({ "NormalizedSerialNumber": "QR30FH2" })[0]._id;
+let andyPestoAssetId = db.assets.find({ "NormalizedSerialNumber": "QR30FH2" })[0]._id;
 
 db = mongo.getDB("tickets")
 
@@ -489,21 +490,21 @@ let dellRepair = db.repairs.find({}).limit(1)[0]._id;
 db.tickets.insertMany([
 	{
 		"TicketId": 1,
-		"Title": "Pancakes on a stick",
-		"Asset": mjones1asset,
+		"Title": "Marinara sauce spilled on machine",
+		"Asset": andyPestoAssetId,
 		"Repair": {
 			"Definition": dellRepair,
 			"Steps": null
 		},
 		"Technicians": [
-			johnnyBoiId
+			tinaBelcherId
 		],
 		"Loaners": [],
-		"Description": "Ooh, it's all sticky!",
+		"Description": "Student was playing \"Catch the sauce jar\" with his brother when the jar slipped and exploded on the laptop.",
 		"AdditionalFields": [
 			{
 				"Name": "Helped by: ",
-				"Value": "Mrs. Buttersworth"
+				"Value": "Calvin Fischoeder"
 			},
 			{
 				"Name": "Service request #: ",
@@ -512,9 +513,9 @@ db.tickets.insertMany([
 		],
 		"Comments": [
 			{
-				"Value": "Comment!!!",
+				"Value": "I kinda want pizza now...",
 				"Timestamp": ISODate("2020-02-23T22:49:41.044Z"),
-				"Author": johnnyBoiId
+				"Author": tinaBelcherId
 			}
 		],
 		"Opened": ISODate("2020-02-23T22:49:41.045Z"),
