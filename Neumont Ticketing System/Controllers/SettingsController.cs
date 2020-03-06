@@ -547,7 +547,7 @@ namespace Neumont_Ticketing_System.Controllers
                 _logger.LogError(e, "Argument exception when attempting to save asset definitions to database.");
                 return new JsonResult(new
                 {
-                    Successful = true,
+                    Successful = false,
                     Message = $"Input error: {e.Message}"
                 });
             } catch(Exception e)
@@ -555,7 +555,7 @@ namespace Neumont_Ticketing_System.Controllers
                 _logger.LogError(e, "Unexpected error while attemping to save asset definitions to database.");
                 return new JsonResult(new
                 {
-                    Successful = true,
+                    Successful = false,
                     Message = $"Unexpected error: {e.ToString()}"
                 });
             }
