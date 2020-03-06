@@ -1,7 +1,12 @@
 ﻿(function () {
-    let onRepairChosen = async function onRepairChosen(repairId) {
-        // Clear old additional fields
+
+    const onRepairClear = function onRepairClear() {
         $('#additionalFields').empty();
+    };
+
+    const onRepairChosen = async function onRepairChosen(repairId) {
+        // Clear old additional fields
+        onRepairClear();
 
         let additionalFields = undefined;
         let repair = undefined;
@@ -26,11 +31,7 @@
         $('#additionalFields').append(addFieldElements);
     };
 
-    let onRepairClear = function onRepairClear() {
-        $('#additionalFields').empty();
-    };
-
-    let jsonifyInputs = function jsonifyInputs() {
+    const jsonifyInputs = function jsonifyInputs() {
         let ticketId = $('#ticketId').val();
         let repairId = $('#repairSelector').val();
         let techId = $('#technicianSelector').val();
@@ -70,7 +71,7 @@
         }
     };
 
-    let submitTicket = async function submitTicket() {
+    const submitTicket = async function submitTicket() {
         try {
             let response = await $.ajax({
                 type: "POST",
