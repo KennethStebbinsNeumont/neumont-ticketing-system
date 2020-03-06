@@ -2,7 +2,7 @@
     width: fit-content;
     height: fit-content;
     padding: 5px;
-    box-shadow: 5px 5px 5px lightgray;
+    box-shadow: 2px 2px 5px 3px lightgrey;
     background: #F0F1F2;
     margin: 25px 0px;
 }
@@ -17,7 +17,7 @@ p {
     margin: 5px 5px 15px 5px;
     padding: 5px;
     background: #E3E4E6;
-    box-shadow: 2px 2px 4px lightgray;
+    box-shadow: 1px 1px 5px 3px lightgrey;
 }
 
 .inputContainer > * {
@@ -43,7 +43,7 @@ p {
     margin: 5px 5px 10px;
     padding: 5px;
     background: #D7D7D9;
-    box-shadow: 2px 2px 4px #C9C9C9;
+    box-shadow: 1px 1px 4px 4px #BDBDBF;
 }
 
 .inputLabel {
