@@ -126,69 +126,69 @@
             console.error(e);
         }
     }
+
+    $(document).ready(() => {
+        const expandableListInputs = $('.expandableListInput');
+        expandableListInputs.each(function (index, input) {
+            $(input).change(ExpandableInputList.onInputChange);
+            $(input).blur(ExpandableInputList.onInputBlur);
+            $(input).keypress(ExpandableInputList.onInputKeypress);
+        });
+
+        const typesList = $('#typesList');
+        const typeNameInputs = typesList.find('.nameInput');
+        const mfrsList = $('#manufacturersList');
+        const mfrsNameInputs = mfrsList.find('.nameInput');
+        const modelsList = $('#modelsList');
+
+        typeNameInputs.each(function (i, e) {
+            $(e).change(onInputChange(typesList, () => $('.typeSelector')));
+            $(e).blur(onInputChange(typesList, () => $('.typeSelector')));
+        });
+        mfrsNameInputs.each(function (i, e) {
+            $(e).change(onInputChange(mfrsList, () => $('.manufacturerSelector')));
+            $(e).blur(onInputChange(mfrsList, () => $('.manufacturerSelector')));
+        });
+
+        typesList.find('.btnAddListItem').click(ExpandableItemList.getBtnAddListItemHandler(function (clone) {
+            let nameInput = clone.find('.nameInput');
+            nameInput.change(onInputChange(typesList, () => $('.typeSelector')));
+            nameInput.blur(onInputChange(typesList, () => $('.typeSelector')));
+        }));
+        mfrsList.find('.btnAddListItem').click(ExpandableItemList.getBtnAddListItemHandler(function (clone) {
+            let nameInput = clone.find('.nameInput');
+            nameInput.change(onInputChange(mfrsList, () => $('.manufacturerSelector')));
+            nameInput.blur(onInputChange(mfrsList, () => $('.manufacturerSelector')));
+
+            let phoneInput = clone.find('.phoneNumberInput');
+            // Remove excessive input fields
+            if (phoneInput.length > 1) {
+                phoneInput.each(function (i, e) {
+                    if (i > 0)
+                        $(e).remove();
+                });
+                phoneInput = clone.find('.phoneNumberInput');
+            }
+            phoneInput.change(ExpandableInputList.onInputChange);
+            phoneInput.blur(ExpandableInputList.onInputBlur);
+            phoneInput.keypress(ExpandableInputList.onInputKeypress);
+
+            let emailInput = clone.find('.emailAddressInput');
+            // Remove excessive input fields
+            if (emailInput.length > 1) {
+                emailInput.each(function (i, e) {
+                    if (i > 0)
+                        $(e).remove();
+                });
+                emailInput = clone.find('.emailAddressInput');
+            }
+            emailInput.change(ExpandableInputList.onInputChange);
+            emailInput.blur(ExpandableInputList.onInputBlur);
+            emailInput.keypress(ExpandableInputList.onInputKeypress);
+        }));
+        modelsList.find('.btnAddListItem').click(ExpandableItemList.getBtnAddListItemHandler());
+
+        // https://www.c-sharpcorner.com/blogs/post-the-data-to-asp-net-mvc-controller-using-jquery-ajax
+        $('#submit').click(submitDefinitions);
+    });
 }); // Closure to prevent functions and vars from escaping this file
-
-$(document).ready(() => {
-    const expandableListInputs = $('.expandableListInput');
-    expandableListInputs.each(function (index, input) {
-        $(input).change(ExpandableInputList.onInputChange);
-        $(input).blur(ExpandableInputList.onInputBlur);
-        $(input).keypress(ExpandableInputList.onInputKeypress);
-    });
-
-    const typesList = $('#typesList');
-    const typeNameInputs = typesList.find('.nameInput');
-    const mfrsList = $('#manufacturersList');
-    const mfrsNameInputs = mfrsList.find('.nameInput');
-    const modelsList = $('#modelsList');
-    
-    typeNameInputs.each(function (i, e) {
-        $(e).change(onInputChange(typesList, () => $('.typeSelector')));
-        $(e).blur(onInputChange(typesList, () => $('.typeSelector')));
-    });
-    mfrsNameInputs.each(function (i, e) {
-        $(e).change(onInputChange(mfrsList, () => $('.manufacturerSelector')));
-        $(e).blur(onInputChange(mfrsList, () => $('.manufacturerSelector')));
-    });
-
-    typesList.find('.btnAddListItem').click(ExpandableItemList.getBtnAddListItemHandler(function (clone) {
-        let nameInput = clone.find('.nameInput');
-        nameInput.change(onInputChange(typesList, () => $('.typeSelector')));
-        nameInput.blur(onInputChange(typesList, () => $('.typeSelector')));
-    }));
-    mfrsList.find('.btnAddListItem').click(ExpandableItemList.getBtnAddListItemHandler(function (clone) {
-        let nameInput = clone.find('.nameInput');
-        nameInput.change(onInputChange(mfrsList, () => $('.manufacturerSelector')));
-        nameInput.blur(onInputChange(mfrsList, () => $('.manufacturerSelector')));
-
-        let phoneInput = clone.find('.phoneNumberInput');
-        // Remove excessive input fields
-        if (phoneInput.length > 1) {
-            phoneInput.each(function (i, e) {
-                if (i > 0)
-                    $(e).remove();
-            });
-            phoneInput = clone.find('.phoneNumberInput');
-        }
-        phoneInput.change(ExpandableInputList.onInputChange);
-        phoneInput.blur(ExpandableInputList.onInputBlur);
-        phoneInput.keypress(ExpandableInputList.onInputKeypress);
-
-        let emailInput = clone.find('.emailAddressInput');
-        // Remove excessive input fields
-        if (emailInput.length > 1) {
-            emailInput.each(function (i, e) {
-                if (i > 0)
-                    $(e).remove();
-            });
-            emailInput = clone.find('.emailAddressInput');
-        }
-        emailInput.change(ExpandableInputList.onInputChange);
-        emailInput.blur(ExpandableInputList.onInputBlur);
-        emailInput.keypress(ExpandableInputList.onInputKeypress);
-    }));
-    modelsList.find('.btnAddListItem').click(ExpandableItemList.getBtnAddListItemHandler());
-
-    // https://www.c-sharpcorner.com/blogs/post-the-data-to-asp-net-mvc-controller-using-jquery-ajax
-    $('#submit').click(submitDefinitions);
-});
