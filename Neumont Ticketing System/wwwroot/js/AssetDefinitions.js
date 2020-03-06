@@ -191,4 +191,4 @@
         // https://www.c-sharpcorner.com/blogs/post-the-data-to-asp-net-mvc-controller-using-jquery-ajax
         $('#submit').click(submitDefinitions);
     });
-}); // Closure to prevent functions and vars from escaping this file
+})(); // Closure to prevent functions and vars from escaping this file
