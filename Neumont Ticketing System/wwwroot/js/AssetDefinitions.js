@@ -1,5 +1,5 @@
 ﻿(function () {
-    function onInputChange(inputsList, getSelectorsToUpdate) {
+    const onInputChange = function onInputChange(inputsList, getSelectorsToUpdate) {
         return function () {
             const oldValue = $(this).attr('old-value');
             const newValue = $(this).val();
@@ -32,9 +32,9 @@
             });
             $(this).attr('old-value', newValue);
         };
-    }
+    };
 
-    const jsonifyInputs = function () {
+    const jsonifyInputs = function jsonifyInputs() {
         let result = {
             types: [],
             manufacturers: [],
@@ -105,7 +105,7 @@
         return result;
     };
 
-    async function submitDefinitions() {
+    const submitDefinitions = async function submitDefinitions() {
         try {
             let response = await $.ajax({
                 type: "POST",
@@ -190,7 +190,5 @@ $(document).ready(() => {
     modelsList.find('.btnAddListItem').click(ExpandableItemList.getBtnAddListItemHandler());
 
     // https://www.c-sharpcorner.com/blogs/post-the-data-to-asp-net-mvc-controller-using-jquery-ajax
-    $('#submit').click(function () {
-        
-    });
+    $('#submit').click(submitDefinitions);
 });
