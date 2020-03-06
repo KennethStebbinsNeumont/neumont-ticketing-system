@@ -1,4 +1,39 @@
-﻿$(document).ready(() => {
+﻿(function () {
+    function onInputChange(inputsList, getSelectorsToUpdate) {
+        return function () {
+            const oldValue = $(this).attr('old-value');
+            const newValue = $(this).val();
+            let newOptions = [];
+            inputsList.children().find('.nameInput').each(function (i, e) {
+                let thingName = $(e).val();
+                if (thingName) {
+                    let option = document.createElement('option');
+                    let o = $(option);
+                    o.val(thingName);
+                    o.html(thingName);
+                    newOptions.push(o);
+                }
+            });
+
+            const selectors = getSelectorsToUpdate();
+            selectors.each(function (i, e) {
+                const element = $(e);
+                let selection = element.children('option:selected').val();
+                // If the thing's name that was just updated is the one selected,
+                // update the selection to the thing's new name
+                if (selection === oldValue)
+                    selection = newValue;
+                // Clean out old options
+                element.empty();
+                newOptions.forEach((option) => {
+                    element.append($(option).clone());
+                });
+                element.val(selection);
+            });
+            $(this).attr('old-value', newValue);
+        };
+    }
+
     const jsonifyInputs = function () {
         let result = {
             types: [],
@@ -70,6 +105,30 @@
         return result;
     };
 
+    async function submitDefinitions() {
+        try {
+            let response = await $.ajax({
+                type: "POST",
+                url: "/Settings/AssetDefinitions",
+                data: JSON.stringify(jsonifyInputs()),
+                contentType: "application/json",
+                dataType: "json"
+            });
+
+            if (response.successful) {
+                // Redirect to settings index page on submit
+                window.location.href = "/Settings";
+            } else {
+                console.error(`Unexpected internal server error: ${response.message}`);
+            }
+        } catch (e) {
+            console.error("Unexpected error while submitting definitions.");
+            console.error(e);
+        }
+    }
+}); // Closure to prevent functions and vars from escaping this file
+
+$(document).ready(() => {
     const expandableListInputs = $('.expandableListInput');
     expandableListInputs.each(function (index, input) {
         $(input).change(ExpandableInputList.onInputChange);
@@ -82,41 +141,6 @@
     const mfrsList = $('#manufacturersList');
     const mfrsNameInputs = mfrsList.find('.nameInput');
     const modelsList = $('#modelsList');
-
-    function onInputChange(inputsList, getSelectorsToUpdate) {
-        return function () {
-            const oldValue = $(this).attr('old-value');
-            const newValue = $(this).val();
-            let newOptions = [];
-            inputsList.children().find('.nameInput').each(function (i, e) {
-                let thingName = $(e).val();
-                if (thingName) {
-                    let option = document.createElement('option');
-                    let o = $(option);
-                    o.val(thingName);
-                    o.html(thingName);
-                    newOptions.push(o);
-                }
-            });
-
-            const selectors = getSelectorsToUpdate();
-            selectors.each(function (i, e) {
-                const element = $(e);
-                let selection = element.children('option:selected').val();
-                // If the thing's name that was just updated is the one selected,
-                // update the selection to the thing's new name
-                if (selection === oldValue)
-                    selection = newValue;
-                // Clean out old options
-                element.empty();
-                newOptions.forEach((option) => {
-                    element.append($(option).clone());
-                });
-                element.val(selection);
-            });
-            $(this).attr('old-value', newValue);
-        };
-    }
     
     typeNameInputs.each(function (i, e) {
         $(e).change(onInputChange(typesList, () => $('.typeSelector')));
@@ -167,21 +191,6 @@
 
     // https://www.c-sharpcorner.com/blogs/post-the-data-to-asp-net-mvc-controller-using-jquery-ajax
     $('#submit').click(function () {
-        $.ajax({
-            type: "POST",
-            url: "/Settings/AssetDefinitions",
-            data: JSON.stringify(jsonifyInputs()),
-            contentType: "application/json",
-            dataType: "json",
-            success: function (response) {
-                console.log("Success!");
-            },
-            failure: function (response) {
-                console.log("Failure :(");
-            },
-            error: function (response) {
-                console.log("ERROR!!!!");
-            }
-        });
+        
     });
 });
