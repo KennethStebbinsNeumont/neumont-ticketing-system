@@ -116,6 +116,7 @@
             });
             $(this).attr('old-value', newValue);
         };
+    }
     
     typeNameInputs.each(function (i, e) {
         $(e).change(onInputChange(typesList, () => $('.typeSelector')));
