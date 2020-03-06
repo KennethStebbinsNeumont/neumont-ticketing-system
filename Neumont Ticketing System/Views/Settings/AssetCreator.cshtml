@@ -1,7 +1,7 @@
 ﻿@model Neumont_Ticketing_System.Views.Settings.AssetCreatorModel
 @using Neumont_Ticketing_System.Models.Assets
 @{
-    ViewData["Title"] = "Asset Creator";
+    ViewData["Title"] = "Owner Creator";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Scripts
@@ -13,11 +13,10 @@
 
 <link href="~/css/expandableItemList.css" rel="stylesheet" type="text/css" />
 
-<h1>Asset Creator</h1>
+<h1>Owner Creator</h1>
 
 <div class="list" id="ownerList">
     <h2 class="listTitle">New Owners</h2>
-    <button id="submit">Submit</button>
     <div class="listItem btnAddListItemContainer btnNewOwnerContainer">
         <button class="btnAddListItem btnNewOwner">Add Owner</button>
     </div>
@@ -79,5 +78,8 @@
                 <button class="btnAddListSubItem btnAddAsset">Add Asset</button>
             </div>
         </div>
+    </div>
+    <div class="btnSubmitCtr">
+        <button class="btnSubmit" id="btnSubmit">Submit</button>
     </div>
 </div>
