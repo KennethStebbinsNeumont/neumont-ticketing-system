@@ -70,12 +70,21 @@
 
                         singleResult.removeAttr('id');
                         singleResult.attr('owner-id', asset.ownerId);
-                        singleResult.attr('asset-id', asset.assetId)
+                        singleResult.attr('asset-id', asset.assetId);
 
-                        singleResult.find('.ownerName').html(asset.ownerName);
+                        let pOwnerName = singleResult.find('.ownerName');
+                        pOwnerName.html(asset.ownerName);
                         if (asset.matchedOn === matchedOnOwnerNameString ||
                             asset.matchedOn === matchedOnOwnerPreferredNameString) {
-                            singleResult.find('.ownerName').css('font-weight', 'bold');
+                            pOwnerName.css('font-weight', 'bold');
+                        }
+                        // If this asset's owner has a defined first and last preferred name
+                        if (asset.ownerPreferredName && asset.ownerPreferredName.first && asset.ownerPreferredName.last) {
+                            // Set the title of the span for the owner's name to the owner's preferred name.
+                            // If the owner has no middle name, it will simply be omitted.
+                            singleResult.find('.spanOwnerName').attr('title', `${asset.ownerPreferredName.first}` +
+                                `${(asset.ownerPreferredName.middle ? asset.ownerPreferredName.middle + " " : "")}` +
+                                `${asset.ownerPreferredName.last}`)
                         }
                         singleResult.find('.serialNumber').html(asset.assetSerial);
                         if (asset.matchedOn === matchedOnSerialNumberString) {
