@@ -82,7 +82,7 @@
                         if (asset.ownerPreferredName && asset.ownerPreferredName.first && asset.ownerPreferredName.last) {
                             // Set the title of the span for the owner's name to the owner's preferred name.
                             // If the owner has no middle name, it will simply be omitted.
-                            singleResult.find('.spanOwnerName').attr('title', `${asset.ownerPreferredName.first}` +
+                            singleResult.find('.spanOwnerName').attr('title', `${asset.ownerPreferredName.first} ` +
                                 `${(asset.ownerPreferredName.middle ? asset.ownerPreferredName.middle + " " : "")}` +
                                 `${asset.ownerPreferredName.last}`)
                         }
