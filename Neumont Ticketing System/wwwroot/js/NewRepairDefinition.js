@@ -223,7 +223,7 @@
                         }
                     });
 
-                    firstSelector.parentElement.append(clone
+                    firstSelector.parentElement.append(clone);
                 }
 
                 // Disable options that have been selected elsewhere in the first selector
