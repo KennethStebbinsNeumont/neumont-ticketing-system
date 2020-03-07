@@ -46,7 +46,7 @@
             clone.removeAttr('old-value');
             clone.change(eslOnSelectorChange);
             if (clone.hasClass('typeSelector') || clone.hasClass('mfrSelector')) {
-                clone.change(onTypeOrModelSelection);
+                clone.change(onTypeOrMfrSelection);
             }
 
             parent.append(clone);
@@ -91,7 +91,7 @@
         selector.attr('old-value', newVal);
     };
 
-    const onTypeOrModelSelection = async function onTypeOrModelSelection() {
+    const onTypeOrMfrSelection = async function onTypeOrMfrSelection() {
         let typeSelectors = $('.typeSelector');
         let mfrSelectors = $('.mfrSelector');
 
@@ -158,6 +158,7 @@
 
                 let clonedOptions;
                 let oldVal, newVal;
+                let selectedModels = [];
                 modelSelectors.each(function (i, e) {
                     oldVal = e.value;
 
@@ -170,7 +171,12 @@
                     for (let j = 0; j < newModelOptions.length; j++) {
                         clonedOptions.push(newModelOptions[j].cloneNode(true));
                         if (newModelOptions[j].value === oldVal) {
+                            // If this selector's old value is still in the list of valid options, select it
                             newVal = oldVal;
+                            if (newModelOptions[j].value !== "_all") {
+                                // If the selection isn't _all, add it to the list of selected models
+                                selectedModels.push(oldVal);
+                            }
                         }
                     }
 
@@ -186,31 +192,48 @@
                             e.remove();
                         }
                     }
+
+                    $(e).find('option').each(function (ix, el) {
+                        // Disable options that have been selected elsewhere
+                        if (el.value != e.value && selectedModels.includes(el.value)) {
+                            // If the current option isn't the one selected BUT has been
+                            // selected somewhere else, disable it
+                            el.disabled = true;
+                        }
+                    });
                 });
 
                 modelSelectors = $('.modelSelector');
-                if (!modelSelectors[0].value) {
+                let firstSelector = modelSelectors[0];
+                if (!firstSelector.value) {
                     if (modelSelectors.length > 1) {
-                        modelSelectors[0].remove();
+                        firstSelector.remove();
                     } else {
-                        modelSelectors[0].value = "_all";
+                        firstSelector.value = "_all";
                     }
                 }
 
                 modelSelectors = $('.modelSelector');
                 let clone;
-                if (modelSelectors[0].value && modelSelectors[0].value !== "_all") {
+                if (firstSelector.value && firstSelector.value !== "_all") {
                     // If the first element has a value (that isn't _all), that means we don't
                     // have a blank selector for the user to use. Clone the
                     // first selector and add it to the DOM
-                    clone = modelSelectors[0].cloneNode(true);
+                    clone = firstSelector.cloneNode(true);
                     clone.value = null;
                     clone.onchange = eslOnSelectorChange;
 
-                    modelSelectors[0].parentElement.append(clone);
+                    firstSelector.parentElement.append(clone);
                 }
 
-
+                // Disable options that have been selected elsewhere in the first selector
+                $(firstSelector).find('option').each(function (i, e) {
+                    if (e.value !== firstSelector.value && selectedModels.includes(e.value)) {
+                        // If the current option isn't the one selected BUT has been
+                        // selected somewhere else, disable it
+                        el.disabled = true;
+                    }
+                });
 
             } else {
                 console.error(`Model query failed: "${response.message}"`);
@@ -368,7 +391,7 @@
     $(document).ready(function () {
         // Assign the above handler to all selectors
         $('select').change(eslOnSelectorChange);
-        $('.typeSelector, .mfrSelector').change(onTypeOrModelSelection);
+        $('.typeSelector, .mfrSelector').change(onTypeOrMfrSelection);
 
         // Assign the above handler to all add sub-step buttons
         $('.btnAddSubStep').click(eilOnNewSubStepClick);
