@@ -416,6 +416,8 @@ namespace Neumont_Ticketing_System.Controllers
                         });
                     }
 
+                    responseRepairs.Sort((a, b) => a.Name.CompareTo(b.Name));
+
                     return new JsonResult(new GetApplicableRepairsResponse
                     {
                         Successful = true,
@@ -483,6 +485,8 @@ namespace Neumont_Ticketing_System.Controllers
                     .GetModels(m => 
                     (typeIds.Count == 0 || typeIds.Contains(m.TypeId))
                     && (mfrIds.Count == 0 || mfrIds.Contains(m.ManufacturerId)));
+
+                responseModels.Sort((a, b) => a.NormalizedName.CompareTo(b.NormalizedName));
 
                 return new JsonResult(new GetEncompassedModelsResponse
                 {
