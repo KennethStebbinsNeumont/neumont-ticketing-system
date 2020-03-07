@@ -205,6 +205,7 @@
                 }
 
                 modelSelectors = $('.modelSelector');
+                firstSelector = modelSelectors[0];
                 let clone;
                 if (firstSelector.value && firstSelector.value !== "_all") {
                     // If the first element has a value (that isn't _all), that means we don't
