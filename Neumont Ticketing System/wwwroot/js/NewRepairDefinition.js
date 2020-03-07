@@ -190,17 +190,17 @@
                         if (!e.value) {
                             // If this selector no longer has a selection, remove it
                             e.remove();
+                        } else {
+                            $(e).find('option').each(function (ix, el) {
+                                // Disable options that have been selected elsewhere
+                                if (el.value !== e.value && selectedModels.includes(el.value)) {
+                                    // If the current option isn't the one selected BUT has been
+                                    // selected somewhere else, disable it
+                                    el.disabled = true;
+                                }
+                            });
                         }
                     }
-
-                    $(e).find('option').each(function (ix, el) {
-                        // Disable options that have been selected elsewhere
-                        if (el.value != e.value && selectedModels.includes(el.value)) {
-                            // If the current option isn't the one selected BUT has been
-                            // selected somewhere else, disable it
-                            el.disabled = true;
-                        }
-                    });
                 });
 
                 modelSelectors = $('.modelSelector');
