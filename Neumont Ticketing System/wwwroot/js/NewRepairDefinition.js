@@ -212,6 +212,7 @@
                     // first selector and add it to the DOM
                     clone = firstSelector.cloneNode(true);
                     clone.value = null;
+                    clone.attributes.removeNamedItem("old-value");
                     clone.onchange = eslOnSelectorChange;
 
                     $(clone).find('option').each(function (i, e) {
