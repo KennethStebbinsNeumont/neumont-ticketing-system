@@ -190,15 +190,6 @@
                         if (!e.value) {
                             // If this selector no longer has a selection, remove it
                             e.remove();
-                        } else {
-                            $(e).find('option').each(function (ix, el) {
-                                // Disable options that have been selected elsewhere
-                                if (el.value !== e.value && selectedModels.includes(el.value)) {
-                                    // If the current option isn't the one selected BUT has been
-                                    // selected somewhere else, disable it
-                                    el.disabled = true;
-                                }
-                            });
                         }
                     }
                 });
@@ -223,7 +214,16 @@
                     clone.value = null;
                     clone.onchange = eslOnSelectorChange;
 
-                    firstSelector.parentElement.append(clone);
+                    $(clone).find('option').each(function (i, e) {
+                        // Disable options that have been selected elsewhere
+                        if (selectedModels.includes(e.value)) {
+                            // If the current option has been
+                            // selected somewhere else, disable it
+                            e.disabled = true;
+                        }
+                    });
+
+                    firstSelector.parentElement.append(clone
                 }
 
                 // Disable options that have been selected elsewhere in the first selector
