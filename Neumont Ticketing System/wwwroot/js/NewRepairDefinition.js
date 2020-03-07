@@ -231,7 +231,7 @@
                     if (e.value !== firstSelector.value && selectedModels.includes(e.value)) {
                         // If the current option isn't the one selected BUT has been
                         // selected somewhere else, disable it
-                        el.disabled = true;
+                        e.disabled = true;
                     }
                 });
 
