@@ -180,8 +180,8 @@ db.assets.insertMany([{
     "Owner": olliePestoId
 },
 {
-    "SerialNumber": "Johns",
-    "NormalizedSerialNumber": "JOHNS",
+    "SerialNumber": "R9-0RMHWE",
+    "NormalizedSerialNumber": "R9-0RMHWE",
     "Model": p1g1,
     "Owner": jimmyPestoId
 	}]);
