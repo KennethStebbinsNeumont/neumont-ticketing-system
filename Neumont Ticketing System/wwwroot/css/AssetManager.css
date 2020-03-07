@@ -42,9 +42,16 @@ p.resultValueText {
 /* https://stackoverflow.com/questions/6865194/fluid-width-with-equally-spaced-divs/6880421 */
 .tableHeader {
     text-align: justify;
+    padding: 0px 10px;
+    text-align: center;
 }
 
 /* https://stackoverflow.com/questions/26023319/distribute-divs-evenly-in-a-horizontal-line */
 .tableText {
     width: calc(98% / 4);
+}
+
+.singleResult {
+    padding: 0px 5px;
+    box-shadow: 1px 1px 4px 2px #BDBDBF;
 }
