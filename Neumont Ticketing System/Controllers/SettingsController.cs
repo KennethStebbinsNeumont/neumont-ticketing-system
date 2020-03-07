@@ -304,6 +304,8 @@ namespace Neumont_Ticketing_System.Controllers
                         foreach (var owner in matchedOwners)
                         {
                             score = 0;
+                            nameScore = 0;
+                            prefNameScore = 0;
 
                             #region Calculate name match score
                             if (owner.NormalizedName.Equals(normalizedQueryString))
