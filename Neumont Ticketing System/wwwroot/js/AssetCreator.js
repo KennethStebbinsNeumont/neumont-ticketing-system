@@ -136,6 +136,6 @@
         );
 
         // https://www.c-sharpcorner.com/blogs/post-the-data-to-asp-net-mvc-controller-using-jquery-ajax
-        $('#submit').click(submitOwner);
+        $('#btnSubmit').click(submitOwner);
     });
 })();
