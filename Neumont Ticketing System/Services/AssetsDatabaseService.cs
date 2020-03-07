@@ -35,7 +35,10 @@ namespace Neumont_Ticketing_System.Services
         #region Types
         public List<AssetType> GetTypes()
         {
-            return GetTypes(type => true);
+            var result = GetTypes(type => true);
+            result.Sort((a, b) => a.NormalizedName.CompareTo(b.NormalizedName));
+
+            return result;
         }
 
         public AssetType GetTypeByNormalizedName(string normalizedName)
@@ -74,7 +77,10 @@ namespace Neumont_Ticketing_System.Services
         #region Manufacturers
         public List<AssetManufacturer> GetManufacturers()
         {
-            return GetManufacturers(manufacturer => true);
+            var result = GetManufacturers(manufacturer => true);
+            result.Sort((a, b) => a.NormalizedName.CompareTo(b.NormalizedName));
+
+            return result;
         }
 
         public AssetManufacturer GetManufacturerByNormalizedName(string normalizedName)
@@ -113,7 +119,10 @@ namespace Neumont_Ticketing_System.Services
         #region Models
         public List<AssetModel> GetModels()
         {
-            return GetModels(model => true);
+            var result = GetModels(model => true);
+            result.Sort((a, b) => a.NormalizedName.CompareTo(b.NormalizedName));
+
+            return result;
         }
 
         public AssetModel GetModelByNormalizedName(string normalizedName)
