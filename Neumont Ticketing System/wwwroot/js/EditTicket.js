@@ -24,7 +24,7 @@
         for (let i = 0; i < additionalFields.length; i++) {
             fieldName = additionalFields[i];
             ele = templateInput.clone();
-            ele.find('p').text(`${fieldName}: `);
+            ele.find('p').text(fieldName);
 
             addFieldElements.push(ele);
         }
