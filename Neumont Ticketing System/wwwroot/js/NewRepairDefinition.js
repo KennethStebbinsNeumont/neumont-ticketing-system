@@ -279,8 +279,9 @@
         let addFields = [];
         // Add all of the additional field inputs with values to the addFields array
         $('.addFieldInput').each(function (i, e) {
-            if (e.value)
+            if (e.value) {
                 addFields.push(e.value);
+            }
         });
 
         // Make sure that the name field isn't empty/null
