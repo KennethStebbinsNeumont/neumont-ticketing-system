@@ -110,7 +110,7 @@
                 @foreach (var field in Model.Ticket.AdditionalFields)
                 {
                     <div class="inputContainer">
-                        <p class="inputLabel">@(field.Name): </p>
+                        <p class="inputLabel">@(field.Name)</p>
                         <input class="text-box single-line" type="text" value="@(field.Value ?? "")">
                     </div>
                 }
