@@ -28,13 +28,13 @@
                     <p class="inputLabel">Name: </p>
                     <input class="text-box single-line nameInput" type="text" 
                            value="@(type.Name)" old-value="@(type.Name)"
-                           original-value="@(type.Name)" autocomplete="off"/>
+                           original-value="@(type.Name)" autocomplete="new-password"/>
                 </div>
                 <div class="inputContainer">
                     <p class="inputLabel">Description: </p>
                     <input class="text-box single-line descriptionInput" type="text" 
                            value="@(type.Description)" old-value="@(type.Description)" 
-                           autocomplete="off"/>
+                           autocomplete="new-password"/>
                 </div>
             </div>
         }
@@ -45,12 +45,12 @@
             <div class="inputContainer">
                 <p class="inputLabel">Name: </p>
                 <input class="text-box single-line nameInput" type="text" 
-                       autocomplete="off"/>
+                       autocomplete="new-password"/>
             </div>
             <div class="inputContainer">
                 <p class="inputLabel">Description: </p>
                 <input class="text-box single-line descriptionInput" type="text" 
-                       autocomplete="off"/>
+                       autocomplete="new-password"/>
             </div>
         </div>
     }
@@ -71,7 +71,7 @@
                     <p class="inputLabel">Name: </p>
                     <input class="text-box single-line nameInput" type="text" 
                            value="@(mfr.Name)" old-value="@(mfr.Name)" 
-                           original-value="@(mfr.Name)" autocomplete="off">
+                           original-value="@(mfr.Name)" autocomplete="new-password">
                 </div>
                 <div class="inputContainer phoneNumberContainer">
                     <p class="inputLabel">Phone Numbers: </p>
@@ -80,12 +80,12 @@
                         if (j >= mfr.PhoneNumbers.Count)
                         {
                             <input class="text-box single-line expandableListInput phoneNumberInput"
-                                   type="tel" autocomplete="off"/>
+                                   type="tel" autocomplete="new-password"/>
                         }
                         else
                         {
                             <input class="text-box single-line expandableListInput phoneNumberInput"
-                                   type="tel" value="@(mfr.PhoneNumbers[j])" autocomplete="off"/>
+                                   type="tel" value="@(mfr.PhoneNumbers[j])" autocomplete="new-password"/>
                         }
                     }
                 </div>
@@ -96,12 +96,12 @@
                         if (j >= mfr.EmailAddresses.Count)
                         {
                             <input class="text-box single-line expandableListInput emailAddressInput"
-                                   type="email" autocomplete="off"/>
+                                   type="email" autocomplete="new-password"/>
                         }
                         else
                         {
                             <input class="text-box single-line expandableListInput emailAddressInput"
-                                   type="email" value="@(mfr.EmailAddresses[j])" autocomplete="off"/>
+                                   type="email" value="@(mfr.EmailAddresses[j])" autocomplete="new-password"/>
                         }
                     }
                 </div>
@@ -113,17 +113,17 @@
     <div class="listItem cloneableListItem manufacturerContainer">
         <div class="inputContainer">
             <p class="inputLabel">Name: </p>
-            <input class="text-box single-line" type="text" autocomplete="off"/>
+            <input class="text-box single-line" type="text" autocomplete="new-password"/>
         </div>
         <div class="inputContainer phoneNumberContainer">
             <p class="inputLabel">Phone Numbers: </p>
             <input class="text-box single-line expandableListInput phoneNumberInput"
-                   type="tel" autocomplete="off"/>
+                   type="tel" autocomplete="new-password"/>
         </div>
         <div class="inputContainer emailAddressContainer">
             <p class="inputLabel">Email addresses: </p>
             <input class="text-box single-line expandableListInput emailAddressInput"
-                   type="email" autocomplete="off"/>
+                   type="email" autocomplete="new-password"/>
         </div>
     </div>
 }
@@ -145,13 +145,13 @@
                     <p class="inputLabel">Name: </p>
                     <input class="text-box single-line nameInput" type="text" 
                            value="@(mdl.Name)" old-value="@(mdl.Name)" 
-                           original-value="@(mdl.Name)" autocomplete="off">
+                           original-value="@(mdl.Name)" autocomplete="new-password">
                 </div>
                 <div class="inputContainer">
                     <p class="inputLabel">Model Number: </p>
                     <input class="text-box single-line modelNumberInput" type="text" 
                            value="@(mdl.ModelNumber)" old-value="@(mdl.ModelNumber)"
-                           autocomplete="off">
+                           autocomplete="new-password">
                 </div>
                 <div class="inputContainer">
                     <p class="inputLabel">Type: </p>
@@ -187,11 +187,11 @@
     <div class="listItem cloneableListItem modelContainer">
         <div class="inputContainer">
             <p class="inputLabel">Name: </p>
-            <input class="text-box single-line nameInput" type="text" autocomplete="off"/>
+            <input class="text-box single-line nameInput" type="text" autocomplete="new-password"/>
         </div>
         <div class="inputContainer">
             <p class="inputLabel">Model Number: </p>
-            <input class="text-box single-line" type="text" autocomplete="off"/>
+            <input class="text-box single-line" type="text" autocomplete="new-password"/>
         </div>
         <div class="inputContainer">
             <p class="inputLabel">Type: </p>
