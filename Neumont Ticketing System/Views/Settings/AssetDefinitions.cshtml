@@ -26,15 +26,15 @@
             <div class="listItem cloneableListItem typeContainer">
                 <div class="inputContainer">
                     <p class="inputLabel">Name: </p>
-                    <input class="text-box single-line nameInput" id=@($"type{i}_Name")
-                           name=@($"type{i}_Name") type="text" value="@(type.Name)" old-value="@(type.Name)"
-                           original-value="@(type.Name)" />
+                    <input class="text-box single-line nameInput" type="text" 
+                           value="@(type.Name)" old-value="@(type.Name)"
+                           original-value="@(type.Name)" autocomplete="off"/>
                 </div>
                 <div class="inputContainer">
                     <p class="inputLabel">Description: </p>
-                    <input class="text-box single-line descriptionInput" id=@($"type{i}_Description")
-                           name=@($"type{i}_Description") type="text" value="@(type.Description)"
-                           old-value="@(type.Description)" />
+                    <input class="text-box single-line descriptionInput" type="text" 
+                           value="@(type.Description)" old-value="@(type.Description)" 
+                           autocomplete="off"/>
                 </div>
             </div>
         }
@@ -44,13 +44,13 @@
         <div class="listItem cloneableListItem typeContainer">
             <div class="inputContainer">
                 <p class="inputLabel">Name: </p>
-                <input class="text-box single-line nameInput" id="type0_Name" name="type0_Name"
-                       type="text" />
+                <input class="text-box single-line nameInput" type="text" 
+                       autocomplete="off"/>
             </div>
             <div class="inputContainer">
                 <p class="inputLabel">Description: </p>
-                <input class="text-box single-line descriptionInput" id="type0_Description" name="type0_Description"
-                       type="text" />
+                <input class="text-box single-line descriptionInput" type="text" 
+                       autocomplete="off"/>
             </div>
         </div>
     }
@@ -69,45 +69,39 @@
             <div class="listItem cloneableListItem manufacturerContainer">
                 <div class="inputContainer">
                     <p class="inputLabel">Name: </p>
-                    <input class="text-box single-line nameInput" id=@($"mfr{i}_Name")
-                           name=@($"mfr{i}_Name") type="text" value="@(mfr.Name)"
-                           old-value="@(mfr.Name)" original-value="@(mfr.Name)">
+                    <input class="text-box single-line nameInput" type="text" 
+                           value="@(mfr.Name)" old-value="@(mfr.Name)" 
+                           original-value="@(mfr.Name)" autocomplete="off">
                 </div>
-                <div class="inputContainer phoneNumberContainer" id=@($"mfr{i}_PhoneNumbers")>
+                <div class="inputContainer phoneNumberContainer">
                     <p class="inputLabel">Phone Numbers: </p>
                     @for (int j = 0; j <= mfr.PhoneNumbers.Count; j++)
                     {
                         if (j >= mfr.PhoneNumbers.Count)
                         {
                             <input class="text-box single-line expandableListInput phoneNumberInput"
-                                   id=@($"mfr{i}_PhoneNumbers_{j}")
-                                   name="@($"mfr{i}_PhoneNumbers_{j}")" type="tel" />
+                                   type="tel" autocomplete="off"/>
                         }
                         else
                         {
                             <input class="text-box single-line expandableListInput phoneNumberInput"
-                                   id=@($"mfr{i}_PhoneNumbers_{j}")
-                                   name="@($"mfr{i}_PhoneNumbers_{j}")" type="tel"
-                                   value="@(mfr.PhoneNumbers[j])" />
+                                   type="tel" value="@(mfr.PhoneNumbers[j])" autocomplete="off"/>
                         }
                     }
                 </div>
-                <div class="inputContainer emailAddressContainer" id=@($"mfr{i}_EmailAddresses")>
+                <div class="inputContainer emailAddressContainer">
                     <p class="inputLabel">Email addresses: </p>
                     @for (int j = 0; j <= mfr.EmailAddresses.Count; j++)
                     {
                         if (j >= mfr.EmailAddresses.Count)
                         {
                             <input class="text-box single-line expandableListInput emailAddressInput"
-                                   id=@($"mfr{i}_EmailAddresses_{j}")
-                                   name=@($"mfr{i}_EmailAddresses_{j}") type="email" />
+                                   type="email" autocomplete="off"/>
                         }
                         else
                         {
                             <input class="text-box single-line expandableListInput emailAddressInput"
-                                   id=@($"mfr{i}_EmailAddresses_{j}")
-                                   name=@($"mfr{i}_EmailAddresses_{j}") type="email"
-                                   value="@(mfr.EmailAddresses[j])" />
+                                   type="email" value="@(mfr.EmailAddresses[j])" autocomplete="off"/>
                         }
                     }
                 </div>
@@ -119,20 +113,17 @@
     <div class="listItem cloneableListItem manufacturerContainer">
         <div class="inputContainer">
             <p class="inputLabel">Name: </p>
-            <input class="text-box single-line" id="mfr0_Name" name="mfr0_Name"
-                   type="text" />
+            <input class="text-box single-line" type="text" autocomplete="off"/>
         </div>
-        <div class="inputContainer phoneNumberContainer" id=@($"mfr0_PhoneNumbers")>
+        <div class="inputContainer phoneNumberContainer">
             <p class="inputLabel">Phone Numbers: </p>
             <input class="text-box single-line expandableListInput phoneNumberInput"
-                   id=@($"mfr0_PhoneNumbers_0")
-                   name=@($"mfr0_PhoneNumbers_0") type="tel" />
+                   type="tel" autocomplete="off"/>
         </div>
-        <div class="inputContainer emailAddressContainer" id=@($"mfr0_EmailAddresses")>
+        <div class="inputContainer emailAddressContainer">
             <p class="inputLabel">Email addresses: </p>
             <input class="text-box single-line expandableListInput emailAddressInput"
-                   id=@($"mfr0_EmailAddresses_0")
-                   name=@($"mfr0_EmailAddresses_0") type="email" />
+                   type="email" autocomplete="off"/>
         </div>
     </div>
 }
@@ -152,19 +143,19 @@
             <div class="listItem cloneableListItem modelContainer">
                 <div class="inputContainer">
                     <p class="inputLabel">Name: </p>
-                    <input class="text-box single-line nameInput" id=@($"mdl{i}_Name")
-                           name=@($"mdl{i}_Name") type="text" value="@(mdl.Name)"
-                           old-value="@(mdl.Name)" original-value="@(mdl.Name)">
+                    <input class="text-box single-line nameInput" type="text" 
+                           value="@(mdl.Name)" old-value="@(mdl.Name)" 
+                           original-value="@(mdl.Name)" autocomplete="off">
                 </div>
                 <div class="inputContainer">
                     <p class="inputLabel">Model Number: </p>
-                    <input class="text-box single-line modelNumberInput" id=@($"mdl{i}_ModelNumber")
-                           name=@($"mdl{i}_ModelNumber") type="text" value="@(mdl.ModelNumber)"
-                           old-value="@(mdl.ModelNumber)">
+                    <input class="text-box single-line modelNumberInput" type="text" 
+                           value="@(mdl.ModelNumber)" old-value="@(mdl.ModelNumber)"
+                           autocomplete="off">
                 </div>
                 <div class="inputContainer">
                     <p class="inputLabel">Type: </p>
-                    <select class="typeSelector" name=@($"mdl{i}_Type") id=@($"mdl{i}_Type")>
+                    <select class="typeSelector">
                         @for (int j = 0; j < Model.AssetTypes.Count; j++)
                         {
                             var type = Model.AssetTypes[j];
@@ -177,7 +168,7 @@
                 </div>
                 <div class="inputContainer">
                     <p class="inputLabel">Manufacturer: </p>
-                    <select class="manufacturerSelector" name=@($"mdl{i}_Manufacturer") id=@($"mdl{i}_Manufacturer")>
+                    <select class="manufacturerSelector">
                         @for (int j = 0; j < Model.AssetManufacturers.Count; j++)
                         {
                             var mfr = Model.AssetManufacturers[j];
@@ -196,17 +187,15 @@
     <div class="listItem cloneableListItem modelContainer">
         <div class="inputContainer">
             <p class="inputLabel">Name: </p>
-            <input class="text-box single-line nameInput" id="mdl0_Name" name="mdl0_Name"
-                   type="text" />
+            <input class="text-box single-line nameInput" type="text" autocomplete="off"/>
         </div>
         <div class="inputContainer">
             <p class="inputLabel">Model Number: </p>
-            <input class="text-box single-line" id="mdl0_ModelNumber" name="mdl0_ModelNumber"
-                   type="text" />
+            <input class="text-box single-line" type="text" autocomplete="off"/>
         </div>
         <div class="inputContainer">
             <p class="inputLabel">Type: </p>
-            <select class="typeSelector" name=@($"mdl0_Type") id=@($"mdl0_Type")>
+            <select class="typeSelector">
                 @for (int j = 0; j < Model.AssetTypes.Count; j++)
                 {
                     var type = Model.AssetTypes[j];
@@ -216,7 +205,7 @@
         </div>
         <div class="inputContainer">
             <p class="inputLabel">Manufacturer: </p>
-            <select class="manufacturerSelector" name=@($"mdl0_Manufacturer") id=@($"mdl0_Manufacturer")>
+            <select class="manufacturerSelector">
                 @for (int j = 0; j < Model.AssetManufacturers.Count; j++)
                 {
                     var mfr = Model.AssetManufacturers[j];
