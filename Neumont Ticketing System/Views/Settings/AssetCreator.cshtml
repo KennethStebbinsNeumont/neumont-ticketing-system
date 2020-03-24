@@ -1,7 +1,7 @@
 ﻿@model Neumont_Ticketing_System.Views.Settings.AssetCreatorModel
 @using Neumont_Ticketing_System.Models.Assets
 @{
-    ViewData["Title"] = "Owner Creator";
+    ViewData["Title"] = Model.TitleText;
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Scripts
@@ -13,46 +13,91 @@
 
 <link href="~/css/expandableItemList.css" rel="stylesheet" type="text/css" />
 
-<h1>Owner Creator</h1>
+<h1>@(Model.SubtitleText)</h1>
 
 <div class="list" id="ownerList">
-    <h2 class="listTitle">New Owners</h2>
-    <div class="listItem btnAddListItemContainer btnNewOwnerContainer">
-        <button class="btnAddListItem btnNewOwner">Add Owner</button>
-    </div>
+    <h2 class="listTitle">@(Model.TitleText)</h2>
+    @if(!Model.HasOwner)
+    {
+        <div class="listItem btnAddListItemContainer btnNewOwnerContainer">
+            <button class="btnAddListItem btnNewOwner">Add Owner</button>
+        </div>
+    }
     <div class="listItem cloneableListItem ownerContainer">
         <div class="inputContainer">
             <p class="inputLabel">Owner's Name: </p>
             <input class="text-box single-line nameInput"
-                   type="text" value="">
+                   type="text" value="@(Model.Owner?.Name ?? "")">
         </div>
         <div class="inputContainer">
             <p class="inputLabel">Preferred First Name: </p>
             <input class="text-box single-line preferredFNameInput"
-                   type="text" value="">
+                   type="text" value="@(Model.Owner?.PreferredName?.First ?? "")">
         </div>
         <div class="inputContainer">
             <p class="inputLabel">Preferred Middle Name: </p>
             <input class="text-box single-line preferredMNameInput"
-                   type="text" value="">
+                   type="text" value="@(Model.Owner?.PreferredName?.Middle ?? "")">
         </div>
         <div class="inputContainer">
             <p class="inputLabel">Preferred Last Name: </p>
             <input class="text-box single-line preferredLNameInput"
-                   type="text" value="">
+                   type="text" value="@(Model.Owner?.PreferredName?.Last ?? "")">
         </div>
         <div class="inputContainer phoneNumberContainer">
             <p class="inputLabel">Phone Numbers: </p>
+            @if(Model.HasOwner)
+            {
+                @foreach(string phoneNumber in Model.Owner.PhoneNumbers)
+                {
+                    <input class="text-box single-line expandableListInput phoneNumberInput"
+                           type="tel" value="@(phoneNumber)"/>
+                }
+            }
             <input class="text-box single-line expandableListInput phoneNumberInput"
                    type="tel" />
         </div>
         <div class="inputContainer emailAddressContainer">
             <p class="inputLabel">Email addresses: </p>
+            @if (Model.HasOwner)
+            {
+                @foreach(string emailAddress in Model.Owner.EmailAddresses)
+                {
+                    <input class="text-box single-line expandableListInput emailAddressInput"
+                           type="email" value="@(emailAddress)"/>
+                }
+            }
             <input class="text-box single-line expandableListInput emailAddressInput"
                    type="email" />
         </div>
         <div class="assetList">
             <h3 class="listTitle">Owned Assets</h3>
+            @if (Model.HasOwner)
+            {
+                @foreach (Asset asset in Model.OwnedAssets)
+                {
+                    <div class="listSubItem assetContainer cloneableListItem">
+                        <div class="inputContainer">
+                            <p class="inputLabel">Serial Number: </p>
+                            <input class="text-box single-line serialNumberInput"
+                                   type="text"
+                                   value="@(asset.SerialNumber)" />
+                        </div>
+                        <div class="inputContainer">
+                            <p class="inputLabel">Model: </p>
+                            <select class="modelSelector">
+                                @foreach(AssetModel model in Model.AssetModels)
+                                {
+                                    <option value="@(model.Name)"
+                                            selected=@(asset.ModelId == model.Id)>
+                                        @(model.Name)
+                                    </option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                }
+            }
             <div class="listSubItem assetContainer cloneableListItem">
                 <div class="inputContainer">
                     <p class="inputLabel">Serial Number: </p>

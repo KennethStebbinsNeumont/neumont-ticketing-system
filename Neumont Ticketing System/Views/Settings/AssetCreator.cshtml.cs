@@ -8,19 +8,22 @@ namespace Neumont_Ticketing_System.Views.Settings
 {
     public class AssetCreatorModel
     {
-        public List<AssetModel> AssetModels { get; private set; }
-        public List<Asset> Assets { get; private set; }
-        public List<Owner> Owners { get; private set; }
+        public string TitleText { get; set; } = "Edit Owner";
 
-        public AssetCreatorModel(List<AssetModel> assetModels,
-            List<Asset> assets,
-            List<Owner> owners)
+        public string SubtitleText { get; set; } = "Edit an owner";
+
+        public List<AssetModel> AssetModels { get; set; }
+
+        public Owner Owner { get; set; }
+
+        public List<Asset> OwnedAssets { get; set; }
+
+        public bool HasOwner
         {
-            AssetModels = assetModels;
-            Assets = assets;
-            Owners = owners;
+            get
+            {
+                return Owner != null;
+            }
         }
-
-
     }
 }

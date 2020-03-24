@@ -44,9 +44,9 @@ namespace Neumont_Ticketing_System.Controllers
         #region AssetCreator
         public IActionResult AssetCreator()
         {
-            var model = new AssetCreatorModel(_assetDatabaseService.GetModels().ToList(),
-                _assetDatabaseService.GetAssets().ToList(),
-                _ownersDatabaseService.GetOwners().ToList());
+            var model = new AssetCreatorModel {
+                AssetModels = _assetDatabaseService.GetModels().ToList()
+            };
 
             return View(model);
         }
