@@ -503,11 +503,11 @@ db.tickets.insertMany([
 		"Description": "Student was playing \"Catch the sauce jar\" with his brother when the jar slipped and exploded on the laptop.",
 		"AdditionalFields": [
 			{
-				"Name": "Helped by: ",
+				"Name": "Helped by",
 				"Value": "Calvin Fischoeder"
 			},
 			{
-				"Name": "Service request #: ",
+				"Name": "Service request #",
 				"Value": "1001"
 			}
 		],

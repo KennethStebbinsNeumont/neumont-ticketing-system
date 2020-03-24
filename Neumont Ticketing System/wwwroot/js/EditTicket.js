@@ -24,7 +24,7 @@
         for (let i = 0; i < additionalFields.length; i++) {
             fieldName = additionalFields[i];
             ele = templateInput.clone();
-            ele.find('p').text(`${fieldName}: `);
+            ele.find('p').text(fieldName);
 
             addFieldElements.push(ele);
         }
@@ -44,11 +44,12 @@
         });
 
         let additionalFields = [];
-        let ele;
+        let ele, name;
         $('#additionalFields').children('.inputContainer').each(function (i, e) {
             ele = $(e)
+            name = ele.children('p').html();
             additionalFields.push({
-                Name: ele.children('p').html(),
+                Name: name.substr(0, name.length - 2),
                 Value: ele.children('input').val()
             })
         });

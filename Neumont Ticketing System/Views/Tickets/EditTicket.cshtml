@@ -81,17 +81,17 @@
                 }
             </select>
         </div>
-        <div class="inputContainer loanersContainer">
+        <div class="inputContainer loanersContainer" disabled>
             <p class="inputLabel">Loaners:</p>
             @if (Model.HasTicket)
             {
                 @foreach (var loaner in Model.Loaners)
                 {
                     <input class="text-box single-line expandableListInput loanerInput"
-                           type="text" value="@(loaner.Name)" />
+                           type="text" value="@(loaner.Name)" disabled />
                 }
             }
-            <input class="text-box single-line expandableListInput loanerInput" type="text" />
+            <input class="text-box single-line expandableListInput loanerInput" type="text" disabled />
         </div>
         <div class="inputContainer descriptionContainer">
             <p class="inputLabel descriptionLabel">Title: </p>
