@@ -133,7 +133,7 @@
                 },
                 function (clone) {
                     let btnNewOwner = $('#btnNewOwner');
-                    clone.insertBefore(btnNewOwner);
+                    clone.insertBefore(btnNewOwner.parent());
                 }
             )
         );
