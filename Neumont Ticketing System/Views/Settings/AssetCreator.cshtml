@@ -1,7 +1,13 @@
 ﻿@model Neumont_Ticketing_System.Views.Settings.AssetCreatorModel
 @using Neumont_Ticketing_System.Models.Assets
 @{
-    ViewData["Title"] = Model.TitleText;
+    if(Model.HasOwner)
+    {
+        ViewData["Title"] = "Edit Owner";
+    } else
+    {
+        ViewData["Title"] = "Create Owner";
+    }
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @section Scripts
@@ -13,10 +19,10 @@
 
 <link href="~/css/expandableItemList.css" rel="stylesheet" type="text/css" />
 
-<h1>@(Model.SubtitleText)</h1>
+<h1>@(Model.HasOwner ? "Edit this owner" : "Create new owners")</h1>
 
 <div class="list" id="ownerList">
-    <h2 class="listTitle">@(Model.TitleText)</h2>
+    <h2 class="listTitle">@(Model.HasOwner ? "Edit Owner" : "Create Owner")</h2>
     @if(!Model.HasOwner)
     {
         <div class="listItem btnAddListItemContainer btnNewOwnerContainer">
@@ -129,6 +135,6 @@
         </div>
     </div>
     <div class="btnSubmitCtr">
-        <button class="btnSubmit" id="btnSubmit">Submit</button>
+        <button class="btnSubmit" id="btnSubmit">@(Model.HasOwner ? "Update" : "Submit")</button>
     </div>
 </div>

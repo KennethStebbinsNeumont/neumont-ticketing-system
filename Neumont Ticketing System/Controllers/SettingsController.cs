@@ -51,6 +51,26 @@ namespace Neumont_Ticketing_System.Controllers
             return View(model);
         }
 
+        public IActionResult AssetEditor(string ownerId)
+        {
+            try
+            {
+                var model = new AssetCreatorModel
+                {
+                    AssetModels = _assetDatabaseService.GetModels().ToList(),
+                    Owner = _ownersDatabaseService.GetOwnerById(ownerId),
+                    OwnedAssets = _assetDatabaseService.GetAssetsByOwnerId(ownerId)
+                };
+
+                return View(model);
+            } catch(NotFoundException e)
+            {
+                _logger.LogError(e, "NotFoundException while loading asset editor page. " +
+                    "Redirecting to asset creator.");
+                return RedirectToAction("AssetCreator");
+            } 
+        }
+
         // https://stackoverflow.com/questions/21578814/how-to-receive-json-as-an-mvc-5-action-method-parameter
         [HttpPost]
         public JsonResult AssetCreator([FromBody] AssetCreatorReturn returned)
