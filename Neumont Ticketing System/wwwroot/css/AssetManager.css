@@ -48,7 +48,7 @@ p.resultValueText {
 
 /* https://stackoverflow.com/questions/26023319/distribute-divs-evenly-in-a-horizontal-line */
 .tableText {
-    width: calc(98% / 4);
+    width: calc(92% / 4);
 }
 
 .singleResult {
