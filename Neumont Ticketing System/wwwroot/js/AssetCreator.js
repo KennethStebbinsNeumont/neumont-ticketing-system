@@ -97,7 +97,7 @@
         });
 
         let ownerList = $('#ownerList');
-        ownerList.find('.btnNewOwner').click(
+        ownerList.find('#btnNewOwner').click(
             ExpandableItemList.getBtnAddListItemHandler(
                 function (clone) {
                     let phoneInput = clone.find('.phoneNumberInput');
@@ -130,6 +130,10 @@
                         // Choose the first model in the list
                         c.find('.modelSelector').val(c.find('option').first().val());
                     }));
+                },
+                function (clone) {
+                    let btnNewOwner = $('#btnNewOwner');
+                    clone.insertBefore(btnNewOwner);
                 }
             )
         );
