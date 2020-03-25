@@ -23,12 +23,6 @@
 
 <div class="list" id="ownerList">
     <h2 class="listTitle">@(Model.HasOwner ? "Edit Owner" : "Create Owner")</h2>
-    @if(!Model.HasOwner)
-    {
-        <div class="listItem btnAddListItemContainer btnNewOwnerContainer">
-            <button class="btnAddListItem btnNewOwner">Add Owner</button>
-        </div>
-    }
     <div class="listItem cloneableListItem ownerContainer">
         <div class="inputContainer">
             <p class="inputLabel">Owner's Name: </p>
@@ -56,9 +50,9 @@
         </div>
         <div class="inputContainer phoneNumberContainer">
             <p class="inputLabel">Phone Numbers: </p>
-            @if(Model.HasOwner)
+            @if (Model.HasOwner)
             {
-                @foreach(string phoneNumber in Model.Owner.PhoneNumbers)
+                @foreach (string phoneNumber in Model.Owner.PhoneNumbers)
                 {
                     <input class="text-box single-line expandableListInput phoneNumberInput"
                            type="tel" value="@(phoneNumber)" autocomplete="new-password" />
@@ -71,7 +65,7 @@
             <p class="inputLabel">Email addresses: </p>
             @if (Model.HasOwner)
             {
-                @foreach(string emailAddress in Model.Owner.EmailAddresses)
+                @foreach (string emailAddress in Model.Owner.EmailAddresses)
                 {
                     <input class="text-box single-line expandableListInput emailAddressInput"
                            type="email" value="@(emailAddress)" autocomplete="new-password" />
@@ -96,7 +90,7 @@
                         <div class="inputContainer">
                             <p class="inputLabel">Model: </p>
                             <select class="modelSelector">
-                                @foreach(AssetModel model in Model.AssetModels)
+                                @foreach (AssetModel model in Model.AssetModels)
                                 {
                                     <option value="@(model.Name)"
                                             selected=@(asset.ModelId == model.Id)>
@@ -133,6 +127,12 @@
                 <button class="btnAddListSubItem btnAddAsset">Add Asset</button>
             </div>
         </div>
+        @if (!Model.HasOwner)
+        {
+            <div class="listItem btnAddListItemContainer btnNewOwnerContainer">
+                <button class="btnAddListItem btnNewOwner">Add Owner</button>
+            </div>
+        }
     </div>
     <div class="btnSubmitCtr">
         <button class="btnSubmit" id="btnSubmit">@(Model.HasOwner ? "Update" : "Submit")</button>
