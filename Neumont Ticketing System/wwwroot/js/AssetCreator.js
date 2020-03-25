@@ -130,7 +130,8 @@
                         // Choose the first model in the list
                         c.find('.modelSelector').val(c.find('option').first().val());
                     }));
-                })
+                }
+            )
         );
 
         // https://www.c-sharpcorner.com/blogs/post-the-data-to-asp-net-mvc-controller-using-jquery-ajax

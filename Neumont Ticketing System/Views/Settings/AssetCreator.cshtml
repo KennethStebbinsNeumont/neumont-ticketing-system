@@ -127,13 +127,13 @@
                 <button class="btnAddListSubItem btnAddAsset">Add Asset</button>
             </div>
         </div>
-        @if (!Model.HasOwner)
-        {
-            <div class="listItem btnAddListItemContainer btnNewOwnerContainer">
-                <button class="btnAddListItem btnNewOwner">Add Owner</button>
-            </div>
-        }
     </div>
+    @if (!Model.HasOwner)
+    {
+        <div class="listItem btnAddListItemContainer btnNewOwnerContainer">
+            <button class="btnAddListItem btnNewOwner">Add Owner</button>
+        </div>
+    }
     <div class="btnSubmitCtr">
         <button class="btnSubmit" id="btnSubmit">@(Model.HasOwner ? "Update" : "Submit")</button>
     </div>
