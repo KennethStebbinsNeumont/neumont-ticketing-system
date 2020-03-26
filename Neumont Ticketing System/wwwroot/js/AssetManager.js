@@ -93,6 +93,10 @@
                         singleResult.find('.assetModel').html(asset.assetModelName);
                         singleResult.find('.assetType').html(asset.assetTypeName);
 
+                        singleResult.find('.btnEditOwner').click(function () {
+                            location.href = `/Settings/AssetEditor?ownerId=${asset.ownerId}`;
+                        });
+
                         results.push(singleResult);
                     }
 
