@@ -62,7 +62,7 @@ namespace Neumont_Ticketing_System.Controllers
                     OwnedAssets = _assetDatabaseService.GetAssetsByOwnerId(ownerId)
                 };
 
-                return View(model);
+                return View("AssetCreator", model);
             } catch(NotFoundException e)
             {
                 _logger.LogError(e, "NotFoundException while loading asset editor page. " +
