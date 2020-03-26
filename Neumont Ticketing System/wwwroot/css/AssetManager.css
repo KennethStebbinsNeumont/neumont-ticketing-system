@@ -67,6 +67,6 @@ p.resultValueText {
     padding: 10px 5px;
 }
 
-.ditOwnerIcon {
-    transform: rotate(90deg);
+.editOwnerIcon {
+    transform: rotate(45deg);
 }
