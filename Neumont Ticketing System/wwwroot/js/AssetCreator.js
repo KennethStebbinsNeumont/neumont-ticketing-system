@@ -1,4 +1,10 @@
 ﻿(function () {
+    const deleteAsset = function deleteAsset() {
+        let assetContainer = this.parentElement.parent.parentElement;
+
+        assetContainer.remove();
+    };
+
     const jsonfiyInputs = function jsonifyInputs() {
         let result = {
             owners: []
@@ -94,6 +100,10 @@
                 // Choose the first model in the list
                 c.find('.modelSelector').val(c.find('option').first().val());
             }));
+        });
+
+        $('.btnDeleteAsset').each(function (i, e) {
+            $(e).click(deleteAsset);
         });
 
         let ownerList = $('#ownerList');

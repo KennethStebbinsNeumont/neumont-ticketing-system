@@ -1,6 +1,12 @@
 ﻿(function () {
     const ownerIdRegex = /ownerId=(?<ownerId>.*?)(?:&|$)/;
 
+    const deleteAsset = function deleteAsset() {
+        let assetContainer = this.parentElement.parent.parentElement;
+
+        assetContainer.remove();
+    };
+
     const jsonfiyInputs = function jsonifyInputs() {
         let ownerElement = $('.ownerContainer');
         let nameInput = ownerElement.find('.nameInput');
@@ -92,6 +98,10 @@
                 // Choose the first model in the list
                 c.find('.modelSelector').val(c.find('option').first().val());
             }));
+        });
+
+        $('.btnDeleteAsset').each(function (i, e) {
+            $(e).click(deleteAsset);
         });
 
         // https://www.c-sharpcorner.com/blogs/post-the-data-to-asp-net-mvc-controller-using-jquery-ajax
