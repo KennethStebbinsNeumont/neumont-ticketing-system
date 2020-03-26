@@ -12,9 +12,9 @@
 }
 @section Scripts
 {
-    <script src="~/js/AssetCreator.js" type="text/javascript"></script>
     <script src="~/js/expandableInputList.js" type="text/javascript"></script>
     <script src="~/js/expandableItemList.js" type="text/javascript"></script>
+    <script src="~/js/AssetCreator.js" type="text/javascript"></script>
 }
 
 <link href="~/css/expandableItemList.css" rel="stylesheet" type="text/css" />
@@ -103,6 +103,13 @@
                 }
             }
             <div class="listSubItem assetContainer cloneableListItem">
+                <div class="listItemHeader">
+                    <div class="listHeaderButtonContainer">
+                        <button class="itemActionButton btnDeleteAsset">
+                            <img class="iconDeleteAsset itemActionButtonIcon" src="~/assets/freepik-delete.svg" />
+                        </button>
+                    </div>
+                </div>
                 <div class="inputContainer">
                     <p class="inputLabel">Serial Number: </p>
                     <input class="text-box single-line serialNumberInput"
@@ -116,7 +123,7 @@
                         {
                             var model = Model.AssetModels[k];
                             <option value="@(model.Name)"
-                                    selected=@(k <= 0)>
+                                    selected=@(k == 0)>
                                 @(model.Name)
                             </option>
                         }

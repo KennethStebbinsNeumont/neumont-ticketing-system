@@ -110,3 +110,23 @@ button#btnSubmit {
 .btnSubmitCtr {
     margin: 5px;
 }
+
+.listItemHeader {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+}
+
+.listHeaderButtonContainer {
+    grid-column: 2;
+    text-align: right;
+    padding: 0px 0px;
+}
+
+.itemActionButtonIcon {
+    height: 25px;
+    display: inline-block;
+}
+
+.itemActionButton {
+    display: contents;
+}
