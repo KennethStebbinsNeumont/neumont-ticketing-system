@@ -81,6 +81,13 @@
                 @foreach (Asset asset in Model.OwnedAssets)
                 {
                     <div class="listSubItem assetContainer cloneableListItem">
+                        <div class="listItemHeader">
+                            <div class="listHeaderButtonContainer">
+                                <button class="itemActionButton btnDeleteAsset">
+                                    <img class="iconDeleteAsset itemActionButtonIcon" src="~/assets/freepik-delete.svg" />
+                                </button>
+                            </div>
+                        </div>
                         <div class="inputContainer">
                             <p class="inputLabel">Serial Number: </p>
                             <input class="text-box single-line serialNumberInput"
