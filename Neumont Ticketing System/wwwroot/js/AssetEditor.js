@@ -33,6 +33,7 @@
                     let modelSelector = con.find('.modelSelector');
 
                     assets.push({
+                        "Id": con.attr('asset-id'),
                         "SerialNumber": serialInput.val(),
                         "ModelName": modelSelector.val()
                     });

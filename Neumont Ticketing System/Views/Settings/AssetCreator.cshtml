@@ -86,7 +86,7 @@
             {
                 @foreach (Asset asset in Model.OwnedAssets)
                 {
-                    <div class="listSubItem assetContainer cloneableListItem">
+                    <div class="listSubItem assetContainer cloneableListItem" asset-id="@(asset.Id)">
                         <div class="listItemHeader">
                             <div class="listHeaderButtonContainer">
                                 <button class="itemActionButton btnDeleteAsset">
