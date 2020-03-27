@@ -68,7 +68,69 @@ namespace Neumont_Ticketing_System.Controllers
                 _logger.LogError(e, "NotFoundException while loading asset editor page. " +
                     "Redirecting to asset creator.");
                 return RedirectToAction("AssetCreator");
-            } 
+            }
+        }
+
+        private ServerResponse CreateNewAsset(AssetCreatorReturnAsset returnedAsset, string ownerId)
+        {
+            try
+            {
+                AssetModel matchedModel = _assetDatabaseService.GetModelByNormalizedName(
+                    returnedAsset.ModelName.RemoveSpecialCharacters());
+
+                // Search for another asset of the same model that has the same
+                // serial number, to prevent duplicates
+                var assetsWithMatchingSerial = _assetDatabaseService.GetAssets(
+                    a => a.SerialNumber == returnedAsset.SerialNumber &&
+                        a.ModelId == matchedModel.Id &&
+                        a.Id != returnedAsset.Id);
+
+                if (assetsWithMatchingSerial.Count > 0)
+                {
+                    Asset matchedAsset = assetsWithMatchingSerial[0];
+
+                    return new ServerResponse
+                    {
+                        Successful = false,
+                        Message = $"A duplicate asset with serial number \"{matchedAsset.SerialNumber}\" and " +
+                        $"model name \"{matchedModel.Name}\" was found."
+                    };
+                }
+                else
+                {
+                    Asset createdAsset = _assetDatabaseService.CreateAsset(new Asset
+                    {
+                        SerialNumber = returnedAsset.SerialNumber,
+                        ModelId = matchedModel.Id,
+                        OwnerId = ownerId
+                    });
+
+                    _logger.LogInformation($"Created a new asset with an Id of \"{createdAsset.Id}\" " +
+                        $"for an owner with an Id of \"{ownerId}\".");
+
+                    return new ServerResponse
+                    {
+                        Successful = true
+                    };
+                }
+            } catch(NotFoundException<AssetModel>)
+            {
+                _logger.LogError($"Unable to find a model with a name matching {returnedAsset.ModelName}");
+                return new ServerResponse
+                {
+                    Successful = false,
+                    Message = $"Unable to find a model with a name matching {returnedAsset.ModelName}"
+                };
+            } catch(Exception e)
+            {
+                _logger.LogError(e, $"Unexpected exception while creating new asset for an owner with " +
+                    $"an Id of \"{ownerId}\".");
+                return new ServerResponse
+                {
+                    Successful = false,
+                    Message = "Unexpected internal error while creating an asset."
+                };
+            }
         }
 
         // https://stackoverflow.com/questions/21578814/how-to-receive-json-as-an-mvc-5-action-method-parameter
@@ -77,126 +139,189 @@ namespace Neumont_Ticketing_System.Controllers
         {
             try
             {
-                SaveReturnAssetCreator(returned);
-
-                _logger.LogInformation("Saved new owners/assets to database.");
-                return new JsonResult(new
+                if (returned == null)
                 {
-                    Successful = true,
-                    Message = "Owners and assets successfully saved."
-                });
-            } catch(DuplicateException<Asset> e)
-            {
-                _logger.LogError(e, "Error while attempting to save new owners/assets.");
-                return new JsonResult(new
-                {
-                    Successful = false,
-                    Message = $"A duplicate asset was found: Serial number: \"{e.Duplicate.SerialNumber}\", " +
-                    $"Model name: \"{e.Duplicate.GetModel(_assetDatabaseService.GetModels()).Name}\"."
-                });
-            } catch(NotFoundException e)
-            {
-                _logger.LogError(e, "Error while attempting to save new owners/assets.");
-                return new JsonResult(new
-                {
-                    Successful = false,
-                    Message = e.Message
-                });
-            } catch(Exception e)
-            {
-                _logger.LogError(e, "Unexpected error while attempting to save new owners/assets.");
-                return new JsonResult(new
-                {
-                    Successful = false,
-                    Message = "An unexpected internal error ocurred while trying to save owners " +
-                    "and assets."
-                });
-            }
-        }
-
-        private void SaveReturnAssetCreator(AssetCreatorReturn returned)
-        {
-            List<AssetModel> assetModels = _assetDatabaseService.GetModels();
-            AssetModel matchedModel = null;
-            List<Owner> newOwners = new List<Owner>();
-            Owner newOwner = null;
-            List<Asset> newAssets = new List<Asset>();
-            List<Asset> matchedAssets = null;
-            foreach(var owner in returned.owners)
-            {
-                if(owner.Name != null && owner.Name != "")
-                {
-                    newOwner = new Owner
+                    _logger.LogError("Could not create new owner(s) because the given JSON object was null");
+                    return new JsonResult(new ServerResponse
                     {
-                        Name = owner.Name,
-                        PreferredName = owner.PreferredName,
-                        EmailAddresses = owner.EmailAddresses,
-                        PhoneNumbers = owner.PhoneNumbers
-                    };
+                        Successful = false,
+                        Message = "The given JSON object was null."
+                    });
+                }
 
-                    newOwner = _ownersDatabaseService.CreateOwner(newOwner);
-
-                    foreach(var asset in owner.Assets)
+                List<AssetModel> assetModels = _assetDatabaseService.GetModels();
+                List<Owner> newOwners = new List<Owner>();
+                List<Asset> newAssets = new List<Asset>();
+                foreach (var owner in returned.owners)
+                {
+                    if (owner.Name != null && owner.Name != "")
                     {
-                        matchedAssets = _assetDatabaseService.GetAssets(a => 
-                            a.SerialNumber.Equals(asset.SerialNumber));
-
-                        if(matchedAssets.Count > 0)
+                        Owner newOwner = new Owner
                         {
-                            bool matchFound = false;
-                            foreach(var a in matchedAssets)
-                            {
-                                if(a.GetModel(assetModels).Name.Equals(asset))
-                                {
-                                    matchFound = true;
-                                    break;
-                                }
-                            }
+                            Name = owner.Name,
+                            PreferredName = owner.PreferredName,
+                            EmailAddresses = owner.EmailAddresses,
+                            PhoneNumbers = owner.PhoneNumbers
+                        };
 
-                            if(matchFound)
-                            {
-                                // If we've found an already existing asset with the exact same serial number
-                                // and model, throw an exception (cannot create duplicate assets)
-                                throw new DuplicateException<Asset>(matchedAssets.First(), $"A duplicate asset with serial " +
-                                    $"number \"{matchedAssets.First().SerialNumber}\" and model name \"" +
-                                    $"{matchedAssets.First().GetModel(assetModels).Name}\" was found in the given assets " +
-                                    $"to create.");
-                            }
-                        } else
+                        newOwner = _ownersDatabaseService.CreateOwner(newOwner);
+
+                        _logger.LogInformation($"Created a new owner with Id of \"{newOwner.Id}\".");
+
+                        foreach (var asset in owner.Assets)
                         {
-                            matchedModel = null;
-                            foreach(var model in assetModels)
-                            {
-                                if(model.Name.Equals(asset.ModelName))
-                                {
-                                    matchedModel = model;
-                                    break;
-                                }
-                            }
+                            ServerResponse result = CreateNewAsset(asset, owner.Id);
 
-                            // If a matching model wasn't found
-                            if(matchedModel == null)
+                            // If an error occurred, abort and push the result up the chain
+                            if (!result.Successful)
                             {
-                                throw new NotFoundException<Asset>(
-                                    $"A model with name \"{asset.ModelName}\" was not " +
-                                    $"found.");
-                            } else
-                            {
-                                newAssets.Add(new Asset
-                                {
-                                    SerialNumber = asset.SerialNumber,
-                                    ModelId = matchedModel.Id,
-                                    OwnerId = newOwner.Id
-                                });
+                                return new JsonResult(result);
                             }
                         }
                     }
                 }
-            }
 
-            foreach(var asset in newAssets)
+
+                return new JsonResult(new ServerResponse
+                {
+                    Successful = true
+                });
+
+            } catch(Exception e)
             {
-                _assetDatabaseService.Create(asset);
+                _logger.LogError(e, "Unexpected error while attempting to save new owners/assets.");
+                return new JsonResult(new ServerResponse
+                {
+                    Successful = false,
+                    Message = "An unexpected internal error ocurred while trying to save a new owner."
+                });
+            }
+        }
+
+        [HttpPost]
+        public JsonResult AssetEditor([FromBody] AssetCreatorReturnOwner givenOwner)
+        {
+            try
+            {
+                if(givenOwner == null)
+                {
+                    _logger.LogError("Could not update owner because the given JSON object was null");
+                    return new JsonResult(new ServerResponse
+                    {
+                        Successful = false,
+                        Message = "The given JSON object was null."
+                    });
+                }
+
+                if(givenOwner.Id == null || givenOwner.Id == "")
+                {
+                    _logger.LogError("Could not update owner because the given Id was null or empty");
+                    return new JsonResult(new ServerResponse
+                    {
+                        Successful = false,
+                        Message = "The given owner Id was null or empty."
+                    });
+                }
+
+                Owner matchedOwner = _ownersDatabaseService.GetOwnerById(givenOwner.Id);
+
+                matchedOwner.Name = givenOwner.Name;
+                matchedOwner.PreferredName = givenOwner.PreferredName;
+                matchedOwner.PhoneNumbers = givenOwner.PhoneNumbers;
+                matchedOwner.EmailAddresses = givenOwner.EmailAddresses;
+
+                List<string> existingAssetsKeptIds = new List<string>();
+                foreach(var givenAsset in givenOwner.Assets)
+                {
+                    if(givenAsset.Id != null && givenOwner.Id != "")
+                    {   // If we're updaing an existing asset
+                        Asset matchedAsset = _assetDatabaseService.GetAssetById(givenAsset.Id);
+
+                        existingAssetsKeptIds.Add(givenAsset.Id);
+
+                        AssetModel newModel = _assetDatabaseService.GetModelByNormalizedName(
+                            givenAsset.ModelName.RemoveSpecialCharacters());
+                        // Check to see if the serial number or model has changed
+                        if(givenAsset.SerialNumber != matchedAsset.SerialNumber ||
+                            givenAsset.ModelName != newModel.Name)
+                        {
+                            // Validate the serial number
+                            if(givenAsset.SerialNumber == null || givenAsset.SerialNumber == "")
+                            {
+                                _logger.LogError($"The new serial number of the asset with an Id of \"{givenAsset.Id}\" " +
+                                    $"was null or empty.");
+                                return new JsonResult(new ServerResponse
+                                {
+                                    Successful = false,
+                                    Message = $"The new serial number of the asset with an Id of \"{givenAsset.Id}\" " +
+                                    $"was null or empty."
+                                });
+                            }
+
+                            // Search for another asset of the same model that has the same
+                            // serial number, to prevent duplicates
+                            var assetsWithMatchingSerial = _assetDatabaseService.GetAssets(
+                                a => a.SerialNumber == givenAsset.SerialNumber &&
+                                    a.ModelId == newModel.Id &&
+                                    a.Id != matchedAsset.Id);
+
+                            if(assetsWithMatchingSerial.Count > 0)
+                            {
+                                _logger.LogError($"Another asset of the same model with a serial number matching " +
+                                    $"the new serial number of the asset with an Id of \"{matchedAsset.Id}\" was found.");
+                                return new JsonResult(new ServerResponse
+                                {
+                                    Successful = false,
+                                    Message = $"Another asset of the same model with a serial number matching " +
+                                    $"the new serial number of the asset with an Id of \"{matchedAsset.Id}\" was found."
+                                });
+                            }
+
+                            // If all else passed, update the serial number and model
+                            matchedAsset.SerialNumber = givenAsset.SerialNumber;
+                            matchedAsset.ModelId = newModel.Id;
+
+                            _assetDatabaseService.UpdateAsset(matchedAsset);
+
+                            _logger.LogInformation($"Updated asset with Id of {matchedAsset.Id}");
+                        }
+                    } else
+                    {  // If we're creating a new asset
+                        ServerResponse result = CreateNewAsset(givenAsset, givenOwner.Id);
+
+                        // If an error occurred, abort and push the result up the chain
+                        if (!result.Successful)
+                        {
+                            return new JsonResult(result);
+                        }
+                    }
+                }
+
+                _ownersDatabaseService.UpdateOwner(matchedOwner);
+
+                _logger.LogInformation($"Updated owner with Id of {matchedOwner.Id}");
+                return new JsonResult(new ServerResponse
+                {
+                    Successful = true,
+                    Message = "Update completed successfully."
+                });
+
+            } catch(NotFoundException<Owner>)
+            {
+                _logger.LogError($"Could not find an owner with an Id of \"{givenOwner.Id}\"");
+                return new JsonResult(new ServerResponse
+                {
+                    Successful = false,
+                    Message = $"Could not find an owner with an Id of \"{givenOwner.Id}\"."
+                });
+            } catch(Exception e)
+            {
+                _logger.LogError(e, "Unexpected exception while updating owner and their asset(s).");
+                return new JsonResult(new ServerResponse
+                {
+                    Successful = false,
+                    Message = "Unexpected internal error."
+                });
             }
         }
         #endregion AssetCreator
@@ -559,7 +684,7 @@ namespace Neumont_Ticketing_System.Controllers
             try
             {
                 SaveReturnAssetDefinitions(returned);
-                return new JsonResult(new
+                return new JsonResult(new ServerResponse
                 {
                     Successful = true,
                     Message = "Database successfully updated"
@@ -567,7 +692,7 @@ namespace Neumont_Ticketing_System.Controllers
             } catch(ArgumentException e)
             {
                 _logger.LogError(e, "Argument exception when attempting to save asset definitions to database.");
-                return new JsonResult(new
+                return new JsonResult(new ServerResponse
                 {
                     Successful = false,
                     Message = $"Input error: {e.Message}"
@@ -575,7 +700,7 @@ namespace Neumont_Ticketing_System.Controllers
             } catch(Exception e)
             {
                 _logger.LogError(e, "Unexpected error while attemping to save asset definitions to database.");
-                return new JsonResult(new
+                return new JsonResult(new ServerResponse
                 {
                     Successful = false,
                     Message = $"Unexpected error: {e.ToString()}"
@@ -776,7 +901,7 @@ namespace Neumont_Ticketing_System.Controllers
                     }
                 });
 
-                return new JsonResult(new NewRepairDataResponse
+                return new JsonResult(new ServerResponse
                 {
                     Successful = true
                 });
@@ -785,7 +910,7 @@ namespace Neumont_Ticketing_System.Controllers
             {
                 _logger.LogError($"A duplicate repair with the name \"{e.Duplicate.Name}\" was found while " +
                         $"trying to create a new repair.");
-                return new JsonResult(new NewRepairDataResponse
+                return new JsonResult(new ServerResponse
                 {
                     Successful = false,
                     Message = $"A duplicate repair with the name \"{e.Duplicate.Name}\" was found."
@@ -793,7 +918,7 @@ namespace Neumont_Ticketing_System.Controllers
             }
             catch(Exception e) {
                 _logger.LogError(e, "Unexpected exception while trying to create a new repair definition from HTTP POST.");
-                return new JsonResult(new NewRepairDataResponse
+                return new JsonResult(new ServerResponse
                 {
                     Successful = false,
                     Message = "Unexpected internal error."
@@ -801,6 +926,12 @@ namespace Neumont_Ticketing_System.Controllers
             }
         }
         #endregion RepairManagement
+    }
+
+    public class ServerResponse
+    {
+        public bool Successful { get; set; }
+        public string Message { get; set; }
     }
 
     #region AssetManager
@@ -823,10 +954,8 @@ namespace Neumont_Ticketing_System.Controllers
         public string MatchedOn { get; set; }
     }
 
-    public class AssetManagerQueryResponse
+    public class AssetManagerQueryResponse : ServerResponse
     {
-        public bool Successful { get; set; }
-        public string Message { get; set; }
         public string Query { get; set; }
         public List<AssetManagerQueryResponseAsset> Assets { get; set; }
     }
@@ -835,12 +964,14 @@ namespace Neumont_Ticketing_System.Controllers
     #region AssetCreator
     public class AssetCreatorReturnAsset
     {
+        public string Id { get; set; }
         public string SerialNumber { get; set; }
         public string ModelName { get; set; }
     }
 
     public class AssetCreatorReturnOwner
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public PreferredName PreferredName { get; set; }
         public List<string> EmailAddresses { get; set; }
@@ -895,12 +1026,6 @@ namespace Neumont_Ticketing_System.Controllers
         public RepairAppliesTo AppliesTo { get; set; }
         public List<string> AdditionalFields { get; set; }
         public List<RepairStep> Steps { get; set; }
-    }
-
-    public class NewRepairDataResponse
-    {
-        public bool Successful { get; set; }
-        public string Message { get; set; }
     }
 
     public class RepairAppliesTo
