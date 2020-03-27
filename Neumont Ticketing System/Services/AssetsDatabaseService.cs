@@ -292,7 +292,7 @@ namespace Neumont_Ticketing_System.Services
 
 
         #region Assets
-        public Asset Create(Asset asset)
+        public Asset CreateAsset(Asset asset)
         {
             asset.NormalizedSerialNumber = CommonFunctions.NormalizeString(asset.SerialNumber);
             var matchedAssets = _assets.Find(a => a.NormalizedSerialNumber == asset.NormalizedSerialNumber);
