@@ -296,6 +296,17 @@ namespace Neumont_Ticketing_System.Controllers
                     }
                 }
 
+                foreach(Asset asset in _assetDatabaseService.GetAssetsByOwnerId(matchedOwner.Id))
+                {
+                    if(!existingAssetsKeptIds.Contains(asset.Id))
+                    {
+                        // If this asset wasn't returned by the front-end, the user must have
+                        // chosen to delete it
+                        _assetDatabaseService.RemoveAsset(asset);
+                        _logger.LogInformation($"Removed asset with Id \"{asset.Id}\"");
+                    }
+                }
+
                 _ownersDatabaseService.UpdateOwner(matchedOwner);
 
                 _logger.LogInformation($"Updated owner with Id of {matchedOwner.Id}");
