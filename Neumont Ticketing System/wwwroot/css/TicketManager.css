@@ -12,6 +12,8 @@
     margin: 10px 5px;
     padding: 5px 10px;
     transition: box-shadow .15s;
+    display: grid;
+    grid-template-columns: auto 1fr 1fr 1fr 1fr 1fr auto;
 }
 
 .tableRow:hover {
@@ -25,20 +27,24 @@ p.tableHeaderText {
 }
 
 p.tableBodyText {
-    margin: 0px;
+    margin: auto;
 }
 
 .rowItem {
-    width: calc(93% / 6);
     display: inline-block;
+    text-align: center;
+    vertical-align: middle;
 }
 
 .tableHeaderTextContainer {
-    margin: 10px 15px 0px;
+    margin: 10px 15px;
+    display: grid;
+    grid-template-columns: auto 1fr 1fr 1fr 1fr 1fr auto;
 }
 
 .checkboxCtr {
     width: 20px;
+    vertical-align: middle;
 }
 
 .ticketBtnContainer {
@@ -51,7 +57,7 @@ p.tableBodyText {
 }
 
 #buttonSpacer {
-    width: 100px;
+    width: 150px;
 }
 
 .listHeaderItem {
