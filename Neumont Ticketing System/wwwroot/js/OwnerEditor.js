@@ -73,7 +73,7 @@
 
             if (response.successful) {
                 // Redirect to asset manager page on success
-                window.location.href = "/Settings/AssetManager";
+                window.location.href = "/Settings/OwnerManager";
             } else {
                 console.error(`Unexpected internal server error: ${response.message}`);
             }
