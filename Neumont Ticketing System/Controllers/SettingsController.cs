@@ -41,7 +41,7 @@ namespace Neumont_Ticketing_System.Controllers
             return View();
         }
 
-        #region AssetCreator
+        #region OwnerEditor
         public IActionResult OwnerCreator()
         {
             var model = new OwnerCreatorModel {
@@ -339,12 +339,12 @@ namespace Neumont_Ticketing_System.Controllers
                 });
             }
         }
-        #endregion AssetCreator
+        #endregion OwnerEditor
 
-        #region AssetManager
-        public IActionResult AssetManager()
+        #region OwnerManager
+        public IActionResult OwnerManager()
         {
-            return View(new AssetManagerModel(_assetDatabaseService.GetModels()));
+            return View(new OwnerManagerModel(_assetDatabaseService.GetModels()));
         }
 
         private readonly string matchedOnSerialNumberString = "SerialNumber";
@@ -368,7 +368,7 @@ namespace Neumont_Ticketing_System.Controllers
          * 
          */
         [HttpPost]
-        public async Task<JsonResult> AssetManager([FromBody] AssetManagerQuery queryObject)
+        public async Task<JsonResult> OwnerManager([FromBody] AssetManagerQuery queryObject)
         {
             var result = Task.Run<JsonResult>(() =>
             {
@@ -680,7 +680,7 @@ namespace Neumont_Ticketing_System.Controllers
 
             return await result;
         }
-        #endregion AssetManager
+        #endregion OwnerManager
 
         #region AssetDefinitions
         public IActionResult AssetDefinitions()

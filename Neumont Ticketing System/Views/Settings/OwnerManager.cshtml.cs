@@ -8,11 +8,11 @@ using Neumont_Ticketing_System.Models.Assets;
 
 namespace Neumont_Ticketing_System.Views.Settings
 {
-    public class AssetManagerModel : PageModel
+    public class OwnerManagerModel : PageModel
     {
         public List<AssetModel> AssetModels { get; set; }
 
-        public AssetManagerModel(List<AssetModel> assetModels)
+        public OwnerManagerModel(List<AssetModel> assetModels)
         {
             AssetModels = assetModels;
         }

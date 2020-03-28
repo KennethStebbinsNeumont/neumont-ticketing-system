@@ -14,7 +14,7 @@
     let getAssets = async function getAssets(query) {
         return $.ajax({
             type: "POST",
-            url: "/Settings/AssetManager",
+            url: "/Settings/OwnerManager",
             data: JSON.stringify({
                 Query: searchInput.val(),
                 MaxNumOfResults: 50
@@ -94,7 +94,7 @@
                         singleResult.find('.assetType').html(asset.assetTypeName);
 
                         singleResult.find('.btnEditOwner').click(function () {
-                            location.href = `/Settings/AssetEditor?ownerId=${asset.ownerId}`;
+                            location.href = `/Settings/OwnerEditor?ownerId=${asset.ownerId}`;
                         });
 
                         results.push(singleResult);
