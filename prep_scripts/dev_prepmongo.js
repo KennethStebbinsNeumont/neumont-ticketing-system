@@ -71,7 +71,7 @@ db.types.insertMany([{
     },
     {
         "Name": "Laptop A/C Adapter",
-        "NormalizedName": "LAPTOP A/C ADAPTER",
+        "NormalizedName": "LAPTOPACADAPTER",
         "Description": "Laptop charger"
     }]);
 
@@ -101,7 +101,7 @@ db.models.insertMany([{
 },
 {
     "Name": "Dell Precision 5520",
-    "NormalizedName": "DELL PRECISION 5520",
+    "NormalizedName": "DELLPRECISION5520",
     "Type": laptop,
     "ModelNumber": "M5520",
     "Manufacturer": dell
@@ -181,7 +181,7 @@ db.assets.insertMany([{
 },
 {
     "SerialNumber": "R9-0RMHWE",
-    "NormalizedSerialNumber": "R9-0RMHWE",
+    "NormalizedSerialNumber": "R90RMHWE",
     "Model": p1g1,
     "Owner": jimmyPestoId
 	}]);
