@@ -75,8 +75,8 @@ namespace Neumont_Ticketing_System.Controllers
         {
             try
             {
-                AssetModel matchedModel = _assetDatabaseService.GetModelByNormalizedName(
-                    returnedAsset.ModelName.RemoveSpecialCharacters());
+                AssetModel newModel = _assetDatabaseService.GetModelByNormalizedName(
+                    CommonFunctions.NormalizeString(givenAsset.ModelName));
 
                 // Search for another asset of the same model that has the same
                 // serial number, to prevent duplicates
@@ -149,7 +149,6 @@ namespace Neumont_Ticketing_System.Controllers
                     });
                 }
 
-                List<AssetModel> assetModels = _assetDatabaseService.GetModels();
                 List<Owner> newOwners = new List<Owner>();
                 List<Asset> newAssets = new List<Asset>();
                 foreach (var owner in returned.owners)
@@ -240,7 +239,7 @@ namespace Neumont_Ticketing_System.Controllers
                         existingAssetsKeptIds.Add(givenAsset.Id);
 
                         AssetModel newModel = _assetDatabaseService.GetModelByNormalizedName(
-                            givenAsset.ModelName.RemoveSpecialCharacters());
+                            CommonFunctions.NormalizeString(givenAsset.ModelName));
                         // Check to see if the serial number or model has changed
                         if(givenAsset.SerialNumber != matchedAsset.SerialNumber ||
                             givenAsset.ModelName != newModel.Name)
