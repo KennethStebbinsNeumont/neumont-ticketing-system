@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Neumont_Ticketing_System.Views.Settings
 {
-    public class AssetCreatorModel
+    public class OwnerCreatorModel
     {
         public List<AssetModel> AssetModels { get; set; }
 

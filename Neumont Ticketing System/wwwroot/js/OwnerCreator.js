@@ -67,7 +67,7 @@
         try {
             let response = await $.ajax({
                 type: "POST",
-                url: "/Settings/AssetCreator",
+                url: "/Settings/OwnerCreator",
                 data: JSON.stringify(jsonfiyInputs()),
                 contentType: "application/json",
                 dataType: "json"

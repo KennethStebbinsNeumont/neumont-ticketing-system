@@ -42,32 +42,32 @@ namespace Neumont_Ticketing_System.Controllers
         }
 
         #region AssetCreator
-        public IActionResult AssetCreator()
+        public IActionResult OwnerCreator()
         {
-            var model = new AssetCreatorModel {
+            var model = new OwnerCreatorModel {
                 AssetModels = _assetDatabaseService.GetModels().ToList()
             };
 
             return View(model);
         }
 
-        public IActionResult AssetEditor(string ownerId)
+        public IActionResult OwnerEditor(string ownerId)
         {
             try
             {
-                var model = new AssetCreatorModel
+                var model = new OwnerCreatorModel
                 {
                     AssetModels = _assetDatabaseService.GetModels().ToList(),
                     Owner = _ownersDatabaseService.GetOwnerById(ownerId),
                     OwnedAssets = _assetDatabaseService.GetAssetsByOwnerId(ownerId)
                 };
 
-                return View("AssetCreator", model);
+                return View("OwnerCreator", model);
             } catch(NotFoundException e)
             {
                 _logger.LogError(e, "NotFoundException while loading asset editor page. " +
                     "Redirecting to asset creator.");
-                return RedirectToAction("AssetCreator");
+                return RedirectToAction("OwnerCreator");
             }
         }
 
@@ -136,7 +136,7 @@ namespace Neumont_Ticketing_System.Controllers
 
         // https://stackoverflow.com/questions/21578814/how-to-receive-json-as-an-mvc-5-action-method-parameter
         [HttpPost]
-        public JsonResult AssetCreator([FromBody] AssetCreatorReturn returned)
+        public JsonResult OwnerCreator([FromBody] AssetCreatorReturn returned)
         {
             try
             {
@@ -199,7 +199,7 @@ namespace Neumont_Ticketing_System.Controllers
         }
 
         [HttpPost]
-        public JsonResult AssetEditor([FromBody] AssetCreatorReturnOwner givenOwner)
+        public JsonResult OwnerEditor([FromBody] AssetCreatorReturnOwner givenOwner)
         {
             try
             {
