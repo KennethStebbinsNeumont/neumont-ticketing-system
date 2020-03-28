@@ -2,7 +2,7 @@
     const ownerIdRegex = /ownerId=(?<ownerId>.*?)(?:&|$)/;
 
     const deleteAsset = function deleteAsset() {
-        let assetContainer = this.parentElement.parent.parentElement;
+        let assetContainer = this.parentElement.parentElement.parentElement;
 
         assetContainer.remove();
     };
