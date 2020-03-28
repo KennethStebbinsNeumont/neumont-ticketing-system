@@ -71,19 +71,19 @@ namespace Neumont_Ticketing_System.Controllers
             }
         }
 
-        private ServerResponse CreateNewAsset(AssetCreatorReturnAsset returnedAsset, string ownerId)
+        private ServerResponse CreateNewAsset(AssetCreatorReturnAsset givenAsset, string ownerId)
         {
             try
             {
-                AssetModel newModel = _assetDatabaseService.GetModelByNormalizedName(
+                AssetModel matchedModel = _assetDatabaseService.GetModelByNormalizedName(
                     CommonFunctions.NormalizeString(givenAsset.ModelName));
 
                 // Search for another asset of the same model that has the same
                 // serial number, to prevent duplicates
                 var assetsWithMatchingSerial = _assetDatabaseService.GetAssets(
-                    a => a.SerialNumber == returnedAsset.SerialNumber &&
+                    a => a.SerialNumber == givenAsset.SerialNumber &&
                         a.ModelId == matchedModel.Id &&
-                        a.Id != returnedAsset.Id);
+                        a.Id != givenAsset.Id);
 
                 if (assetsWithMatchingSerial.Count > 0)
                 {
@@ -100,7 +100,7 @@ namespace Neumont_Ticketing_System.Controllers
                 {
                     Asset createdAsset = _assetDatabaseService.CreateAsset(new Asset
                     {
-                        SerialNumber = returnedAsset.SerialNumber,
+                        SerialNumber = givenAsset.SerialNumber,
                         ModelId = matchedModel.Id,
                         OwnerId = ownerId
                     });
@@ -115,11 +115,11 @@ namespace Neumont_Ticketing_System.Controllers
                 }
             } catch(NotFoundException<AssetModel>)
             {
-                _logger.LogError($"Unable to find a model with a name matching {returnedAsset.ModelName}");
+                _logger.LogError($"Unable to find a model with a name matching {givenAsset.ModelName}");
                 return new ServerResponse
                 {
                     Successful = false,
-                    Message = $"Unable to find a model with a name matching {returnedAsset.ModelName}"
+                    Message = $"Unable to find a model with a name matching {givenAsset.ModelName}"
                 };
             } catch(Exception e)
             {
