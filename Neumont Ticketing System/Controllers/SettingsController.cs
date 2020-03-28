@@ -71,7 +71,7 @@ namespace Neumont_Ticketing_System.Controllers
             }
         }
 
-        private ServerResponse CreateNewAsset(AssetCreatorReturnAsset givenAsset, string ownerId)
+        private CreatedAssetResponse CreateNewAsset(AssetCreatorReturnAsset givenAsset, string ownerId)
         {
             try
             {
@@ -89,7 +89,7 @@ namespace Neumont_Ticketing_System.Controllers
                 {
                     Asset matchedAsset = assetsWithMatchingSerial[0];
 
-                    return new ServerResponse
+                    return new CreatedAssetResponse
                     {
                         Successful = false,
                         Message = $"A duplicate asset with serial number \"{matchedAsset.SerialNumber}\" and " +
@@ -108,15 +108,16 @@ namespace Neumont_Ticketing_System.Controllers
                     _logger.LogInformation($"Created a new asset with an Id of \"{createdAsset.Id}\" " +
                         $"for an owner with an Id of \"{ownerId}\".");
 
-                    return new ServerResponse
+                    return new CreatedAssetResponse
                     {
-                        Successful = true
+                        Successful = true,
+                        Asset = createdAsset
                     };
                 }
             } catch(NotFoundException<AssetModel>)
             {
                 _logger.LogError($"Unable to find a model with a name matching {givenAsset.ModelName}");
-                return new ServerResponse
+                return new CreatedAssetResponse
                 {
                     Successful = false,
                     Message = $"Unable to find a model with a name matching {givenAsset.ModelName}"
@@ -125,7 +126,7 @@ namespace Neumont_Ticketing_System.Controllers
             {
                 _logger.LogError(e, $"Unexpected exception while creating new asset for an owner with " +
                     $"an Id of \"{ownerId}\".");
-                return new ServerResponse
+                return new CreatedAssetResponse
                 {
                     Successful = false,
                     Message = "Unexpected internal error while creating an asset."
@@ -286,10 +287,14 @@ namespace Neumont_Ticketing_System.Controllers
                         }
                     } else
                     {  // If we're creating a new asset
-                        ServerResponse result = CreateNewAsset(givenAsset, givenOwner.Id);
+                        CreatedAssetResponse result = CreateNewAsset(givenAsset, givenOwner.Id);
 
                         // If an error occurred, abort and push the result up the chain
-                        if (!result.Successful)
+                        if (result.Successful)
+                        {
+                            existingAssetsKeptIds.Add(result.Asset.Id);
+                        } 
+                        else 
                         {
                             return new JsonResult(result);
                         }
@@ -992,6 +997,11 @@ namespace Neumont_Ticketing_System.Controllers
     public class AssetCreatorReturn
     {
         public List<AssetCreatorReturnOwner> owners { get; set; }
+    }
+
+    public class CreatedAssetResponse : ServerResponse
+    {
+        public Asset Asset { get; set; }
     }
     #endregion AssetCreator
 
