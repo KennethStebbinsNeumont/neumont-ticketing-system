@@ -1,5 +1,6 @@
 ﻿(function () {
     const ownerIdRegex = /ownerId=(?<ownerId>.*?)(?:&|$)/;
+    const originalQueryRegex = /(?:\?|&)q=(?<originalQuery>.*?)(?:&|$)/;
 
     const deleteAsset = function deleteAsset() {
         let assetContainer = this.parentElement.parentElement.parentElement;
@@ -73,7 +74,14 @@
 
             if (response.successful) {
                 // Redirect to asset manager page on success
-                window.location.href = "/Settings/OwnerManager";
+                let match = window.location.href.match(originalQueryRegex);
+                if (match) {
+                    // If the URL contains an original query, redirect to the OwnerManager with that
+                    // query
+                    window.location.href = `/Settings/OwnerManager?q=${match.groups.originalQuery}`;
+                } else {
+                    window.location.href = "/Settings/OwnerManager";
+                }
             } else {
                 console.error(`Unexpected internal server error: ${response.message}`);
             }

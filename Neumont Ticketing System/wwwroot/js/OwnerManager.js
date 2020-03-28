@@ -1,4 +1,4 @@
-﻿$(document).ready(() => {
+﻿(function () {
     const searchInput = $('#searchInput');
     const resultTable = $('#resultTable');
     const template = $('#resultTemplate');
@@ -7,11 +7,13 @@
     const matchedOnOwnerNameString = "Name";
     const matchedOnOwnerPreferredNameString = "PreferredName";
 
+    const queryRegex = /(?:\?|&)q=(?<query>.*?)(?:&|$)/;
+
     // The amount of time to wait after the value of the owner
     // field has been changed before making a query in onOwnerInputEvent
     const QUERY_DELAY_MS = 250;
 
-    let getAssets = async function getAssets(query) {
+    const getAssets = async function getAssets(query) {
         return $.ajax({
             type: "POST",
             url: "/Settings/OwnerManager",
@@ -53,7 +55,7 @@
      * }
      * 
      * */
-    let responseReceived = function responseReceived(response) {
+    const responseReceived = function responseReceived(response) {
         try {
             if (response.successful) {
                 // Make sure that the response we're about to display
@@ -94,7 +96,8 @@
                         singleResult.find('.assetType').html(asset.assetTypeName);
 
                         singleResult.find('.btnEditOwner').click(function () {
-                            location.href = `/Settings/OwnerEditor?ownerId=${asset.ownerId}`;
+                            location.href = `/Settings/OwnerEditor?ownerId=${asset.ownerId}` +
+                                                `&q=${encodeURI($('#searchInput').val())}`;
                         });
 
                         results.push(singleResult);
@@ -114,12 +117,12 @@
         }
     };
 
-    let unexpectedFailure = function unexpectedFailure(response) {
+    const unexpectedFailure = function unexpectedFailure(response) {
         console.error(`Unexpected error while trying to query database for assets/owners.`);
         console.error(response);
     };
 
-    let onQueryInputEvent = async function onQueryInputEvent(event) {
+    const onQueryInputEvent = async function onQueryInputEvent(event) {
         let input = $(event.target);
 
         // Don't start making requests until there are at least 3 characters
@@ -138,5 +141,18 @@
         }
     };
 
-    searchInput.bind('input', onQueryInputEvent);
-});
+    $(document).ready(() => {
+        searchInput.bind('input', onQueryInputEvent);
+
+        let queryRegexMatch = window.location.href.match(queryRegex);
+        if (queryRegexMatch) {
+            // If a query was provided in the URL, make that query
+            let decodedQuery = decodeURI(queryRegexMatch.groups.query);
+            searchInput.val(decodedQuery);
+
+            getAssets(decodedQuery)
+                .then(responseReceived)
+                .catch(unexpectedFailure);
+        }
+    });
+})();
