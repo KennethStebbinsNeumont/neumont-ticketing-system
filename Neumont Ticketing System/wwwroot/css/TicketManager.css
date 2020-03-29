@@ -42,9 +42,12 @@ p.tableBodyText {
     grid-template-columns: auto 1fr 1fr 1fr 1fr 1fr auto;
 }
 
-.checkboxCtr {
+.checkTicketSelectedContainer {
     width: 20px;
-    vertical-align: middle;
+}
+
+.checkTicketSelected {
+    height: 100%;
 }
 
 .ticketBtnContainer {

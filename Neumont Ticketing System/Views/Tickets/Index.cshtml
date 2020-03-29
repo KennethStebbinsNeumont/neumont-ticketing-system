@@ -16,7 +16,8 @@
     <div class="listHeader">
         <h2 class="listHeaderItem listHeaderText">Open Tickets</h2>
         <div class="listHeaderItem headerBtnContainer">
-            <button id="btnNewTicket" onclick="window.location.href = '/Tickets/NewTicket';">
+            <button class="buttonWithIcon" id="btnNewTicket" 
+                    onclick="window.location.href = '/Tickets/NewTicket';">
                 <img id="btnNewTicketIcon" src="~/assets/freepik-file.svg" />
             </button>
         </div>
@@ -46,8 +47,8 @@
         @foreach (TicketEntry ticket in Model.Tickets ?? new List<TicketEntry>())
         {
             <div class="tableRow" ticket-id="@(ticket.Id)">
-                <div class="rowItem checkboxCtr">
-                    <input type="checkbox" class="checkbox" />
+                <div class="rowItem checkTicketSelectedContainer">
+                    <input type="checkbox" class="checkbox checkTicketSelected" />
                 </div>
                 <p class="rowItem tableBodyText ownerName">
                     <span title="@(ticket.OwnerPreferredName)">
@@ -70,13 +71,13 @@
                     </span>
                 </p>
                 <div class="rowItem ticketBtnContainer">
-                    <button class="ticketBtn btnEmailOwner" title="Email Owner">
+                    <button class="buttonWithIcon ticketBtn btnEmailOwner" title="Email Owner">
                         <img class="ticketBtnIcon" src="~/assets/freepik-email.svg" /></button>
-                    <button class="ticketBtn btnEditTicket" title="Edit Ticket"
+                    <button class="buttonWithIcon ticketBtn btnEditTicket" title="Edit Ticket"
                             onclick="@($"window.location.href = '/Tickets/EditTicket?ticketId={ticket.Id}'")">
                         <img class="ticketBtnIcon" src="~/assets/freepik-pen.svg" />
                     </button>
-                    <button class="ticketBtn btnDeleteTicket" title="Delete Ticket">
+                    <button class="buttonWithIcon ticketBtn btnDeleteTicket" title="Delete Ticket">
                         <img class="ticketBtnIcon" src="~/assets/freepik-delete.svg" />
                     </button>
                 </div>
