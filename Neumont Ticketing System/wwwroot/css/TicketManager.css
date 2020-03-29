@@ -66,7 +66,7 @@ p.tableBodyText {
 .listHeader {
     margin: 0px 5px;
     display: grid;
-    grid-template-columns: 1fr, 1fr;
+    grid-template-columns: 1fr 1fr;
 }
 
 .listHeaderItem {
