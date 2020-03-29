@@ -26,7 +26,7 @@ p.tableHeaderText {
     margin: 0px;
 }
 
-p.tableBodyText {
+.tableBodyText {
     margin: auto;
 }
 
@@ -71,6 +71,10 @@ p.tableBodyText {
 
 .listHeaderItem {
     display: inline-block;
+}
+
+.listHeaderText {
+    margin: auto;
 }
 
 .headerBtnContainer {
