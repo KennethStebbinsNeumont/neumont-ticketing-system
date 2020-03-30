@@ -74,7 +74,8 @@ p.tableHeaderText {
 }
 
 .listHeaderText {
-    margin: auto;
+    margin: 5px 0px;
+    text-align: left;
 }
 
 .headerBtnContainer {
