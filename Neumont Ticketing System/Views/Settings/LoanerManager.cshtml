@@ -1,0 +1,20 @@
+﻿
+@{
+    ViewData["Title"] = "Loaner Manager";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Loaner Manager</h1>
+
+<div class="list" id="loanerList">
+    <h2 class="listTitle">Add, Remove, or Edit Loaners</h2>
+    <div class="singleResult listSubItem cloneableListItem" id="resultTemplate">
+        <span class="spanOwnerName"><p class="resultValueText tableText ownerName">Owner Name</p></span>
+        <p class="resultValueText tableText serialNumber">Serial Number</p>
+        <p class="resultValueText tableText assetModel">Asset Model</p>
+        <p class="resultValueText tableText assetType">Asset Type</p>
+        <button class="iconButton btnEditOwner" title="Edit Owner">
+            <img class="ownerActionIcon editOwnerIcon" src="~/assets/freepik-pencil.svg" />
+        </button>
+    </div>
+</div>

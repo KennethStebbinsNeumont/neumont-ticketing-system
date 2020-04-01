@@ -344,7 +344,7 @@ namespace Neumont_Ticketing_System.Controllers
         #region OwnerManager
         public IActionResult OwnerManager()
         {
-            return View(new OwnerManagerModel(_assetDatabaseService.GetModels()));
+            return View();
         }
 
         private readonly string matchedOnSerialNumberString = "SerialNumber";
