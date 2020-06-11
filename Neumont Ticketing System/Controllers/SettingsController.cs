@@ -48,7 +48,7 @@ namespace Neumont_Ticketing_System.Controllers
                 AssetModels = _assetDatabaseService.GetModels().ToList()
             };
 
-            return View(model);
+            return View("OwnerEditor", model);
         }
 
         public IActionResult OwnerEditor(string ownerId)
